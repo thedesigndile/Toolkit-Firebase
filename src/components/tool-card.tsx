@@ -17,8 +17,8 @@ export function ToolCard({ tool, onClick, isSelected, isRecommended }: ToolCardP
     <Card
       onClick={onClick}
       className={cn(
-        "cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1 relative group overflow-hidden border-2 border-transparent",
-        isSelected && "border-primary",
+        "cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-2 relative group overflow-hidden border-2",
+        isSelected ? "border-primary" : "border-transparent",
         isRecommended && "border-accent highlight-ai"
       )}
     >
@@ -28,8 +28,8 @@ export function ToolCard({ tool, onClick, isSelected, isRecommended }: ToolCardP
             </div>
         )}
         <CardHeader className="flex flex-col items-center justify-center p-6 pb-4">
-            <div className="mb-4 rounded-full bg-secondary p-4">
-                <Icon className="h-10 w-10 text-primary transition-transform group-hover:scale-110" />
+            <div className="mb-4 rounded-full bg-secondary p-4 transition-colors duration-300 group-hover:bg-primary/20">
+                <Icon className="h-10 w-10 text-primary transition-all duration-300 group-hover:scale-110 group-hover:rotate-6" />
             </div>
             <CardTitle className="text-lg font-semibold text-center">{tool.name}</CardTitle>
         </CardHeader>
