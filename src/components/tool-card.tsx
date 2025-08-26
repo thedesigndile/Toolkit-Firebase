@@ -2,36 +2,22 @@ import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { type Tool } from "@/lib/tools";
 import { cn } from "@/lib/utils";
-import { CheckCircle2 } from "lucide-react";
 
 interface ToolCardProps {
   tool: Tool;
-  onClick: () => void;
-  isSelected: boolean;
-  isRecommended: boolean;
 }
 
-export function ToolCard({ tool, onClick, isSelected, isRecommended }: ToolCardProps) {
+export function ToolCard({ tool }: ToolCardProps) {
   const Icon = tool.icon;
   const slug = tool.name.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and');
 
   return (
     <Card
-      onClick={(e) => {
-        onClick();
-      }}
       className={cn(
-        "cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-2 relative overflow-hidden border-2 h-full group",
-        isSelected ? "border-primary" : "border-card",
-        isRecommended && "border-accent highlight-ai"
+        "cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-2 relative overflow-hidden border-2 h-full group border-card"
       )}
     >
-      <Link href={`/tools/${slug}`} className="block">
-        {isSelected && (
-            <div className="absolute top-2 right-2 z-10 rounded-full bg-primary text-primary-foreground p-0.5">
-                <CheckCircle2 className="h-4 w-4" />
-            </div>
-        )}
+      <Link href={`/tools/${slug}`} className="block h-full">
         <CardHeader className="flex flex-col items-center justify-center p-6 pb-4">
             <div className="mb-4 rounded-full bg-primary/10 dark:bg-primary/20 p-4 transition-colors duration-300 group-hover:bg-primary/20 dark:group-hover:bg-primary/30">
                 <Icon className="h-10 w-10 text-primary transition-all duration-300 group-hover:scale-110 group-hover:rotate-6" />
