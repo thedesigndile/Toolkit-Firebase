@@ -112,7 +112,7 @@ export function ToolsSection() {
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <div className="flex justify-center mb-8">
-                <TabsList className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-9 h-auto">
+                <TabsList className="h-auto flex-wrap justify-center">
                     {categories.map((category) => (
                         <TabsTrigger key={category} value={category} className="text-xs sm:text-sm">
                             {category}
