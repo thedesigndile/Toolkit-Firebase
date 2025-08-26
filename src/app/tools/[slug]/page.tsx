@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { tools } from '@/lib/tools';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -17,30 +17,30 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
 
   const Icon = tool.icon;
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      setFiles(prev => [...prev, ...Array.from(event.target.files!)]);
+      setFiles(prevFiles => [...prevFiles, ...Array.from(event.target.files!)]);
     }
-  };
+  }, []);
 
-  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+  const handleDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-  };
+  }, []);
   
-  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     if (event.dataTransfer.files) {
-        setFiles(prev => [...prev, ...Array.from(event.dataTransfer.files)]);
+      setFiles(prevFiles => [...prevFiles, ...Array.from(event.dataTransfer.files)]);
     }
-  };
+  }, []);
 
-  const removeFile = (fileName: string) => {
-    setFiles(prev => prev.filter(f => f.name !== fileName));
-  };
+  const removeFile = useCallback((fileName: string) => {
+    setFiles(prevFiles => prevFiles.filter(f => f.name !== fileName));
+  }, []);
 
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <div className="w-full max-w-4xl">
         <Card className="mb-8">
             <CardHeader className="text-center">
@@ -57,13 +57,13 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
         <Card>
           <CardContent className="pt-6">
             <div 
-                className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center cursor-pointer hover:border-purple-400 dark:hover:border-purple-500 transition-colors"
+                className="border-2 border-dashed border-border rounded-lg p-8 text-center cursor-pointer hover:border-purple-400 dark:hover:border-purple-500 transition-colors"
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
                 onClick={() => document.getElementById('file-upload')?.click()}
             >
-              <UploadCloud className="mx-auto h-12 w-12 text-gray-400" />
-              <p className="mt-4 text-sm text-gray-600 dark:text-gray-300">
+              <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" />
+              <p className="mt-4 text-sm text-muted-foreground">
                 Drag and drop files here, or click to select files
               </p>
               <input 
@@ -78,11 +78,11 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
             {files.length > 0 && (
               <div className="mt-6">
                 <h3 className="text-lg font-medium">Uploaded Files:</h3>
-                <ul className="mt-2 divide-y divide-gray-200 dark:divide-gray-700 border border-gray-200 dark:border-gray-700 rounded-md">
+                <ul className="mt-2 divide-y divide-border border rounded-md">
                   {files.map(file => (
-                    <li key={file.name} className="flex items-center justify-between p-3">
+                    <li key={`${file.name}-${file.lastModified}`} className="flex items-center justify-between p-3">
                       <div className="flex items-center gap-3">
-                        <File className="h-5 w-5 text-gray-500" />
+                        <File className="h-5 w-5 text-muted-foreground" />
                         <span className="text-sm font-medium">{file.name}</span>
                       </div>
                       <Button variant="ghost" size="icon" onClick={() => removeFile(file.name)}>
