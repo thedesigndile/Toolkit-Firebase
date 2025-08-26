@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { tools } from '@/lib/tools';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -13,8 +13,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { convertImage, resizeImage, compressImage, compressPdf, getFileAccept } from '@/lib/tool-functions';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
-type ImageFormat = "png" | "jpg" | "webp";
+type ImageFormat = "png" | "jpeg" | "webp";
 type CompressionLevel = "low" | "medium" | "high";
 
 export default function ToolPage({ params }: { params: { slug: string } }) {
@@ -23,6 +25,10 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
   const [files, setFiles] = useState<File[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [processedUrl, setProcessedUrl] = useState<string | null>(null);
+  const [processedFileName, setProcessedFileName] = useState<string>('download');
+  const [error, setError] = useState<string | null>(null);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   // Tool-specific options state
   const [imageFormat, setImageFormat] = useState<ImageFormat>('png');
@@ -30,6 +36,8 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
   const [compressionLevel, setCompressionLevel] = useState<CompressionLevel>('medium');
 
   const { toast } = useToast();
+  
+  const fileAccept = useMemo(() => tool ? getFileAccept(tool.category) : '*/*', [tool]);
 
   useEffect(() => {
     return () => {
@@ -44,13 +52,38 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
   }
 
   const Icon = tool.icon;
+  
+  const validateFiles = (newFiles: File[]): File[] => {
+    if (fileAccept === '*/*') return newFiles;
+    const acceptedTypes = fileAccept.split(',');
+    return newFiles.filter(file => {
+      const isValid = acceptedTypes.some(type => {
+        if (type.endsWith('/*')) {
+          return file.type.startsWith(type.slice(0, -2));
+        }
+        return file.type === type;
+      });
+      if (!isValid) {
+        toast({
+            variant: "destructive",
+            title: "Invalid File Type",
+            description: `File "${file.name}" was rejected. Please upload one of the following types: ${fileAccept}`,
+        });
+      }
+      return isValid;
+    });
+  }
 
   const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      setFiles(prevFiles => [...prevFiles, ...Array.from(event.target.files!)]);
-      setProcessedUrl(null);
+      const validFiles = validateFiles(Array.from(event.target.files));
+      if(validFiles.length > 0) {
+        setFiles(prevFiles => [...prevFiles, ...validFiles]);
+        setProcessedUrl(null);
+        setError(null);
+      }
     }
-  }, []);
+  }, [fileAccept]);
 
   const handleDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -59,10 +92,14 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
   const handleDrop = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     if (event.dataTransfer.files) {
-      setFiles(prevFiles => [...prevFiles, ...Array.from(event.dataTransfer.files)]);
-      setProcessedUrl(null);
+      const validFiles = validateFiles(Array.from(event.dataTransfer.files));
+       if(validFiles.length > 0) {
+        setFiles(prevFiles => [...prevFiles, ...validFiles]);
+        setProcessedUrl(null);
+        setError(null);
+      }
     }
-  }, []);
+  }, [fileAccept]);
 
   const removeFile = useCallback((fileName: string) => {
     setFiles(prevFiles => prevFiles.filter(f => f.name !== fileName));
@@ -71,56 +108,81 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
   const resetState = useCallback(() => {
     setFiles([]);
     setIsProcessing(false);
+    setError(null);
     if (processedUrl) {
       URL.revokeObjectURL(processedUrl);
     }
     setProcessedUrl(null);
+    if(fileInputRef.current) {
+        fileInputRef.current.value = "";
+    }
   }, [processedUrl]);
 
 
-  const handleProcessFiles = () => {
+  const handleProcessFiles = async () => {
     if (files.length === 0) return;
 
     setIsProcessing(true);
+    setError(null);
     if(processedUrl) {
       URL.revokeObjectURL(processedUrl);
       setProcessedUrl(null);
     }
 
-    setTimeout(() => {
-      setIsProcessing(false);
-      
-      let processedContent = `Processed file from ${tool.name}.\nOriginal files:\n${files.map(f => `- ${f.name}`).join('\n')}`;
-      let downloadName = `processed-${files[0]?.name || 'file'}.txt`;
+    try {
+        let resultBlob: Blob;
+        let resultName: string;
+        const file = files[0]; // For now, most tools process one file at a time.
 
-      switch (tool.name) {
-        case 'Image Converter':
-          processedContent += `\nConverted to: ${imageFormat.toUpperCase()}`;
-          downloadName = `converted-${files[0]?.name.split('.')[0]}.${imageFormat}`;
-          break;
-        case 'Image Resizer & Cropper':
-          processedContent += `\nResized to: ${resizeOptions.width}x${resizeOptions.height}. Keep aspect ratio: ${resizeOptions.keepAspectRatio}`;
-          downloadName = `resized-${files[0]?.name}`;
-          break;
-        case 'PDF Compressor':
-          processedContent += `\nCompression level: ${compressionLevel}`;
-          downloadName = `compressed-${files[0]?.name}`;
-          break;
-      }
+        switch (tool.name) {
+            case 'Image Converter':
+                resultBlob = await convertImage(file, imageFormat);
+                resultName = `converted-${file.name.split('.')[0]}.${imageFormat}`;
+                break;
+            case 'Image Resizer':
+                resultBlob = await resizeImage(file, parseInt(resizeOptions.width), parseInt(resizeOptions.height), resizeOptions.keepAspectRatio);
+                resultName = `resized-${file.name}`;
+                break;
+            case 'Image Compressor':
+                resultBlob = await compressImage(file, compressionLevel);
+                resultName = `compressed-${file.name}`;
+                break;
+            case 'PDF Compressor':
+                resultBlob = await compressPdf(file, compressionLevel);
+                resultName = `compressed-${file.name}`;
+                break;
+            default:
+                // Placeholder for other tools
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                resultBlob = new Blob([`Processed ${file.name} with ${tool.name}`], { type: 'text/plain' });
+                resultName = `processed-${file.name}.txt`;
+                break;
+        }
 
-      const blob = new Blob([processedContent], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      setProcessedUrl(url);
+        const url = URL.createObjectURL(resultBlob);
+        setProcessedUrl(url);
+        setProcessedFileName(resultName);
 
-      toast({
-        title: "Success!",
-        description: `Your file(s) have been processed with the ${tool.name} tool.`,
-      });
-    }, 2000);
+        toast({
+            title: "Success!",
+            description: `Your file has been processed with the ${tool.name} tool.`,
+        });
+
+    } catch (e: any) {
+        const errorMessage = e.message || "An unknown error occurred during processing.";
+        setError(errorMessage);
+        toast({
+            variant: "destructive",
+            title: "Processing Failed",
+            description: errorMessage,
+        });
+    } finally {
+        setIsProcessing(false);
+    }
   };
   
   const renderToolOptions = () => {
-    if (files.length === 0 || isProcessing) return null;
+    if (files.length === 0 || isProcessing || processedUrl) return null;
 
     let optionsComponent = null;
 
@@ -135,7 +197,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="png">PNG</SelectItem>
-                <SelectItem value="jpg">JPG</SelectItem>
+                <SelectItem value="jpeg">JPG</SelectItem>
                 <SelectItem value="webp">WebP</SelectItem>
               </SelectContent>
             </Select>
@@ -143,7 +205,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
         );
         break;
       
-      case 'Image Resizer & Cropper':
+      case 'Image Resizer':
         optionsComponent = (
           <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
@@ -165,6 +227,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
         break;
 
       case 'PDF Compressor':
+      case 'Image Compressor':
         optionsComponent = (
           <div className="space-y-2">
             <Label>Compression Level</Label>
@@ -217,6 +280,13 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
                 <p className="text-muted-foreground">{tool.description}</p>
             </CardHeader>
         </Card>
+        
+        {error && (
+            <Alert variant="destructive" className="mb-4">
+                <AlertTitle>Error</AlertTitle>
+                <AlertDescription>{error}</AlertDescription>
+            </Alert>
+        )}
 
         {processedUrl ? (
           <Card>
@@ -230,7 +300,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
               <p className="text-muted-foreground mt-2 mb-6">Your file is ready for download.</p>
               <div className="flex justify-center gap-4">
                 <Button size="lg" asChild className="bg-purple-600 hover:bg-purple-700 text-white">
-                  <a href={processedUrl} download={`processed-${files[0]?.name || 'file'}.txt`}>
+                  <a href={processedUrl} download={processedFileName}>
                     <Download className="mr-2 h-4 w-4" />
                     Download File
                   </a>
@@ -249,19 +319,24 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
                   className="border-2 border-dashed border-border rounded-lg p-8 text-center cursor-pointer hover:border-purple-400 dark:hover:border-purple-500 transition-colors"
                   onDragOver={handleDragOver}
                   onDrop={handleDrop}
-                  onClick={() => document.getElementById('file-upload')?.click()}
+                  onClick={() => fileInputRef.current?.click()}
               >
                 <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" />
                 <p className="mt-4 text-sm text-muted-foreground">
                   Drag and drop files here, or click to select files
                 </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                    Supported: {fileAccept.replaceAll('image/', '.').replaceAll('application/', '.')}
+                </p>
                 <input 
+                  ref={fileInputRef}
                   id="file-upload" 
                   type="file" 
-                  multiple 
+                  multiple={!['Image Converter', 'Image Resizer', 'Image Compressor', 'PDF Compressor'].includes(tool.name)}
                   className="hidden" 
                   onChange={handleFileChange}
                   disabled={isProcessing}
+                  accept={fileAccept}
                 />
               </div>
 
@@ -299,4 +374,3 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
     </div>
   );
 }
-
