@@ -11,26 +11,25 @@ import {
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, Grid3x3, Layers, Settings2, ArrowRightLeft, Pencil, Shield, Tooltip } from "lucide-react";
+import { ChevronDown, Grid3x3 } from "lucide-react";
 import { tools } from "@/lib/tools";
-import { cn } from "@/lib/utils";
 
 const convertToPdfTools = tools.filter(t => t.category === 'Convert to PDF');
 const convertFromPdfTools = tools.filter(t => t.category === 'Convert from PDF');
 
-const toolCategories = [
-  { name: 'Organize PDF', icon: Layers },
-  { name: 'Optimize PDF', icon: Settings2 },
-  { name: 'Convert to PDF', icon: ArrowRightLeft },
-  { name: 'Convert from PDF', icon: ArrowRightLeft },
-  { name: 'Edit PDF', icon: Pencil },
-  { name: 'PDF Security', icon: Shield }
-];
-
-const allPdfToolsByCategory = toolCategories.map(category => ({
-    ...category,
-    tools: tools.filter(t => t.category === category.name)
-}));
+const allPdfToolsByCategory = Array.from(
+    tools.reduce((acc, tool) => {
+        if (!acc.has(tool.category)) {
+            acc.set(tool.category, {
+                name: tool.category,
+                icon: tool.categoryIcon,
+                tools: [],
+            });
+        }
+        acc.get(tool.category)!.tools.push(tool);
+        return acc;
+    }, new Map<string, {name: string, icon: any, tools: any[]}>()).values()
+);
 
 export function Header() {
   const renderToolMenuItem = (tool: {name: string, icon: any, category: string}) => {
@@ -38,7 +37,7 @@ export function Header() {
      return (
         <DropdownMenuItem key={slug} asChild>
             <Link href={`/tools/${slug}`} className="flex items-center gap-2">
-                <tool.icon className="h-4 w-4 text-red-500"/> <span>{tool.name}</span>
+                <tool.icon className="h-4 w-4 text-primary"/> <span>{tool.name}</span>
             </Link>
         </DropdownMenuItem>
     )
@@ -63,10 +62,10 @@ export function Header() {
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-64">
-                <DropdownMenuLabel className="font-bold text-red-500">Convert to PDF</DropdownMenuLabel>
+                <DropdownMenuLabel className="font-bold text-primary">Convert to PDF</DropdownMenuLabel>
                 {convertToPdfTools.map(renderToolMenuItem)}
                 <DropdownMenuSeparator />
-                <DropdownMenuLabel className="font-bold text-red-500">Convert from PDF</DropdownMenuLabel>
+                <DropdownMenuLabel className="font-bold text-primary">Convert from PDF</DropdownMenuLabel>
                 {convertFromPdfTools.map(renderToolMenuItem)}
               </DropdownMenuContent>
             </DropdownMenu>
@@ -80,7 +79,7 @@ export function Header() {
               <DropdownMenuContent className="w-96">
                  {allPdfToolsByCategory.map((category) => (
                     <DropdownMenuGroup key={category.name}>
-                        <DropdownMenuLabel className="font-bold text-red-500 flex items-center gap-2">
+                        <DropdownMenuLabel className="font-bold text-primary flex items-center gap-2">
                             <category.icon className="h-4 w-4" />
                             {category.name}
                         </DropdownMenuLabel>
@@ -95,7 +94,7 @@ export function Header() {
         </div>
         <div className="flex items-center gap-2">
             <Button variant="ghost">Login</Button>
-            <Button className="bg-red-500 hover:bg-red-600 text-white rounded-md">Sign up</Button>
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-md">Sign up</Button>
             <Button variant="ghost" size="icon" className="ml-2">
                 <Grid3x3 />
             </Button>

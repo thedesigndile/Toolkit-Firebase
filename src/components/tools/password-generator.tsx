@@ -178,7 +178,7 @@ export function PasswordGenerator() {
 
 
         <div className="mt-4 text-center">
-            <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white" onClick={generatePassword}>
+            <Button size="lg" onClick={generatePassword}>
                 <RefreshCw className="mr-2 h-4 w-4" />
                 Generate Password
             </Button>

@@ -280,7 +280,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
             <h3 className="text-2xl font-bold">Processing Complete!</h3>
             <p className="text-muted-foreground mt-2 mb-6">Your file is ready for download.</p>
             <div className="flex justify-center gap-4">
-                <Button size="lg" asChild className="bg-purple-600 hover:bg-purple-700 text-white">
+                <Button size="lg" asChild>
                 <a href={processedUrl} download={processedFileName}>
                     <Download className="mr-2 h-4 w-4" />
                     Download File
@@ -297,7 +297,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
         <Card>
             <CardContent className="pt-6">
             <div 
-                className="border-2 border-dashed border-border rounded-lg p-8 text-center cursor-pointer hover:border-purple-400 dark:hover:border-purple-500 transition-colors"
+                className="border-2 border-dashed border-border rounded-lg p-8 text-center cursor-pointer hover:border-primary/40 dark:hover:border-primary/50 transition-colors"
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current?.click()}
@@ -343,7 +343,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
             {renderToolOptions()}
 
             <div className="mt-8 text-center">
-                <Button size="lg" disabled={files.length === 0 || isProcessing} className="bg-purple-600 hover:bg-purple-700 text-white" onClick={handleProcessFiles}>
+                <Button size="lg" disabled={files.length === 0 || isProcessing} onClick={handleProcessFiles}>
                     {isProcessing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     {isProcessing ? "Processing..." : `Process ${files.length > 0 ? files.length : ''} File(s)`}
                 </Button>
@@ -375,8 +375,8 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
           <Card className="mb-8">
               <CardHeader className="text-center">
                   <div className="flex justify-center items-center mb-4">
-                      <div className="p-4 bg-purple-100 dark:bg-purple-900/20 rounded-full">
-                          <Icon className="h-12 w-12 text-purple-600 dark:text-purple-400" />
+                      <div className="p-4 bg-primary/10 dark:bg-primary/20 rounded-full">
+                          <Icon className="h-12 w-12 text-primary" />
                       </div>
                   </div>
                   <CardTitle className="text-4xl font-bold">{tool.name}</CardTitle>
