@@ -76,12 +76,31 @@ export async function compressPdf(file: File, level: 'low' | 'medium' | 'high') 
   return new Blob([pdfBytes], { type: 'application/pdf' });
 }
 
+export async function mergePdfs(files: File[]) {
+    const pdfDoc = await PDFDocument.create();
+    for (const file of files) {
+        const pdfBytes = await file.arrayBuffer();
+        const donorPdfDoc = await PDFDocument.load(pdfBytes);
+        const copiedPages = await pdfDoc.copyPages(donorPdfDoc, donorPdfDoc.getPageIndices());
+        copiedPages.forEach((page) => {
+            pdfDoc.addPage(page);
+        });
+    }
+    const pdfBytes = await pdfDoc.save();
+    return new Blob([pdfBytes], { type: 'application/pdf' });
+}
 
 export function getFileAccept(toolCategory: string) {
     switch(toolCategory) {
         case 'Image Tools':
             return 'image/png,image/jpeg,image/webp';
         case 'PDF Tools':
+        case 'Organize PDF':
+        case 'Optimize PDF':
+        case 'Convert to PDF':
+        case 'Convert from PDF':
+        case 'Edit PDF':
+        case 'PDF Security':
             return 'application/pdf';
         case 'Audio Tools':
             return 'audio/mpeg,audio/wav,audio/ogg';

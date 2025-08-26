@@ -13,9 +13,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { convertImage, resizeImage, compressImage, compressPdf, getFileAccept } from '@/lib/tool-functions';
+import { convertImage, resizeImage, compressImage, compressPdf, getFileAccept, mergePdfs } from '@/lib/tool-functions';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { PasswordGenerator } from '@/components/tools/password-generator';
 
@@ -58,11 +57,11 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
   
   const validateFiles = (newFiles: File[]): File[] => {
     if (fileAccept === '*/*') return newFiles;
-    const acceptedTypes = fileAccept.split(',');
+    const acceptedTypes = fileAccept.split(',').map(t => t.trim());
     return newFiles.filter(file => {
       const isValid = acceptedTypes.some(type => {
         if (type.endsWith('/*')) {
-          return file.type.startsWith(type.slice(0, -2));
+          return file.type.startsWith(type.slice(0, -1));
         }
         return file.type === type;
       });
@@ -135,24 +134,32 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
     try {
         let resultBlob: Blob;
         let resultName: string;
-        const file = files[0]; // For now, most tools process one file at a time.
+        const file = files[0]; 
 
         switch (tool.name) {
             case 'Image Converter':
+                if (files.length > 1) throw new Error("Image Converter only supports one file at a time.");
                 resultBlob = await convertImage(file, imageFormat);
                 resultName = `converted-${file.name.split('.')[0]}.${imageFormat}`;
                 break;
             case 'Image Resizer':
+                 if (files.length > 1) throw new Error("Image Resizer only supports one file at a time.");
                 resultBlob = await resizeImage(file, parseInt(resizeOptions.width), parseInt(resizeOptions.height), resizeOptions.keepAspectRatio);
                 resultName = `resized-${file.name}`;
                 break;
             case 'Image Compressor':
+                 if (files.length > 1) throw new Error("Image Compressor only supports one file at a time.");
                 resultBlob = await compressImage(file, compressionLevel);
                 resultName = `compressed-${file.name}`;
                 break;
             case 'PDF Compressor':
+                 if (files.length > 1) throw new Error("PDF Compressor only supports one file at a time.");
                 resultBlob = await compressPdf(file, compressionLevel);
                 resultName = `compressed-${file.name}`;
+                break;
+             case 'Merge PDF':
+                resultBlob = await mergePdfs(files);
+                resultName = `merged-document.pdf`;
                 break;
             default:
                 // Placeholder for other tools
@@ -168,7 +175,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
 
         toast({
             title: "Success!",
-            description: `Your file has been processed with the ${tool.name} tool.`,
+            description: `Your file(s) have been processed with the ${tool.name} tool.`,
         });
 
     } catch (e: any) {
@@ -256,6 +263,8 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
         return null;
     }
 
+    if (!optionsComponent) return null;
+
     return (
         <div className="mt-6">
             <h3 className="text-lg font-medium mb-4">Tool Options</h3>
@@ -267,6 +276,8 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
         </div>
     )
   };
+
+  const isMultiFileTool = ['Merge PDF'].includes(tool.name);
 
   const renderFileBasedUI = () => (
     <>
@@ -314,7 +325,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
                 ref={fileInputRef}
                 id="file-upload" 
                 type="file" 
-                multiple={!['Image Converter', 'Image Resizer', 'Image Compressor', 'PDF Compressor'].includes(tool.name)}
+                multiple={isMultiFileTool}
                 className="hidden" 
                 onChange={handleFileChange}
                 disabled={isProcessing}
@@ -370,9 +381,8 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Header />
       <main className="flex-1 bg-background p-4 flex items-center justify-center">
-        <div className="w-full max-w-4xl">
+        <div className="w-full max-w-4xl py-12">
           <Card className="mb-8">
               <CardHeader className="text-center">
                   <div className="flex justify-center items-center mb-4">
@@ -399,5 +409,3 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
     </div>
   );
 }
-
-    
