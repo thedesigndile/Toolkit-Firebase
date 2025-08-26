@@ -102,7 +102,7 @@ export function ToolsSection() {
         </div>
       </section>
 
-      <section>
+      <section id="all-tools">
         <div className="text-center">
             <h2 className="text-3xl font-bold mb-2 font-headline">All Tools</h2>
             <p className="text-muted-foreground mb-8">
@@ -114,7 +114,9 @@ export function ToolsSection() {
             <div className="flex justify-center mb-8">
                 <TabsList className="h-auto flex-wrap justify-center">
                     {categories.map((category) => (
-                        <TabsTrigger key={category} value={category} className="text-xs sm:text-sm">
+                        <TabsTrigger key={category} value={category} className="text-xs sm:text-sm"
+                          onClick={() => window.history.pushState({}, '', `#${category.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`)}
+                        >
                             {category}
                         </TabsTrigger>
                     ))}
