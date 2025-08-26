@@ -62,5 +62,3 @@ export const tools: Tool[] = [
   { name: 'QR Code Generator', description: 'Create your own QR codes.', icon: QrCode, category: 'Utility Tools', categoryIcon: TerminalSquare },
   { name: 'QR Code Scanner', description: 'Scan QR codes using your camera.', icon: Camera, category: 'Utility Tools', categoryIcon: TerminalSquare },
 ];
-
-export const featuredTools = tools.slice(0, 5);

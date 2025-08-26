@@ -53,10 +53,6 @@ export function ToolsSection() {
       return matchesCategory && matchesSearch;
     });
   }, [searchTerm, activeTab]);
-  
-  const featuredTools = useMemo(() => {
-    return tools.filter(t => ['Merge PDF', 'Split PDF', 'Compress PDF', 'PDF to Word', 'JPG to PDF'].includes(t.name));
-  }, []);
 
   const handleToolClick = (toolName: string) => {
     setUsedTools((prev) => {
@@ -98,22 +94,15 @@ export function ToolsSection() {
   };
 
   return (
-    <div className="container mx-auto px-4">
-      <section className="mb-16">
-        <h2 className="text-3xl font-bold mb-2 text-center font-headline">Featured Tools</h2>
-        <p className="text-center text-muted-foreground mb-8">
-            Hand-picked tools to get you started. Click to mark as 'used' for recommendations.
-        </p>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-          {featuredTools.map((tool) => (
-            <ToolCard
-              key={tool.name}
-              tool={tool}
-              onClick={() => handleToolClick(tool.name)}
-              isSelected={usedTools.includes(tool.name)}
-              isRecommended={recommendedTools.includes(tool.name)}
-            />
-          ))}
+    <div className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
+       <section id="all-tools">
+        <div className="text-center">
+            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl font-headline">
+              Every Tool You Need in One Place
+            </h1>
+            <p className="mt-6 text-lg text-muted-foreground max-w-3xl mx-auto">
+              Discover a curated collection of powerful, offline-first tools to boost your productivity and streamline your workflow. Select the tools you use and click the button below to get personalized AI recommendations.
+            </p>
         </div>
         <div className="mt-8 flex justify-center">
             <Button onClick={handleGetRecommendations} disabled={isPending} size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
@@ -121,17 +110,9 @@ export function ToolsSection() {
                 Get AI Recommendations
             </Button>
         </div>
-      </section>
 
-      <section id="all-tools">
-        <div className="text-center">
-            <h2 className="text-3xl font-bold mb-2 font-headline">All Tools</h2>
-            <p className="text-muted-foreground mb-8">
-                Explore our full library of offline-first applications.
-            </p>
-        </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mt-12">
           <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 lg:grid-cols-9 h-auto">
               {categories.map((category) => (
                   <TabsTrigger key={category} value={category} className="text-xs sm:text-sm"
