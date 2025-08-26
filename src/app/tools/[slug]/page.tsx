@@ -268,7 +268,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
 
     return (
         <div className="mt-6">
-            <h3 className="text-lg font-medium mb-4">Tool Options</h3>
+            <h3 className="text-lg font-medium mb-4 text-center">Tool Options</h3>
             <Card>
                 <CardContent className="pt-6">
                     {optionsComponent}
@@ -336,7 +336,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
 
             {files.length > 0 && (
                 <div className="mt-6">
-                <h3 className="text-lg font-medium">Uploaded Files:</h3>
+                <h3 className="text-lg font-medium text-center">Uploaded Files:</h3>
                 <ul className="mt-2 divide-y divide-border border rounded-md">
                     {files.map(file => (
                     <li key={`${file.name}-${file.lastModified}`} className="flex items-center justify-between p-3">

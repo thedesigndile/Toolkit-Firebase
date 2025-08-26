@@ -56,7 +56,7 @@ export function ToolsSection() {
                 .filter(([, { tools }]) => tools.length > 0)
                 .map(([category, { categoryIcon: CategoryIcon, tools: categoryTools }]) => (
                     <div key={category} className="space-y-8">
-                        <h2 className="text-2xl font-bold font-headline flex items-center gap-3">
+                        <h2 className="text-2xl font-bold font-headline flex items-center justify-center gap-3 text-center">
                             <CategoryIcon className="h-7 w-7 text-accent" />
                             {category}
                         </h2>

@@ -3,8 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import {
-  ChevronsUpDown,
-  Share2,
+  ChevronDown,
   Search,
   Menu,
 } from "lucide-react";
@@ -25,9 +24,18 @@ import {
   Sheet,
   SheetContent,
   SheetTrigger,
+  SheetHeader,
+  SheetTitle
 } from "@/components/ui/sheet";
 import { tools, type Tool } from "@/lib/tools";
 import { cn } from "@/lib/utils";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+
 
 interface Category {
   name: string;
@@ -38,7 +46,7 @@ interface MappedTools {
   [key: string]: Category[];
 }
 
-const PDF_CATEGORIES = ["Organize PDF", "Optimize PDF", "Convert to PDF", "Convert from PDF", "Edit PDF", "PDF Security"];
+const PDF_CATEGORIES = ["Organize PDF", "Optimize PDF", "Convert to PDF", "Convert from PDF", "Edit PDF", "PDF Security", "Extra Tools"];
 
 export function Header() {
   const [openMenu, setOpenMenu] = React.useState<string | null>(null);
@@ -66,18 +74,31 @@ export function Header() {
     };
   }, []);
   
-  const renderToolLinks = (tools: Tool[]) => (
-      tools.map((tool) => (
-      <DropdownMenuItem key={tool.name} asChild>
-        <Link
-          href={`/tools/${tool.name.toLowerCase().replace(/ /g, "-").replace(/&/g, "and")}`}
-          className="flex items-center gap-3"
-        >
-          <tool.icon className="h-4 w-4 text-accent" />
-          <span className="font-medium">{tool.name}</span>
-        </Link>
-      </DropdownMenuItem>
-    ))
+  const renderToolLinks = (tools: Tool[], isMobile: boolean = false) => (
+      tools.map((tool) => {
+        const link = `/tools/${tool.name.toLowerCase().replace(/ /g, "-").replace(/&/g, "and")}`;
+        const content = (
+            <div className="flex items-center gap-3">
+                <tool.icon className="h-4 w-4 text-accent" />
+                <span className="font-medium">{tool.name}</span>
+            </div>
+        );
+
+        if(isMobile) {
+            return (
+                <Link key={tool.name} href={link} className="block p-2 -m-2 rounded-md hover:bg-accent/10">
+                   {content}
+                </Link>
+            )
+        }
+        return (
+            <DropdownMenuItem key={tool.name} asChild>
+                <Link href={link}>
+                    {content}
+                </Link>
+            </DropdownMenuItem>
+        )
+      })
   );
   
   const renderCategoryGroups = (categories: Category[]) => (
@@ -109,12 +130,12 @@ export function Header() {
         <Button
           variant="ghost"
           className={cn(
-            "text-base font-semibold",
+            "text-base font-semibold text-foreground/70 hover:text-accent hover:bg-transparent",
             openMenu === menuName && "text-accent"
           )}
         >
           {menuName}
-          <ChevronsUpDown className="ml-1 h-4 w-4 opacity-50" />
+          <ChevronDown className="ml-1 h-4 w-4 opacity-50" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -126,6 +147,61 @@ export function Header() {
       </DropdownMenuContent>
     </DropdownMenu>
   );
+  
+  const renderMobileNav = () => (
+    <Sheet open={openMenu === 'mobile'} onOpenChange={(isOpen) => setOpenMenu(isOpen ? 'mobile' : null)}>
+        <SheetTrigger asChild>
+            <Button variant="ghost" size="icon">
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Open menu</span>
+            </Button>
+        </SheetTrigger>
+        <SheetContent side="left" className="w-full max-w-sm">
+            <SheetHeader>
+                <SheetTitle asChild>
+                     <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setOpenMenu(null)}>
+                        <DileToolLogo className="h-8 w-auto" />
+                     </Link>
+                </SheetTitle>
+            </SheetHeader>
+            <div className="mt-4">
+                <Accordion type="single" collapsible className="w-full">
+                    <AccordionItem value="pdf">
+                        <AccordionTrigger className="text-lg font-semibold">PDF Tools</AccordionTrigger>
+                        <AccordionContent>
+                           <div className="pl-4 space-y-4">
+                             {mappedTools.PDF.map(category => (
+                                <div key={category.name}>
+                                    <h4 className="font-bold mb-2">{category.name}</h4>
+                                    <div className="flex flex-col gap-2">
+                                        {renderToolLinks(category.tools, true)}
+                                    </div>
+                                </div>
+                             ))}
+                           </div>
+                        </AccordionContent>
+                    </AccordionItem>
+                    <AccordionItem value="image">
+                        <AccordionTrigger className="text-lg font-semibold">Image Tools</AccordionTrigger>
+                        <AccordionContent>
+                            <div className="pl-4 flex flex-col gap-2">
+                                {renderToolLinks(mappedTools.Image[0].tools, true)}
+                            </div>
+                        </AccordionContent>
+                    </AccordionItem>
+                    <AccordionItem value="utility">
+                        <AccordionTrigger className="text-lg font-semibold">Utility Tools</AccordionTrigger>
+                        <AccordionContent>
+                           <div className="pl-4 flex flex-col gap-2">
+                                {renderToolLinks(mappedTools.Utility[0].tools, true)}
+                            </div>
+                        </AccordionContent>
+                    </AccordionItem>
+                </Accordion>
+            </div>
+        </SheetContent>
+    </Sheet>
+  )
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -135,17 +211,17 @@ export function Header() {
             <DileToolLogo className="h-8 w-auto" />
           </Link>
           <nav className="hidden md:flex items-center gap-2">
-            <NavLink menuName="PDF">
+            <NavLink menuName="PDF Tools">
               <div className="grid grid-cols-3 gap-x-8 gap-y-4 min-w-[700px]">
                 {renderCategoryGroups(mappedTools.PDF)}
               </div>
             </NavLink>
-            <NavLink menuName="Image">
+            <NavLink menuName="Image Tools">
                 <div className="grid grid-cols-1 gap-y-1 min-w-[240px]">
                  {renderToolLinks(mappedTools.Image[0].tools)}
                 </div>
             </NavLink>
-             <NavLink menuName="Utility">
+             <NavLink menuName="Utility Tools">
                 <div className="grid grid-cols-1 gap-y-1 min-w-[240px]">
                  {renderToolLinks(mappedTools.Utility[0].tools)}
                 </div>
@@ -163,34 +239,11 @@ export function Header() {
             />
           </div>
           <ThemeToggle />
-          <Button variant="ghost" size="icon">
-            <Share2 className="h-5 w-5" />
-            <span className="sr-only">Share</span>
-          </Button>
-          <Button className="bg-primary hover:bg-primary/90 hidden md:inline-flex">Sign In</Button>
+          <Button variant="outline" className="hidden md:inline-flex">Sign In</Button>
           
-          {/* Mobile Menu */}
-           <div className="md:hidden">
-                <Sheet open={openMenu === 'mobile'} onOpenChange={(isOpen) => setOpenMenu(isOpen ? 'mobile' : null)}>
-                    <SheetTrigger asChild>
-                        <Button variant="ghost" size="icon">
-                            <Menu className="h-6 w-6" />
-                            <span className="sr-only">Open menu</span>
-                        </Button>
-                    </SheetTrigger>
-                    <SheetContent side="left">
-                        <nav className="grid gap-6 text-lg font-medium mt-8">
-                             <Link href="/" className="flex items-center gap-2 mb-4">
-                                <DileToolLogo className="h-8 w-auto" />
-                             </Link>
-                             <Link href="#" className="hover:text-accent">PDF Tools</Link>
-                             <Link href="#" className="hover:text-accent">Image Tools</Link>
-                             <Link href="#" className="hover:text-accent">Utility Tools</Link>
-                        </nav>
-                    </SheetContent>
-                </Sheet>
-            </div>
-
+          <div className="md:hidden">
+            {renderMobileNav()}
+          </div>
         </div>
       </div>
     </header>

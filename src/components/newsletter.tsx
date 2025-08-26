@@ -25,37 +25,29 @@ export function Newsletter() {
 
   return (
     <section className="py-12 md:py-16 lg:py-20 bg-muted/50 dark:bg-card/20">
-      <div className="container mx-auto max-w-2xl px-4">
-        <Card className="overflow-hidden">
-          <div className="grid md:grid-cols-2">
-            <div className="p-6 md:p-8">
-              <CardHeader className="p-0">
-                <CardTitle className="font-headline text-2xl">Stay Updated</CardTitle>
-                <CardDescription className="mt-2">
-                  Subscribe to our newsletter for the latest tools and features.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-0 pt-6">
-                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
-                  <Input
-                    type="email"
-                    name="email"
-                    placeholder="Enter your email"
-                    required
-                    className="flex-1"
-                    aria-label="Email for newsletter"
-                  />
-                  <Button type="submit" className="bg-accent hover:bg-accent/90 text-accent-foreground">
-                    Subscribe
-                  </Button>
-                </form>
-              </CardContent>
+      <div className="container mx-auto px-4">
+        <div className="max-w-2xl mx-auto text-center">
+            <div className="inline-flex items-center justify-center p-4 bg-accent/10 dark:bg-accent/20 rounded-full mb-4">
+                <MailCheck className="h-12 w-12 text-accent" />
             </div>
-            <div className="hidden md:flex items-center justify-center p-8 bg-accent/10 dark:bg-accent/20">
-                <MailCheck className="h-20 w-20 text-accent" />
-            </div>
-          </div>
-        </Card>
+            <h2 className="text-3xl font-bold font-headline">Stay Updated</h2>
+            <p className="text-muted-foreground mt-2 text-lg">
+                Subscribe to our newsletter for the latest tools and features.
+            </p>
+            <form onSubmit={handleSubmit} className="mt-6 flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
+                <Input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+                className="flex-1 h-11 text-base"
+                aria-label="Email for newsletter"
+                />
+                <Button type="submit" size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                Subscribe
+                </Button>
+            </form>
+        </div>
       </div>
     </section>
   );
