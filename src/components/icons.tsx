@@ -16,6 +16,13 @@ export const Logo = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+export const DileToolLogo = (props: SVGProps<SVGSVGElement>) => (
+    <svg viewBox="0 0 200 40" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <text x="0" y="32" fontFamily="Verdana, sans-serif" fontSize="30" fontWeight="bold" fill="currentColor">
+            Dile Tool
+        </text>
+    </svg>
+);
 
 export const ILovePdfLogo = (props: SVGProps<SVGSVGElement>) => (
     <svg viewBox="0 0 160 40" xmlns="http://www.w3.org/2000/svg" {...props}>

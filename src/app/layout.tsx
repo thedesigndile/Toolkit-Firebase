@@ -4,7 +4,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'Offline Toolkit',
+  title: 'Dile Tool',
   description: 'A curated collection of offline-first tools to boost your productivity.',
 };
 

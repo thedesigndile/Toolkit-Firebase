@@ -23,7 +23,7 @@ export default function Home() {
         <Newsletter />
       </main>
       <footer className="py-8 text-center text-sm text-muted-foreground">
-        © {new Date().getFullYear()} Offline Toolkit. All Rights Reserved.
+        © {new Date().getFullYear()} Dile Tool. All Rights Reserved.
       </footer>
     </div>
   );

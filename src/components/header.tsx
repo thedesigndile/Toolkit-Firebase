@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ILovePdfLogo } from "@/components/icons";
+import { DileToolLogo } from "@/components/icons";
 import { ThemeToggle } from "@/components/theme-toggle";
 import {
   DropdownMenu,
@@ -11,7 +11,7 @@ import {
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, Grid3x3 } from "lucide-react";
+import { ChevronDown, Grid3x3, Layers, Settings2, ArrowRightLeft, Pencil, Shield, Tooltip } from "lucide-react";
 import { tools } from "@/lib/tools";
 import { cn } from "@/lib/utils";
 
@@ -19,18 +19,18 @@ const convertToPdfTools = tools.filter(t => t.category === 'Convert to PDF');
 const convertFromPdfTools = tools.filter(t => t.category === 'Convert from PDF');
 
 const toolCategories = [
-  'Organize PDF',
-  'Optimize PDF',
-  'Convert to PDF',
-  'Convert from PDF',
-  'Edit PDF',
-  'PDF Security'
+  { name: 'Organize PDF', icon: Layers },
+  { name: 'Optimize PDF', icon: Settings2 },
+  { name: 'Convert to PDF', icon: ArrowRightLeft },
+  { name: 'Convert from PDF', icon: ArrowRightLeft },
+  { name: 'Edit PDF', icon: Pencil },
+  { name: 'PDF Security', icon: Shield }
 ];
-const allPdfToolsByCategory = toolCategories.map(category => ({
-    category,
-    tools: tools.filter(t => t.category === category)
-}));
 
+const allPdfToolsByCategory = toolCategories.map(category => ({
+    ...category,
+    tools: tools.filter(t => t.category === category.name)
+}));
 
 export function Header() {
   const renderToolMenuItem = (tool: {name: string, icon: any, category: string}) => {
@@ -49,7 +49,7 @@ export function Header() {
       <div className="container mx-auto flex h-20 items-center justify-between px-4">
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-2">
-            <ILovePdfLogo className="h-10 w-auto" />
+            <DileToolLogo className="h-10 w-auto" />
           </Link>
           <nav className="hidden lg:flex items-center gap-6 text-sm font-medium">
             <Link href="/tools/merge-pdf" className="text-foreground/80 hover:text-foreground transition-colors">MERGE PDF</Link>
@@ -78,11 +78,14 @@ export function Header() {
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-96">
-                 {allPdfToolsByCategory.map(({ category, tools }) => (
-                    <DropdownMenuGroup key={category}>
-                        <DropdownMenuLabel className="font-bold text-red-500">{category}</DropdownMenuLabel>
+                 {allPdfToolsByCategory.map((category) => (
+                    <DropdownMenuGroup key={category.name}>
+                        <DropdownMenuLabel className="font-bold text-red-500 flex items-center gap-2">
+                            <category.icon className="h-4 w-4" />
+                            {category.name}
+                        </DropdownMenuLabel>
                         <div className="grid grid-cols-2 gap-1">
-                            {tools.map(renderToolMenuItem)}
+                            {category.tools.map(renderToolMenuItem)}
                         </div>
                     </DropdownMenuGroup>
                 ))}
