@@ -5,6 +5,7 @@ export interface Tool {
   description: string;
   icon: LucideIcon;
   category: string;
+  isStandalone?: boolean;
 }
 
 export const tools: Tool[] = [
@@ -51,7 +52,7 @@ export const tools: Tool[] = [
   { name: 'QR Code Generator', description: 'Create your own QR codes.', icon: QrCode, category: 'Utility Tools' },
   { name: 'QR Code Scanner', description: 'Scan QR codes using your camera.', icon: Camera, category: 'Utility Tools' },
   { name: 'Calculator', description: 'Calculator with unit conversions.', icon: Calculator, category: 'Utility Tools' },
-  { name: 'Password Generator', description: 'Create strong, secure passwords.', icon: KeyRound, category: 'Utility Tools' },
+  { name: 'Password Generator', description: 'Create strong, secure passwords.', icon: KeyRound, category: 'Utility Tools', isStandalone: true },
 ];
 
 export const featuredTools = tools.slice(0, 5);

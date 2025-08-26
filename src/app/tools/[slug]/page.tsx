@@ -16,6 +16,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { convertImage, resizeImage, compressImage, compressPdf, getFileAccept } from '@/lib/tool-functions';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Header } from '@/components/header';
+import { PasswordGenerator } from '@/components/tools/password-generator';
 
 type ImageFormat = "png" | "jpeg" | "webp";
 type CompressionLevel = "low" | "medium" | "high";
@@ -266,6 +267,105 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
     )
   };
 
+  const renderFileBasedUI = () => (
+    <>
+        {processedUrl ? (
+        <Card>
+            <CardContent className="pt-6 text-center">
+            <div className="flex justify-center items-center mb-4">
+                <div className="p-4 bg-green-100 dark:bg-green-900/20 rounded-full">
+                    <CheckCircle className="h-12 w-12 text-green-600 dark:text-green-400" />
+                </div>
+            </div>
+            <h3 className="text-2xl font-bold">Processing Complete!</h3>
+            <p className="text-muted-foreground mt-2 mb-6">Your file is ready for download.</p>
+            <div className="flex justify-center gap-4">
+                <Button size="lg" asChild className="bg-purple-600 hover:bg-purple-700 text-white">
+                <a href={processedUrl} download={processedFileName}>
+                    <Download className="mr-2 h-4 w-4" />
+                    Download File
+                </a>
+                </Button>
+                <Button size="lg" variant="outline" onClick={resetState}>
+                <RotateCcw className="mr-2 h-4 w-4" />
+                Process Another
+                </Button>
+            </div>
+            </CardContent>
+        </Card>
+        ) : (
+        <Card>
+            <CardContent className="pt-6">
+            <div 
+                className="border-2 border-dashed border-border rounded-lg p-8 text-center cursor-pointer hover:border-purple-400 dark:hover:border-purple-500 transition-colors"
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
+                onClick={() => fileInputRef.current?.click()}
+            >
+                <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" />
+                <p className="mt-4 text-sm text-muted-foreground">
+                Drag and drop files here, or click to select files
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                    Supported: {fileAccept.replaceAll('image/', '.').replaceAll('application/', '.')}
+                </p>
+                <input 
+                ref={fileInputRef}
+                id="file-upload" 
+                type="file" 
+                multiple={!['Image Converter', 'Image Resizer', 'Image Compressor', 'PDF Compressor'].includes(tool.name)}
+                className="hidden" 
+                onChange={handleFileChange}
+                disabled={isProcessing}
+                accept={fileAccept}
+                />
+            </div>
+
+            {files.length > 0 && (
+                <div className="mt-6">
+                <h3 className="text-lg font-medium">Uploaded Files:</h3>
+                <ul className="mt-2 divide-y divide-border border rounded-md">
+                    {files.map(file => (
+                    <li key={`${file.name}-${file.lastModified}`} className="flex items-center justify-between p-3">
+                        <div className="flex items-center gap-3">
+                        <File className="h-5 w-5 text-muted-foreground" />
+                        <span className="text-sm font-medium">{file.name}</span>
+                        </div>
+                        <Button variant="ghost" size="icon" onClick={() => removeFile(file.name)} disabled={isProcessing}>
+                        <X className="h-4 w-4" />
+                        </Button>
+                    </li>
+                    ))}
+                </ul>
+                </div>
+            )}
+            
+            {renderToolOptions()}
+
+            <div className="mt-8 text-center">
+                <Button size="lg" disabled={files.length === 0 || isProcessing} className="bg-purple-600 hover:bg-purple-700 text-white" onClick={handleProcessFiles}>
+                    {isProcessing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {isProcessing ? "Processing..." : `Process ${files.length > 0 ? files.length : ''} File(s)`}
+                </Button>
+            </div>
+            </CardContent>
+        </Card>
+        )}
+    </>
+  );
+
+  const renderToolUI = () => {
+    if (tool.isStandalone) {
+        switch (tool.name) {
+            case 'Password Generator':
+                return <PasswordGenerator />;
+            default:
+                return <p>This tool is not yet implemented.</p>;
+        }
+    }
+    return renderFileBasedUI();
+  }
+
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -291,88 +391,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
               </Alert>
           )}
 
-          {processedUrl ? (
-            <Card>
-              <CardContent className="pt-6 text-center">
-                <div className="flex justify-center items-center mb-4">
-                    <div className="p-4 bg-green-100 dark:bg-green-900/20 rounded-full">
-                        <CheckCircle className="h-12 w-12 text-green-600 dark:text-green-400" />
-                    </div>
-                </div>
-                <h3 className="text-2xl font-bold">Processing Complete!</h3>
-                <p className="text-muted-foreground mt-2 mb-6">Your file is ready for download.</p>
-                <div className="flex justify-center gap-4">
-                  <Button size="lg" asChild className="bg-purple-600 hover:bg-purple-700 text-white">
-                    <a href={processedUrl} download={processedFileName}>
-                      <Download className="mr-2 h-4 w-4" />
-                      Download File
-                    </a>
-                  </Button>
-                  <Button size="lg" variant="outline" onClick={resetState}>
-                    <RotateCcw className="mr-2 h-4 w-4" />
-                    Process Another
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ) : (
-            <Card>
-              <CardContent className="pt-6">
-                <div 
-                    className="border-2 border-dashed border-border rounded-lg p-8 text-center cursor-pointer hover:border-purple-400 dark:hover:border-purple-500 transition-colors"
-                    onDragOver={handleDragOver}
-                    onDrop={handleDrop}
-                    onClick={() => fileInputRef.current?.click()}
-                >
-                  <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" />
-                  <p className="mt-4 text-sm text-muted-foreground">
-                    Drag and drop files here, or click to select files
-                  </p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                      Supported: {fileAccept.replaceAll('image/', '.').replaceAll('application/', '.')}
-                  </p>
-                  <input 
-                    ref={fileInputRef}
-                    id="file-upload" 
-                    type="file" 
-                    multiple={!['Image Converter', 'Image Resizer', 'Image Compressor', 'PDF Compressor'].includes(tool.name)}
-                    className="hidden" 
-                    onChange={handleFileChange}
-                    disabled={isProcessing}
-                    accept={fileAccept}
-                  />
-                </div>
-
-                {files.length > 0 && (
-                  <div className="mt-6">
-                    <h3 className="text-lg font-medium">Uploaded Files:</h3>
-                    <ul className="mt-2 divide-y divide-border border rounded-md">
-                      {files.map(file => (
-                        <li key={`${file.name}-${file.lastModified}`} className="flex items-center justify-between p-3">
-                          <div className="flex items-center gap-3">
-                            <File className="h-5 w-5 text-muted-foreground" />
-                            <span className="text-sm font-medium">{file.name}</span>
-                          </div>
-                          <Button variant="ghost" size="icon" onClick={() => removeFile(file.name)} disabled={isProcessing}>
-                            <X className="h-4 w-4" />
-                          </Button>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                
-                {renderToolOptions()}
-
-                <div className="mt-8 text-center">
-                    <Button size="lg" disabled={files.length === 0 || isProcessing} className="bg-purple-600 hover:bg-purple-700 text-white" onClick={handleProcessFiles}>
-                        {isProcessing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                        {isProcessing ? "Processing..." : `Process ${files.length > 0 ? files.length : ''} File(s)`}
-                    </Button>
-                </div>
-              </CardContent>
-            </Card>
-          )}
+          {renderToolUI()}
         </div>
       </main>
       <footer className="py-8 text-center text-sm text-muted-foreground">
