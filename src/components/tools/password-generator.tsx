@@ -113,11 +113,24 @@ export function PasswordGenerator() {
         
         <div className="space-y-4">
             <div className='flex justify-between items-center'>
-                <Label htmlFor="length">Password Length</Label>
-                <span className="text-lg font-bold w-12 text-center">{length}</span>
+                <Label htmlFor="length-input">Password Length</Label>
+                <Input
+                    id="length-input"
+                    type="number"
+                    min={8}
+                    max={64}
+                    value={length}
+                    onChange={(e) => {
+                        const val = parseInt(e.target.value, 10);
+                        if (!isNaN(val)) {
+                            setLength(Math.max(8, Math.min(64, val)));
+                        }
+                    }}
+                    className="w-20 text-center"
+                />
             </div>
             <Slider
-                id="length"
+                id="length-slider"
                 min={8}
                 max={64}
                 step={1}
