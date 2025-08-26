@@ -26,7 +26,10 @@ const allPdfToolsByCategory = Array.from(
                 tools: [],
             });
         }
-        acc.get(tool.category)!.tools.push(tool);
+        const category = acc.get(tool.category);
+        if(category) {
+            category.tools.push(tool);
+        }
         return acc;
     }, new Map<string, {name: string, icon: any, tools: any[]}>()).values()
 );
