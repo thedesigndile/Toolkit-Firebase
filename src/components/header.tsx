@@ -7,14 +7,13 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuGroup,
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, Grid3x3 } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { tools } from "@/lib/tools";
 
-const allPdfToolsByCategory = Array.from(
+const allToolsByCategory = Array.from(
     tools.reduce((acc, tool) => {
         if (!acc.has(tool.category)) {
             acc.set(tool.category, {
@@ -59,7 +58,7 @@ export function Header() {
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-[80vw] max-w-4xl max-h-[80vh] overflow-y-auto" align="start">
                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-                    {allPdfToolsByCategory.map((category) => (
+                    {allToolsByCategory.map((category) => (
                         <div key={category.name}>
                             <DropdownMenuLabel className="font-bold text-primary flex items-center gap-2 text-lg mb-2">
                                 <category.icon className="h-5 w-5" />
@@ -77,7 +76,7 @@ export function Header() {
         </div>
         <div className="flex items-center gap-2">
             <Button variant="ghost">Login</Button>
-            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-md">Sign up</Button>
+            <Button>Sign up</Button>
             <ThemeToggle />
         </div>
       </div>

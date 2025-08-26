@@ -1,3 +1,4 @@
+
 import { Header } from "@/components/header";
 import { ToolsSection } from "@/components/tools-section";
 import { Newsletter } from "@/components/newsletter";
