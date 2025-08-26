@@ -1,6 +1,7 @@
 import { Header } from "@/components/header";
 import { ToolsSection } from "@/components/tools-section";
 import { Newsletter } from "@/components/newsletter";
+import { Footer } from "@/components/footer";
 
 export default function Home() {
   return (
@@ -22,9 +23,7 @@ export default function Home() {
 
         <Newsletter />
       </main>
-      <footer className="py-8 text-center text-sm text-muted-foreground">
-        © {new Date().getFullYear()} Dile Tool. All Rights Reserved.
-      </footer>
+      <Footer />
     </div>
   );
 }

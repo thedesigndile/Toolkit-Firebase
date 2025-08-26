@@ -16,6 +16,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { convertImage, resizeImage, compressImage, compressPdf, getFileAccept } from '@/lib/tool-functions';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Header } from '@/components/header';
+import { Footer } from '@/components/footer';
 import { PasswordGenerator } from '@/components/tools/password-generator';
 
 type ImageFormat = "png" | "jpeg" | "webp";
@@ -394,9 +395,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
           {renderToolUI()}
         </div>
       </main>
-      <footer className="py-8 text-center text-sm text-muted-foreground">
-        © {new Date().getFullYear()} Offline Toolkit. All Rights Reserved.
-      </footer>
+      <Footer />
     </div>
   );
 }
