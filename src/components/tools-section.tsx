@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useTransition } from "react";
+import { useState, useMemo, useTransition, useEffect } from "react";
 import { tools } from "@/lib/tools";
 import { ToolCard } from "./tool-card";
 import { Input } from "./ui/input";
@@ -19,11 +19,32 @@ export function ToolsSection() {
   const { toast } = useToast();
 
   const categories = useMemo(() => {
+    const categoryOrder = [
+        'Organize PDF',
+        'Optimize PDF',
+        'Convert to PDF',
+        'Convert from PDF',
+        'Edit PDF',
+        'PDF Security',
+        'Image Tools',
+        'Utility Tools',
+    ];
     const categorySet = new Set(tools.map((tool) => tool.category));
-    return ["All", ...Array.from(categorySet)];
+    const allCategories = ['All', ...categoryOrder.filter(cat => categorySet.has(cat))];
+    return allCategories;
   }, []);
 
   const [activeTab, setActiveTab] = useState(categories[0]);
+
+  useEffect(() => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash) {
+      const categoryFromHash = categories.find(cat => cat.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-') === hash);
+      if (categoryFromHash) {
+        setActiveTab(categoryFromHash);
+      }
+    }
+  }, [categories]);
 
   const filteredTools = useMemo(() => {
     return tools.filter((tool) => {
@@ -34,7 +55,7 @@ export function ToolsSection() {
   }, [searchTerm, activeTab]);
   
   const featuredTools = useMemo(() => {
-    return tools.slice(0, 5);
+    return tools.filter(t => ['Merge PDF', 'Split PDF', 'Compress PDF', 'PDF to Word', 'JPG to PDF'].includes(t.name));
   }, []);
 
   const handleToolClick = (toolName: string) => {
@@ -111,18 +132,17 @@ export function ToolsSection() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <div className="flex justify-center mb-8">
-                <TabsList className="h-auto flex-wrap justify-center">
-                    {categories.map((category) => (
-                        <TabsTrigger key={category} value={category} className="text-xs sm:text-sm"
-                          onClick={() => window.history.pushState({}, '', `#${category.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`)}
-                        >
-                            {category}
-                        </TabsTrigger>
-                    ))}
-                </TabsList>
-            </div>
-          <div className="mb-8 mx-auto max-w-lg">
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 lg:grid-cols-9 h-auto">
+              {categories.map((category) => (
+                  <TabsTrigger key={category} value={category} className="text-xs sm:text-sm"
+                    onClick={() => window.history.pushState({}, '', `#${category.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`)}
+                  >
+                      {category}
+                  </TabsTrigger>
+              ))}
+          </TabsList>
+
+          <div className="my-8 mx-auto max-w-lg">
             <Input
               type="search"
               placeholder="Search for a tool..."
@@ -132,28 +152,30 @@ export function ToolsSection() {
             />
           </div>
           
-          <TabsContent value={activeTab}>
-            {filteredTools.length > 0 ? (
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                {filteredTools.map((tool) => (
-                    <ToolCard
-                        key={tool.name}
-                        tool={tool}
-                        onClick={() => handleToolClick(tool.name)}
-                        isSelected={usedTools.includes(tool.name)}
-                        isRecommended={recommendedTools.includes(tool.name)}
-                    />
-                ))}
-                </div>
-            ) : (
-                <Card className="text-center py-12">
-                    <CardContent>
-                        <h3 className="text-xl font-semibold">No tools found</h3>
-                        <p className="text-muted-foreground mt-2">Try adjusting your search or category.</p>
-                    </CardContent>
-                </Card>
-            )}
-          </TabsContent>
+          {categories.map(category => (
+             <TabsContent key={category} value={category}>
+                {filteredTools.length > 0 ? (
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                    {filteredTools.map((tool) => (
+                        <ToolCard
+                            key={tool.name}
+                            tool={tool}
+                            onClick={() => handleToolClick(tool.name)}
+                            isSelected={usedTools.includes(tool.name)}
+                            isRecommended={recommendedTools.includes(tool.name)}
+                        />
+                    ))}
+                    </div>
+                ) : (
+                    <Card className="text-center py-12">
+                        <CardContent>
+                            <h3 className="text-xl font-semibold">No tools found</h3>
+                            <p className="text-muted-foreground mt-2">Try adjusting your search or category.</p>
+                        </CardContent>
+                    </Card>
+                )}
+             </TabsContent>
+          ))}
         </Tabs>
       </section>
     </div>

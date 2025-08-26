@@ -7,41 +7,42 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
+  DropdownMenuGroup,
+  DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, Grid3x3 } from "lucide-react";
 import { tools } from "@/lib/tools";
 import { cn } from "@/lib/utils";
 
-const pdfToTools = [
-  { name: "PDF to JPG", slug: "pdf-to-jpg"},
-  { name: "PDF to WORD", slug: "pdf-to-word"},
-  { name: "PDF to POWERPOINT", slug: "pdf-to-powerpoint"},
-  { name: "PDF to EXCEL", slug: "pdf-to-excel"},
-  { name: "PDF to PDF/A", slug: "pdf-to-pdf-a"},
+const convertToPdfTools = tools.filter(t => t.category === 'Convert to PDF');
+const convertFromPdfTools = tools.filter(t => t.category === 'Convert from PDF');
+
+const toolCategories = [
+  'Organize PDF',
+  'Optimize PDF',
+  'Convert to PDF',
+  'Convert from PDF',
+  'Edit PDF',
+  'PDF Security'
 ];
-const fromTools = [
-    { name: 'JPG to PDF', slug: 'jpg-to-pdf'},
-    { name: 'WORD to PDF', slug: 'word-to-pdf'},
-    { name: 'POWERPOINT to PDF', slug: 'powerpoint-to-pdf'},
-    { name: 'EXCEL to PDF', slug: 'excel-to-pdf'},
-    { name: 'HTML to PDF', slug: 'html-to-pdf'},
-];
-const allPdfTools = tools.filter(t => t.category === 'PDF Tools');
+const allPdfToolsByCategory = toolCategories.map(category => ({
+    category,
+    tools: tools.filter(t => t.category === category)
+}));
 
 
 export function Header() {
-  const renderToolMenuItem = (tool: {name: string, slug: string}) => (
-     <DropdownMenuItem key={tool.slug} asChild>
-        <Link href={`/tools/${tool.slug}`} className="flex items-center gap-3">
-          <div className="bg-red-500/10 p-1 rounded-md">
-            {/* Using a placeholder icon, can be replaced with specific icons later */}
-            <div className="h-5 w-5 bg-red-500 rounded-sm" />
-          </div>
-          <span className="font-medium">{tool.name}</span>
-        </Link>
-      </DropdownMenuItem>
-  )
+  const renderToolMenuItem = (tool: {name: string, icon: any, category: string}) => {
+    const slug = tool.name.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and');
+     return (
+        <DropdownMenuItem key={slug} asChild>
+            <Link href={`/tools/${slug}`} className="flex items-center gap-2">
+                <tool.icon className="h-4 w-4 text-red-500"/> <span>{tool.name}</span>
+            </Link>
+        </DropdownMenuItem>
+    )
+  }
   
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur-sm">
@@ -61,12 +62,12 @@ export function Header() {
                   CONVERT PDF <ChevronDown className="h-4 w-4" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-80">
-                <div className="p-2 font-bold text-red-500">Convert to PDF</div>
-                {fromTools.map(renderToolMenuItem)}
+              <DropdownMenuContent className="w-64">
+                <DropdownMenuLabel className="font-bold text-red-500">Convert to PDF</DropdownMenuLabel>
+                {convertToPdfTools.map(renderToolMenuItem)}
                 <DropdownMenuSeparator />
-                 <div className="p-2 font-bold text-red-500">Convert from PDF</div>
-                {pdfToTools.map(renderToolMenuItem)}
+                <DropdownMenuLabel className="font-bold text-red-500">Convert from PDF</DropdownMenuLabel>
+                {convertFromPdfTools.map(renderToolMenuItem)}
               </DropdownMenuContent>
             </DropdownMenu>
 
@@ -76,13 +77,14 @@ export function Header() {
                   ALL PDF TOOLS <ChevronDown className="h-4 w-4" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-80 grid grid-cols-2 gap-1">
-                 {allPdfTools.map(tool => (
-                    <DropdownMenuItem key={tool.name} asChild>
-                        <Link href={`/tools/${tool.name.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and')}`} className="flex items-center gap-2">
-                           <tool.icon className="h-4 w-4 text-red-500"/> <span>{tool.name}</span>
-                        </Link>
-                    </DropdownMenuItem>
+              <DropdownMenuContent className="w-96">
+                 {allPdfToolsByCategory.map(({ category, tools }) => (
+                    <DropdownMenuGroup key={category}>
+                        <DropdownMenuLabel className="font-bold text-red-500">{category}</DropdownMenuLabel>
+                        <div className="grid grid-cols-2 gap-1">
+                            {tools.map(renderToolMenuItem)}
+                        </div>
+                    </DropdownMenuGroup>
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
