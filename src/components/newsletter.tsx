@@ -24,10 +24,10 @@ export function Newsletter() {
   };
 
   return (
-    <section className="py-12 md:py-16 lg:py-20">
+    <section className="py-12 md:py-16 lg:py-20 bg-muted/50 dark:bg-card/20">
       <div className="container mx-auto max-w-2xl px-4">
-        <Card className="overflow-hidden bg-card">
-          <div className="grid md:grid-cols-[1fr,auto]">
+        <Card className="overflow-hidden">
+          <div className="grid md:grid-cols-2">
             <div className="p-6 md:p-8">
               <CardHeader className="p-0">
                 <CardTitle className="font-headline text-2xl">Stay Updated</CardTitle>
@@ -51,7 +51,7 @@ export function Newsletter() {
                 </form>
               </CardContent>
             </div>
-            <div className="hidden md:flex items-center justify-center p-8 bg-accent/20">
+            <div className="hidden md:flex items-center justify-center p-8 bg-accent/10 dark:bg-accent/20">
                 <MailCheck className="h-20 w-20 text-accent" />
             </div>
           </div>

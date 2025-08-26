@@ -17,6 +17,7 @@ import { convertImage, resizeImage, compressImage, compressPdf, getFileAccept, m
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Footer } from '@/components/footer';
 import { PasswordGenerator } from '@/components/tools/password-generator';
+import { Header } from '@/components/header';
 
 type ImageFormat = "png" | "jpeg" | "webp";
 type CompressionLevel = "low" | "medium" | "high";
@@ -292,7 +293,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
             <h3 className="text-2xl font-bold">Processing Complete!</h3>
             <p className="text-muted-foreground mt-2 mb-6">Your file is ready for download.</p>
             <div className="flex justify-center gap-4">
-                <Button size="lg" asChild>
+                <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" asChild>
                 <a href={processedUrl} download={processedFileName}>
                     <Download className="mr-2 h-4 w-4" />
                     Download File
@@ -309,7 +310,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
         <Card>
             <CardContent className="pt-6">
             <div 
-                className="border-2 border-dashed border-border rounded-lg p-8 text-center cursor-pointer hover:border-primary/40 dark:hover:border-primary/50 transition-colors"
+                className="border-2 border-dashed border-border rounded-lg p-8 text-center cursor-pointer hover:border-accent/40 dark:hover:border-accent/50 transition-colors"
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current?.click()}
@@ -355,7 +356,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
             {renderToolOptions()}
 
             <div className="mt-8 text-center">
-                <Button size="lg" disabled={files.length === 0 || isProcessing} onClick={handleProcessFiles}>
+                <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" disabled={files.length === 0 || isProcessing} onClick={handleProcessFiles}>
                     {isProcessing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     {isProcessing ? "Processing..." : `Process ${files.length > 0 ? files.length : ''} File(s)`}
                 </Button>
@@ -380,29 +381,28 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
 
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <main className="flex-1 bg-background p-4 flex items-center justify-center">
-        <div className="w-full max-w-4xl py-12">
-          <Card className="mb-8">
-              <CardHeader className="text-center">
-                  <div className="flex justify-center items-center mb-4">
-                      <div className="p-4 bg-primary/10 dark:bg-primary/20 rounded-full">
-                          <Icon className="h-12 w-12 text-primary" />
-                      </div>
-                  </div>
-                  <CardTitle className="text-4xl font-bold">{tool.name}</CardTitle>
-                  <p className="text-muted-foreground">{tool.description}</p>
-              </CardHeader>
-          </Card>
-          
-          {error && (
-              <Alert variant="destructive" className="mb-4">
-                  <AlertTitle>Error</AlertTitle>
-                  <AlertDescription>{error}</AlertDescription>
-              </Alert>
-          )}
+    <div className="flex min-h-screen flex-col bg-background">
+      <Header />
+      <main className="flex-1">
+        <div className="container mx-auto px-4 py-12">
+            <div className="max-w-4xl mx-auto">
+                <div className="text-center mb-12">
+                    <div className="inline-flex items-center justify-center p-4 bg-accent/10 dark:bg-accent/20 rounded-full mb-4">
+                        <Icon className="h-12 w-12 text-accent" />
+                    </div>
+                    <h1 className="text-4xl font-bold font-headline">{tool.name}</h1>
+                    <p className="text-muted-foreground mt-2 text-lg">{tool.description}</p>
+                </div>
+                
+                {error && (
+                    <Alert variant="destructive" className="mb-4">
+                        <AlertTitle>Error</AlertTitle>
+                        <AlertDescription>{error}</AlertDescription>
+                    </Alert>
+                )}
 
-          {renderToolUI()}
+                {renderToolUI()}
+            </div>
         </div>
       </main>
       <Footer />

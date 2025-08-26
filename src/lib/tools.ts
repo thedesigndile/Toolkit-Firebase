@@ -1,4 +1,4 @@
-import { type LucideIcon, FileJson, PenSquare, Calculator, Timer, Image, Code, KeyRound, Type, Palette, Video, GitBranch, Database, TerminalSquare, Combine, Split, FileArchive, FileText, ArrowRightLeft, Minimize2, Crop, FileImage, ImagePlus, AudioWaveform, Scissors, Mic, Minimize, MonitorUp, BookText, StickyNote, BookUser, Regex, Archive, ScanText, QrCode, Camera, Sigma, ListOrdered, FileX, ChevronsRight, Layers, FileScan, Settings2, FileLock, Shield, Fingerprint, Files, RotateCw, PlusSquare, Droplet, Pencil, Lock, ShieldCheck, Milestone, Waypoints, RedoDot, FileSliders, FileDiff, Scaling } from 'lucide-react';
+import { type LucideIcon, FileJson, PenSquare, Calculator, Timer, Image, Code, KeyRound, Type, Palette, Video, GitBranch, Database, TerminalSquare, Combine, Split, FileArchive, FileText, ArrowRightLeft, Minimize2, Crop, FileImage, ImagePlus, AudioWaveform, Scissors, Mic, Minimize, MonitorUp, BookText, StickyNote, BookUser, Regex, Archive, ScanText, QrCode, Camera, Sigma, ListOrdered, FileX, ChevronsRight, Layers, FileScan, Settings2, FileLock, Shield, Fingerprint, Files, RotateCw, PlusSquare, Droplet, Pencil, Lock, ShieldCheck, Milestone, Waypoints, RedoDot, FileSliders, FileDiff, Scaling, Paintbrush, Text, SigmaSquare, BrainCircuit, ScanSearch, FileKey, WaypointsIcon, ListTree, Tags, View, ImageDown, Speaker, FileBox, FileVideo } from 'lucide-react';
 
 export interface Tool {
   name: string;
@@ -12,45 +12,68 @@ export interface Tool {
 export const tools: Tool[] = [
   // Organize PDF
   { name: 'Merge PDF', description: 'Combine multiple PDF files into one.', icon: Combine, category: 'Organize PDF', categoryIcon: Layers },
-  { name: 'Split PDF', description: 'Extract pages from a PDF or save each page as a separate file.', icon: Split, category: 'Organize PDF', categoryIcon: Layers },
-  { name: 'Remove pages', description: 'Delete one or more pages from your PDF file.', icon: FileX, category: 'Organize PDF', categoryIcon: Layers },
-  { name: 'Extract pages', description: 'Select and export specific pages from a PDF.', icon: ChevronsRight, category: 'Organize PDF', categoryIcon: Layers },
-  { name: 'Organize PDF', description: 'Sort, add, and delete PDF pages in our editor.', icon: Layers, category: 'Organize PDF', categoryIcon: Layers },
+  { name: 'Split PDF', description: 'Extract pages from a PDF file.', icon: Split, category: 'Organize PDF', categoryIcon: Layers },
+  { name: 'Remove Pages', description: 'Delete one or more pages from your PDF file.', icon: FileX, category: 'Organize PDF', categoryIcon: Layers },
+  { name: 'Extract Pages', description: 'Select and export specific pages from a PDF.', icon: ChevronsRight, category: 'Organize PDF', categoryIcon: Layers },
+  { name: 'Reorder Pages', description: 'Sort pages of your PDF file with drag & drop.', icon: Waypoints, category: 'Organize PDF', categoryIcon: Layers },
   { name: 'Scan to PDF', description: 'Use your camera to scan documents into a PDF.', icon: FileScan, category: 'Organize PDF', categoryIcon: Layers },
+  { name: 'Combine PDFs and Images', description: 'Mix and match PDFs and image files into one PDF.', icon: Files, category: 'Organize PDF', categoryIcon: Layers },
 
   // Optimize PDF
   { name: 'Compress PDF', description: 'Reduce the file size of your PDF documents.', icon: FileArchive, category: 'Optimize PDF', categoryIcon: Settings2 },
   { name: 'Repair PDF', description: 'Attempt to fix and recover data from a corrupted PDF.', icon: Settings2, category: 'Optimize PDF', categoryIcon: Settings2 },
-  { name: 'OCR PDF', description: 'Make a scanned PDF searchable and selectable.', icon: ScanText, category: 'Optimize PDF', categoryIcon: Settings2 },
-
+  { name: 'OCR PDF', description: 'Extract selectable text from scanned PDFs.', icon: ScanText, category: 'Optimize PDF', categoryIcon: Settings2 },
+  { name: 'Flatten PDF', description: 'Make PDF forms and annotations un-editable.', icon: FileSliders, category: 'Optimize PDF', categoryIcon: Settings2 },
+  
   // Convert to PDF
   { name: 'JPG to PDF', description: 'Convert JPG images to a single PDF file.', icon: FileImage, category: 'Convert to PDF', categoryIcon: ArrowRightLeft },
-  { name: 'WORD to PDF', description: 'Convert Microsoft Word documents to PDF.', icon: FileText, category: 'Convert to PDF', categoryIcon: ArrowRightLeft },
-  { name: 'POWERPOINT to PDF', description: 'Convert PowerPoint presentations to PDF.', icon: FileText, category: 'Convert to PDF', categoryIcon: ArrowRightLeft },
-  { name: 'EXCEL to PDF', description: 'Convert Excel spreadsheets to PDF.', icon: FileText, category: 'Convert to PDF', categoryIcon: ArrowRightLeft },
+  { name: 'PNG to PDF', description: 'Convert PNG images to a single PDF file.', icon: FileImage, category: 'Convert to PDF', categoryIcon: ArrowRightLeft },
+  { name: 'Word to PDF', description: 'Convert Microsoft Word documents to PDF.', icon: FileText, category: 'Convert to PDF', categoryIcon: ArrowRightLeft },
+  { name: 'PowerPoint to PDF', description: 'Convert PowerPoint presentations to PDF.', icon: FileText, category: 'Convert to PDF', categoryIcon: ArrowRightLeft },
+  { name: 'Excel to PDF', description: 'Convert Excel spreadsheets to PDF.', icon: FileText, category: 'Convert to PDF', categoryIcon: ArrowRightLeft },
   { name: 'HTML to PDF', description: 'Convert webpages to PDF documents.', icon: Code, category: 'Convert to PDF', categoryIcon: ArrowRightLeft },
-
+  { name: 'TXT/Markdown to PDF', description: 'Convert plain text or Markdown to PDF.', icon: Text, category: 'Convert to PDF', categoryIcon: ArrowRightLeft },
+  { name: 'EPUB to PDF', description: 'Convert EPUB e-books to PDF format.', icon: BookText, category: 'Convert to PDF', categoryIcon: ArrowRightLeft },
+  
   // Convert from PDF
-  { name: 'PDF to JPG', description: 'Extract all images from a PDF or convert each page to JPG.', icon: Image, category: 'Convert from PDF', categoryIcon: ArrowRightLeft },
-  { name: 'PDF to WORD', description: 'Convert your PDF to an editable Word document.', icon: RedoDot, category: 'Convert from PDF', categoryIcon: ArrowRightLeft },
-  { name: 'PDF to POWERPOINT', description: 'Convert your PDF to an editable PowerPoint presentation.', icon: RedoDot, category: 'Convert from PDF', categoryIcon: ArrowRightLeft },
-  { name: 'PDF to EXCEL', description: 'Extract data from PDF tables to an Excel spreadsheet.', icon: RedoDot, category: 'Convert from PDF', categoryIcon: ArrowRightLeft },
-  { name: 'PDF to PDF/A', description: 'Convert your PDF to the ISO-standardized PDF/A format.', icon: FileSliders, category: 'Convert from PDF', categoryIcon: ArrowRightLeft },
+  { name: 'PDF to JPG', description: 'Convert each PDF page into a JPG image.', icon: Image, category: 'Convert from PDF', categoryIcon: RedoDot },
+  { name: 'PDF to PNG', description: 'Convert each PDF page into a PNG image.', icon: Image, category: 'Convert from PDF', categoryIcon: RedoDot },
+  { name: 'PDF to Word', description: 'Convert your PDF to an editable Word document.', icon: FileText, category: 'Convert from PDF', categoryIcon: RedoDot },
+  { name: 'PDF to PowerPoint', description: 'Convert your PDF to a presentation.', icon: FileText, category: 'Convert from PDF', categoryIcon: RedoDot },
+  { name: 'PDF to Excel', description: 'Extract data from PDF tables to an Excel sheet.', icon: FileText, category: 'Convert from PDF', categoryIcon: RedoDot },
+  { name: 'PDF to HTML', description: 'Convert your PDF to a web page.', icon: Code, category: 'Convert from PDF', categoryIcon: RedoDot },
+  { name: 'PDF to TXT/Markdown', description: 'Extract text from your PDF.', icon: Text, category: 'Convert from PDF', categoryIcon: RedoDot },
+  { name: 'PDF to PDF/A', description: 'Convert your PDF to the ISO-standardized PDF/A format.', icon: Archive, category: 'Convert from PDF', categoryIcon: RedoDot },
+  { name: 'PDF to EPUB', description: 'Convert your PDF to the EPUB e-book format.', icon: BookText, category: 'Convert from PDF', categoryIcon: RedoDot },
 
   // Edit PDF
   { name: 'Rotate PDF', description: 'Rotate one or all pages in your PDF file.', icon: RotateCw, category: 'Edit PDF', categoryIcon: Pencil },
-  { name: 'Add page numbers', description: 'Insert page numbers into your PDF easily.', icon: ListOrdered, category: 'Edit PDF', categoryIcon: Pencil },
-  { name: 'Add watermark', description: 'Stamp text or an image over your PDF.', icon: Droplet, category: 'Edit PDF', categoryIcon: Pencil },
+  { name: 'Add Page Numbers', description: 'Insert page numbers into your PDF easily.', icon: ListOrdered, category: 'Edit PDF', categoryIcon: Pencil },
+  { name: 'Add Watermark', description: 'Stamp text or an image over your PDF.', icon: Droplet, category: 'Edit PDF', categoryIcon: Pencil },
   { name: 'Crop PDF', description: 'Trim the margins of your PDF pages.', icon: Crop, category: 'Edit PDF', categoryIcon: Pencil },
-  { name: 'Edit PDF', description: 'Add text, images, and annotations to a PDF.', icon: Pencil, category: 'Edit PDF', categoryIcon: Pencil },
+  { name: 'Draw/Annotate PDF', description: 'Draw, highlight, and add notes to a PDF.', icon: Paintbrush, category: 'Edit PDF', categoryIcon: Pencil },
+  { name: 'Insert Text, Shapes, Images', description: 'Add new content to your PDF files.', icon: PlusSquare, category: 'Edit PDF', categoryIcon: Pencil },
+  { name: 'Fill & Edit PDF Forms', description: 'Edit and fill out AcroForms and XFA forms.', icon: PenSquare, category: 'Edit PDF', categoryIcon: Pencil },
 
   // PDF Security
   { name: 'Unlock PDF', description: 'Remove password protection from a PDF file.', icon: Lock, category: 'PDF Security', categoryIcon: Shield },
   { name: 'Protect PDF', description: 'Add a password and encrypt your PDF file.', icon: ShieldCheck, category: 'PDF Security', categoryIcon: Shield },
   { name: 'Sign PDF', description: 'Create or apply your electronic signature to a PDF.', icon: Milestone, category: 'PDF Security', categoryIcon: Shield },
   { name: 'Redact PDF', description: 'Permanently black out sensitive information.', icon: FileLock, category: 'PDF Security', categoryIcon: Shield },
-  { name: 'Compare PDF', description: 'Show the differences between two PDF files.', icon: FileDiff, category: 'PDF Security', categoryIcon: Shield },
+  { name: 'Compare PDFs', description: 'Show the differences between two PDF files.', icon: FileDiff, category: 'PDF Security', categoryIcon: Shield },
+  { name: 'Metadata Cleaner', description: 'Remove hidden data and personal information.', icon: FileKey, category: 'PDF Security', categoryIcon: Shield },
 
+  // Extra Tools
+  { name: 'PDF Translator', description: 'Translate text in a PDF using offline models.', icon: BrainCircuit, category: 'Extra Tools', categoryIcon: SigmaSquare },
+  { name: 'PDF Split by Bookmarks', description: 'Split a single PDF into multiple files by bookmarks.', icon: ListTree, category: 'Extra Tools', categoryIcon: SigmaSquare },
+  { name: 'Batch PDF Processor', description: 'Apply an action to multiple PDF files at once.', icon: WaypointsIcon, category: 'Extra Tools', categoryIcon: SigmaSquare },
+  { name: 'PDF Metadata Editor', description: 'Edit title, author, subject, and keywords.', icon: Tags, category: 'Extra Tools', categoryIcon: SigmaSquare },
+  { name: 'Dark Mode PDF Viewer', description: 'View PDFs in dark mode with search.', icon: View, category: 'Extra Tools', categoryIcon: SigmaSquare },
+  { name: 'PDF to Image Slideshow', description: 'Convert PDF pages into a slideshow.', icon: ImageDown, category: 'Extra Tools', categoryIcon: SigmaSquare },
+  { name: 'Extract Attachments from PDF', description: 'Extract embedded files from a PDF.', icon: FileBox, category: 'Extra Tools', categoryIcon: SigmaSquare },
+  { name: 'PDF Page Label Editor', description: 'Add custom page labels like "i, ii, 1, 2".', icon: BookUser, category: 'Extra Tools', categoryIcon: SigmaSquare },
+  { name: 'PDF Stamp Tool', description: 'Add stamps like "Approved" or "Confidential".', icon: StickyNote, category: 'Extra Tools', categoryIcon: SigmaSquare },
+  
   // Image Tools
   { name: 'Image Converter', description: 'Convert images between PNG, JPG, WebP.', icon: ArrowRightLeft, category: 'Image Tools', categoryIcon: Image },
   { name: 'Image Compressor', description: 'Reduce image file sizes.', icon: Minimize2, category: 'Image Tools', categoryIcon: Image },
