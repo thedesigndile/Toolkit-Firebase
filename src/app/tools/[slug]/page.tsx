@@ -1,18 +1,28 @@
 "use client";
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { tools } from '@/lib/tools';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { UploadCloud, File, X, Loader2 } from 'lucide-react';
+import { UploadCloud, File, X, Loader2, Download, CheckCircle, RotateCcw } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function ToolPage({ params }: { params: { slug: string } }) {
   const tool = tools.find(t => t.name.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and') === params.slug);
   const [files, setFiles] = useState<File[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [processedUrl, setProcessedUrl] = useState<string | null>(null);
   const { toast } = useToast();
+
+  useEffect(() => {
+    // Clean up the object URL when the component unmounts or when a new file is processed
+    return () => {
+      if (processedUrl) {
+        URL.revokeObjectURL(processedUrl);
+      }
+    };
+  }, [processedUrl]);
 
   if (!tool) {
     notFound();
@@ -23,6 +33,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
   const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setFiles(prevFiles => [...prevFiles, ...Array.from(event.target.files!)]);
+      setProcessedUrl(null); // Reset on new file upload
     }
   }, []);
 
@@ -34,22 +45,43 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
     event.preventDefault();
     if (event.dataTransfer.files) {
       setFiles(prevFiles => [...prevFiles, ...Array.from(event.dataTransfer.files)]);
+      setProcessedUrl(null); // Reset on new file drop
     }
   }, []);
 
   const removeFile = useCallback((fileName: string) => {
     setFiles(prevFiles => prevFiles.filter(f => f.name !== fileName));
   }, []);
+  
+  const resetState = useCallback(() => {
+    setFiles([]);
+    setIsProcessing(false);
+    if (processedUrl) {
+      URL.revokeObjectURL(processedUrl);
+    }
+    setProcessedUrl(null);
+  }, [processedUrl]);
+
 
   const handleProcessFiles = () => {
     if (files.length === 0) return;
 
     setIsProcessing(true);
+    if(processedUrl) {
+      URL.revokeObjectURL(processedUrl);
+      setProcessedUrl(null);
+    }
 
     // Simulate file processing
     setTimeout(() => {
       setIsProcessing(false);
-      setFiles([]);
+      
+      // Create a dummy file to simulate download
+      const processedContent = `This is a processed file from ${tool.name}.\n\nOriginal files:\n${files.map(f => `- ${f.name}`).join('\n')}`;
+      const blob = new Blob([processedContent], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      setProcessedUrl(url);
+
       toast({
         title: "Success!",
         description: `Your ${files.length} file(s) have been processed with the ${tool.name} tool.`,
@@ -72,55 +104,81 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
             </CardHeader>
         </Card>
 
-        <Card>
-          <CardContent className="pt-6">
-            <div 
-                className="border-2 border-dashed border-border rounded-lg p-8 text-center cursor-pointer hover:border-purple-400 dark:hover:border-purple-500 transition-colors"
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-                onClick={() => document.getElementById('file-upload')?.click()}
-            >
-              <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" />
-              <p className="mt-4 text-sm text-muted-foreground">
-                Drag and drop files here, or click to select files
-              </p>
-              <input 
-                id="file-upload" 
-                type="file" 
-                multiple 
-                className="hidden" 
-                onChange={handleFileChange}
-                disabled={isProcessing}
-              />
-            </div>
-
-            {files.length > 0 && (
-              <div className="mt-6">
-                <h3 className="text-lg font-medium">Uploaded Files:</h3>
-                <ul className="mt-2 divide-y divide-border border rounded-md">
-                  {files.map(file => (
-                    <li key={`${file.name}-${file.lastModified}`} className="flex items-center justify-between p-3">
-                      <div className="flex items-center gap-3">
-                        <File className="h-5 w-5 text-muted-foreground" />
-                        <span className="text-sm font-medium">{file.name}</span>
-                      </div>
-                      <Button variant="ghost" size="icon" onClick={() => removeFile(file.name)} disabled={isProcessing}>
-                        <X className="h-4 w-4" />
-                      </Button>
-                    </li>
-                  ))}
-                </ul>
+        {processedUrl ? (
+          <Card>
+            <CardContent className="pt-6 text-center">
+              <div className="flex justify-center items-center mb-4">
+                  <div className="p-4 bg-green-100 dark:bg-green-900/20 rounded-full">
+                      <CheckCircle className="h-12 w-12 text-green-600 dark:text-green-400" />
+                  </div>
               </div>
-            )}
-
-            <div className="mt-8 text-center">
-                <Button size="lg" disabled={files.length === 0 || isProcessing} className="bg-purple-600 hover:bg-purple-700 text-white" onClick={handleProcessFiles}>
-                    {isProcessing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    {isProcessing ? "Processing..." : "Process Files"}
+              <h3 className="text-2xl font-bold">Processing Complete!</h3>
+              <p className="text-muted-foreground mt-2 mb-6">Your file is ready for download.</p>
+              <div className="flex justify-center gap-4">
+                <Button size="lg" asChild className="bg-purple-600 hover:bg-purple-700 text-white">
+                  <a href={processedUrl} download={`processed-${files[0]?.name || 'file'}.txt`}>
+                    <Download className="mr-2 h-4 w-4" />
+                    Download File
+                  </a>
                 </Button>
-            </div>
-          </CardContent>
-        </Card>
+                <Button size="lg" variant="outline" onClick={resetState}>
+                  <RotateCcw className="mr-2 h-4 w-4" />
+                  Process Another
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <Card>
+            <CardContent className="pt-6">
+              <div 
+                  className="border-2 border-dashed border-border rounded-lg p-8 text-center cursor-pointer hover:border-purple-400 dark:hover:border-purple-500 transition-colors"
+                  onDragOver={handleDragOver}
+                  onDrop={handleDrop}
+                  onClick={() => document.getElementById('file-upload')?.click()}
+              >
+                <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" />
+                <p className="mt-4 text-sm text-muted-foreground">
+                  Drag and drop files here, or click to select files
+                </p>
+                <input 
+                  id="file-upload" 
+                  type="file" 
+                  multiple 
+                  className="hidden" 
+                  onChange={handleFileChange}
+                  disabled={isProcessing}
+                />
+              </div>
+
+              {files.length > 0 && (
+                <div className="mt-6">
+                  <h3 className="text-lg font-medium">Uploaded Files:</h3>
+                  <ul className="mt-2 divide-y divide-border border rounded-md">
+                    {files.map(file => (
+                      <li key={`${file.name}-${file.lastModified}`} className="flex items-center justify-between p-3">
+                        <div className="flex items-center gap-3">
+                          <File className="h-5 w-5 text-muted-foreground" />
+                          <span className="text-sm font-medium">{file.name}</span>
+                        </div>
+                        <Button variant="ghost" size="icon" onClick={() => removeFile(file.name)} disabled={isProcessing}>
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              <div className="mt-8 text-center">
+                  <Button size="lg" disabled={files.length === 0 || isProcessing} className="bg-purple-600 hover:bg-purple-700 text-white" onClick={handleProcessFiles}>
+                      {isProcessing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                      {isProcessing ? "Processing..." : "Process Files"}
+                  </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   );
