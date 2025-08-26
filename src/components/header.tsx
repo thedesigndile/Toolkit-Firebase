@@ -76,7 +76,7 @@ export function Header() {
                   ALL PDF TOOLS <ChevronDown className="h-4 w-4" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-96">
+              <DropdownMenuContent className="w-96 max-h-[80vh] overflow-y-auto">
                  {allPdfToolsByCategory.map((category) => (
                     <DropdownMenuGroup key={category.name}>
                         <DropdownMenuLabel className="font-bold text-primary flex items-center gap-2">
