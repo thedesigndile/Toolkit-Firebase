@@ -16,6 +16,7 @@ export function PasswordGenerator() {
   const [includeUppercase, setIncludeUppercase] = useState(true);
   const [includeNumbers, setIncludeNumbers] = useState(true);
   const [includeSymbols, setIncludeSymbols] = useState(true);
+  const [numberOfNumbers, setNumberOfNumbers] = useState(4);
   const [generatedPassword, setGeneratedPassword] = useState('');
   const { toast } = useToast();
 
@@ -24,29 +25,59 @@ export function PasswordGenerator() {
     const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const numberChars = '0123456789';
     const symbolChars = '!@#$%^&*()_+~`|}{[]:;?><,./-=';
+
+    if (!includeUppercase && !includeNumbers && !includeSymbols) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'You must select at least one character type.',
+      });
+      setGeneratedPassword('');
+      return;
+    }
     
-    let charPool = lowercaseChars;
-    if (includeUppercase) charPool += uppercaseChars;
-    if (includeNumbers) charPool += numberChars;
-    if (includeSymbols) charPool += symbolChars;
-
-    if (charPool.length === 0) {
-        toast({
-            variant: "destructive",
-            title: "Error",
-            description: "You must select at least one character type.",
-        });
-        setGeneratedPassword('');
-        return;
+    if(includeNumbers && numberOfNumbers > length) {
+       toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Number of digits cannot exceed password length.',
+      });
+      return;
     }
 
-    let password = '';
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * charPool.length);
-      password += charPool[randomIndex];
+    let passwordChars: string[] = [];
+    
+    // 1. Add guaranteed numbers
+    if (includeNumbers) {
+        for (let i = 0; i < numberOfNumbers; i++) {
+            const randomIndex = Math.floor(Math.random() * numberChars.length);
+            passwordChars.push(numberChars[randomIndex]);
+        }
     }
-    setGeneratedPassword(password);
-  }, [length, includeUppercase, includeNumbers, includeSymbols, toast]);
+    
+    // 2. Build the pool for the remaining characters
+    let remainingCharPool = lowercaseChars;
+    if (includeUppercase) remainingCharPool += uppercaseChars;
+    if (includeSymbols) remainingCharPool += symbolChars;
+    // If numbers are also an option for the remainder, add them.
+    if(includeNumbers) remainingCharPool += numberChars;
+
+    // 3. Fill the rest of the password length
+    const remainingLength = length - passwordChars.length;
+    for (let i = 0; i < remainingLength; i++) {
+        const randomIndex = Math.floor(Math.random() * remainingCharPool.length);
+        passwordChars.push(remainingCharPool[randomIndex]);
+    }
+
+    // 4. Shuffle the array to ensure random character placement
+    for (let i = passwordChars.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [passwordChars[i], passwordChars[j]] = [passwordChars[j], passwordChars[i]];
+    }
+
+    setGeneratedPassword(passwordChars.join(''));
+
+  }, [length, includeUppercase, includeNumbers, includeSymbols, numberOfNumbers, toast]);
 
   const copyToClipboard = useCallback(() => {
     if (!generatedPassword) return;
@@ -95,20 +126,43 @@ export function PasswordGenerator() {
             />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="flex items-center space-x-2">
                 <Checkbox id="uppercase" checked={includeUppercase} onCheckedChange={(checked) => setIncludeUppercase(!!checked)} />
                 <Label htmlFor="uppercase">Include Uppercase (A-Z)</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-                <Checkbox id="numbers" checked={includeNumbers} onCheckedChange={(checked) => setIncludeNumbers(!!checked)} />
-                <Label htmlFor="numbers">Include Numbers (0-9)</Label>
             </div>
             <div className="flex items-center space-x-2">
                 <Checkbox id="symbols" checked={includeSymbols} onCheckedChange={(checked) => setIncludeSymbols(!!checked)} />
                 <Label htmlFor="symbols">Include Symbols (!@#...)</Label>
             </div>
         </div>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+            <div className="flex items-center space-x-2">
+                <Checkbox id="numbers" checked={includeNumbers} onCheckedChange={(checked) => setIncludeNumbers(!!checked)} />
+                <Label htmlFor="numbers">Include Numbers (0-9)</Label>
+            </div>
+            {includeNumbers && (
+              <div className="flex items-center gap-2">
+                <Label htmlFor="numberOfNumbers" className="whitespace-nowrap">Number of digits</Label>
+                <Input
+                    id="numberOfNumbers"
+                    type="number"
+                    min={0}
+                    max={length}
+                    value={numberOfNumbers}
+                    onChange={(e) => {
+                        const val = parseInt(e.target.value, 10);
+                        if (!isNaN(val)) {
+                            setNumberOfNumbers(Math.max(0, Math.min(length, val)));
+                        }
+                    }}
+                    className="h-9 w-20"
+                />
+              </div>
+            )}
+        </div>
+
 
         <div className="mt-4 text-center">
             <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white" onClick={generatePassword}>
