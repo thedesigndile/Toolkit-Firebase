@@ -81,7 +81,7 @@ export function getFileAccept(toolCategory: string) {
     switch(toolCategory) {
         case 'Image Tools':
             return 'image/png,image/jpeg,image/webp';
-        case 'Document & PDF Tools':
+        case 'PDF Tools':
             return 'application/pdf';
         case 'Audio Tools':
             return 'audio/mpeg,audio/wav,audio/ogg';
