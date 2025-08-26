@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { DileToolLogo } from "@/components/icons";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -6,16 +7,12 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuSeparator,
   DropdownMenuGroup,
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, Grid3x3 } from "lucide-react";
 import { tools } from "@/lib/tools";
-
-const convertToPdfTools = tools.filter(t => t.category === 'Convert to PDF');
-const convertFromPdfTools = tools.filter(t => t.category === 'Convert from PDF');
 
 const allPdfToolsByCategory = Array.from(
     tools.reduce((acc, tool) => {
@@ -54,43 +51,26 @@ export function Header() {
             <DileToolLogo className="h-10 w-auto" />
           </Link>
           <nav className="hidden lg:flex items-center gap-6 text-sm font-medium">
-            <Link href="/tools/merge-pdf" className="text-foreground/80 hover:text-foreground transition-colors">MERGE PDF</Link>
-            <Link href="/tools/split-pdf" className="text-foreground/80 hover:text-foreground transition-colors">SPLIT PDF</Link>
-            <Link href="/tools/compress-pdf" className="text-foreground/80 hover:text-foreground transition-colors">COMPRESS PDF</Link>
-            
-            <DropdownMenu>
+             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-1 text-foreground/80 hover:text-foreground transition-colors outline-none">
-                  CONVERT PDF <ChevronDown className="h-4 w-4" />
-                </button>
+                 <Button variant="ghost" className="flex items-center gap-1 text-base">
+                  All Tools <ChevronDown className="h-4 w-4" />
+                </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-64">
-                <DropdownMenuLabel className="font-bold text-primary">Convert to PDF</DropdownMenuLabel>
-                {convertToPdfTools.map(renderToolMenuItem)}
-                <DropdownMenuSeparator />
-                <DropdownMenuLabel className="font-bold text-primary">Convert from PDF</DropdownMenuLabel>
-                {convertFromPdfTools.map(renderToolMenuItem)}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                 <button className="flex items-center gap-1 text-foreground/80 hover:text-foreground transition-colors outline-none">
-                  ALL PDF TOOLS <ChevronDown className="h-4 w-4" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-96 max-h-[80vh] overflow-y-auto">
-                 {allPdfToolsByCategory.map((category) => (
-                    <DropdownMenuGroup key={category.name}>
-                        <DropdownMenuLabel className="font-bold text-primary flex items-center gap-2">
-                            <category.icon className="h-4 w-4" />
-                            {category.name}
-                        </DropdownMenuLabel>
-                        <div className="grid grid-cols-2 gap-1">
-                            {category.tools.map(renderToolMenuItem)}
+              <DropdownMenuContent className="w-[80vw] max-w-4xl max-h-[80vh] overflow-y-auto" align="start">
+                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+                    {allPdfToolsByCategory.map((category) => (
+                        <div key={category.name}>
+                            <DropdownMenuLabel className="font-bold text-primary flex items-center gap-2 text-lg mb-2">
+                                <category.icon className="h-5 w-5" />
+                                {category.name}
+                            </DropdownMenuLabel>
+                            <div className="flex flex-col gap-1">
+                                {category.tools.map(renderToolMenuItem)}
+                            </div>
                         </div>
-                    </DropdownMenuGroup>
-                ))}
+                    ))}
+                 </div>
               </DropdownMenuContent>
             </DropdownMenu>
           </nav>
@@ -98,9 +78,6 @@ export function Header() {
         <div className="flex items-center gap-2">
             <Button variant="ghost">Login</Button>
             <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-md">Sign up</Button>
-            <Button variant="ghost" size="icon" className="ml-2">
-                <Grid3x3 />
-            </Button>
             <ThemeToggle />
         </div>
       </div>
