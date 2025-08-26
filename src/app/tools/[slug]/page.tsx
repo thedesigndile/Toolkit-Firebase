@@ -5,11 +5,14 @@ import { tools } from '@/lib/tools';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { UploadCloud, File, X } from 'lucide-react';
+import { UploadCloud, File, X, Loader2 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 export default function ToolPage({ params }: { params: { slug: string } }) {
   const tool = tools.find(t => t.name.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and') === params.slug);
   const [files, setFiles] = useState<File[]>([]);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const { toast } = useToast();
 
   if (!tool) {
     notFound();
@@ -38,6 +41,21 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
     setFiles(prevFiles => prevFiles.filter(f => f.name !== fileName));
   }, []);
 
+  const handleProcessFiles = () => {
+    if (files.length === 0) return;
+
+    setIsProcessing(true);
+
+    // Simulate file processing
+    setTimeout(() => {
+      setIsProcessing(false);
+      setFiles([]);
+      toast({
+        title: "Success!",
+        description: `Your ${files.length} file(s) have been processed with the ${tool.name} tool.`,
+      });
+    }, 2000);
+  };
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
@@ -71,7 +89,8 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
                 type="file" 
                 multiple 
                 className="hidden" 
-                onChange={handleFileChange} 
+                onChange={handleFileChange}
+                disabled={isProcessing}
               />
             </div>
 
@@ -85,7 +104,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
                         <File className="h-5 w-5 text-muted-foreground" />
                         <span className="text-sm font-medium">{file.name}</span>
                       </div>
-                      <Button variant="ghost" size="icon" onClick={() => removeFile(file.name)}>
+                      <Button variant="ghost" size="icon" onClick={() => removeFile(file.name)} disabled={isProcessing}>
                         <X className="h-4 w-4" />
                       </Button>
                     </li>
@@ -95,8 +114,9 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
             )}
 
             <div className="mt-8 text-center">
-                <Button size="lg" disabled={files.length === 0} className="bg-purple-600 hover:bg-purple-700 text-white">
-                    Process Files
+                <Button size="lg" disabled={files.length === 0 || isProcessing} className="bg-purple-600 hover:bg-purple-700 text-white" onClick={handleProcessFiles}>
+                    {isProcessing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {isProcessing ? "Processing..." : "Process Files"}
                 </Button>
             </div>
           </CardContent>
