@@ -92,7 +92,6 @@
   }
 
   .highlight-ai {
-    animation: highlight 1.5s ease-out;
-    animation-iteration-count: 2;
+    animation: highlight 1.5s ease-out infinite;
   }
 }
