@@ -1,22 +1,37 @@
+
 "use client";
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { tools } from '@/lib/tools';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { UploadCloud, File, X, Loader2, Download, CheckCircle, RotateCcw } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+
+type ImageFormat = "png" | "jpg" | "webp";
+type CompressionLevel = "low" | "medium" | "high";
 
 export default function ToolPage({ params }: { params: { slug: string } }) {
-  const tool = tools.find(t => t.name.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and') === params.slug);
+  const tool = useMemo(() => tools.find(t => t.name.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and') === params.slug), [params.slug]);
+  
   const [files, setFiles] = useState<File[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [processedUrl, setProcessedUrl] = useState<string | null>(null);
+  
+  // Tool-specific options state
+  const [imageFormat, setImageFormat] = useState<ImageFormat>('png');
+  const [resizeOptions, setResizeOptions] = useState({ width: '1920', height: '1080', keepAspectRatio: true });
+  const [compressionLevel, setCompressionLevel] = useState<CompressionLevel>('medium');
+
   const { toast } = useToast();
 
   useEffect(() => {
-    // Clean up the object URL when the component unmounts or when a new file is processed
     return () => {
       if (processedUrl) {
         URL.revokeObjectURL(processedUrl);
@@ -33,7 +48,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
   const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setFiles(prevFiles => [...prevFiles, ...Array.from(event.target.files!)]);
-      setProcessedUrl(null); // Reset on new file upload
+      setProcessedUrl(null);
     }
   }, []);
 
@@ -45,7 +60,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
     event.preventDefault();
     if (event.dataTransfer.files) {
       setFiles(prevFiles => [...prevFiles, ...Array.from(event.dataTransfer.files)]);
-      setProcessedUrl(null); // Reset on new file drop
+      setProcessedUrl(null);
     }
   }, []);
 
@@ -72,22 +87,121 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
       setProcessedUrl(null);
     }
 
-    // Simulate file processing
     setTimeout(() => {
       setIsProcessing(false);
       
-      // Create a dummy file to simulate download
-      const processedContent = `This is a processed file from ${tool.name}.\n\nOriginal files:\n${files.map(f => `- ${f.name}`).join('\n')}`;
+      let processedContent = `Processed file from ${tool.name}.\nOriginal files:\n${files.map(f => `- ${f.name}`).join('\n')}`;
+      let downloadName = `processed-${files[0]?.name || 'file'}.txt`;
+
+      switch (tool.name) {
+        case 'Image Converter':
+          processedContent += `\nConverted to: ${imageFormat.toUpperCase()}`;
+          downloadName = `converted-${files[0]?.name.split('.')[0]}.${imageFormat}`;
+          break;
+        case 'Image Resizer & Cropper':
+          processedContent += `\nResized to: ${resizeOptions.width}x${resizeOptions.height}. Keep aspect ratio: ${resizeOptions.keepAspectRatio}`;
+          downloadName = `resized-${files[0]?.name}`;
+          break;
+        case 'PDF Compressor':
+          processedContent += `\nCompression level: ${compressionLevel}`;
+          downloadName = `compressed-${files[0]?.name}`;
+          break;
+      }
+
       const blob = new Blob([processedContent], { type: 'text/plain' });
       const url = URL.createObjectURL(blob);
       setProcessedUrl(url);
 
       toast({
         title: "Success!",
-        description: `Your ${files.length} file(s) have been processed with the ${tool.name} tool.`,
+        description: `Your file(s) have been processed with the ${tool.name} tool.`,
       });
     }, 2000);
   };
+  
+  const renderToolOptions = () => {
+    if (files.length === 0 || isProcessing) return null;
+
+    let optionsComponent = null;
+
+    switch (tool.name) {
+      case 'Image Converter':
+        optionsComponent = (
+          <div className="space-y-4">
+            <Label htmlFor="format-select">Output Format</Label>
+            <Select value={imageFormat} onValueChange={(value: ImageFormat) => setImageFormat(value)}>
+              <SelectTrigger id="format-select">
+                <SelectValue placeholder="Select a format" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="png">PNG</SelectItem>
+                <SelectItem value="jpg">JPG</SelectItem>
+                <SelectItem value="webp">WebP</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        );
+        break;
+      
+      case 'Image Resizer & Cropper':
+        optionsComponent = (
+          <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                      <Label htmlFor="width">Width</Label>
+                      <Input id="width" type="number" value={resizeOptions.width} onChange={e => setResizeOptions({...resizeOptions, width: e.target.value})} placeholder="e.g., 1920" />
+                  </div>
+                  <div className="space-y-2">
+                      <Label htmlFor="height">Height</Label>
+                      <Input id="height" type="number" value={resizeOptions.height} onChange={e => setResizeOptions({...resizeOptions, height: e.target.value})} placeholder="e.g., 1080" />
+                  </div>
+              </div>
+              <div className="flex items-center space-x-2">
+                  <Checkbox id="aspect-ratio" checked={resizeOptions.keepAspectRatio} onCheckedChange={checked => setResizeOptions({...resizeOptions, keepAspectRatio: !!checked})} />
+                  <Label htmlFor="aspect-ratio">Keep aspect ratio</Label>
+              </div>
+          </div>
+        );
+        break;
+
+      case 'PDF Compressor':
+        optionsComponent = (
+          <div className="space-y-2">
+            <Label>Compression Level</Label>
+            <RadioGroup value={compressionLevel} onValueChange={(value: CompressionLevel) => setCompressionLevel(value)} className="flex space-x-4">
+              <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="low" id="low" />
+                  <Label htmlFor="low">Low</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="medium" id="medium" />
+                  <Label htmlFor="medium">Medium</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="high" id="high" />
+                  <Label htmlFor="high">High</Label>
+              </div>
+            </RadioGroup>
+          </div>
+        );
+        break;
+      
+      default:
+        return null;
+    }
+
+    return (
+        <div className="mt-6">
+            <h3 className="text-lg font-medium mb-4">Tool Options</h3>
+            <Card>
+                <CardContent className="pt-6">
+                    {optionsComponent}
+                </CardContent>
+            </Card>
+        </div>
+    )
+  };
+
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
@@ -169,11 +283,13 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
                   </ul>
                 </div>
               )}
+              
+              {renderToolOptions()}
 
               <div className="mt-8 text-center">
                   <Button size="lg" disabled={files.length === 0 || isProcessing} className="bg-purple-600 hover:bg-purple-700 text-white" onClick={handleProcessFiles}>
                       {isProcessing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                      {isProcessing ? "Processing..." : "Process Files"}
+                      {isProcessing ? "Processing..." : `Process ${files.length > 0 ? files.length : ''} File(s)`}
                   </Button>
               </div>
             </CardContent>
@@ -183,3 +299,4 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
     </div>
   );
 }
+
