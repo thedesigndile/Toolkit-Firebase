@@ -1,4 +1,4 @@
-import { type LucideIcon, FileJson, PenSquare, Calculator, Timer, Image, Code, KeyRound, FileCog, Type, Palette, Video, GitBranch, Database, TerminalSquare, Combine, Split, FileArchive, FileText, ArrowRightLeft, Minimize2, Crop, FileImage, ImagePlus, AudioWaveform, Scissors, Mic, Minimize, MonitorUp, BookText, StickyNote, BookUser, Regex, Archive, ScanText, QrCode, Camera, Sigma } from 'lucide-react';
+import { type LucideIcon, FileJson, PenSquare, Calculator, Timer, Image, Code, KeyRound, FileCog, Type, Palette, Video, GitBranch, Database, TerminalSquare, Combine, Split, FileArchive, FileText, ArrowRightLeft, Minimize2, Crop, FileImage, ImagePlus, AudioWaveform, Scissors, Mic, Minimize, MonitorUp, BookText, StickyNote, BookUser, Regex, Archive, ScanText, QrCode, Camera, Sigma, ListOrdered } from 'lucide-react';
 
 export interface Tool {
   name: string;
@@ -14,6 +14,7 @@ export const tools: Tool[] = [
   { name: 'PDF Compressor', description: 'Reduce the file size of your PDFs.', icon: FileArchive, category: 'Document & PDF Tools' },
   { name: 'PDF to Word', description: 'Convert PDF files to editable Word documents.', icon: FileText, category: 'Document & PDF Tools' },
   { name: 'Word to PDF', description: 'Convert Word documents to PDF files.', icon: FileText, category: 'Document & PDF Tools' },
+  { name: 'PDF Page Numbering', description: 'Add page numbers to your PDF files.', icon: ListOrdered, category: 'Document & PDF Tools' },
 
   // Image Tools
   { name: 'Image Converter', description: 'Convert images between PNG, JPG, WebP.', icon: ArrowRightLeft, category: 'Image Tools' },
