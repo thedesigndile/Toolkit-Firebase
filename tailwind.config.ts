@@ -56,8 +56,8 @@ export default {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        'brand-blue': 'hsl(var(--brand-blue))',
-        'brand-purple': 'hsl(var(--brand-purple))',
+        'brand-blue': 'hsl(var(--brand-blue-raw))',
+        'brand-purple': 'hsl(var(--brand-purple-raw))',
         'soft-gray': 'hsl(var(--soft-gray))'
       },
       borderRadius: {
@@ -94,7 +94,7 @@ export default {
     plugin(function({ addUtilities, theme }: { addUtilities: any, theme: any }) {
       const newUtilities = {
         '.text-shadow': {
-          textShadow: `1px 1px 2px ${theme('colors.brand-purple / 15%')}`,
+          textShadow: `1px 1px 3px hsl(var(--brand-purple-raw) / 0.25)`,
         },
       }
       addUtilities(newUtilities, ['responsive', 'hover'])
