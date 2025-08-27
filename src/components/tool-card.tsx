@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { type Tool } from "@/lib/tools";
 import { cn } from "@/lib/utils";
 
@@ -13,23 +13,19 @@ export function ToolCard({ tool }: ToolCardProps) {
 
   return (
     <Link href={`/tools/${slug}`} className="block group">
-        <Card
+      <Card
         className={cn(
-            "cursor-pointer transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 relative overflow-hidden bg-card h-full border",
+          "cursor-pointer transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-2 relative overflow-hidden bg-card h-full border"
         )}
-        >
-            <CardContent className="p-6">
-                <div className="flex items-start gap-4">
-                    <div className="transition-all duration-300 group-hover:scale-105">
-                        <Icon className="h-10 w-10" />
-                    </div>
-                    <div className="flex-1">
-                        <p className="text-base font-semibold">{tool.name}</p>
-                        <p className="text-sm text-muted-foreground mt-1">{tool.description}</p>
-                    </div>
-                </div>
-            </CardContent>
-        </Card>
+      >
+        <CardContent className="p-5 flex flex-col items-center text-center aspect-square justify-center">
+          <div className="transition-all duration-300 group-hover:scale-110 mb-3">
+            <Icon className="h-12 w-12" />
+          </div>
+          <p className="text-base font-semibold leading-tight">{tool.name}</p>
+          <p className="text-sm text-muted-foreground mt-2">{tool.description}</p>
+        </CardContent>
+      </Card>
     </Link>
   );
 }
