@@ -1,4 +1,4 @@
-import { type LucideIcon, FileJson, PenSquare, Calculator, Timer, Image, Code, KeyRound, Type, Palette, Video, GitBranch, Database, TerminalSquare, Combine, Split, FileArchive, FileText, ArrowRightLeft, Minimize2, Crop, FileImage, ImagePlus, AudioWaveform, Scissors, Mic, Minimize, MonitorUp, BookText, StickyNote, BookUser, Regex, Archive, ScanText, QrCode, Camera, Sigma, ListOrdered, FileX, ChevronsRight, Layers, FileScan, Settings2, FileLock, Shield, Fingerprint, Files, RotateCw, PlusSquare, Droplet, Pencil, Lock, ShieldCheck, Milestone, Waypoints, RedoDot, FileSliders, FileDiff, Scaling, Paintbrush, Text, SigmaSquare, BrainCircuit, ScanSearch, FileKey, WaypointsIcon, ListTree, Tags, View, ImageDown, Speaker, FileBox, FileVideo, Package, PackageOpen, Braces, Binary, GanttChartSquare, Clipboard, Share2, Link as LinkIconLucide } from 'lucide-react';
+import { type LucideIcon, FileJson, PenSquare, Calculator, Timer, Image, Code, KeyRound, Type, Palette, Video, GitBranch, Database, TerminalSquare, Combine, Split, FileArchive, FileText, ArrowRightLeft, Minimize2, Crop, FileImage, ImagePlus, AudioWaveform, Scissors, Mic, Minimize, MonitorUp, BookText, StickyNote, BookUser, Regex, Archive, ScanText, QrCode, Camera, Sigma, ListOrdered, FileX, ChevronsRight, Layers, FileScan, Settings2, FileLock, Shield, Fingerprint, Files, RotateCw, PlusSquare, Droplet, Pencil, Lock, ShieldCheck, Milestone, Waypoints, RedoDot, FileSliders, FileDiff, Scaling, Paintbrush, Text, SigmaSquare, BrainCircuit, ScanSearch, FileKey, WaypointsIcon, ListTree, Tags, View, ImageDown, Speaker, FileBox, FileVideo, Package, PackageOpen, Braces, Binary, GanttChartSquare, Clipboard, Share2, Link as LinkIconLucide, Images, Trash2, EyeOff, Sparkles, Wand2, Replace, Link, Book, Unlink, FileSignature, ALargeSmall, Columns, Pilcrow, GanttChart, CaseSensitive, Hash, Clock, WrapText, Eraser, FileCheck, CircleDot, ShieldQuestion, Bot, SquareCode, FileTerminal, Download, UploadCloud, Blend, ImageMinus, Workflow, Bookmark, BookmarkPlus, Rows, Columns3, ScanLine, RotateCcw, BoxSelect, EraserIcon, ImageUp, SparklesIcon, PaletteIcon, PaintBucket, ReplaceIcon, StarIcon, Frame, PenTool, GitCompareArrows, UnfoldVertical, MessageSquare, Repeat, BarChart, SlidersHorizontal, Settings, FileCog, FileInput, FileOutput, Shapes, BadgePercent, Heading, List, WorkflowIcon } from 'lucide-react';
 import {
   MergePdfIcon,
   SplitPdfIcon,
@@ -31,17 +31,43 @@ export const tools: Tool[] = [
   { name: 'Merge PDF', description: 'Combine multiple PDF files into one.', icon: MergePdfIcon, category: 'Organize PDF', categoryIcon: Layers },
   { name: 'Split PDF', description: 'Extract pages from a PDF file.', icon: SplitPdfIcon, category: 'Organize PDF', categoryIcon: Layers },
   { name: 'Remove Pages', description: 'Delete one or more pages from your PDF file.', icon: FileX, category: 'Organize PDF', categoryIcon: Layers },
+  { name: 'Delete Duplicate Pages', description: 'Auto-detect & remove identical pages.', icon: Trash2, category: 'Organize PDF', categoryIcon: Layers },
   { name: 'Extract Pages', description: 'Select and export specific pages from a PDF.', icon: ChevronsRight, category: 'Organize PDF', categoryIcon: Layers },
   { name: 'Reorder Pages', description: 'Sort pages of your PDF file with drag & drop.', icon: Waypoints, category: 'Organize PDF', categoryIcon: Layers },
   { name: 'Scan to PDF', description: 'Use your camera to scan documents into a PDF.', icon: FileScan, category: 'Organize PDF', categoryIcon: Layers },
   { name: 'Combine PDFs and Images', description: 'Mix and match PDFs and image files into one PDF.', icon: Files, category: 'Organize PDF', categoryIcon: Layers },
+  { name: 'PDF Page Size Changer', description: 'Change page formats to A4, Letter, etc.', icon: Scaling, category: 'Organize PDF', categoryIcon: Layers },
+  { name: 'Page Margin Editor', description: 'Add, remove, or adjust page margins.', icon: Rows, category: 'Organize PDF', categoryIcon: Layers },
+  { name: 'PDF Page Duplicator', description: 'Duplicate one or more pages in a PDF.', icon: Repeat, category: 'Organize PDF', categoryIcon: Layers },
+
+  // Edit PDF
+  { name: 'Rotate PDF', description: 'Rotate one or all pages in your PDF file.', icon: RotatePdfIcon, category: 'Edit PDF', categoryIcon: Pencil },
+  { name: 'Add Page Numbers', description: 'Insert page numbers into your PDF easily.', icon: ListOrdered, category: 'Edit PDF', categoryIcon: Pencil },
+  { name: 'Add Watermark', description: 'Stamp text or an image over your PDF.', icon: WatermarkIcon, category: 'Edit PDF', categoryIcon: Pencil },
+  { name: 'Crop PDF', description: 'Trim the margins of your PDF pages.', icon: Crop, category: 'Edit PDF', categoryIcon: Pencil },
+  { name: 'Draw/Annotate PDF', description: 'Draw, highlight, and add notes to a PDF.', icon: Paintbrush, category: 'Edit PDF', categoryIcon: Pencil },
+  { name: 'Insert Text, Shapes, Images', description: 'Add new content to your PDF files.', icon: PlusSquare, category: 'Edit PDF', categoryIcon: Pencil },
+  { name: 'Fill & Edit PDF Forms', description: 'Edit and fill out AcroForms and XFA forms.', icon: EditPdfIcon, category: 'Edit PDF', categoryIcon: Pencil },
+  { name: 'Find & Replace Text', description: 'Search for and replace text in a PDF.', icon: Replace, category: 'Edit PDF', categoryIcon: Pencil },
+  { name: 'Hyperlink Manager', description: 'Add, edit, or remove links in a PDF.', icon: Link, category: 'Edit PDF', categoryIcon: Pencil },
+  { name: 'Stamp Date/Time/Filename', description: 'Add dynamic stamps to your document.', icon: Clock, category: 'Edit PDF', categoryIcon: Pencil },
+  { name: 'Header/Footer Master', description: 'Add repeating headers and footers.', icon: Columns3, category: 'Edit PDF', categoryIcon: Pencil },
+  { name: 'Bates Numbering', description: 'Add legal numbering to documents.', icon: Pilcrow, category: 'Edit PDF', categoryIcon: Pencil },
+  { name: 'Form Field Creator', description: 'Add interactive form fields to your PDF.', icon: FileInput, category: 'Edit PDF', categoryIcon: Pencil },
+  { name: 'Form Data Import/Export', description: 'Import or export form data as FDF/JSON.', icon: FileCog, category: 'Edit PDF', categoryIcon: Pencil },
+  { name: 'Outline Generator from Headings', description: 'Create bookmarks from document structure.', icon: ListTree, category: 'Edit PDF', categoryIcon: Pencil },
+
 
   // Optimize PDF
   { name: 'Compress PDF', description: 'Reduce the file size of your PDF documents.', icon: CompressPdfIcon, category: 'Optimize PDF', categoryIcon: Settings2 },
   { name: 'Repair PDF', description: 'Attempt to fix and recover data from a corrupted PDF.', icon: Settings2, category: 'Optimize PDF', categoryIcon: Settings2 },
   { name: 'OCR PDF', description: 'Extract selectable text from scanned PDFs.', icon: ScanText, category: 'Optimize PDF', categoryIcon: Settings2 },
   { name: 'Flatten PDF', description: 'Make PDF forms and annotations un-editable.', icon: FileSliders, category: 'Optimize PDF', categoryIcon: Settings2 },
-  
+  { name: 'Extract Images from PDF', description: 'Save all embedded images from a PDF.', icon: Images, category: 'Optimize PDF', categoryIcon: Settings2 },
+  { name: 'Deskew PDF', description: 'Straighten scanned pages that are tilted.', icon: RotateCcw, category: 'Optimize PDF', categoryIcon: Settings2 },
+  { name: 'Detect & Remove Blank Pages', description: 'Automatically find and delete empty pages.', icon: EyeOff, category: 'Optimize PDF', categoryIcon: Settings2 },
+  { name: 'Background Remover (PDF)', description: 'Remove backgrounds from scanned pages.', icon: Eraser, category: 'Optimize PDF', categoryIcon: Settings2 },
+
   // Convert PDF
   { name: 'PDF to Word', description: 'Convert your PDF to an editable Word document.', icon: PdfToWordIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft },
   { name: 'Word to PDF', description: 'Convert Microsoft Word documents to PDF.', icon: WordToPdfIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft },
@@ -61,15 +87,6 @@ export const tools: Tool[] = [
   { name: 'PDF to EPUB', description: 'Convert your PDF to the EPUB e-book format.', icon: BookText, category: 'Convert PDF', categoryIcon: ArrowRightLeft },
   { name: 'PDF to PDF/A', description: 'Convert your PDF to the ISO-standardized PDF/A format.', icon: Archive, category: 'Convert PDF', categoryIcon: ArrowRightLeft },
 
-  // Edit PDF
-  { name: 'Rotate PDF', description: 'Rotate one or all pages in your PDF file.', icon: RotatePdfIcon, category: 'Edit PDF', categoryIcon: Pencil },
-  { name: 'Add Page Numbers', description: 'Insert page numbers into your PDF easily.', icon: ListOrdered, category: 'Edit PDF', categoryIcon: Pencil },
-  { name: 'Add Watermark', description: 'Stamp text or an image over your PDF.', icon: WatermarkIcon, category: 'Edit PDF', categoryIcon: Pencil },
-  { name: 'Crop PDF', description: 'Trim the margins of your PDF pages.', icon: Crop, category: 'Edit PDF', categoryIcon: Pencil },
-  { name: 'Draw/Annotate PDF', description: 'Draw, highlight, and add notes to a PDF.', icon: Paintbrush, category: 'Edit PDF', categoryIcon: Pencil },
-  { name: 'Insert Text, Shapes, Images', description: 'Add new content to your PDF files.', icon: PlusSquare, category: 'Edit PDF', categoryIcon: Pencil },
-  { name: 'Fill & Edit PDF Forms', description: 'Edit and fill out AcroForms and XFA forms.', icon: EditPdfIcon, category: 'Edit PDF', categoryIcon: Pencil },
-
   // PDF Security
   { name: 'Unlock PDF', description: 'Remove password protection from a PDF file.', icon: Lock, category: 'PDF Security', categoryIcon: Shield },
   { name: 'Protect PDF', description: 'Add a password and encrypt your PDF file.', icon: ShieldCheck, category: 'PDF Security', categoryIcon: Shield },
@@ -77,18 +94,13 @@ export const tools: Tool[] = [
   { name: 'Redact PDF', description: 'Permanently black out sensitive information.', icon: FileLock, category: 'PDF Security', categoryIcon: Shield },
   { name: 'Compare PDFs', description: 'Show the differences between two PDF files.', icon: FileDiff, category: 'PDF Security', categoryIcon: Shield },
   { name: 'Metadata Cleaner', description: 'Remove hidden data and personal information.', icon: FileKey, category: 'PDF Security', categoryIcon: Shield },
+  { name: 'Permissions Editor', description: 'Set flags for printing, copying, etc.', icon: SlidersHorizontal, category: 'PDF Security', categoryIcon: Shield },
+  { name: 'Invisible Watermark', description: 'Embed a hidden steganographic watermark.', icon: Droplet, category: 'PDF Security', categoryIcon: Shield },
+  { name: 'Digital Signature Validator', description: 'View certificate info of a signature.', icon: FileCheck, category: 'PDF Security', categoryIcon: Shield },
+  { name: 'Remove JavaScript from PDF', description: 'Sanitize a PDF by removing scripts.', icon: ShieldQuestion, category: 'PDF Security', categoryIcon: Shield },
+  { name: 'PDF/A Validator', description: 'Check a file for PDF/A compliance.', icon: BadgePercent, category: 'PDF Security', categoryIcon: Shield },
 
-  // Extra Tools
-  { name: 'PDF Translator', description: 'Translate text in a PDF using offline models.', icon: BrainCircuit, category: 'Extra Tools', categoryIcon: SigmaSquare },
-  { name: 'PDF Split by Bookmarks', description: 'Split a single PDF into multiple files by bookmarks.', icon: ListTree, category: 'Extra Tools', categoryIcon: SigmaSquare },
-  { name: 'Batch PDF Processor', description: 'Apply an action to multiple PDF files at once.', icon: WaypointsIcon, category: 'Extra Tools', categoryIcon: SigmaSquare },
-  { name: 'PDF Metadata Editor', description: 'Edit title, author, subject, and keywords.', icon: Tags, category: 'Extra Tools', categoryIcon: SigmaSquare },
-  { name: 'Dark Mode PDF Viewer', description: 'View PDFs in dark mode with search.', icon: View, category: 'Extra Tools', categoryIcon: SigmaSquare },
-  { name: 'PDF to Image Slideshow', description: 'Convert PDF pages into a slideshow.', icon: ImageDown, category: 'Extra Tools', categoryIcon: SigmaSquare },
-  { name: 'Extract Attachments from PDF', description: 'Extract embedded files from a PDF.', icon: FileBox, category: 'Extra Tools', categoryIcon: SigmaSquare },
-  { name: 'PDF Page Label Editor', description: 'Add custom page labels like "i, ii, 1, 2".', icon: BookUser, category: 'Extra Tools', categoryIcon: SigmaSquare },
-  { name: 'PDF Stamp Tool', description: 'Add stamps like "Approved" or "Confidential".', icon: StickyNote, category: 'Extra Tools', categoryIcon: SigmaSquare },
-  
+
   // Image Tools
   { name: 'Image Converter', description: 'Convert images between PNG, JPG, WebP.', icon: ArrowRightLeft, category: 'Image Tools', categoryIcon: Image },
   { name: 'Image Compressor', description: 'Reduce image file sizes.', icon: Minimize2, category: 'Image Tools', categoryIcon: Image },
@@ -98,7 +110,21 @@ export const tools: Tool[] = [
   { name: 'Background Remover', description: 'Automatically remove the background from an image.', icon: Droplet, category: 'Image Tools', categoryIcon: Image },
   { name: 'Color Palette Generator', description: 'Extract a color scheme from an image.', icon: Palette, category: 'Image Tools', categoryIcon: Image },
   { name: 'Meme Generator', description: 'Create memes from your own images or templates.', icon: Share2, category: 'Image Tools', categoryIcon: Image },
-
+  { name: 'SVG to PNG/JPG/WebP', description: 'Convert SVG vectors to raster images.', icon: Shapes, category: 'Image Tools', categoryIcon: Image },
+  { name: 'HEIC to JPG/PNG', description: 'Convert Apple HEIC photos.', icon: ArrowRightLeft, category: 'Image Tools', categoryIcon: Image },
+  { name: 'BMP/TIFF to PNG/JPG', description: 'Convert legacy image formats.', icon: ArrowRightLeft, category: 'Image Tools', categoryIcon: Image },
+  { name: 'ICO <-> PNG', description: 'Convert between icon and PNG formats.', icon: ArrowRightLeft, category: 'Image Tools', categoryIcon: Image },
+  { name: 'Animated WEBP ↔ GIF', description: 'Convert between animated formats.', icon: Repeat, category: 'Image Tools', categoryIcon: Image },
+  { name: 'SVG Optimizer', description: 'Reduce SVG file size with SVGO.', icon: Minimize2, category: 'Image Tools', categoryIcon: Image },
+  { name: 'Smart Sharpen / DeNoise', description: 'Enhance photos with WASM filters.', icon: Wand2, category: 'Image Tools', categoryIcon: Image },
+  { name: 'Color Replace', description: 'Replace a color with another.', icon: PaintBucket, category: 'Image Tools', categoryIcon: Image },
+  { name: 'EXIF Viewer/Editor', description: 'View, edit, or strip photo metadata.', icon: Tags, category: 'Image Tools', categoryIcon: Image },
+  { name: 'Watermark Image', description: 'Add a text or logo watermark.', icon: WatermarkIcon, category: 'Image Tools', categoryIcon: Image },
+  { name: 'Sprite Sheet Maker', description: 'Combine images into a sprite sheet.', icon: GanttChartSquare, category: 'Image Tools', categoryIcon: Image },
+  { name: 'Favicon Generator', description: 'Create favicons for all platforms.', icon: StarIcon, category: 'Image Tools', categoryIcon: Image },
+  { name: 'Mockup Frame Fitter', description: 'Fit your image into a device frame.', icon: Frame, category: 'Image Tools', categoryIcon: Image },
+  { name: 'Auto-Crop to Content', description: 'Automatically trim whitespace.', icon: Crop, category: 'Image Tools', categoryIcon: Image },
+  { name: 'Perspective Fix', description: 'Correct perspective distortion in photos.', icon: BoxSelect, category: 'Image Tools', categoryIcon: Image },
 
   // Video Tools
   { name: 'Video Compressor', description: 'Reduce video file sizes without losing quality.', icon: FileVideo, category: 'Video Tools', categoryIcon: Video },
@@ -108,6 +134,10 @@ export const tools: Tool[] = [
   { name: 'Merge Videos', description: 'Combine multiple video clips into one.', icon: Combine, category: 'Video Tools', categoryIcon: Video },
   { name: 'Extract Audio from Video', description: 'Rip the audio track from a video file.', icon: AudioWaveform, category: 'Video Tools', categoryIcon: Video },
   { name: 'Screen Recorder', description: 'Record your screen, with or without your camera.', icon: MonitorUp, category: 'Video Tools', categoryIcon: Video },
+  { name: 'Change Resolution/Bitrate', description: 'Adjust video quality and size.', icon: Settings, category: 'Video Tools', categoryIcon: Video },
+  { name: 'Rotate/Flip Video', description: 'Rotate or flip video orientation.', icon: RotateCw, category: 'Video Tools', categoryIcon: Video },
+  { name: 'Add Subtitles (burn-in)', description: 'Permanently add subtitles to a video.', icon: MessageSquare, category: 'Video Tools', categoryIcon: Video },
+
 
   // Audio Tools
   { name: 'Audio Compressor', description: 'Reduce the file size of audio files.', icon: Minimize, category: 'Audio Tools', categoryIcon: AudioWaveform },
@@ -116,6 +146,7 @@ export const tools: Tool[] = [
   { name: 'Merge Audio', description: 'Join multiple audio tracks into one.', icon: Combine, category: 'Audio Tools', categoryIcon: AudioWaveform },
   { name: 'Voice Recorder', description: 'Record audio directly from your microphone.', icon: Mic, category: 'Audio Tools', categoryIcon: AudioWaveform },
   { name: 'Text to Speech', description: 'Convert text into natural-sounding speech with AI.', icon: Speaker, category: 'Audio Tools', categoryIcon: AudioWaveform },
+  { name: 'Normalize Audio Loudness', description: 'Adjust audio to a standard volume level.', icon: BarChart, category: 'Audio Tools', categoryIcon: AudioWaveform },
 
   // Utility Tools
   { name: 'Password Generator', description: 'Create strong, secure passwords.', icon: KeyRound, category: 'Utility Tools', categoryIcon: TerminalSquare, isStandalone: true },
@@ -135,8 +166,19 @@ export const tools: Tool[] = [
   { name: 'Notepad', description: 'A simple online notepad for quick notes.', icon: StickyNote, category: 'Utility Tools', categoryIcon: TerminalSquare, isStandalone: true },
   { name: 'Clipboard History', description: 'Keep track of your clipboard history.', icon: Clipboard, category: 'Utility Tools', categoryIcon: TerminalSquare, isStandalone: true },
   { name: 'Project Planner', description: 'Outline projects with tasks and timelines.', icon: GanttChartSquare, category: 'Utility Tools', categoryIcon: TerminalSquare, isStandalone: true },
+  { name: 'Minify/Beautify (HTML/CSS/JS)', description: 'Optimize your web code for production.', icon: FileCog, category: 'Utility Tools', categoryIcon: TerminalSquare },
+  { name: 'UUID/ULID Generator', description: 'Generate unique identifiers.', icon: Hash, category: 'Utility Tools', categoryIcon: TerminalSquare },
+  { name: 'Timestamp Converter', description: 'Convert between UNIX and human-readable time.', icon: Clock, category: 'Utility Tools', categoryIcon: TerminalSquare },
+  { name: 'YAML <-> JSON', description: 'Convert between YAML and JSON formats.', icon: UnfoldVertical, category: 'Utility Tools', categoryIcon: TerminalSquare },
+
+  // Converters
+  { name: 'Markdown <-> HTML', description: 'Convert between Markdown and HTML.', icon: GitCompareArrows, category: 'Converters', categoryIcon: ArrowRightLeft },
+  { name: 'CSV <-> JSON', description: 'Convert between CSV and JSON formats.', icon: GitCompareArrows, category: 'Converters', categoryIcon: ArrowRightLeft },
+  { name: 'CSV Column Split/Merge', description: 'Manipulate columns in a CSV file.', icon: Columns, category: 'Converters', categoryIcon: ArrowRightLeft },
+
 
   // Archive Tools
   { name: 'Zip File Extractor', description: 'Unzip files from a compressed archive.', icon: PackageOpen, category: 'Archive Tools', categoryIcon: Package },
   { name: 'Create Zip File', description: 'Compress multiple files into a single ZIP archive.', icon: Package, category: 'Archive Tools', categoryIcon: Package },
+  { name: 'PDF/ZIP Split by Size', description: 'Split large archives into smaller chunks.', icon: Split, category: 'Archive Tools', categoryIcon: Package },
 ];

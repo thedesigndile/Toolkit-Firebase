@@ -14,16 +14,16 @@ const CATEGORIES = [
     { name: "Favorites", icon: Star },
     { name: "All", icon: null },
     { name: "Organize PDF", icon: Layers },
+    { name: "Edit PDF", icon: Pencil },
     { name: "Optimize PDF", icon: Settings2 },
     { name: "Convert PDF", icon: ArrowRightLeft },
-    { name: "Edit PDF", icon: Pencil },
     { name: "PDF Security", icon: Shield },
     { name: "Image Tools", icon: Image },
     { name: "Video Tools", icon: Video },
     { name: "Audio Tools", icon: AudioWaveform },
+    { name: "Converters", icon: ArrowRightLeft },
     { name: "Utility Tools", icon: TerminalSquare },
     { name: "Archive Tools", icon: Package },
-    { name: "Extra Tools", icon: SigmaSquare },
 ];
 
 
