@@ -93,11 +93,11 @@ export default {
     require('tailwindcss-animate'),
     plugin(function({ addUtilities, theme }: { addUtilities: any, theme: any }) {
       const newUtilities = {
-        '.text-shadow-brand-purple': {
-          textShadow: `1px 1px 2px ${theme('colors.brand-purple')}`,
+        '.text-shadow': {
+          textShadow: `1px 1px 2px ${theme('colors.brand-purple / 15%')}`,
         },
       }
-      addUtilities(newUtilities)
+      addUtilities(newUtilities, ['responsive', 'hover'])
     })
   ],
 } satisfies Config;

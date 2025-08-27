@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -16,7 +17,7 @@ export function ThemeToggle() {
   // Wait until mounted to render to avoid hydration errors
   const [mounted, setMounted] = React.useState(false)
   React.useEffect(() => setMounted(true), [])
-  if (!mounted) return <div className="w-10 h-10" />
+  if (!mounted) return <Button variant="ghost" size="icon" className="w-10 h-10" />
 
   return (
     <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">

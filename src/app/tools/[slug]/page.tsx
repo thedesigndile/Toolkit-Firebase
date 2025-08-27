@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
@@ -16,6 +17,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { convertImage, resizeImage, compressImage, compressPdf, getFileAccept, mergePdfs } from '@/lib/tool-functions';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Footer } from '@/components/footer';
+import { Header } from '@/components/header';
 import { PasswordGenerator } from '@/components/tools/password-generator';
 
 type ImageFormat = "png" | "jpeg" | "webp";
@@ -381,7 +383,8 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
-      <main className="flex-1">
+      <Header />
+      <main className="flex-1 pt-20">
         <div className="container mx-auto px-4 py-12">
             <div className="max-w-4xl mx-auto">
                 <div className="text-center mb-12">
