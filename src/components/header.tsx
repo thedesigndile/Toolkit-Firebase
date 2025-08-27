@@ -50,7 +50,7 @@ export function Header() {
                 <span className="text-xl font-bold text-foreground">Toolkit</span>
             </div>
           </Link>
-          <NavigationMenu className="hidden md:flex">
+          <NavigationMenu className="hidden md:flex ml-8">
             <NavigationMenuList>
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="font-semibold text-sm bg-transparent">ORGANIZE PDF</NavigationMenuTrigger>
