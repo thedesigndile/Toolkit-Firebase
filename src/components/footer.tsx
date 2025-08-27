@@ -3,6 +3,7 @@ import Link from "next/link";
 import { DileToolLogo } from "@/components/icons";
 import { Github, Twitter, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "./theme-toggle";
 
 const FooterLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
   <Link href={href} className="text-white/80 hover:text-white transition-colors duration-200 ease-in-out text-base">
@@ -72,6 +73,7 @@ export function Footer() {
                       &copy; {new Date().getFullYear()} Toolkit. All Rights Reserved.
                  </p>
                 <div className="flex items-center gap-2">
+                   <ThemeToggle />
                    <Button variant="ghost" size="icon" className="text-white/60 hover:text-white hover:bg-white/10" asChild>
                        <Link href="#" aria-label="Github">
                            <Github className="h-5 w-5" />

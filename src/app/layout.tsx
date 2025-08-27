@@ -28,7 +28,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={cn("font-body antialiased", fontBody.variable)}>
         <ThemeProvider>
-          <Header />
+          <div className="fixed top-4 left-0 right-0 z-50 flex justify-center">
+            <Header />
+          </div>
           {children}
           <Toaster />
           <Footer />

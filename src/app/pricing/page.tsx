@@ -1,7 +1,7 @@
 
 export default function PricingPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-background pt-16">
+    <div className="flex min-h-screen flex-col bg-background pt-24">
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto text-center">

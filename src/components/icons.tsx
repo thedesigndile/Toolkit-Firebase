@@ -9,3 +9,20 @@ export const DileToolLogo = () => (
         </svg>
     </div>
 );
+
+
+export const ModernLogo = () => (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="modern-logo-gradient" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#F4AAB9"/>
+                <stop offset="0.2" stopColor="#E2A9BE"/>
+                <stop offset="0.4" stopColor="#A8A2D2"/>
+                <stop offset="0.6" stopColor="#739EDC"/>
+                <stop offset="0.8" stopColor="#4AA0D4"/>
+                <stop offset="1" stopColor="#37A4D0"/>
+            </linearGradient>
+        </defs>
+        <circle cx="16" cy="16" r="16" fill="url(#modern-logo-gradient)"/>
+    </svg>
+);

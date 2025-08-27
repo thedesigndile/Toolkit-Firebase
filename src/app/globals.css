@@ -107,8 +107,18 @@
   }
   
   .footer-bg {
-    background-color: hsl(222, 30%, 12%);
-    background-image: linear-gradient(180deg, hsl(222, 30%, 14%), hsl(222, 30%, 10%));
+    background-color: hsl(222 30% 12%);
+    background-image: linear-gradient(180deg, hsl(222 30% 14%), hsl(222 30% 10%));
+  }
+
+  .header-bg {
+    background: hsl(0 0% 13%);
+    border: 1px solid hsl(0 0% 20%);
+  }
+
+  .dark .header-bg {
+    background: hsl(0 0% 13%);
+    border: 1px solid hsl(0 0% 20%);
   }
 
   @keyframes float {
