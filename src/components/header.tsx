@@ -209,19 +209,28 @@ const ListItem = React.forwardRef<
   return (
     <li>
       <NavigationMenuLink asChild>
-        <a
+        <motion.a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors",
+            "bg-transparent hover:bg-accent/50 focus:bg-accent/60",
+            "hover:text-accent-foreground focus:text-accent-foreground",
+            "relative",
             className
           )}
+           whileHover={{
+            scale: 1.02,
+            x: 4,
+            transition: { duration: 0.2 },
+          }}
           {...props}
         >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
-        </a>
+            <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-accent/50 to-transparent scale-y-0 origin-center transition-transform group-hover:scale-y-100 duration-300" />
+            <div className="text-sm font-medium leading-none">{title}</div>
+            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                {children}
+            </p>
+        </motion.a>
       </NavigationMenuLink>
     </li>
   );
