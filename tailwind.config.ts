@@ -22,9 +22,9 @@ export default {
       borderRadius: {
         '4xl': '2rem',
         '3xl': '1.5rem',
-        '2xl': '1.25rem', // 20px
-        xl: '0.75rem',
-        lg: 'var(--radius)',
+        '2xl': '1.25rem',
+        xl: '1rem', // 16px
+        lg: '0.75rem', // 12px
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },

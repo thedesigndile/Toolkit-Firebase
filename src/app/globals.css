@@ -17,13 +17,13 @@
     --secondary-foreground: 222 30% 25%;
     --muted: 210 25% 94%;
     --muted-foreground: 220 13% 45%;
-    --accent: 224 82% 53%; /* Blue: #2563EB */
+    --accent: 257 90% 66%; /* #684DF4 -> Purple */
     --accent-foreground: 210 40% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 224 82% 53%;
+    --ring: 257 90% 66%;
 
     --brand-blue-raw: 224 82% 53%; /* #2563EB */
     --brand-purple-raw: 257 90% 66%; /* #8B5CF6 */
@@ -39,7 +39,7 @@
     --brand-teal: hsl(var(--brand-teal-raw));
     --soft-gray: hsl(var(--soft-gray-raw));
 
-    --radius: 1rem;
+    --radius: 0.75rem; /* 12px */
   }
 
   .dark {
@@ -55,13 +55,13 @@
     --secondary-foreground: 210 40% 98%;
     --muted: 222 30% 18%;
     --muted-foreground: 220 13% 65%;
-    --accent: 224 82% 63%; /* Lighter Blue for dark mode */
+    --accent: 257 90% 70%; /* Lighter Purple for dark mode */
     --accent-foreground: 222 30% 14%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 222 30% 20%;
     --input: 222 30% 20%;
-    --ring: 224 82% 63%;
+    --ring: 257 90% 70%;
   }
 }
 
@@ -177,22 +177,17 @@
   }
 
   @keyframes rotate-gradient {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 
   .animated-gradient-border-container {
-    @apply p-1 rounded-[20px] relative bg-gradient-to-r from-brand-purple via-brand-blue to-brand-pink;
+    @apply p-0.5 rounded-xl relative bg-gradient-to-r from-brand-purple via-brand-blue to-brand-pink;
     background-size: 200% 200%;
     animation: rotate-gradient 8s ease infinite;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px -5px hsl(var(--brand-purple-raw) / 0.3);
   }
   .animated-gradient-border-container:hover {
       transform: scale(1.03);
@@ -200,7 +195,7 @@
   }
 
   .animated-gradient-border-content {
-      @apply bg-card rounded-[17px] h-full w-full;
+      @apply bg-card rounded-lg h-full w-full;
       padding: 20px;
   }
 

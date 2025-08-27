@@ -82,7 +82,7 @@ export function ToolCard({ tool, index, isFavorite, onToggleFavorite, isHighligh
                             className="mb-4"
                             whileHover={{ scale: 1.1, transition: { duration: 0.2, ease: "easeOut" } }}
                         >
-                            <Icon className="h-16 w-16" strokeWidth={1.5} />
+                            <Icon className="h-12 w-12" strokeWidth={1.5} />
                         </motion.div>
                         <p className="text-base font-semibold leading-tight text-foreground">{tool.name}</p>
                         <p className="text-sm text-muted-foreground mt-2">{tool.description}</p>
