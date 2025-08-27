@@ -1,16 +1,17 @@
 
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { tools, type Tool } from "@/lib/tools";
 import { Input } from "./ui/input";
 import { ToolCard } from "./tool-card";
-import { Calculator, FileText, Image, Search, Video } from "lucide-react";
+import { Calculator, FileText, Image, Search, Video, Star } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
 const PDF_CATEGORIES = [
+    "Favorites",
     "All",
     "Organize PDF",
     "Optimize PDF",
@@ -41,15 +42,48 @@ const FloatingIcon = ({ icon: Icon, className }: { icon: React.ElementType, clas
 export function ToolsSection() {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("All");
+  const [favorites, setFavorites] = useState<string[]>([]);
+
+  useEffect(() => {
+    try {
+        const storedFavorites = localStorage.getItem("favoriteTools");
+        if (storedFavorites) {
+            setFavorites(JSON.parse(storedFavorites));
+        }
+    } catch (error) {
+        console.error("Could not load favorites from localStorage", error);
+    }
+  }, []);
+
+  const toggleFavorite = (toolName: string) => {
+    setFavorites(prevFavorites => {
+        const newFavorites = prevFavorites.includes(toolName)
+            ? prevFavorites.filter(name => name !== toolName)
+            : [...prevFavorites, toolName];
+        try {
+            localStorage.setItem("favoriteTools", JSON.stringify(newFavorites));
+        } catch (error) {
+            console.error("Could not save favorites to localStorage", error);
+        }
+        return newFavorites;
+    });
+  }
 
   const filteredTools = useMemo(() => {
     return tools.filter(tool => {
-        const matchesCategory = activeTab === 'All' || tool.category === activeTab;
+        const matchesCategory = activeTab === 'All' || 
+                              (activeTab === 'Favorites' ? favorites.includes(tool.name) : tool.category === activeTab);
+        
         const matchesSearch = tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                               tool.description.toLowerCase().includes(searchTerm.toLowerCase());
+                              
+        if (activeTab === 'Favorites') {
+            return favorites.includes(tool.name) && matchesSearch;
+        }
+
         return matchesCategory && matchesSearch;
     });
-  }, [searchTerm, activeTab]);
+  }, [searchTerm, activeTab, favorites]);
 
   const categorizedTools = useMemo(() => {
     const grouped = filteredTools.reduce((acc, tool) => {
@@ -113,7 +147,10 @@ export function ToolsSection() {
             <div className="flex justify-center mb-2">
                 <TabsList className="h-auto w-full max-w-5xl overflow-x-auto hide-scrollbar bg-muted/80 rounded-full p-1">
                     {PDF_CATEGORIES.map(category => (
-                        <TabsTrigger key={category} value={category} className="px-4 whitespace-nowrap rounded-full">{category}</TabsTrigger>
+                        <TabsTrigger key={category} value={category} className="px-4 whitespace-nowrap rounded-full">
+                           {category === 'Favorites' && <Star className="h-4 w-4 mr-2" />}
+                           {category}
+                        </TabsTrigger>
                     ))}
                 </TabsList>
             </div>
@@ -139,14 +176,26 @@ export function ToolsSection() {
                                 className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"
                             >
                                 {categoryTools.map((tool, i) => (
-                                    <ToolCard key={tool.name} tool={tool} index={i} />
+                                    <ToolCard 
+                                      key={tool.name} 
+                                      tool={tool} 
+                                      index={i} 
+                                      isFavorite={favorites.includes(tool.name)}
+                                      onToggleFavorite={toggleFavorite}
+                                      isHighlighted={searchTerm.length > 1 && (tool.name.toLowerCase().includes(searchTerm.toLowerCase()) || tool.description.toLowerCase().includes(searchTerm.toLowerCase()))}
+                                    />
                                 ))}
                             </motion.div>
                         </div>
                     ))}
-                    {categorizedTools.length === 0 && (
+                    {filteredTools.length === 0 && (
                       <div className="text-center py-16">
-                        <p className="text-lg text-muted-foreground">No tools found for "{searchTerm}" in this category.</p>
+                        <p className="text-lg text-muted-foreground">
+                            {activeTab === 'Favorites' 
+                                ? "You haven't favorited any tools yet. Click the star on a tool to add it here!"
+                                : `No tools found for "${searchTerm}" in this category.`
+                            }
+                        </p>
                       </div>
                     )}
                 </div>
