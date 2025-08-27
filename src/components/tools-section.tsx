@@ -6,29 +6,34 @@ import { tools, type Tool } from "@/lib/tools";
 import { Input } from "./ui/input";
 import { ToolCard } from "./tool-card";
 import { Search } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 
-// Define the desired order of categories
-const CATEGORY_ORDER = [
-    "Image Tools",
+const CATEGORIES = [
+    "All",
     "Organize PDF",
     "Optimize PDF",
     "Convert to PDF",
     "Convert from PDF",
     "Edit PDF",
     "PDF Security",
-    "Extra Tools",
+    "Image Tools",
     "Utility Tools",
 ];
 
 export function ToolsSection() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [activeTab, setActiveTab] = useState("All");
+
+  const filteredTools = useMemo(() => {
+    return tools.filter(tool => {
+        const matchesCategory = activeTab === 'All' || tool.category === activeTab;
+        const matchesSearch = tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                              tool.description.toLowerCase().includes(searchTerm.toLowerCase());
+        return matchesCategory && matchesSearch;
+    });
+  }, [searchTerm, activeTab]);
 
   const categorizedTools = useMemo(() => {
-    const filteredTools = tools.filter(tool => 
-      tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      tool.description.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
     const grouped = filteredTools.reduce((acc, tool) => {
       if (!acc[tool.category]) {
         acc[tool.category] = {
@@ -40,17 +45,9 @@ export function ToolsSection() {
       return acc;
     }, {} as Record<string, { categoryIcon: any; tools: Tool[] }>);
     
-    // Sort the categories based on the predefined order
-    return Object.entries(grouped).sort(([a], [b]) => {
-        const indexA = CATEGORY_ORDER.indexOf(a);
-        const indexB = CATEGORY_ORDER.indexOf(b);
-        // If a category is not in the order list, push it to the end
-        if (indexA === -1) return 1;
-        if (indexB === -1) return -1;
-        return indexA - indexB;
-    });
+    return Object.entries(grouped);
 
-  }, [searchTerm]);
+  }, [filteredTools]);
 
   return (
     <div className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
@@ -75,26 +72,40 @@ export function ToolsSection() {
           />
         </div>
 
-        <div className="space-y-16">
-            {categorizedTools.map(([category, { categoryIcon: CategoryIcon, tools: categoryTools }]) => (
-                <div key={category} className="space-y-8">
-                    <h2 className="text-2xl font-bold font-headline flex items-center justify-center gap-3 text-center">
-                        <CategoryIcon className="h-7 w-7 text-accent" />
-                        {category}
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {categoryTools.map(tool => (
-                            <ToolCard key={tool.name} tool={tool} />
-                        ))}
-                    </div>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <div className="flex justify-center">
+                <TabsList className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:flex lg:flex-wrap h-auto">
+                    {CATEGORIES.map(category => (
+                        <TabsTrigger key={category} value={category}>{category}</TabsTrigger>
+                    ))}
+                </TabsList>
+            </div>
+
+            <TabsContent value={activeTab} className="mt-12">
+                 <div className="space-y-16">
+                    {categorizedTools.map(([category, { categoryIcon: CategoryIcon, tools: categoryTools }]) => (
+                        <div key={category} className="space-y-8">
+                             {activeTab === 'All' && (
+                                <h2 className="text-2xl font-bold font-headline flex items-center justify-center gap-3 text-center">
+                                    <CategoryIcon className="h-7 w-7 text-accent" />
+                                    {category}
+                                </h2>
+                            )}
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {categoryTools.map(tool => (
+                                    <ToolCard key={tool.name} tool={tool} />
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                    {categorizedTools.length === 0 && (
+                      <div className="text-center py-16">
+                        <p className="text-lg text-muted-foreground">No tools found for "{searchTerm}" in this category.</p>
+                      </div>
+                    )}
                 </div>
-            ))}
-            {categorizedTools.length === 0 && searchTerm && (
-              <div className="text-center py-16">
-                <p className="text-lg text-muted-foreground">No tools found for "{searchTerm}"</p>
-              </div>
-            )}
-        </div>
+            </TabsContent>
+        </Tabs>
        </section>
     </div>
   );
