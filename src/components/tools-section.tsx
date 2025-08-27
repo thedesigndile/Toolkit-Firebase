@@ -10,16 +10,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
-const CATEGORIES = [
+const PDF_CATEGORIES = [
     "All",
     "Organize PDF",
     "Optimize PDF",
     "Convert PDF",
     "Edit PDF",
     "PDF Security",
+];
+
+const OTHER_CATEGORIES = [
     "Image Tools",
     "Utility Tools",
-];
+]
+
+const ALL_CATEGORIES = [...PDF_CATEGORIES, ...OTHER_CATEGORIES];
+
 
 const FloatingIcon = ({ icon: Icon, className }: { icon: React.ElementType, className?: string }) => (
     <motion.div
@@ -58,8 +64,8 @@ export function ToolsSection() {
     }, {} as Record<string, { categoryIcon: any; tools: Tool[] }>);
     
     const sortedCategories = Object.entries(grouped).sort(([a], [b]) => {
-      const indexA = CATEGORIES.indexOf(a);
-      const indexB = CATEGORIES.indexOf(b);
+      const indexA = ALL_CATEGORIES.indexOf(a);
+      const indexB = ALL_CATEGORIES.indexOf(b);
       if(indexA === -1) return 1;
       if(indexB === -1) return -1;
       return indexA - indexB;
@@ -68,6 +74,10 @@ export function ToolsSection() {
     return sortedCategories;
 
   }, [filteredTools]);
+  
+  const handleTabChange = (value: string) => {
+      setActiveTab(value);
+  }
 
   return (
     <div className="container mx-auto px-4 pt-12 md:pt-16 lg:pt-20">
@@ -99,10 +109,17 @@ export function ToolsSection() {
             </div>
         </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <div className="flex justify-center">
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
+            <div className="flex justify-center mb-2">
                 <TabsList className="h-auto w-full max-w-5xl overflow-x-auto hide-scrollbar bg-muted/80 rounded-full p-1">
-                    {CATEGORIES.map(category => (
+                    {PDF_CATEGORIES.map(category => (
+                        <TabsTrigger key={category} value={category} className="px-4 whitespace-nowrap rounded-full">{category}</TabsTrigger>
+                    ))}
+                </TabsList>
+            </div>
+             <div className="flex justify-center">
+                <TabsList className="h-auto w-full max-w-5xl overflow-x-auto hide-scrollbar bg-muted/80 rounded-full p-1">
+                    {OTHER_CATEGORIES.map(category => (
                         <TabsTrigger key={category} value={category} className="px-4 whitespace-nowrap rounded-full">{category}</TabsTrigger>
                     ))}
                 </TabsList>
@@ -139,4 +156,3 @@ export function ToolsSection() {
     </div>
   );
 }
-
