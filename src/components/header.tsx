@@ -53,7 +53,7 @@ export function Header() {
                     onMouseEnter={() => setHoveredItem(item.name)}
                  >
                     {item.href ? (
-                         <Link href={item.href} legacyBehavior={false} passHref>
+                         <Link href={item.href}>
                             <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "font-semibold text-sm bg-transparent text-white hover:text-white/90 px-4 py-2 hover:bg-transparent focus:bg-transparent")}>
                                 {item.name}
                             </NavigationMenuLink>
@@ -131,21 +131,16 @@ export function Header() {
               </Button>
             </div>
             <nav className="flex flex-col items-center justify-center h-full gap-8">
-              <Link href="/tools" className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all" onClick={() => setIsMobileMenuOpen(false)}>
-                Organize PDF
-              </Link>
-              <Link href="/tools" className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all" onClick={() => setIsMobileMenuOpen(false)}>
-                Convert PDF
-              </Link>
-              <Link href="/tools" className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all" onClick={() => setIsMobileMenuOpen(false)}>
-                Image Tools
-              </Link>
-              <Link href="/tools" className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all" onClick={() => setIsMobileMenuOpen(false)}>
-                All Tools
-              </Link>
-              <Link href="/pricing" className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all" onClick={() => setIsMobileMenuOpen(false)}>
-                Pricing
-              </Link>
+              {navItems.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href || "/tools"}
+                  className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              ))}
               <div className="mt-8 flex flex-col gap-4 w-full px-8">
                 <Button variant="outline" size="lg">Log In</Button>
                 <Button size="lg" className="bg-blue-500 hover:bg-blue-600">Get Started</Button>
