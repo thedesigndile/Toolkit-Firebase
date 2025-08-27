@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { DileToolLogo } from "@/components/icons";
 import { Github, Twitter, Linkedin } from "lucide-react";
@@ -42,23 +43,27 @@ export function Footer() {
                 </div>
                 
                 <div className="flex flex-col gap-4">
-                    <h4 className="font-semibold text-lg mb-2">Tools</h4>
-                    <FooterLink href="/tools">Merge PDF</FooterLink>
-                    <FooterLink href="/tools">Compress PDF</FooterLink>
-                    <FooterLink href="/tools">Image Converter</FooterLink>
-                    <FooterLink href="/tools">Password Generator</FooterLink>
+                    <h4 className="font-semibold text-lg mb-2">Organize</h4>
+                    <FooterLink href="/tools/merge-pdf">Merge PDF</FooterLink>
+                    <FooterLink href="/tools/split-pdf">Split PDF</FooterLink>
+                    <FooterLink href="/tools/compress-pdf">Compress PDF</FooterLink>
+                    <FooterLink href="/tools/reorder-pages">Reorder Pages</FooterLink>
                 </div>
 
                 <div className="flex flex-col gap-4">
-                    <h4 className="font-semibold text-lg mb-2">Company</h4>
+                    <h4 className="font-semibold text-lg mb-2">Convert</h4>
+                    <FooterLink href="/tools/pdf-to-word">PDF to Word</FooterLink>
+                    <FooterLink href="/tools/word-to-pdf">Word to PDF</FooterLink>
+                    <FooterLink href="/tools/pdf-to-jpg">PDF to JPG</FooterLink>
+                    <FooterLink href="/tools/jpg-to-pdf">JPG to PDF</FooterLink>
+                </div>
+
+                <div className="flex flex-col gap-4">
+                     <h4 className="font-semibold text-lg mb-2">More</h4>
+                    <FooterLink href="/tools/password-generator">Password Generator</FooterLink>
+                    <FooterLink href="/tools/image-resizer">Image Resizer</FooterLink>
                     <FooterLink href="/pricing">Pricing</FooterLink>
                     <FooterLink href="/contact">Contact</FooterLink>
-                </div>
-
-                <div className="flex flex-col gap-4">
-                    <h4 className="font-semibold text-lg mb-2">Legal</h4>
-                    <FooterLink href="#">Privacy Policy</FooterLink>
-                    <FooterLink href="#">Terms of Service</FooterLink>
                 </div>
             </div>
 
