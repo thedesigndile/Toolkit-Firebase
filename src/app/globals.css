@@ -71,6 +71,14 @@
   .bg-gradient-primary {
     @apply bg-gradient-to-r from-brand-blue to-brand-purple;
   }
+  
+  .icon-gradient-primary {
+    @apply text-brand-blue; /* Fallback */
+    background: linear-gradient(45deg, hsl(var(--brand-blue-raw)), hsl(var(--brand-purple-raw)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
 
   .text-gradient-primary {
     @apply bg-gradient-primary bg-clip-text text-transparent;
