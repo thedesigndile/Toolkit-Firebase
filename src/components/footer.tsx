@@ -1,7 +1,7 @@
 
 import Link from "next/link";
 import { DileToolLogo } from "@/components/icons";
-import { Github, Twitter, Linkedin } from "lucide-react";
+import { Github, Twitter, Linkedin, Facebook, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "./theme-toggle";
 
@@ -87,6 +87,16 @@ export function Footer() {
                    <Button variant="ghost" size="icon" className="text-white/60 hover:text-white hover:bg-white/10" asChild>
                        <Link href="#" aria-label="LinkedIn">
                            <Linkedin className="h-5 w-5" />
+                       </Link>
+                   </Button>
+                   <Button variant="ghost" size="icon" className="text-white/60 hover:text-white hover:bg-white/10" asChild>
+                       <Link href="#" aria-label="Facebook">
+                           <Facebook className="h-5 w-5" />
+                       </Link>
+                   </Button>
+                   <Button variant="ghost" size="icon" className="text-white/60 hover:text-white hover:bg-white/10" asChild>
+                       <Link href="#" aria-label="Instagram">
+                           <Instagram className="h-5 w-5" />
                        </Link>
                    </Button>
                 </div>
