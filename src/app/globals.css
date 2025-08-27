@@ -88,20 +88,6 @@
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
   }
-
-  .card-glow {
-      @apply absolute inset-0 -z-10 rounded-lg bg-card transition-all duration-300;
-  }
-  
-  .group:hover .card-glow {
-      @apply bg-gradient-to-br from-brand-purple/20 via-brand-blue/20 to-transparent;
-      filter: blur(10px);
-      transform: scale(1.1);
-  }
-
-  .dark .group:hover .card-glow {
-     @apply from-brand-purple/30 via-brand-blue/30;
-  }
   
   .hero-gradient {
     @apply bg-gradient-to-br from-blue-50/50 via-white to-purple-50/50;
