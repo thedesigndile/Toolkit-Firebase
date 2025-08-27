@@ -9,13 +9,15 @@ import { Button } from "./ui/button";
 import { User, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "./theme-toggle";
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
+import { tools } from "@/lib/tools";
+import React from "react";
 
-const navLinks = [
-    { name: "HOME", href: "/" },
-    { name: "Tools", href: "/tools" },
-    { name: "Pricing", href: "/pricing" },
-    { name: "Contact", href: "/contact" },
-];
+const pdfConvertTools = tools.filter(t => t.category.startsWith('Convert'));
+const imageTools = tools.filter(t => t.category === 'Image Tools');
+const allTools = tools;
+
+const getToolUrl = (toolName: string) => `/tools/${toolName.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and')}`;
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -46,13 +48,65 @@ export function Header() {
                 <span className="text-xl font-bold text-foreground">Toolkit</span>
             </div>
           </Link>
-          <nav className="hidden md:flex items-center gap-2">
-            {navLinks.map((link) => (
-              <NavLink key={link.name} href={link.href}>
-                {link.name}
-              </NavLink>
-            ))}
-          </nav>
+          <NavigationMenu className="hidden md:flex">
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="font-semibold text-sm bg-transparent">CONVERT PDF</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                    {pdfConvertTools.map((tool) => (
+                      <ListItem
+                        key={tool.name}
+                        title={tool.name}
+                        href={getToolUrl(tool.name)}
+                      >
+                        {tool.description}
+                      </ListItem>
+                    ))}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="font-semibold text-sm bg-transparent">IMAGE TOOLS</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                    {imageTools.map((tool) => (
+                      <ListItem
+                        key={tool.name}
+                        title={tool.name}
+                        href={getToolUrl(tool.name)}
+                      >
+                        {tool.description}
+                      </ListItem>
+                    ))}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="font-semibold text-sm bg-transparent">ALL TOOLS</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                    {allTools.slice(0,10).map((tool) => (
+                      <ListItem
+                        key={tool.name}
+                        title={tool.name}
+                        href={getToolUrl(tool.name)}
+                      >
+                        {tool.description}
+                      </ListItem>
+                    ))}
+                     <ListItem
+                        title="View All Tools"
+                        href="/tools"
+                        className="col-span-2 text-center bg-accent/20"
+                      >
+                        Discover our full suite of productivity tools.
+                      </ListItem>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
           <div className="flex items-center gap-2">
             <Button asChild className="hidden md:flex bg-primary hover:bg-gradient-primary text-primary-foreground font-bold relative overflow-hidden group transition-all duration-300">
                 <Link href="/tools">
@@ -93,16 +147,12 @@ export function Header() {
                     </Button>
                 </div>
                 <nav className="flex flex-col items-center justify-center h-full gap-8">
-                     {navLinks.map((link) => (
-                        <Link 
-                            key={link.name} 
-                            href={link.href} 
-                            className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                            {link.name}
-                        </Link>
-                    ))}
+                    <Link href="/tools" className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all" onClick={() => setIsMobileMenuOpen(false)}>
+                        ALL TOOLS
+                    </Link>
+                    <Link href="/contact" className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all" onClick={() => setIsMobileMenuOpen(false)}>
+                        CONTACT
+                    </Link>
                     <Button asChild size="lg" className="bg-gradient-primary text-primary-foreground font-bold">
                         <Link href="/tools">Get Started</Link>
                     </Button>
@@ -115,11 +165,28 @@ export function Header() {
 }
 
 
-const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
-    return (
-        <Link href={href} className="relative text-sm font-medium text-foreground hover:text-primary p-2 transition-colors group">
+const ListItem = React.forwardRef<
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a">
+>(({ className, title, children, ...props }, ref) => {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <a
+          ref={ref}
+          className={cn(
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            className
+          )}
+          {...props}
+        >
+          <div className="text-sm font-medium leading-none">{title}</div>
+          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}
-            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out origin-center" />
-        </Link>
-    );
-};
+          </p>
+        </a>
+      </NavigationMenuLink>
+    </li>
+  );
+});
+ListItem.displayName = "ListItem";

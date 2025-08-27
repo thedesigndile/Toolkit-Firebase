@@ -81,6 +81,10 @@ export const tools: Tool[] = [
   { name: 'Image Upscaler', description: 'Increase image resolution with AI.', icon: Scaling, category: 'Image Tools', categoryIcon: Image },
   { name: 'Photo Editor', description: 'Make basic adjustments to your photos.', icon: ImagePlus, category: 'Image Tools', categoryIcon: Image },
 
+  // Video Tools
+  { name: 'Video Compressor', description: 'Reduce video file sizes without losing quality.', icon: FileVideo, category: 'Video Tools', categoryIcon: Video },
+
+
   // Utility Tools
   { name: 'Password Generator', description: 'Create strong, secure passwords.', icon: KeyRound, category: 'Utility Tools', categoryIcon: TerminalSquare, isStandalone: true },
   { name: 'QR Code Generator', description: 'Create your own QR codes.', icon: QrCode, category: 'Utility Tools', categoryIcon: TerminalSquare },
