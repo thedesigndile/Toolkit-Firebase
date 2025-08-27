@@ -53,7 +53,7 @@ export function ToolsSection() {
     <div className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
        <section id="all-tools">
         <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl font-headline">
+            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl font-headline text-shadow">
                 Every Tool You Need
             </h1>
             <p className="mt-6 text-lg text-muted-foreground">
@@ -74,9 +74,9 @@ export function ToolsSection() {
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <div className="flex justify-center">
-                <TabsList className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:flex lg:flex-wrap h-auto">
+                <TabsList className="h-auto w-full max-w-5xl overflow-x-auto hide-scrollbar">
                     {CATEGORIES.map(category => (
-                        <TabsTrigger key={category} value={category}>{category}</TabsTrigger>
+                        <TabsTrigger key={category} value={category} className="px-4 whitespace-nowrap">{category}</TabsTrigger>
                     ))}
                 </TabsList>
             </div>
@@ -87,7 +87,7 @@ export function ToolsSection() {
                         <div key={category} className="space-y-8">
                              {activeTab === 'All' && (
                                 <h2 className="text-2xl font-bold font-headline flex items-center justify-center gap-3 text-center">
-                                    <CategoryIcon className="h-7 w-7 text-accent" />
+                                    <CategoryIcon className="h-7 w-7 text-brand-blue" />
                                     {category}
                                 </h2>
                             )}
