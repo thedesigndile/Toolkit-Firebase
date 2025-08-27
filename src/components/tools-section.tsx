@@ -22,10 +22,11 @@ const PDF_CATEGORIES = [
 
 const OTHER_CATEGORIES = [
     "Image Tools",
+    "Video Tools",
     "Utility Tools",
 ]
 
-const ALL_CATEGORIES = [...PDF_CATEGORIES, ...OTHER_CATEGORIES];
+const ALL_CATEGORIES = [...PDF_CATEGORIES.slice(2), ...OTHER_CATEGORIES];
 
 
 const FloatingIcon = ({ icon: Icon, className }: { icon: React.ElementType, className?: string }) => (
@@ -43,8 +44,10 @@ export function ToolsSection() {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("All");
   const [favorites, setFavorites] = useState<string[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     try {
         const storedFavorites = localStorage.getItem("favoriteTools");
         if (storedFavorites) {
@@ -70,6 +73,8 @@ export function ToolsSection() {
   }
 
   const filteredTools = useMemo(() => {
+    if (!isMounted && activeTab === 'Favorites') return [];
+    
     return tools.filter(tool => {
         const matchesCategory = activeTab === 'All' || 
                               (activeTab === 'Favorites' ? favorites.includes(tool.name) : tool.category === activeTab);
@@ -83,29 +88,29 @@ export function ToolsSection() {
 
         return matchesCategory && matchesSearch;
     });
-  }, [searchTerm, activeTab, favorites]);
+  }, [searchTerm, activeTab, favorites, isMounted]);
 
   const categorizedTools = useMemo(() => {
     const grouped = filteredTools.reduce((acc, tool) => {
-      if (!acc[tool.category]) {
-        acc[tool.category] = {
+      const category = tool.category;
+      if (!acc[category]) {
+        acc[category] = {
           categoryIcon: tool.categoryIcon,
           tools: []
         };
       }
-      acc[tool.category].tools.push(tool);
+      acc[category].tools.push(tool);
       return acc;
     }, {} as Record<string, { categoryIcon: any; tools: Tool[] }>);
-    
-    const sortedCategories = Object.entries(grouped).sort(([a], [b]) => {
-      const indexA = ALL_CATEGORIES.indexOf(a);
-      const indexB = ALL_CATEGORIES.indexOf(b);
-      if(indexA === -1) return 1;
-      if(indexB === -1) return -1;
-      return indexA - indexB;
-    });
 
-    return sortedCategories;
+    return ALL_CATEGORIES
+      .map(category => {
+        if (grouped[category]) {
+          return [category, grouped[category]];
+        }
+        return null;
+      })
+      .filter(Boolean) as [string, { categoryIcon: any; tools: Tool[] }][];
 
   }, [filteredTools]);
   
@@ -188,7 +193,7 @@ export function ToolsSection() {
                             </motion.div>
                         </div>
                     ))}
-                    {filteredTools.length === 0 && (
+                    {isMounted && filteredTools.length === 0 && (
                       <div className="text-center py-16">
                         <p className="text-lg text-muted-foreground">
                             {activeTab === 'Favorites' 
@@ -205,3 +210,5 @@ export function ToolsSection() {
     </div>
   );
 }
+
+    
