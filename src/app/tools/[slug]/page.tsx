@@ -17,7 +17,6 @@ import { convertImage, resizeImage, compressImage, compressPdf, getFileAccept, m
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Footer } from '@/components/footer';
 import { PasswordGenerator } from '@/components/tools/password-generator';
-import { Header } from '@/components/header';
 
 type ImageFormat = "png" | "jpeg" | "webp";
 type CompressionLevel = "low" | "medium" | "high";
@@ -382,7 +381,6 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
-      <Header />
       <main className="flex-1">
         <div className="container mx-auto px-4 py-12">
             <div className="max-w-4xl mx-auto">

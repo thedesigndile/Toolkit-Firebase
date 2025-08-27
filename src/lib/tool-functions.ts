@@ -1,3 +1,4 @@
+
 // @ts-nocheck
 import imageCompression from 'browser-image-compression';
 import { PDFDocument } from 'pdf-lib';
@@ -76,18 +77,18 @@ export async function compressPdf(file: File, level: 'low' | 'medium' | 'high') 
   return new Blob([pdfBytes], { type: 'application/pdf' });
 }
 
-export async function mergePdfs(files: File[]) {
-    const pdfDoc = await PDFDocument.create();
+export async function mergePdfs(files: File[]): Promise<Blob> {
+    const mergedPdf = await PDFDocument.create();
     for (const file of files) {
         const pdfBytes = await file.arrayBuffer();
-        const donorPdfDoc = await PDFDocument.load(pdfBytes);
-        const copiedPages = await pdfDoc.copyPages(donorPdfDoc, donorPdfDoc.getPageIndices());
+        const pdfDoc = await PDFDocument.load(pdfBytes);
+        const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
         copiedPages.forEach((page) => {
-            pdfDoc.addPage(page);
+            mergedPdf.addPage(page);
         });
     }
-    const pdfBytes = await pdfDoc.save();
-    return new Blob([pdfBytes], { type: 'application/pdf' });
+    const mergedPdfBytes = await mergedPdf.save();
+    return new Blob([mergedPdfBytes], { type: 'application/pdf' });
 }
 
 export function getFileAccept(toolCategory: string) {
@@ -101,6 +102,7 @@ export function getFileAccept(toolCategory: string) {
         case 'Convert from PDF':
         case 'Edit PDF':
         case 'PDF Security':
+        case 'Extra Tools':
             return 'application/pdf';
         case 'Audio Tools':
             return 'audio/mpeg,audio/wav,audio/ogg';
