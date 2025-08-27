@@ -19,8 +19,16 @@ const allTools = tools;
 
 const getToolUrl = (toolName: string) => `/tools/${toolName.toLowerCase().replace(/ /g, '-').replace(/&g/, 'and')}`;
 
+const navItems = [
+    { name: "Product", subItems: organizePdfTools },
+    { name: "Resources", subItems: pdfConvertTools },
+    { name: "Community", subItems: imageTools },
+    { name: "Pricing", href: "/pricing" },
+]
+
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
   return (
     <>
@@ -34,56 +42,50 @@ export function Header() {
             <ModernLogo />
           </Link>
           <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className="font-semibold text-sm bg-transparent text-white/80 hover:text-white">Product</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                    {organizePdfTools.map((tool) => (
-                      <ListItem
-                        key={tool.name}
-                        tool={tool}
-                        href={getToolUrl(tool.name)}
-                      />
-                    ))}
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className="font-semibold text-sm bg-transparent text-white/80 hover:text-white">Resources</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                    {pdfConvertTools.map((tool) => (
-                      <ListItem
-                        key={tool.name}
-                        tool={tool}
-                        href={getToolUrl(tool.name)}
-                      />
-                    ))}
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className="font-semibold text-sm bg-transparent text-white/80 hover:text-white">Community</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                    {imageTools.map((tool) => (
-                      <ListItem
-                        key={tool.name}
-                        tool={tool}
-                        href={getToolUrl(tool.name)}
-                      />
-                    ))}
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                 <Link href="/pricing" legacyBehavior passHref>
-                    <NavigationMenuLink className="font-semibold text-sm bg-transparent text-white/80 hover:text-white px-4 py-2">
-                        Pricing
-                    </NavigationMenuLink>
-                 </Link>
-              </NavigationMenuItem>
+            <NavigationMenuList 
+                className="relative"
+                onMouseLeave={() => setHoveredItem(null)}
+            >
+              {navItems.map((item) => (
+                 <NavigationMenuItem 
+                    key={item.name} 
+                    onMouseEnter={() => setHoveredItem(item.name)}
+                 >
+                    {item.href ? (
+                         <Link href={item.href} legacyBehavior passHref>
+                            <NavigationMenuLink className="font-semibold text-sm bg-transparent text-white/80 hover:text-white px-4 py-2 hover:bg-transparent focus:bg-transparent">
+                                {item.name}
+                            </NavigationMenuLink>
+                         </Link>
+                    ) : (
+                        <NavigationMenuTrigger className="font-semibold text-sm bg-transparent text-white/80 hover:text-white hover:bg-transparent focus:bg-transparent">
+                            {item.name}
+                        </NavigationMenuTrigger>
+                    )}
+                   
+                    {hoveredItem === item.name && (
+                       <motion.div
+                          className="absolute -z-10 inset-0 bg-white/10 rounded-full"
+                          layoutId="hover-bg"
+                          transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                        />
+                    )}
+
+                    {item.subItems && (
+                        <NavigationMenuContent>
+                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                            {item.subItems.map((tool) => (
+                            <ListItem
+                                key={tool.name}
+                                tool={tool}
+                                href={getToolUrl(tool.name)}
+                            />
+                            ))}
+                        </ul>
+                        </NavigationMenuContent>
+                    )}
+                </NavigationMenuItem>
+              ))}
             </NavigationMenuList>
           </NavigationMenu>
         </div>
