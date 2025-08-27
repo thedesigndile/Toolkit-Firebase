@@ -1,3 +1,4 @@
+
 export default function PricingPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background pt-20">
