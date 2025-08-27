@@ -1,4 +1,5 @@
 
+
 // @ts-nocheck
 import imageCompression from 'browser-image-compression';
 import { PDFDocument } from 'pdf-lib';
@@ -40,23 +41,13 @@ export async function resizeImage(file: File, width: number, height: number, kee
 }
 
 
-export async function compressImage(file: File, level: 'low' | 'medium' | 'high') {
+export async function compressImage(file: File, quality: number) {
     let options = {
-      maxSizeMB: 1,
-      maxWidthOrHeight: 1920,
+      maxSizeMB: 2, // Set a high initial limit, quality is the main driver
+      initialQuality: quality,
       useWebWorker: true,
     };
-    switch (level) {
-        case 'low':
-            options.maxSizeMB = 1;
-            break;
-        case 'medium':
-            options.maxSizeMB = 0.5;
-            break;
-        case 'high':
-            options.maxSizeMB = 0.1;
-            break;
-    }
+    
     const compressedFile = await imageCompression(file, options);
     return compressedFile;
 }
@@ -64,14 +55,16 @@ export async function compressImage(file: File, level: 'low' | 'medium' | 'high'
 
 // =============== PDF TOOLS ===============
 
-export async function compressPdf(file: File, level: 'low' | 'medium' | 'high') {
+export async function compressPdf(file: File, quality: number) {
   const existingPdfBytes = await file.arrayBuffer();
   const pdfDoc = await PDFDocument.load(existingPdfBytes, { 
-      // Disabling image compression for now as it requires more setup.
-      // We are just re-saving the PDF which can sometimes reduce size by optimizing structure.
-      // For more advanced compression, especially for images within PDFs, a more complex
-      // solution involving ghostscript or a server-side component would be needed.
+      // pdf-lib's save method does some optimization, but for quality-based
+      // compression, especially for images within PDFs, a more complex server-side
+      // library like ghostscript would be needed. This is a placeholder.
   });
+
+  // Placeholder for quality-based compression
+  console.log("PDF compression quality set to:", quality);
 
   const pdfBytes = await pdfDoc.save();
   return new Blob([pdfBytes], { type: 'application/pdf' });

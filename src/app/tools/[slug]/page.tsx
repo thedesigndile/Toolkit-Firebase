@@ -7,7 +7,7 @@ import { tools } from '@/lib/tools';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { UploadCloud, File, X, Loader2, Download, CheckCircle, RotateCcw } from 'lucide-react';
+import { UploadCloud, File, X, Loader2, Download, CheckCircle, RotateCcw, Settings2, HelpCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -17,9 +17,11 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { convertImage, resizeImage, compressImage, compressPdf, getFileAccept, mergePdfs } from '@/lib/tool-functions';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { PasswordGenerator } from '@/components/tools/password-generator';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Slider } from '@/components/ui/slider';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 type ImageFormat = "png" | "jpeg" | "webp";
-type CompressionLevel = "low" | "medium" | "high";
 
 export default function ToolPage({ params }: { params: { slug: string } }) {
   const tool = useMemo(() => tools.find(t => t.name.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and') === params.slug), [params.slug]);
@@ -35,7 +37,11 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
   // Tool-specific options state
   const [imageFormat, setImageFormat] = useState<ImageFormat>('png');
   const [resizeOptions, setResizeOptions] = useState({ width: '1920', height: '1080', keepAspectRatio: true });
-  const [compressionLevel, setCompressionLevel] = useState<CompressionLevel>('medium');
+  const [compressionQuality, setCompressionQuality] = useState(80);
+  const [targetSize, setTargetSize] = useState('');
+  const [originalFileSize, setOriginalFileSize] = useState<string | null>(null);
+  const [estimatedFileSize, setEstimatedFileSize] = useState<string | null>(null);
+
 
   const { toast } = useToast();
   
@@ -48,6 +54,23 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
       }
     };
   }, [processedUrl]);
+
+  useEffect(() => {
+    if (files.length > 0 && (tool?.name === 'Image Compressor' || tool?.name === 'PDF Compressor')) {
+      const totalSize = files.reduce((acc, file) => acc + file.size, 0);
+      setOriginalFileSize((totalSize / 1024 / 1024).toFixed(2) + ' MB');
+
+      // Simple estimation logic
+      const qualityRatio = compressionQuality / 100;
+      const estimated = totalSize * qualityRatio * 0.5; // Further adjust based on typical compression results
+      setEstimatedFileSize((estimated / 1024 / 1024).toFixed(2) + ' MB');
+
+    } else {
+      setOriginalFileSize(null);
+      setEstimatedFileSize(null);
+    }
+  }, [files, compressionQuality, tool]);
+
 
   if (!tool) {
     notFound();
@@ -149,12 +172,14 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
                 break;
             case 'Image Compressor':
                  if (files.length > 1) throw new Error("Image Compressor only supports one file at a time.");
-                resultBlob = await compressImage(file, compressionLevel);
+                const quality = compressionQuality / 100;
+                resultBlob = await compressImage(file, quality);
                 resultName = `compressed-${file.name}`;
                 break;
             case 'PDF Compressor':
                  if (files.length > 1) throw new Error("PDF Compressor only supports one file at a time.");
-                resultBlob = await compressPdf(file, compressionLevel);
+                 const pdfQuality = compressionQuality / 100;
+                resultBlob = await compressPdf(file, pdfQuality);
                 resultName = `compressed-${file.name}`;
                 break;
              case 'Merge PDF':
@@ -162,7 +187,6 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
                 resultName = `merged-document.pdf`;
                 break;
             default:
-                // Placeholder for other tools
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 resultBlob = new Blob([`Processed ${file.name} with ${tool.name}`], { type: 'text/plain' });
                 resultName = `processed-${file.name}.txt`;
@@ -199,19 +223,19 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
     switch (tool.name) {
       case 'Image Converter':
         optionsComponent = (
-          <div className="space-y-4">
-            <Label htmlFor="format-select">Output Format</Label>
-            <Select value={imageFormat} onValueChange={(value: ImageFormat) => setImageFormat(value)}>
-              <SelectTrigger id="format-select">
-                <SelectValue placeholder="Select a format" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="png">PNG</SelectItem>
-                <SelectItem value="jpeg">JPG</SelectItem>
-                <SelectItem value="webp">WebP</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+           <div className="space-y-4">
+              <Label htmlFor="format-select">Output Format</Label>
+              <Select value={imageFormat} onValueChange={(value: ImageFormat) => setImageFormat(value)}>
+                <SelectTrigger id="format-select">
+                  <SelectValue placeholder="Select a format" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="png">PNG</SelectItem>
+                  <SelectItem value="jpeg">JPG</SelectItem>
+                  <SelectItem value="webp">WebP</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
         );
         break;
       
@@ -239,22 +263,50 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
       case 'PDF Compressor':
       case 'Image Compressor':
         optionsComponent = (
-          <div className="space-y-2">
-            <Label>Compression Level</Label>
-            <RadioGroup value={compressionLevel} onValueChange={(value: CompressionLevel) => setCompressionLevel(value)} className="flex space-x-4">
-              <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="low" id="low" />
-                  <Label htmlFor="low">Low</Label>
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <Label htmlFor="quality-slider">Quality</Label>
+                <span className="text-sm font-medium text-muted-foreground">{compressionQuality}%</span>
               </div>
-              <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="medium" id="medium" />
-                  <Label htmlFor="medium">Medium</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="high" id="high" />
-                  <Label htmlFor="high">High</Label>
-              </div>
-            </RadioGroup>
+              <Slider
+                id="quality-slider"
+                min={0}
+                max={100}
+                step={1}
+                value={[compressionQuality]}
+                onValueChange={(value) => setCompressionQuality(value[0])}
+              />
+            </div>
+
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="item-1">
+                <AccordionTrigger>
+                  <div className="flex items-center gap-2">
+                    <Settings2 className="h-4 w-4"/>
+                    Advanced Options
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="space-y-4 pt-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="target-size">Target size (KB)</Label>
+                    <Input id="target-size" type="number" value={targetSize} onChange={e => setTargetSize(e.target.value)} placeholder="e.g., 500" />
+                  </div>
+                   <div className="flex items-center justify-between text-sm text-muted-foreground">
+                    <span>Original Size:</span>
+                    <span>{originalFileSize ?? 'N/A'}</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm text-muted-foreground">
+                    <span>Estimated New Size:</span>
+                    <span>{estimatedFileSize ?? 'N/A'}</span>
+                  </div>
+                   <div className="flex items-center space-x-2">
+                      <Checkbox id="preview" />
+                      <Label htmlFor="preview">Show preview before saving</Label>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
         );
         break;

@@ -1,7 +1,8 @@
 
+
 "use client";
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -17,6 +18,7 @@ export function PasswordGenerator() {
   const [includeNumbers, setIncludeNumbers] = useState(true);
   const [includeSymbols, setIncludeSymbols] = useState(true);
   const [numberOfNumbers, setNumberOfNumbers] = useState(4);
+  const [numberOfSymbols, setNumberOfSymbols] = useState(2);
   const [generatedPassword, setGeneratedPassword] = useState('');
   const { toast } = useToast();
 
@@ -36,14 +38,17 @@ export function PasswordGenerator() {
       return;
     }
     
-    if(includeNumbers && numberOfNumbers > length) {
-       toast({
+    const totalGuaranteedChars = (includeNumbers ? numberOfNumbers : 0) + (includeSymbols ? numberOfSymbols : 0);
+
+    if (totalGuaranteedChars > length) {
+      toast({
         variant: 'destructive',
         title: 'Error',
-        description: 'Number of digits cannot exceed password length.',
+        description: 'Number of digits and symbols cannot exceed password length.',
       });
       return;
     }
+
 
     let passwordChars: string[] = [];
     
@@ -54,22 +59,30 @@ export function PasswordGenerator() {
             passwordChars.push(numberChars[randomIndex]);
         }
     }
+
+    // 2. Add guaranteed symbols
+    if (includeSymbols) {
+        for (let i = 0; i < numberOfSymbols; i++) {
+            const randomIndex = Math.floor(Math.random() * symbolChars.length);
+            passwordChars.push(symbolChars[randomIndex]);
+        }
+    }
     
-    // 2. Build the pool for the remaining characters
+    // 3. Build the pool for the remaining characters
     let remainingCharPool = lowercaseChars;
     if (includeUppercase) remainingCharPool += uppercaseChars;
-    if (includeSymbols) remainingCharPool += symbolChars;
-    // If numbers are also an option for the remainder, add them.
-    if(includeNumbers) remainingCharPool += numberChars;
+    if (includeNumbers) remainingCharPool += numberChars; // Also allow numbers in the rest of the pool
+    if (includeSymbols) remainingCharPool += symbolChars; // Also allow symbols in the rest of the pool
 
-    // 3. Fill the rest of the password length
+
+    // 4. Fill the rest of the password length
     const remainingLength = length - passwordChars.length;
     for (let i = 0; i < remainingLength; i++) {
         const randomIndex = Math.floor(Math.random() * remainingCharPool.length);
         passwordChars.push(remainingCharPool[randomIndex]);
     }
 
-    // 4. Shuffle the array to ensure random character placement
+    // 5. Shuffle the array to ensure random character placement
     for (let i = passwordChars.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [passwordChars[i], passwordChars[j]] = [passwordChars[j], passwordChars[i]];
@@ -77,7 +90,7 @@ export function PasswordGenerator() {
 
     setGeneratedPassword(passwordChars.join(''));
 
-  }, [length, includeUppercase, includeNumbers, includeSymbols, numberOfNumbers, toast]);
+  }, [length, includeUppercase, includeNumbers, includeSymbols, numberOfNumbers, numberOfSymbols, toast]);
 
   const copyToClipboard = useCallback(() => {
     if (!generatedPassword) return;
@@ -88,8 +101,10 @@ export function PasswordGenerator() {
     });
   }, [generatedPassword, toast]);
 
-  // Generate a password on initial render
-  useState(generatePassword);
+  useEffect(() => {
+    generatePassword();
+  }, [generatePassword]);
+
 
   return (
     <Card>
@@ -144,34 +159,52 @@ export function PasswordGenerator() {
                 <Checkbox id="uppercase" checked={includeUppercase} onCheckedChange={(checked) => setIncludeUppercase(!!checked)} />
                 <Label htmlFor="uppercase">Include Uppercase (A-Z)</Label>
             </div>
-            <div className="flex items-center space-x-2">
-                <Checkbox id="symbols" checked={includeSymbols} onCheckedChange={(checked) => setIncludeSymbols(!!checked)} />
-                <Label htmlFor="symbols">Include Symbols (!@#...)</Label>
+             <div className="flex items-center space-x-2">
+                <Checkbox id="lowercase" checked={true} disabled />
+                <Label htmlFor="lowercase" className="text-muted-foreground">Include Lowercase (a-z)</Label>
             </div>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8 items-center">
             <div className="flex items-center space-x-2">
                 <Checkbox id="numbers" checked={includeNumbers} onCheckedChange={(checked) => setIncludeNumbers(!!checked)} />
                 <Label htmlFor="numbers">Include Numbers (0-9)</Label>
             </div>
             {includeNumbers && (
               <div className="flex items-center gap-2">
-                <Label htmlFor="numberOfNumbers" className="whitespace-nowrap">Number of digits</Label>
-                <Input
+                <Label htmlFor="numberOfNumbers" className="whitespace-nowrap flex-shrink-0">Number of digits</Label>
+                <Slider
                     id="numberOfNumbers"
-                    type="number"
                     min={0}
                     max={length}
-                    value={numberOfNumbers}
-                    onChange={(e) => {
-                        const val = parseInt(e.target.value, 10);
-                        if (!isNaN(val)) {
-                            setNumberOfNumbers(Math.max(0, Math.min(length, val)));
-                        }
-                    }}
-                    className="h-9 w-20"
+                    step={1}
+                    value={[numberOfNumbers]}
+                    onValueChange={(value) => setNumberOfNumbers(value[0])}
+                    className="w-full"
                 />
+                <span className="w-8 text-center">{numberOfNumbers}</span>
+              </div>
+            )}
+        </div>
+
+         <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8 items-center">
+            <div className="flex items-center space-x-2">
+                <Checkbox id="symbols" checked={includeSymbols} onCheckedChange={(checked) => setIncludeSymbols(!!checked)} />
+                <Label htmlFor="symbols">Include Symbols (!@#...)</Label>
+            </div>
+            {includeSymbols && (
+              <div className="flex items-center gap-2">
+                <Label htmlFor="numberOfSymbols" className="whitespace-nowrap flex-shrink-0">Number of symbols</Label>
+                <Slider
+                    id="numberOfSymbols"
+                    min={0}
+                    max={length}
+                    step={1}
+                    value={[numberOfSymbols]}
+                    onValueChange={(value) => setNumberOfSymbols(value[0])}
+                    className="w-full"
+                />
+                <span className="w-8 text-center">{numberOfSymbols}</span>
               </div>
             )}
         </div>
