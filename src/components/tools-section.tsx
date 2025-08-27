@@ -7,6 +7,19 @@ import { Input } from "./ui/input";
 import { ToolCard } from "./tool-card";
 import { Search } from "lucide-react";
 
+// Define the desired order of categories
+const CATEGORY_ORDER = [
+    "Image Tools",
+    "Organize PDF",
+    "Optimize PDF",
+    "Convert to PDF",
+    "Convert from PDF",
+    "Edit PDF",
+    "PDF Security",
+    "Extra Tools",
+    "Utility Tools",
+];
+
 export function ToolsSection() {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -16,7 +29,7 @@ export function ToolsSection() {
       tool.description.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    return filteredTools.reduce((acc, tool) => {
+    const grouped = filteredTools.reduce((acc, tool) => {
       if (!acc[tool.category]) {
         acc[tool.category] = {
           categoryIcon: tool.categoryIcon,
@@ -26,6 +39,17 @@ export function ToolsSection() {
       acc[tool.category].tools.push(tool);
       return acc;
     }, {} as Record<string, { categoryIcon: any; tools: Tool[] }>);
+    
+    // Sort the categories based on the predefined order
+    return Object.entries(grouped).sort(([a], [b]) => {
+        const indexA = CATEGORY_ORDER.indexOf(a);
+        const indexB = CATEGORY_ORDER.indexOf(b);
+        // If a category is not in the order list, push it to the end
+        if (indexA === -1) return 1;
+        if (indexB === -1) return -1;
+        return indexA - indexB;
+    });
+
   }, [searchTerm]);
 
   return (
@@ -52,22 +76,20 @@ export function ToolsSection() {
         </div>
 
         <div className="space-y-16">
-            {Object.entries(categorizedTools)
-                .filter(([, { tools }]) => tools.length > 0)
-                .map(([category, { categoryIcon: CategoryIcon, tools: categoryTools }]) => (
-                    <div key={category} className="space-y-8">
-                        <h2 className="text-2xl font-bold font-headline flex items-center justify-center gap-3 text-center">
-                            <CategoryIcon className="h-7 w-7 text-accent" />
-                            {category}
-                        </h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {categoryTools.map(tool => (
-                                <ToolCard key={tool.name} tool={tool} />
-                            ))}
-                        </div>
+            {categorizedTools.map(([category, { categoryIcon: CategoryIcon, tools: categoryTools }]) => (
+                <div key={category} className="space-y-8">
+                    <h2 className="text-2xl font-bold font-headline flex items-center justify-center gap-3 text-center">
+                        <CategoryIcon className="h-7 w-7 text-accent" />
+                        {category}
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {categoryTools.map(tool => (
+                            <ToolCard key={tool.name} tool={tool} />
+                        ))}
                     </div>
+                </div>
             ))}
-            {Object.keys(categorizedTools).length === 0 && searchTerm && (
+            {categorizedTools.length === 0 && searchTerm && (
               <div className="text-center py-16">
                 <p className="text-lg text-muted-foreground">No tools found for "{searchTerm}"</p>
               </div>
