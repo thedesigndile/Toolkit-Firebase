@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useMemo } from "react";
@@ -57,11 +56,9 @@ export function ToolsSection() {
       return acc;
     }, {} as Record<string, { categoryIcon: any; tools: Tool[] }>);
     
-    // Sort categories based on the order in CATEGORIES array
     const sortedCategories = Object.entries(grouped).sort(([a], [b]) => {
       const indexA = CATEGORIES.indexOf(a);
       const indexB = CATEGORIES.indexOf(b);
-      // if not found in categories, put it at the end
       if(indexA === -1) return 1;
       if(indexB === -1) return -1;
       return indexA - indexB;
@@ -103,9 +100,9 @@ export function ToolsSection() {
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <div className="flex justify-center">
-                <TabsList className="h-auto w-full max-w-5xl overflow-x-auto hide-scrollbar">
+                <TabsList className="h-auto w-full max-w-5xl overflow-x-auto hide-scrollbar bg-muted/80 rounded-full p-1">
                     {CATEGORIES.map(category => (
-                        <TabsTrigger key={category} value={category} className="px-4 whitespace-nowrap">{category}</TabsTrigger>
+                        <TabsTrigger key={category} value={category} className="px-4 whitespace-nowrap rounded-full">{category}</TabsTrigger>
                     ))}
                 </TabsList>
             </div>
