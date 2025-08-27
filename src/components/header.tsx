@@ -10,7 +10,7 @@ import { User, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "./theme-toggle";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
-import { tools } from "@/lib/tools";
+import { tools, Tool } from "@/lib/tools";
 import React from "react";
 
 const pdfConvertTools = tools.filter(t => t.category.startsWith('Convert'));
@@ -59,11 +59,9 @@ export function Header() {
                     {organizePdfTools.map((tool) => (
                       <ListItem
                         key={tool.name}
-                        title={tool.name}
+                        tool={tool}
                         href={getToolUrl(tool.name)}
-                      >
-                        {tool.description}
-                      </ListItem>
+                      />
                     ))}
                   </ul>
                 </NavigationMenuContent>
@@ -75,11 +73,9 @@ export function Header() {
                     {pdfConvertTools.map((tool) => (
                       <ListItem
                         key={tool.name}
-                        title={tool.name}
+                        tool={tool}
                         href={getToolUrl(tool.name)}
-                      >
-                        {tool.description}
-                      </ListItem>
+                      />
                     ))}
                   </ul>
                 </NavigationMenuContent>
@@ -91,11 +87,9 @@ export function Header() {
                     {editAndSignTools.map((tool) => (
                       <ListItem
                         key={tool.name}
-                        title={tool.name}
+                        tool={tool}
                         href={getToolUrl(tool.name)}
-                      >
-                        {tool.description}
-                      </ListItem>
+                      />
                     ))}
                   </ul>
                 </NavigationMenuContent>
@@ -107,11 +101,9 @@ export function Header() {
                     {imageTools.map((tool) => (
                       <ListItem
                         key={tool.name}
-                        title={tool.name}
+                        tool={tool}
                         href={getToolUrl(tool.name)}
-                      >
-                        {tool.description}
-                      </ListItem>
+                      />
                     ))}
                   </ul>
                 </NavigationMenuContent>
@@ -123,13 +115,12 @@ export function Header() {
                     {allTools.slice(0,10).map((tool) => (
                       <ListItem
                         key={tool.name}
-                        title={tool.name}
+                        tool={tool}
                         href={getToolUrl(tool.name)}
-                      >
-                        {tool.description}
-                      </ListItem>
+                      />
                     ))}
                      <ListItem
+                        isStatic
                         title="View All Tools"
                         href="/tools"
                         className="col-span-2 text-center bg-accent/20"
@@ -202,30 +193,45 @@ export function Header() {
 }
 
 
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors",
-            "bg-transparent hover:bg-accent/50 focus:bg-accent/60",
-            "hover:text-accent-foreground focus:text-accent-foreground",
-            className
-          )}
-          {...props}
-        >
-            <div className="text-sm font-medium leading-none">{title}</div>
-            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                {children}
-            </p>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  );
-});
+interface ListItemProps extends React.ComponentPropsWithoutRef<"a"> {
+    tool?: Tool;
+    title?: string;
+    isStatic?: boolean;
+}
+
+const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
+  ({ className, tool, title, children, isStatic, ...props }, ref) => {
+    const Icon = tool?.icon;
+
+    return (
+      <li>
+        <NavigationMenuLink asChild>
+          <a
+            ref={ref}
+            className={cn(
+              "group block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors",
+              "bg-transparent hover:bg-accent/20 focus:bg-accent/20",
+              className
+            )}
+            {...props}
+          >
+            <div className="flex items-start gap-3">
+              {!isStatic && Icon && (
+                <div className="p-1 rounded-md bg-accent/10">
+                  <Icon className="h-5 w-5 text-accent transition-all duration-300 ease-in-out group-hover:scale-110 group-hover:-rotate-6" />
+                </div>
+              )}
+              <div className="flex-1">
+                <div className="text-sm font-medium leading-none group-hover:font-bold">{title ?? tool?.name}</div>
+                <p className="line-clamp-2 text-sm leading-snug text-muted-foreground mt-1">
+                  {children ?? tool?.description}
+                </p>
+              </div>
+            </div>
+          </a>
+        </NavigationMenuLink>
+      </li>
+    );
+  }
+);
 ListItem.displayName = "ListItem";
