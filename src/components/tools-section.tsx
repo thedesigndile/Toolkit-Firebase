@@ -44,10 +44,8 @@ export function ToolsSection() {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("All");
   const [favorites, setFavorites] = useState<string[]>([]);
-  const [isMounted, setIsMounted] = useState(false);
-
+  
   useEffect(() => {
-    setIsMounted(true);
     try {
         const storedFavorites = localStorage.getItem("favoriteTools");
         if (storedFavorites) {
@@ -59,38 +57,37 @@ export function ToolsSection() {
   }, []);
 
   const toggleFavorite = (toolName: string) => {
-    setFavorites(prevFavorites => {
-        const newFavorites = prevFavorites.includes(toolName)
-            ? prevFavorites.filter(name => name !== toolName)
-            : [...prevFavorites, toolName];
-        try {
-            localStorage.setItem("favoriteTools", JSON.stringify(newFavorites));
-        } catch (error) {
-            console.error("Could not save favorites to localStorage", error);
-        }
-        return newFavorites;
-    });
-  }
+    const newFavorites = favorites.includes(toolName)
+      ? favorites.filter((name) => name !== toolName)
+      : [...favorites, toolName];
+    
+    setFavorites(newFavorites);
+    try {
+      localStorage.setItem("favoriteTools", JSON.stringify(newFavorites));
+    } catch (error) {
+      console.error("Could not save favorites to localStorage", error);
+    }
+  };
 
   const filteredTools = useMemo(() => {
-    if (!isMounted && activeTab === 'Favorites') return [];
-    
     return tools.filter(tool => {
-        const matchesCategory = activeTab === 'All' || 
-                              (activeTab === 'Favorites' ? favorites.includes(tool.name) : tool.category === activeTab);
-        
         const matchesSearch = tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                               tool.description.toLowerCase().includes(searchTerm.toLowerCase());
-                              
+
         if (activeTab === 'Favorites') {
             return favorites.includes(tool.name) && matchesSearch;
         }
 
+        const matchesCategory = activeTab === 'All' || tool.category === activeTab;
         return matchesCategory && matchesSearch;
     });
-  }, [searchTerm, activeTab, favorites, isMounted]);
+  }, [searchTerm, activeTab, favorites]);
 
   const categorizedTools = useMemo(() => {
+    if (activeTab !== 'All') {
+        return [];
+    }
+
     const grouped = filteredTools.reduce((acc, tool) => {
       const category = tool.category;
       if (!acc[category]) {
@@ -112,8 +109,8 @@ export function ToolsSection() {
       })
       .filter(Boolean) as [string, { categoryIcon: any; tools: Tool[] }][];
 
-  }, [filteredTools]);
-  
+  }, [filteredTools, activeTab]);
+
   const handleTabChange = (value: string) => {
       setActiveTab(value);
   }
@@ -166,49 +163,63 @@ export function ToolsSection() {
                     ))}
                 </TabsList>
             </div>
-
-            <TabsContent value={activeTab} className="mt-8">
-                 <div className="space-y-12">
-                    {categorizedTools.map(([category, { categoryIcon: CategoryIcon, tools: categoryTools }]) => (
-                        <div key={category} className="space-y-6">
-                             {activeTab === 'All' && (
+            
+            <div className="mt-8">
+                 {activeTab === 'All' ? (
+                     <div className="space-y-12">
+                        {categorizedTools.map(([category, { categoryIcon: CategoryIcon, tools: categoryTools }]) => (
+                            <div key={category} className="space-y-6">
                                 <h2 className="text-2xl font-semibold flex items-center justify-center gap-3 text-center">
                                     <CategoryIcon className="h-7 w-7 text-brand-blue" />
                                     {category}
                                 </h2>
-                            )}
-                            <motion.div
-                                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"
-                            >
-                                {categoryTools.map((tool, i) => (
-                                    <ToolCard 
-                                      key={tool.name} 
-                                      tool={tool} 
-                                      index={i} 
-                                      isFavorite={favorites.includes(tool.name)}
-                                      onToggleFavorite={toggleFavorite}
-                                      isHighlighted={searchTerm.length > 1 && (tool.name.toLowerCase().includes(searchTerm.toLowerCase()) || tool.description.toLowerCase().includes(searchTerm.toLowerCase()))}
-                                    />
-                                ))}
-                            </motion.div>
-                        </div>
-                    ))}
-                    {isMounted && filteredTools.length === 0 && (
-                      <div className="text-center py-16">
-                        <p className="text-lg text-muted-foreground">
-                            {activeTab === 'Favorites' 
-                                ? "You haven't favorited any tools yet. Click the star on a tool to add it here!"
-                                : `No tools found for "${searchTerm}" in this category.`
-                            }
-                        </p>
-                      </div>
-                    )}
-                </div>
-            </TabsContent>
+                                <motion.div
+                                    className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"
+                                >
+                                    {categoryTools.map((tool, i) => (
+                                        <ToolCard
+                                          key={tool.name}
+                                          tool={tool}
+                                          index={i}
+                                          isFavorite={favorites.includes(tool.name)}
+                                          onToggleFavorite={toggleFavorite}
+                                          isHighlighted={searchTerm.length > 1 && (tool.name.toLowerCase().includes(searchTerm.toLowerCase()) || tool.description.toLowerCase().includes(searchTerm.toLowerCase()))}
+                                        />
+                                    ))}
+                                </motion.div>
+                            </div>
+                        ))}
+                    </div>
+                 ) : (
+                    <motion.div
+                        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"
+                    >
+                       {filteredTools.map((tool, i) => (
+                            <ToolCard
+                                key={tool.name}
+                                tool={tool}
+                                index={i}
+                                isFavorite={favorites.includes(tool.name)}
+                                onToggleFavorite={toggleFavorite}
+                                isHighlighted={searchTerm.length > 1 && (tool.name.toLowerCase().includes(searchTerm.toLowerCase()) || tool.description.toLowerCase().includes(searchTerm.toLowerCase()))}
+                            />
+                        ))}
+                    </motion.div>
+                 )}
+
+                {filteredTools.length === 0 && (
+                  <div className="text-center py-16">
+                    <p className="text-lg text-muted-foreground">
+                        {activeTab === 'Favorites'
+                            ? "You haven't favorited any tools yet. Click the star on a tool to add it here!"
+                            : `No tools found for "${searchTerm}" in this category.`
+                        }
+                    </p>
+                  </div>
+                )}
+            </div>
         </Tabs>
        </section>
     </div>
   );
 }
-
-    

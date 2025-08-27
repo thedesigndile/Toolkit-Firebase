@@ -67,7 +67,7 @@ export function ToolCard({ tool, index, isFavorite, onToggleFavorite, isHighligh
                       isFavorite && "border-yellow-400/50 shadow-yellow-500/10"
                   )}
               >
-                  <button 
+                  <button
                     onClick={handleFavoriteClick}
                     className={cn(
                       "absolute top-2 right-2 z-10 p-1.5 rounded-full bg-card/50 backdrop-blur-sm transition-colors",
@@ -79,7 +79,7 @@ export function ToolCard({ tool, index, isFavorite, onToggleFavorite, isHighligh
                   </button>
 
                   <CardContent className="p-5 flex flex-col items-center text-center aspect-square justify-center">
-                  <motion.div 
+                  <motion.div
                       className="mb-4"
                       whileHover={{ scale: 1.1, transition: { duration: 0.2, ease: "easeOut" } }}
                   >
