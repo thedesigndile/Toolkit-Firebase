@@ -1,6 +1,5 @@
 
 import { Newsletter } from "@/components/newsletter";
-import { Footer } from "@/components/footer";
 
 export default function Home() {
   return (
@@ -16,7 +15,6 @@ export default function Home() {
         </section>
         <Newsletter />
       </main>
-      <Footer />
     </div>
   );
 }
