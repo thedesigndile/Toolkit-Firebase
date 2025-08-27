@@ -217,8 +217,8 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
           >
             <div className="flex items-start gap-3">
               {!isStatic && Icon && (
-                <div className="p-1 rounded-md bg-accent/10">
-                  <Icon className="h-5 w-5 text-accent transition-all duration-300 ease-in-out group-hover:scale-110 group-hover:-rotate-6" />
+                <div className="p-1 rounded-md bg-transparent">
+                  <Icon className="h-8 w-8 transition-all duration-300 ease-in-out group-hover:scale-110" />
                 </div>
               )}
               <div className="flex-1">
