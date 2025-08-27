@@ -1,4 +1,6 @@
 
+"use client";
+
 import type { Metadata } from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
@@ -7,6 +9,7 @@ import { Poppins } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
+import { usePathname } from 'next/navigation';
 
 const fontBody = Poppins({
   subsets: ['latin'],
@@ -14,26 +17,26 @@ const fontBody = Poppins({
   variable: '--font-body',
 });
 
-export const metadata: Metadata = {
-  title: 'Toolkit',
-  description: 'A curated collection of tools to boost your productivity.',
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+  const isToolPage = pathname.startsWith('/tools/');
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn("font-body antialiased", fontBody.variable)}>
         <ThemeProvider>
-          <div className="fixed top-4 left-0 right-0 z-50 flex justify-center">
-            <Header />
-          </div>
+          {!isToolPage && (
+            <div className="fixed top-4 left-0 right-0 z-50 flex justify-center">
+              <Header />
+            </div>
+          )}
           {children}
           <Toaster />
-          <Footer />
+          {!isToolPage && <Footer />}
         </ThemeProvider>
       </body>
     </html>
