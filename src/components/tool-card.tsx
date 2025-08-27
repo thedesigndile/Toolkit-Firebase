@@ -12,10 +12,11 @@ export function ToolCard({ tool }: ToolCardProps) {
   const slug = tool.name.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and');
 
   return (
-    <Link href={`/tools/${slug}`} className="block group">
+    <Link href={`/tools/${slug}`} className="block group relative">
       <Card
         className={cn(
-          "cursor-pointer transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-2 relative overflow-hidden bg-card h-full border"
+          "cursor-pointer transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 relative overflow-hidden bg-card h-full border z-10",
+          "group-hover:scale-105"
         )}
       >
         <CardContent className="p-5 flex flex-col items-center text-center aspect-square justify-center">
@@ -26,6 +27,7 @@ export function ToolCard({ tool }: ToolCardProps) {
           <p className="text-sm text-muted-foreground mt-2">{tool.description}</p>
         </CardContent>
       </Card>
+      <div className="card-glow" />
     </Link>
   );
 }
