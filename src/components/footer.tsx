@@ -5,7 +5,7 @@ import { Github, Twitter, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const FooterLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
-  <Link href={href} className="text-muted-foreground hover:text-white transition-colors duration-200 ease-in-out text-base">
+  <Link href={href} className="text-white/80 hover:text-white transition-colors duration-200 ease-in-out text-base">
     {children}
   </Link>
 );
@@ -37,7 +37,7 @@ export function Footer() {
                         <FooterLogo />
                         <span className="text-2xl font-bold text-white">Toolkit</span>
                     </Link>
-                    <p className="text-muted-foreground text-base max-w-sm">
+                    <p className="text-white/80 text-base max-w-sm">
                         The all-in-one platform for your document and creative needs. Free, secure, and right in your browser.
                     </p>
                 </div>
@@ -68,21 +68,21 @@ export function Footer() {
             </div>
 
             <div className="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
-                 <p className="text-sm text-muted-foreground text-center sm:text-left">
+                 <p className="text-sm text-white/60 text-center sm:text-left">
                       &copy; {new Date().getFullYear()} Toolkit. All Rights Reserved.
                  </p>
                 <div className="flex items-center gap-2">
-                   <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-white hover:bg-white/10" asChild>
+                   <Button variant="ghost" size="icon" className="text-white/60 hover:text-white hover:bg-white/10" asChild>
                        <Link href="#" aria-label="Github">
                            <Github className="h-5 w-5" />
                        </Link>
                    </Button>
-                   <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-white hover:bg-white/10" asChild>
+                   <Button variant="ghost" size="icon" className="text-white/60 hover:text-white hover:bg-white/10" asChild>
                        <Link href="#" aria-label="Twitter">
                            <Twitter className="h-5 w-5" />
                        </Link>
                    </Button>
-                   <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-white hover:bg-white/10" asChild>
+                   <Button variant="ghost" size="icon" className="text-white/60 hover:text-white hover:bg-white/10" asChild>
                        <Link href="#" aria-label="LinkedIn">
                            <Linkedin className="h-5 w-5" />
                        </Link>
