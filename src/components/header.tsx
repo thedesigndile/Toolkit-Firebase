@@ -53,7 +53,7 @@ export function Header() {
                     onMouseEnter={() => setHoveredItem(item.name)}
                  >
                     {item.href ? (
-                         <Link href={item.href} legacyBehavior passHref>
+                         <Link href={item.href} passHref>
                             <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "font-semibold text-sm bg-transparent text-white hover:text-white/90 px-4 py-2 hover:bg-transparent focus:bg-transparent")}>
                                 {item.name}
                             </NavigationMenuLink>
