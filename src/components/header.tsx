@@ -54,12 +54,12 @@ export function Header() {
             ))}
           </nav>
           <div className="flex items-center gap-2">
-            <Link href="/tools">
-              <Button className="hidden md:flex bg-primary hover:bg-gradient-primary text-primary-foreground font-bold relative overflow-hidden group transition-all duration-300">
+            <Button asChild className="hidden md:flex bg-primary hover:bg-gradient-primary text-primary-foreground font-bold relative overflow-hidden group transition-all duration-300">
+                <Link href="/tools">
                   Get Started
                    <span className="absolute -inset-0.5 rounded-lg bg-gradient-primary opacity-0 group-hover:opacity-75 blur transition-opacity duration-300"></span>
-              </Button>
-            </Link>
+                </Link>
+            </Button>
             <Button variant="ghost" size="icon" className="hidden md:inline-flex">
                 <User className="h-5 w-5" />
             </Button>
@@ -103,9 +103,9 @@ export function Header() {
                             {link.name}
                         </Link>
                     ))}
-                    <Link href="/tools">
-                      <Button size="lg" className="bg-gradient-primary text-primary-foreground font-bold">Get Started</Button>
-                    </Link>
+                    <Button asChild size="lg" className="bg-gradient-primary text-primary-foreground font-bold">
+                        <Link href="/tools">Get Started</Link>
+                    </Button>
                 </nav>
             </motion.div>
         )}
