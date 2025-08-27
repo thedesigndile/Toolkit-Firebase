@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Header />
-      <main className="flex-1 pt-28 md:pt-32 pb-16 md:pb-0">
+      <main className="flex-1 pt-20">
         <ToolsSection />
         <Newsletter />
       </main>

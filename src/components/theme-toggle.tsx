@@ -13,6 +13,11 @@ export function ThemeToggle() {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
 
+  // Wait until mounted to render to avoid hydration errors
+  const [mounted, setMounted] = React.useState(false)
+  React.useEffect(() => setMounted(true), [])
+  if (!mounted) return <div className="w-10 h-10" />
+
   return (
     <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
       <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
