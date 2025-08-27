@@ -27,10 +27,14 @@
 
     --brand-blue-raw: 224 82% 53%; /* #2563EB */
     --brand-purple-raw: 257 90% 66%; /* #8B5CF6 */
+    --brand-green-raw: 145 63% 49%;
+    --brand-teal-raw: 165 77% 40%;
     --soft-gray-raw: 220 14% 46%;
 
     --brand-blue: hsl(var(--brand-blue-raw));
     --brand-purple: hsl(var(--brand-purple-raw));
+    --brand-green: hsl(var(--brand-green-raw));
+    --brand-teal: hsl(var(--brand-teal-raw));
     --soft-gray: hsl(var(--soft-gray-raw));
 
     --radius: 0.5rem;
@@ -75,6 +79,20 @@
 @layer utilities {
   .bg-gradient-primary {
     @apply bg-gradient-to-r from-brand-blue to-brand-purple;
+  }
+
+  .bg-gradient-upload {
+    @apply bg-gradient-to-r from-blue-500 to-purple-500;
+  }
+  .dark .bg-gradient-upload {
+    @apply from-blue-400 to-purple-400;
+  }
+
+  .bg-gradient-download {
+    @apply bg-gradient-to-r from-green-500 to-teal-500;
+  }
+  .dark .bg-gradient-download {
+    @apply from-green-400 to-teal-400;
   }
   
   .icon-gradient-primary {

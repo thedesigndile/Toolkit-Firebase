@@ -22,14 +22,16 @@ import { Slider } from '@/components/ui/slider';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { SubHeader } from '@/components/sub-header';
 import { Footer } from '@/components/footer';
+import { ProgressProvider, useProgress } from '@/components/progress-provider';
+import { ProgressDisplay } from '@/components/progress-display';
 
 type ImageFormat = "png" | "jpeg" | "webp";
 
-export default function ToolPage({ params }: { params: { slug: string } }) {
+function ToolPageClient({ params }: { params: { slug: string } }) {
   const tool = useMemo(() => tools.find(t => t.name.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and') === params.slug), [params.slug]);
   
   const [files, setFiles] = useState<File[]>([]);
-  const [isProcessing, setIsProcessing] = useState(false);
+  const { progress, setProgress, status, setStatus, resetProgress } = useProgress();
   const [processedUrl, setProcessedUrl] = useState<string | null>(null);
   const [processedFileName, setProcessedFileName] = useState<string>('download');
   const [error, setError] = useState<string | null>(null);
@@ -134,7 +136,6 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
   
   const resetState = useCallback(() => {
     setFiles([]);
-    setIsProcessing(false);
     setError(null);
     if (processedUrl) {
       URL.revokeObjectURL(processedUrl);
@@ -143,18 +144,32 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
     if(fileInputRef.current) {
         fileInputRef.current.value = "";
     }
-  }, [processedUrl]);
+    resetProgress();
+  }, [processedUrl, resetProgress]);
 
 
   const handleProcessFiles = async () => {
     if (files.length === 0) return;
+    
+    setStatus('processing');
+    setProgress(0);
 
-    setIsProcessing(true);
-    setError(null);
     if(processedUrl) {
       URL.revokeObjectURL(processedUrl);
       setProcessedUrl(null);
     }
+    setError(null);
+
+    // Simulate progress
+    const progressInterval = setInterval(() => {
+        setProgress(prev => {
+            if (prev >= 95) {
+                clearInterval(progressInterval);
+                return 95;
+            }
+            return prev + 5;
+        });
+    }, 200);
 
     try {
         let resultBlob: Blob;
@@ -194,6 +209,10 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
                 resultName = `processed-${file.name}.txt`;
                 break;
         }
+        
+        clearInterval(progressInterval);
+        setProgress(100);
+        setStatus('complete');
 
         const url = URL.createObjectURL(resultBlob);
         setProcessedUrl(url);
@@ -205,20 +224,20 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
         });
 
     } catch (e: any) {
+        clearInterval(progressInterval);
         const errorMessage = e.message || "An unknown error occurred during processing.";
         setError(errorMessage);
+        setStatus('error');
         toast({
             variant: "destructive",
             title: "Processing Failed",
             description: errorMessage,
         });
-    } finally {
-        setIsProcessing(false);
     }
   };
   
   const renderToolOptions = () => {
-    if (files.length === 0 || isProcessing || processedUrl) return null;
+    if (files.length === 0 || status !== 'idle' || processedUrl) return null;
 
     let optionsComponent = null;
 
@@ -335,30 +354,21 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
 
   const renderFileBasedUI = () => (
     <>
-        {processedUrl ? (
-        <Card>
-            <CardContent className="pt-6 text-center">
-            <div className="flex justify-center items-center mb-4">
-                <div className="p-4 bg-green-100 dark:bg-green-900/20 rounded-full">
-                    <CheckCircle className="h-12 w-12 text-green-600 dark:text-green-400" />
-                </div>
-            </div>
-            <h3 className="text-2xl font-semibold">Processing Complete!</h3>
-            <p className="text-muted-foreground mt-2 mb-6">Your file is ready for download.</p>
-            <div className="flex justify-center gap-4">
-                <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" asChild>
-                <a href={processedUrl} download={processedFileName}>
-                    <Download className="mr-2 h-4 w-4" />
-                    Download File
-                </a>
-                </Button>
-                <Button size="lg" variant="outline" onClick={resetState}>
-                <RotateCcw className="mr-2 h-4 w-4" />
-                Process Another
-                </Button>
-            </div>
-            </CardContent>
-        </Card>
+       {status !== 'idle' && status !== 'error' ? (
+           <ProgressDisplay
+             fileName={files.length > 1 ? `${files.length} files` : files[0].name}
+             progress={progress}
+             status={status}
+             onDownload={() => {
+                const a = document.createElement('a');
+                a.href = processedUrl!;
+                a.download = processedFileName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+             }}
+             onReset={resetState}
+           />
         ) : (
         <Card>
             <CardContent className="pt-6">
@@ -382,7 +392,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
                 multiple={isMultiFileTool}
                 className="hidden" 
                 onChange={handleFileChange}
-                disabled={isProcessing}
+                disabled={status !== 'idle'}
                 accept={fileAccept}
                 />
             </div>
@@ -397,7 +407,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
                         <File className="h-5 w-5 text-muted-foreground" />
                         <span className="text-sm font-medium">{file.name}</span>
                         </div>
-                        <Button variant="ghost" size="icon" onClick={() => removeFile(file.name)} disabled={isProcessing}>
+                        <Button variant="ghost" size="icon" onClick={() => removeFile(file.name)} disabled={status !== 'idle'}>
                         <X className="h-4 w-4" />
                         </Button>
                     </li>
@@ -409,9 +419,9 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
             {renderToolOptions()}
 
             <div className="mt-8 text-center">
-                <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" disabled={files.length === 0 || isProcessing} onClick={handleProcessFiles}>
-                    {isProcessing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    {isProcessing ? "Processing..." : `Process ${files.length > 0 ? files.length : ''} File(s)`}
+                <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" disabled={files.length === 0 || status !== 'idle'} onClick={handleProcessFiles}>
+                    {status === 'processing' && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {status === 'processing' ? "Processing..." : `Process ${files.length > 0 ? files.length : ''} File(s)`}
                 </Button>
             </div>
             </CardContent>
@@ -461,4 +471,13 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
       <Footer />
     </div>
   );
+}
+
+
+export default function ToolPage({ params }: { params: { slug: string } }) {
+  return (
+    <ProgressProvider>
+      <ToolPageClient params={params} />
+    </ProgressProvider>
+  )
 }

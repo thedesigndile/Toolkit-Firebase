@@ -45,7 +45,7 @@ export const tools: Tool[] = [
   { name: 'PDF to Word', description: 'Convert your PDF to an editable Word document.', icon: PdfToWordIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft },
   { name: 'Word to PDF', description: 'Convert Microsoft Word documents to PDF.', icon: WordToPdfIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft },
   { name: 'PDF to JPG', description: 'Convert each PDF page into a JPG image.', icon: PdfToJpgIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft },
-  { name: 'JPG to PDF', description: 'Convert JPG images to a single PDF file.', icon: PdfToJpgIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft },
+  { name: 'JPG to PDF', description: 'Convert JPG images to a single PDF file.', icon: FileImage, category: 'Convert PDF', categoryIcon: ArrowRightLeft },
   { name: 'PDF to PowerPoint', description: 'Convert your PDF to a presentation.', icon: PdfToPowerpointIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft },
   { name: 'PDF to Excel', description: 'Extract data from PDF tables to an Excel sheet.', icon: PdfToExcelIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft },
   { name: 'PowerPoint to PDF', description: 'Convert PowerPoint presentations to PDF.', icon: PowerpointToPdfIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft },
@@ -84,7 +84,7 @@ export const tools: Tool[] = [
   { name: 'PDF Metadata Editor', description: 'Edit title, author, subject, and keywords.', icon: Tags, category: 'Extra Tools', categoryIcon: SigmaSquare },
   { name: 'Dark Mode PDF Viewer', description: 'View PDFs in dark mode with search.', icon: View, category: 'Extra Tools', categoryIcon: SigmaSquare },
   { name: 'PDF to Image Slideshow', description: 'Convert PDF pages into a slideshow.', icon: ImageDown, category: 'Extra Tools', categoryIcon: SigmaSquare },
-  { name:- 'Extract Attachments from PDF', description: 'Extract embedded files from a PDF.', icon: FileBox, category: 'Extra Tools', categoryIcon: SigmaSquare },
+  { name: 'Extract Attachments from PDF', description: 'Extract embedded files from a PDF.', icon: FileBox, category: 'Extra Tools', categoryIcon: SigmaSquare },
   { name: 'PDF Page Label Editor', description: 'Add custom page labels like "i, ii, 1, 2".', icon: BookUser, category: 'Extra Tools', categoryIcon: SigmaSquare },
   { name: 'PDF Stamp Tool', description: 'Add stamps like "Approved" or "Confidential".', icon: StickyNote, category: 'Extra Tools', categoryIcon: SigmaSquare },
   
