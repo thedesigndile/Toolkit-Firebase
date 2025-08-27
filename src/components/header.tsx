@@ -20,8 +20,8 @@ const allTools = tools;
 const getToolUrl = (toolName: string) => `/tools/${toolName.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and')}`;
 
 const navItems = [
-    { name: "Organize PDF", subItems: organizePdfTools },
     { name: "Convert PDF", subItems: pdfConvertTools },
+    { name: "Organize PDF", subItems: organizePdfTools },
     { name: "Image Tools", subItems: imageTools },
     { name: "All Tools", subItems: allTools },
     { name: "Pricing", href: "/pricing" },
