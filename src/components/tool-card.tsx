@@ -39,9 +39,9 @@ export function ToolCard({ tool, index }: ToolCardProps) {
     >
       <Link href={`/tools/${slug}`} className="block group relative h-full">
         <motion.div
-          whileHover={{ y: -3, scale: 1.02 }}
+          whileHover={{ y: -3 }}
           transition={{
-            duration: 0.25,
+            duration: 0.2,
             ease: "easeOut",
           }}
           className="h-full"
@@ -54,10 +54,10 @@ export function ToolCard({ tool, index }: ToolCardProps) {
             )}
           >
             <CardContent className="p-5 flex flex-col items-center text-center aspect-square justify-center">
-              <div className="mb-4">
+              <div className="mb-4 transition-transform duration-200 ease-out group-hover:scale-110">
                 <Icon className="h-16 w-16" />
               </div>
-              <p className="text-base font-semibold leading-tight text-foreground">{tool.name}</p>
+              <p className="text-base font-bold leading-tight text-foreground">{tool.name}</p>
               <p className="text-sm text-muted-foreground mt-2">{tool.description}</p>
             </CardContent>
           </Card>
