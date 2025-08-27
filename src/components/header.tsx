@@ -23,7 +23,7 @@ const navItems = [
     { name: "Organize PDF", subItems: organizePdfTools },
     { name: "Convert PDF", subItems: pdfConvertTools },
     { name: "Image Tools", subItems: imageTools },
-    { name: "All Tools", subItems: allTools.slice(0, 10) },
+    { name: "All Tools", subItems: allTools },
     { name: "Pricing", href: "/pricing" },
 ]
 
@@ -74,7 +74,10 @@ export function Header() {
 
                     {item.subItems && (
                         <NavigationMenuContent>
-                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                        <ul className={cn("grid gap-3 p-4", {
+                            "w-[400px] md:w-[500px] md:grid-cols-2 lg:w-[600px]": item.name !== "All Tools",
+                            "w-[400px] md:w-[800px] md:grid-cols-4 lg:w-[800px]": item.name === "All Tools",
+                        })}>
                             {item.subItems.map((tool) => (
                             <ListItem
                                 key={tool.name}
@@ -181,7 +184,9 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
             <div className="flex items-start gap-3">
               {!isStatic && Icon && (
                 <div className="p-1 rounded-md bg-transparent">
-                  <Icon className="h-10 w-10 transition-all duration-300 ease-in-out group-hover:scale-110" />
+                  <motion.div whileHover={{ scale: 1.1 }}>
+                    <Icon className="h-10 w-10 transition-all duration-300 ease-in-out" />
+                  </motion.div>
                 </div>
               )}
               <div className="flex-1">
