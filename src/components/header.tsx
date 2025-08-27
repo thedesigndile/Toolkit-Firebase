@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import { ThemeToggle } from "./theme-toggle";
 
 const navLinks = [
-    { name: "Home", href: "/" },
+    { name: "HOME", href: "/" },
     { name: "Tools", href: "/tools" },
     { name: "Features", href: "/features" },
     { name: "Pricing", href: "/pricing" },
@@ -55,9 +55,8 @@ export function Header() {
             ))}
           </nav>
           <div className="flex items-center gap-2">
-            <Button className="hidden md:flex bg-gradient-primary text-primary-foreground font-bold relative overflow-hidden group">
+            <Button className="hidden md:flex bg-primary hover:bg-gradient-primary text-primary-foreground font-bold relative overflow-hidden group transition-all duration-300">
                 Get Started
-                <span className="absolute w-full h-full bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
                  <span className="absolute -inset-0.5 rounded-lg bg-gradient-primary opacity-0 group-hover:opacity-75 blur transition-opacity duration-300"></span>
             </Button>
             <Button variant="ghost" size="icon" className="hidden md:inline-flex">
@@ -115,9 +114,9 @@ export function Header() {
 
 const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
     return (
-        <Link href={href} className="relative text-sm font-medium text-foreground hover:text-primary p-2 transition-colors">
+        <Link href={href} className="relative text-sm font-medium text-foreground hover:text-primary p-2 transition-colors group">
             {children}
-            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out origin-left" />
+            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out origin-center" />
         </Link>
     );
 };
