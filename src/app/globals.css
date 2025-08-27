@@ -102,4 +102,43 @@
   .dark .group:hover .card-glow {
      @apply from-brand-purple/30 via-brand-blue/30;
   }
+  
+  .hero-gradient {
+    @apply bg-gradient-to-br from-blue-50/50 via-white to-purple-50/50;
+  }
+  
+  .dark .hero-gradient {
+    background: radial-gradient(ellipse at 50% 0%, hsl(var(--brand-blue-raw)/0.1), transparent 70%),
+                radial-gradient(ellipse at 50% 100%, hsl(var(--brand-purple-raw)/0.1), transparent 70%);
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+
+  @keyframes float-delay-1 {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0px); }
+  }
+
+  @keyframes float-delay-2 {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+    100% { transform: translateY(0px); }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  .animate-float-1 {
+    animation: float-delay-1 7s ease-in-out infinite;
+    animation-delay: 1s;
+  }
+  .animate-float-2 {
+    animation: float-delay-2 8s ease-in-out infinite;
+    animation-delay: 2s;
+  }
 }
