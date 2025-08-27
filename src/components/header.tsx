@@ -12,17 +12,18 @@ import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMe
 import { tools, Tool } from "@/lib/tools";
 import React from "react";
 
-const pdfConvertTools = tools.filter(t => t.category.startsWith('Convert'));
+const pdfConvertTools = tools.filter(t => t.category === 'Convert PDF');
 const imageTools = tools.filter(t => t.category === 'Image Tools');
 const organizePdfTools = tools.filter(t => t.category === 'Organize PDF');
 const allTools = tools;
 
-const getToolUrl = (toolName: string) => `/tools/${toolName.toLowerCase().replace(/ /g, '-').replace(/&g/, 'and')}`;
+const getToolUrl = (toolName: string) => `/tools/${toolName.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and')}`;
 
 const navItems = [
-    { name: "Product", subItems: organizePdfTools },
-    { name: "Resources", subItems: pdfConvertTools },
-    { name: "Community", subItems: imageTools },
+    { name: "Organize PDF", subItems: organizePdfTools },
+    { name: "Convert PDF", subItems: pdfConvertTools },
+    { name: "Image Tools", subItems: imageTools },
+    { name: "All Tools", subItems: allTools.slice(0, 10) },
     { name: "Pricing", href: "/pricing" },
 ]
 
@@ -128,13 +129,16 @@ export function Header() {
             </div>
             <nav className="flex flex-col items-center justify-center h-full gap-8">
               <Link href="/tools" className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all" onClick={() => setIsMobileMenuOpen(false)}>
-                Product
+                Organize PDF
               </Link>
               <Link href="/tools" className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all" onClick={() => setIsMobileMenuOpen(false)}>
-                Resources
+                Convert PDF
               </Link>
               <Link href="/tools" className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all" onClick={() => setIsMobileMenuOpen(false)}>
-                Community
+                Image Tools
+              </Link>
+              <Link href="/tools" className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all" onClick={() => setIsMobileMenuOpen(false)}>
+                All Tools
               </Link>
               <Link href="/pricing" className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all" onClick={() => setIsMobileMenuOpen(false)}>
                 Pricing
