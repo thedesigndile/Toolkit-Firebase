@@ -21,7 +21,7 @@ export function ToolCard({ tool }: ToolCardProps) {
       >
         <CardContent className="p-5 flex flex-col items-center text-center aspect-square justify-center">
           <div className="transition-all duration-300 group-hover:scale-110 mb-3">
-            <Icon className="h-12 w-12" />
+            <Icon className="h-16 w-16" />
           </div>
           <p className="text-base font-semibold leading-tight">{tool.name}</p>
           <p className="text-sm text-muted-foreground mt-2">{tool.description}</p>
@@ -31,3 +31,5 @@ export function ToolCard({ tool }: ToolCardProps) {
     </Link>
   );
 }
+
+    

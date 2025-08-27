@@ -1,157 +1,168 @@
+
 import { cn } from "@/lib/utils";
 import React from "react";
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {}
 
-const IconWrapper: React.FC<{ bgColor: string, children: React.ReactNode, className?: string }> = ({ bgColor, children, className }) => (
-    <div className={cn("relative w-10 h-10 flex items-center justify-center", className)}>
+const IconWrapper: React.FC<{ children: React.ReactNode, className?: string }> = ({ children, className }) => (
+    <div className={cn("relative w-12 h-12 flex items-center justify-center", className)}>
         {children}
     </div>
 );
 
 export const MergePdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
-    <IconWrapper bgColor="bg-red-500" className={className}>
-        <svg {...props} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="5" y="11" width="18" height="18" rx="4" fill="#F87171"/>
-            <rect x="17" y="11" width="18" height="18" rx="4" fill="#FCA5A5"/>
-            <path d="M24 18L24 24M21 21H27" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <IconWrapper className={cn("text-red-500", className)}>
+        <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z" fill="currentColor" fillOpacity="0.2"/>
+            <path d="M12 18V12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M9 15H15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
     </IconWrapper>
 );
 
 export const SplitPdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
-    <IconWrapper bgColor="bg-orange-500" className={className}>
-        <svg {...props} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="5" y="11" width="18" height="18" rx="4" fill="#F97316"/>
-            <rect x="17" y="11" width="18" height="18" rx="4" fill="#FB923C"/>
-            <path d="M28 25L24 21L20 25" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M20 17L24 21L28 17" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <IconWrapper className={cn("text-orange-500", className)}>
+        <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z" fill="currentColor" fillOpacity="0.2"/>
+            <path d="M12 18V12M12 12L9 15M12 12L15 15M12 6V12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
     </IconWrapper>
 );
 
 export const CompressPdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
-    <IconWrapper bgColor="bg-green-500" className={className}>
-         <svg {...props} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="5" y="11" width="18" height="18" rx="4" fill="#22C55E"/>
-            <rect x="17" y="11" width="18" height="18" rx="4" fill="#4ADE80"/>
-            <path d="M28 20H20M24 16V24" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <IconWrapper className={cn("text-green-500", className)}>
+         <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z" fill="currentColor" fillOpacity="0.2"/>
+            <path d="M20 8H14V2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M15 14H13C12.4477 14 12 14.4477 12 15V17C12 17.5523 11.5523 18 11 18H9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M15 18L13 16L15 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
     </IconWrapper>
 );
 
 export const PdfToWordIcon: React.FC<IconProps> = ({ className, ...props }) => (
-    <IconWrapper bgColor="bg-blue-500" className={className}>
-        <svg {...props} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="17" y="11" width="18" height="18" rx="4" fill="#3B82F6"/>
-            <rect x="5" y="11" width="18" height="18" rx="4" fill="#60A5FA"/>
-            <text x="14" y="23" fontFamily="Arial, sans-serif" fontSize="10" fill="white" textAnchor="middle" dominantBaseline="middle" fontWeight="bold">P</text>
-            <path d="M28 17L24 21L28 25M24 21H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <IconWrapper className={cn("text-blue-500", className)}>
+        <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 4C4 2.89543 4.89543 2 6 2H13.5L18 6.5V9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="currentColor" fillOpacity="0.1"/>
+            <path d="M13 2.5V7.5H18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M20 15V20C20 21.1046 19.1046 22 18 22H11C9.89543 22 9 21.1046 9 20V14C9 12.8954 9.89543 12 11 12H16.5L20 15.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="currentColor" fillOpacity="0.2"/>
+            <path d="M12 17H17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            <path d="M12 19H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
         </svg>
     </IconWrapper>
 );
 
 export const WordToPdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
-    <IconWrapper bgColor="bg-blue-500" className={className}>
-        <svg {...props} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="5" y="11" width="18" height="18" rx="4" fill="#3B82F6"/>
-            <rect x="17" y="11" width="18" height="18" rx="4" fill="#60A5FA"/>
-            <text x="26" y="23" fontFamily="Arial, sans-serif" fontSize="10" fill="white" textAnchor="middle" dominantBaseline="middle" fontWeight="bold">W</text>
-            <path d="M12 17L16 21L12 25M16 21H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <IconWrapper className={cn("text-blue-600", className)}>
+        <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 15V20C20 21.1046 19.1046 22 18 22H11C9.89543 22 9 21.1046 9 20V14C9 12.8954 9.89543 12 11 12H16.5L20 15.5Z" fill="currentColor" fillOpacity="0.1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M12 17H17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            <path d="M12 19H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            <path d="M4 4C4 2.89543 4.89543 2 6 2H13.5L18 6.5V9" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M13 2.5V7.5H18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
     </IconWrapper>
 );
 
 export const PdfToPowerpointIcon: React.FC<IconProps> = ({ className, ...props }) => (
-     <IconWrapper bgColor="bg-orange-500" className={className}>
-        <svg {...props} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="17" y="11" width="18" height="18" rx="4" fill="#F97316"/>
-            <rect x="5" y="11" width="18" height="18" rx="4" fill="#FB923C"/>
-            <text x="14" y="23" fontFamily="Arial, sans-serif" fontSize="10" fill="white" textAnchor="middle" dominantBaseline="middle" fontWeight="bold">P</text>
-            <path d="M28 17L24 21L28 25M24 21H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+     <IconWrapper className={cn("text-orange-500", className)}>
+        <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 4C4 2.89543 4.89543 2 6 2H13.5L18 6.5V9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="currentColor" fillOpacity="0.1"/>
+            <path d="M13 2.5V7.5H18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M9 12H18C19.1046 12 20 12.8954 20 14V20C20 21.1046 19.1046 22 18 22H9C7.89543 22 7 21.1046 7 20V14C7 12.8954 7.89543 12 9 12Z" stroke="currentColor" strokeWidth="1.5" fill="currentColor" fillOpacity="0.2"/>
+            <path d="M11 17H16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            <path d="M11 19H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
         </svg>
     </IconWrapper>
 );
 
 export const PowerpointToPdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
-     <IconWrapper bgColor="bg-orange-500" className={className}>
-        <svg {...props} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="5" y="11" width="18" height="18" rx="4" fill="#F97316"/>
-            <rect x="17" y="11" width="18" height="18" rx="4" fill="#FB923C"/>
-            <text x="26" y="23" fontFamily="Arial, sans-serif" fontSize="10" fill="white" textAnchor="middle" dominantBaseline="middle" fontWeight="bold">P</text>
-            <path d="M12 17L16 21L12 25M16 21H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+     <IconWrapper className={cn("text-orange-600", className)}>
+        <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 12H18C19.1046 12 20 12.8954 20 14V20C20 21.1046 19.1046 22 18 22H9C7.89543 22 7 21.1046 7 20V14C7 12.8954 7.89543 12 9 12Z" stroke="currentColor" strokeWidth="1.5" fill="currentColor" fillOpacity="0.1"/>
+            <path d="M11 17H16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            <path d="M11 19H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            <path d="M4 4C4 2.89543 4.89543 2 6 2H13.5L18 6.5V9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="currentColor" fillOpacity="0.2"/>
+            <path d="M13 2.5V7.5H18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
     </IconWrapper>
 );
 
 export const PdfToExcelIcon: React.FC<IconProps> = ({ className, ...props }) => (
-    <IconWrapper bgColor="bg-green-500" className={className}>
-       <svg {...props} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="17" y="11" width="18" height="18" rx="4" fill="#16A34A"/>
-            <rect x="5" y="11" width="18" height="18" rx="4" fill="#22C55E"/>
-            <text x="14" y="23" fontFamily="Arial, sans-serif" fontSize="10" fill="white" textAnchor="middle" dominantBaseline="middle" fontWeight="bold">P</text>
-            <path d="M28 17L24 21L28 25M24 21H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <IconWrapper className={cn("text-green-600", className)}>
+       <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 4C4 2.89543 4.89543 2 6 2H13.5L18 6.5V9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="currentColor" fillOpacity="0.1"/>
+            <path d="M13 2.5V7.5H18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M7 12H17C18.1046 12 19 12.8954 19 14V20C19 21.1046 18.1046 22 17 22H7C5.89543 22 5 21.1046 5 20V14C5 12.8954 5.89543 12 7 12Z" stroke="currentColor" strokeWidth="1.5" fill="currentColor" fillOpacity="0.2"/>
+            <path d="M9 15H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            <path d="M9 19H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            <path d="M12 15V19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
         </svg>
     </IconWrapper>
 );
 
 export const ExcelToPdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
-   <IconWrapper bgColor="bg-green-500" className={className}>
-       <svg {...props} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="5" y="11" width="18" height="18" rx="4" fill="#16A34A"/>
-            <rect x="17" y="11" width="18" height="18" rx="4" fill="#22C55E"/>
-            <text x="26" y="23" fontFamily="Arial, sans-serif" fontSize="10" fill="white" textAnchor="middle" dominantBaseline="middle" fontWeight="bold">X</text>
-            <path d="M12 17L16 21L12 25M16 21H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+   <IconWrapper className={cn("text-green-700", className)}>
+       <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 12H17C18.1046 12 19 12.8954 19 14V20C19 21.1046 18.1046 22 17 22H7C5.89543 22 5 21.1046 5 20V14C5 12.8954 5.89543 12 7 12Z" stroke="currentColor" strokeWidth="1.5" fill="currentColor" fillOpacity="0.1"/>
+            <path d="M9 15H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            <path d="M9 19H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            <path d="M12 15V19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            <path d="M4 4C4 2.89543 4.89543 2 6 2H13.5L18 6.5V9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="currentColor" fillOpacity="0.2"/>
+            <path d="M13 2.5V7.5H18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
     </IconWrapper>
 );
 
 export const EditPdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
-    <IconWrapper bgColor="bg-purple-500" className={className}>
-         <svg {...props} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="11" y="11" width="18" height="18" rx="4" fill="#A855F7"/>
-            <path d="M23 16L24.5 17.5M18 25L16 23L22 17L23.5 18.5L18 24V25H17Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <IconWrapper className={cn("text-purple-500", className)}>
+         <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z" fill="currentColor" fillOpacity="0.2"/>
+            <path d="M12.5 13.5L15 11L18 14L15.5 16.5M12.5 13.5L9.5 16.5H12.5V13.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
     </IconWrapper>
 );
 
 export const PdfToJpgIcon: React.FC<IconProps> = ({ className, ...props }) => (
-    <IconWrapper bgColor="bg-yellow-500" className={className}>
-       <svg {...props} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="17" y="11" width="18" height="18" rx="4" fill="#EAB308"/>
-            <rect x="5" y="11" width="18" height="18" rx="4" fill="#FACC15"/>
-            <text x="14" y="23" fontFamily="Arial, sans-serif" fontSize="10" fill="white" textAnchor="middle" dominantBaseline="middle" fontWeight="bold">P</text>
-            <path d="M28 17L24 21L28 25M24 21H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <IconWrapper className={cn("text-yellow-500", className)}>
+       <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z" fill="currentColor" fillOpacity="0.1"/>
+            <path d="M20 8H14V2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M10 18H14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            <path d="M12 12V18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            <path d="M10 12H12C13.1046 12 14 12.8954 14 14V14C14 15.1046 13.1046 16 12 16H10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
     </IconWrapper>
 );
 
 export const SignPdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
-    <IconWrapper bgColor="bg-indigo-500" className={className}>
-        <svg {...props} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="11" y="11" width="18" height="18" rx="4" fill="#6366F1"/>
-            <path d="M17 23L20 20L23 23" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M20 20V17" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <IconWrapper className={cn("text-indigo-500", className)}>
+        <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z" fill="currentColor" fillOpacity="0.2"/>
+            <path d="M10 16.5L12 19L17 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M8 12L15 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
     </IconWrapper>
 );
 
 export const WatermarkIcon: React.FC<IconProps> = ({ className, ...props }) => (
-    <IconWrapper bgColor="bg-cyan-500" className={className}>
-        <svg {...props} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="11" y="11" width="18" height="18" rx="4" fill="#06B6D4"/>
-             <path d="M20 16C21.1046 16 22 16.8954 22 18C22 19.5 20 22 20 22C20 22 18 19.5 18 18C18 16.8954 18.8954 16 20 16Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <IconWrapper className={cn("text-cyan-500", className)}>
+        <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z" fill="currentColor" fillOpacity="0.2"/>
+             <path d="M12 18C14.2091 18 16 16.2091 16 14C16 12.5 14.4 10 12 10C9.6 10 8 12.5 8 14C8 16.2091 9.79086 18 12 18Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
     </IconWrapper>
 );
 
 
 export const RotatePdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
-    <IconWrapper bgColor="bg-sky-500" className={className}>
-        <svg {...props} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="11" y="11" width="18" height="18" rx="4" fill="#0EA5E9"/>
-            <path d="M24 17H20V21" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M20 25C22.2091 25 24 23.2091 24 21" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+    <IconWrapper className={cn("text-sky-500", className)}>
+        <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z" fill="currentColor" fillOpacity="0.2"/>
+            <path d="M16 14H12V18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M12 22C14.2091 22 16 20.2091 16 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
         </svg>
     </IconWrapper>
 );
+
+    
