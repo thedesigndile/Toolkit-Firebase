@@ -102,7 +102,7 @@ export function SubHeader() {
             <span className="font-semibold">Toolkit</span>
           </Link>
           <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(true)}>
-              <Menu className="h-6 w-6" />
+              <Menu className="h-6 w-6" strokeWidth={1.5} />
           </Button>
         </div>
 
@@ -127,7 +127,7 @@ export function SubHeader() {
                         </div>
                     </Link>
                     <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
-                        <X className="h-6 w-6" />
+                        <X className="h-6 w-6" strokeWidth={1.5} />
                     </Button>
                 </div>
                 <nav className="flex flex-col items-center justify-center h-full gap-8">
@@ -181,3 +181,5 @@ const ListItem = React.forwardRef<
   );
 });
 ListItem.displayName = "ListItem";
+
+    

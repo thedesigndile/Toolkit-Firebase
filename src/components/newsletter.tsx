@@ -29,7 +29,7 @@ export function Newsletter() {
       <div className="container mx-auto px-4">
         <div className="max-w-2xl mx-auto text-center">
             <div className="inline-flex items-center justify-center p-4 bg-accent/10 dark:bg-accent/20 rounded-full mb-4">
-                <MailCheck className="h-12 w-12 text-accent" />
+                <MailCheck className="h-12 w-12 text-accent" strokeWidth={1.5} />
             </div>
             <h2 className="text-3xl font-semibold">Stay Updated</h2>
             <p className="text-muted-foreground mt-2 text-lg">
@@ -53,3 +53,5 @@ export function Newsletter() {
     </section>
   );
 }
+
+    

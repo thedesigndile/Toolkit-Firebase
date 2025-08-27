@@ -57,18 +57,18 @@ export function ProgressDisplay({ fileName, progress, status, onDownload, onRese
               className="flex justify-center items-center mb-4"
             >
               <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-full">
-                <CheckCircle className="h-16 w-16 text-green-500 dark:text-green-400" />
+                <CheckCircle className="h-16 w-16 text-green-500 dark:text-green-400" strokeWidth={1.5} />
               </div>
             </motion.div>
             <h3 className="text-2xl font-semibold">Success!</h3>
             <p className="text-muted-foreground mt-2 mb-6">Your file is ready to be downloaded.</p>
             <div className="flex justify-center gap-4">
               <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" onClick={onDownload}>
-                <Download className="mr-2 h-5 w-5" />
+                <Download className="mr-2 h-5 w-5" strokeWidth={1.5} />
                 Download File
               </Button>
               <Button size="lg" variant="outline" onClick={onReset}>
-                <RotateCcw className="mr-2 h-5 w-5" />
+                <RotateCcw className="mr-2 h-5 w-5" strokeWidth={1.5} />
                 Process Another
               </Button>
             </div>
@@ -77,7 +77,7 @@ export function ProgressDisplay({ fileName, progress, status, onDownload, onRese
           <div className="p-6 border rounded-lg bg-card shadow-lg hover:shadow-xl transition-shadow">
             <div className="flex items-center gap-4 mb-4">
               <div className="p-2 bg-muted rounded-md">
-                {status === 'error' ? <AlertTriangle className="h-6 w-6 text-destructive" /> : <File className="h-6 w-6 text-muted-foreground" /> }
+                {status === 'error' ? <AlertTriangle className="h-6 w-6 text-destructive" strokeWidth={1.5} /> : <File className="h-6 w-6 text-muted-foreground" strokeWidth={1.5} /> }
               </div>
               <div className="flex-1">
                 <p className="font-medium truncate">{fileName}</p>
@@ -98,7 +98,7 @@ export function ProgressDisplay({ fileName, progress, status, onDownload, onRese
              {status === 'error' && (
                 <div className="text-center mt-6">
                     <Button variant="outline" onClick={onReset}>
-                        <RotateCcw className="mr-2 h-4 w-4"/>
+                        <RotateCcw className="mr-2 h-4 w-4" strokeWidth={1.5} />
                         Try Again
                     </Button>
                 </div>
@@ -109,3 +109,5 @@ export function ProgressDisplay({ fileName, progress, status, onDownload, onRese
     </AnimatePresence>
   );
 }
+
+    

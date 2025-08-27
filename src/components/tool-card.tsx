@@ -75,7 +75,7 @@ export function ToolCard({ tool, index, isFavorite, onToggleFavorite, isHighligh
                     )}
                     aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
                   >
-                    <Star className={cn("h-5 w-5", isFavorite && "fill-current")} />
+                    <Star className={cn("h-5 w-5", isFavorite && "fill-current")} strokeWidth={1.5} />
                   </button>
 
                   <CardContent className="p-5 flex flex-col items-center text-center aspect-square justify-center">
@@ -83,7 +83,7 @@ export function ToolCard({ tool, index, isFavorite, onToggleFavorite, isHighligh
                       className="mb-4"
                       whileHover={{ scale: 1.1, transition: { duration: 0.2, ease: "easeOut" } }}
                   >
-                      <Icon className="h-16 w-16" />
+                      <Icon className="h-16 w-16" strokeWidth={1.5} />
                   </motion.div>
                   <p className="text-base font-semibold leading-tight text-foreground">{tool.name}</p>
                   <p className="text-sm text-muted-foreground mt-2">{tool.description}</p>
@@ -99,3 +99,5 @@ export function ToolCard({ tool, index, isFavorite, onToggleFavorite, isHighligh
     </motion.div>
   );
 }
+
+    

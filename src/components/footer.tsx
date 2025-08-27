@@ -36,7 +36,7 @@ export function Footer() {
             </div>
             <div className="flex flex-col justify-center">
                 <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-                  <Mail className="h-5 w-5" />
+                  <Mail className="h-5 w-5" strokeWidth={1.5} />
                   Stay Updated
                 </h3>
                 <p className="text-muted-foreground mb-4 text-sm">
@@ -95,13 +95,13 @@ export function Footer() {
             </p>
             <div className="flex items-center gap-1">
                 <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" asChild>
-                    <Link href="#" aria-label="Github"><Github className="h-5 w-5" /></Link>
+                    <Link href="#" aria-label="Github"><Github className="h-5 w-5" strokeWidth={1.5} /></Link>
                 </Button>
                 <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" asChild>
-                    <Link href="#" aria-label="Twitter"><Twitter className="h-5 w-5" /></Link>
+                    <Link href="#" aria-label="Twitter"><Twitter className="h-5 w-5" strokeWidth={1.5} /></Link>
                 </Button>
                 <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" asChild>
-                    <Link href="#" aria-label="LinkedIn"><Linkedin className="h-5 w-5" /></Link>
+                    <Link href="#" aria-label="LinkedIn"><Linkedin className="h-5 w-5" strokeWidth={1.5} /></Link>
                 </Button>
             </div>
         </div>
@@ -109,3 +109,5 @@ export function Footer() {
     </footer>
   );
 }
+
+    

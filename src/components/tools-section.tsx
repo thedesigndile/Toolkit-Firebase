@@ -34,7 +34,7 @@ const FloatingIcon = ({ icon: Icon, className }: { icon: React.ElementType, clas
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, ease: "backOut" }}
     >
-      <Icon className="h-6 w-6" />
+      <Icon className="h-6 w-6" strokeWidth={1.5} />
     </motion.div>
 );
 
@@ -133,7 +133,7 @@ export function ToolsSection() {
                  Discover a powerful suite of free tools to boost your productivity, streamline your workflow, and handle tasks like PDF editing, image conversion, and more— all right in your browser.
             </p>
             <div className="my-8 mx-auto max-w-lg relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" strokeWidth={1.5} />
               <Input
                 type="search"
                 placeholder="Search for any tool..."
@@ -150,7 +150,7 @@ export function ToolsSection() {
                 <TabsList className="h-auto w-full max-w-5xl overflow-x-auto hide-scrollbar bg-muted/80 rounded-full p-1 flex-wrap justify-center">
                     {CATEGORIES.map(({name, icon: Icon}) => (
                         <TabsTrigger key={name} value={name} className="px-4 whitespace-nowrap rounded-full">
-                           {Icon && <Icon className="h-4 w-4 mr-2" />}
+                           {Icon && <Icon className="h-4 w-4 mr-2" strokeWidth={1.5} />}
                            {name}
                         </TabsTrigger>
                     ))}
@@ -163,7 +163,7 @@ export function ToolsSection() {
                         {categorizedTools.map(([category, { categoryIcon: CategoryIcon, tools: categoryTools }]) => (
                             <div key={category} className="space-y-6">
                                 <h2 className="text-2xl font-semibold flex items-center justify-center gap-3 text-center">
-                                    <CategoryIcon className="h-7 w-7 text-brand-blue" />
+                                    <CategoryIcon className="h-7 w-7 text-brand-blue" strokeWidth={1.5} />
                                     {category}
                                 </h2>
                                 <motion.div
@@ -216,3 +216,5 @@ export function ToolsSection() {
     </div>
   );
 }
+
+    

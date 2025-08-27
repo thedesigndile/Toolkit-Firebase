@@ -53,7 +53,7 @@ export function Header() {
                     onMouseEnter={() => setHoveredItem(item.name)}
                  >
                     {item.href ? (
-                        <NavigationMenuLink asChild>
+                         <NavigationMenuLink asChild>
                            <Link href={item.href} className={cn(navigationMenuTriggerStyle(), "font-semibold text-sm bg-transparent text-white hover:text-white/90 px-4 py-2 hover:bg-transparent focus:bg-transparent")}>
                               {item.name}
                            </Link>
@@ -109,7 +109,7 @@ export function Header() {
             <ModernLogo />
           </Link>
          <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(true)}>
-            <Menu className="h-6 w-6" />
+            <Menu className="h-6 w-6" strokeWidth={1.5} />
         </Button>
       </div>
 
@@ -127,7 +127,7 @@ export function Header() {
                 <ModernLogo />
               </Link>
               <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
-                <X className="h-6 w-6" />
+                <X className="h-6 w-6" strokeWidth={1.5} />
               </Button>
             </div>
             <nav className="flex flex-col items-center justify-center h-full gap-8">
@@ -180,7 +180,7 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
               {!isStatic && Icon && (
                 <div className="p-1 rounded-md bg-transparent">
                   <motion.div whileHover={{ scale: 1.1 }}>
-                    <Icon className="h-10 w-10 transition-all duration-300 ease-in-out" />
+                    <Icon className="h-10 w-10 transition-all duration-300 ease-in-out" strokeWidth={1.5} />
                   </motion.div>
                 </div>
               )}
@@ -198,3 +198,5 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
   }
 );
 ListItem.displayName = "ListItem";
+
+    

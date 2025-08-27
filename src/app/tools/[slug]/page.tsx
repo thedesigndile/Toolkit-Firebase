@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
@@ -303,7 +302,7 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
               <AccordionItem value="item-1">
                 <AccordionTrigger>
                   <div className="flex items-center gap-2">
-                    <Settings2 className="h-4 w-4"/>
+                    <Settings2 className="h-4 w-4" strokeWidth={1.5} />
                     Advanced Options
                   </div>
                 </AccordionTrigger>
@@ -377,7 +376,7 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current?.click()}
             >
-                <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" />
+                <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" strokeWidth={1.5} />
                 <p className="mt-4 text-sm text-muted-foreground">
                 Drag and drop files here, or click to select files
                 </p>
@@ -403,11 +402,11 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
                     {files.map(file => (
                     <li key={`${file.name}-${file.lastModified}`} className="flex items-center justify-between p-3">
                         <div className="flex items-center gap-3">
-                        <File className="h-5 w-5 text-muted-foreground" />
+                        <File className="h-5 w-5 text-muted-foreground" strokeWidth={1.5} />
                         <span className="text-sm font-medium">{file.name}</span>
                         </div>
                         <Button variant="ghost" size="icon" onClick={() => removeFile(file.name)} disabled={status !== 'idle'}>
-                        <X className="h-4 w-4" />
+                        <X className="h-4 w-4" strokeWidth={1.5} />
                         </Button>
                     </li>
                     ))}
@@ -419,7 +418,7 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
 
             <div className="mt-8 text-center">
                 <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" disabled={files.length === 0 || status !== 'idle'} onClick={handleProcessFiles}>
-                    {status === 'processing' && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {status === 'processing' && <Loader2 className="mr-2 h-4 w-4 animate-spin" strokeWidth={1.5} />}
                     {status === 'processing' ? "Processing..." : `Process ${files.length > 0 ? files.length : ''} File(s)`}
                 </Button>
             </div>
@@ -449,7 +448,7 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
             <div className="max-w-4xl mx-auto">
                 <div className="text-center mb-12">
                     <div className="inline-flex items-center justify-center p-4 bg-accent/10 dark:bg-accent/20 rounded-full mb-4">
-                        <Icon className="h-12 w-12 text-accent" />
+                        <Icon className="h-12 w-12 text-accent" strokeWidth={1.5} />
                     </div>
                     <h1 className="text-4xl font-semibold">{tool.name}</h1>
                     <p className="text-muted-foreground mt-2 text-lg">{tool.description}</p>
@@ -478,3 +477,5 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
     </ProgressProvider>
   )
 }
+
+    
