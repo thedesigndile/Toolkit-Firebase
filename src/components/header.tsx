@@ -53,11 +53,11 @@ export function Header() {
                     onMouseEnter={() => setHoveredItem(item.name)}
                  >
                     {item.href ? (
-                         <Link href={item.href} passHref>
-                            <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "font-semibold text-sm bg-transparent text-white hover:text-white/90 px-4 py-2 hover:bg-transparent focus:bg-transparent")}>
-                                {item.name}
-                            </NavigationMenuLink>
-                         </Link>
+                        <NavigationMenuLink asChild>
+                           <Link href={item.href} className={cn(navigationMenuTriggerStyle(), "font-semibold text-sm bg-transparent text-white hover:text-white/90 px-4 py-2 hover:bg-transparent focus:bg-transparent")}>
+                              {item.name}
+                           </Link>
+                        </NavigationMenuLink>
                     ) : (
                         <NavigationMenuTrigger className="font-semibold text-sm bg-transparent text-white hover:text-white/90 hover:bg-transparent focus:bg-transparent">
                             {item.name}
