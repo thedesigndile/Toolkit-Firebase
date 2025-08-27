@@ -45,7 +45,7 @@ export const PdfToWordIcon: React.FC<IconProps> = ({ className, ...props }) => (
         <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 4C4 2.89543 4.89543 2 6 2H13.5L18 6.5V9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="currentColor" fillOpacity="0.1"/>
             <path d="M13 2.5V7.5H18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M20 15V20C20 21.1046 19.1046 22 18 22H11C9.89543 22 9 21.1046 9 20V14C9 12.8954 9.89543 12 11 12H16.5L20 15.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="currentColor" fillOpacity="0.2"/>
+            <path d="M20 15.5V20C20 21.1046 19.1046 22 18 22H11C9.89543 22 9 21.1046 9 20V14C9 12.8954 9.89543 12 11 12H16.5L20 15.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="currentColor" fillOpacity="0.2"/>
             <path d="M12 17H17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
             <path d="M12 19H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
         </svg>
@@ -55,7 +55,7 @@ export const PdfToWordIcon: React.FC<IconProps> = ({ className, ...props }) => (
 export const WordToPdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
     <IconWrapper className={cn("text-blue-600", className)}>
         <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 15V20C20 21.1046 19.1046 22 18 22H11C9.89543 22 9 21.1046 9 20V14C9 12.8954 9.89543 12 11 12H16.5L20 15.5Z" fill="currentColor" fillOpacity="0.1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M20 15.5V20C20 21.1046 19.1046 22 18 22H11C9.89543 22 9 21.1046 9 20V14C9 12.8954 9.89543 12 11 12H16.5L20 15.5Z" fill="currentColor" fillOpacity="0.1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             <path d="M12 17H17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
             <path d="M12 19H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
             <path d="M4 4C4 2.89543 4.89543 2 6 2H13.5L18 6.5V9" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
