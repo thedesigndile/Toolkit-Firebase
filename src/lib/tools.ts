@@ -1,4 +1,4 @@
-import { type LucideIcon, FileJson, PenSquare, Calculator, Timer, Image, Code, KeyRound, Type, Palette, Video, GitBranch, Database, TerminalSquare, Combine, Split, FileArchive, FileText, ArrowRightLeft, Minimize2, Crop, FileImage, ImagePlus, AudioWaveform, Scissors, Mic, Minimize, MonitorUp, BookText, StickyNote, BookUser, Regex, Archive, ScanText, QrCode, Camera, Sigma, ListOrdered, FileX, ChevronsRight, Layers, FileScan, Settings2, FileLock, Shield, Fingerprint, Files, RotateCw, PlusSquare, Droplet, Pencil, Lock, ShieldCheck, Milestone, Waypoints, RedoDot, FileSliders, FileDiff, Scaling, Paintbrush, Text, SigmaSquare, BrainCircuit, ScanSearch, FileKey, WaypointsIcon, ListTree, Tags, View, ImageDown, Speaker, FileBox, FileVideo } from 'lucide-react';
+import { type LucideIcon, FileJson, PenSquare, Calculator, Timer, Image, Code, KeyRound, Type, Palette, Video, GitBranch, Database, TerminalSquare, Combine, Split, FileArchive, FileText, ArrowRightLeft, Minimize2, Crop, FileImage, ImagePlus, AudioWaveform, Scissors, Mic, Minimize, MonitorUp, BookText, StickyNote, BookUser, Regex, Archive, ScanText, QrCode, Camera, Sigma, ListOrdered, FileX, ChevronsRight, Layers, FileScan, Settings2, FileLock, Shield, Fingerprint, Files, RotateCw, PlusSquare, Droplet, Pencil, Lock, ShieldCheck, Milestone, Waypoints, RedoDot, FileSliders, FileDiff, Scaling, Paintbrush, Text, SigmaSquare, BrainCircuit, ScanSearch, FileKey, WaypointsIcon, ListTree, Tags, View, ImageDown, Speaker, FileBox, FileVideo, Package, PackageOpen, Braces, Binary, GanttChartSquare, Clipboard, Share2, Link as LinkIconLucide } from 'lucide-react';
 import {
   MergePdfIcon,
   SplitPdfIcon,
@@ -14,6 +14,7 @@ import {
   SignPdfIcon,
   WatermarkIcon,
   RotatePdfIcon,
+  LinkIcon,
 } from '@/components/tool-icons';
 
 export interface Tool {
@@ -94,13 +95,48 @@ export const tools: Tool[] = [
   { name: 'Image Resizer', description: 'Crop and resize your images.', icon: Crop, category: 'Image Tools', categoryIcon: Image },
   { name: 'Image Upscaler', description: 'Increase image resolution with AI.', icon: Scaling, category: 'Image Tools', categoryIcon: Image },
   { name: 'Photo Editor', description: 'Make basic adjustments to your photos.', icon: ImagePlus, category: 'Image Tools', categoryIcon: Image },
+  { name: 'Background Remover', description: 'Automatically remove the background from an image.', icon: Droplet, category: 'Image Tools', categoryIcon: Image },
+  { name: 'Color Palette Generator', description: 'Extract a color scheme from an image.', icon: Palette, category: 'Image Tools', categoryIcon: Image },
+  { name: 'Meme Generator', description: 'Create memes from your own images or templates.', icon: Share2, category: 'Image Tools', categoryIcon: Image },
+
 
   // Video Tools
   { name: 'Video Compressor', description: 'Reduce video file sizes without losing quality.', icon: FileVideo, category: 'Video Tools', categoryIcon: Video },
+  { name: 'Trim Video', description: 'Cut out a portion from the beginning or end.', icon: Scissors, category: 'Video Tools', categoryIcon: Video },
+  { name: 'Video to GIF', description: 'Convert a video clip into an animated GIF.', icon: RedoDot, category: 'Video Tools', categoryIcon: Video },
+  { name: 'Video Converter', description: 'Convert videos between formats like MP4, WebM, AVI.', icon: FileVideo, category: 'Video Tools', categoryIcon: Video },
+  { name: 'Merge Videos', description: 'Combine multiple video clips into one.', icon: Combine, category: 'Video Tools', categoryIcon: Video },
+  { name: 'Extract Audio from Video', description: 'Rip the audio track from a video file.', icon: AudioWaveform, category: 'Video Tools', categoryIcon: Video },
+  { name: 'Screen Recorder', description: 'Record your screen, with or without your camera.', icon: MonitorUp, category: 'Video Tools', categoryIcon: Video },
 
+  // Audio Tools
+  { name: 'Audio Compressor', description: 'Reduce the file size of audio files.', icon: Minimize, category: 'Audio Tools', categoryIcon: AudioWaveform },
+  { name: 'Audio Converter', description: 'Convert audio between MP3, WAV, M4A, etc.', icon: AudioWaveform, category: 'Audio Tools', categoryIcon: AudioWaveform },
+  { name: 'Trim Audio', description: 'Cut a section from an audio file.', icon: Scissors, category: 'Audio Tools', categoryIcon: AudioWaveform },
+  { name: 'Merge Audio', description: 'Join multiple audio tracks into one.', icon: Combine, category: 'Audio Tools', categoryIcon: AudioWaveform },
+  { name: 'Voice Recorder', description: 'Record audio directly from your microphone.', icon: Mic, category: 'Audio Tools', categoryIcon: AudioWaveform },
+  { name: 'Text to Speech', description: 'Convert text into natural-sounding speech with AI.', icon: Speaker, category: 'Audio Tools', categoryIcon: AudioWaveform },
 
   // Utility Tools
   { name: 'Password Generator', description: 'Create strong, secure passwords.', icon: KeyRound, category: 'Utility Tools', categoryIcon: TerminalSquare, isStandalone: true },
   { name: 'QR Code Generator', description: 'Create your own QR codes.', icon: QrCode, category: 'Utility Tools', categoryIcon: TerminalSquare },
   { name: 'QR Code Scanner', description: 'Scan QR codes using your camera.', icon: Camera, category: 'Utility Tools', categoryIcon: TerminalSquare },
+  { name: 'Text Case Converter', description: 'Change text to uppercase, lowercase, title case, etc.', icon: Type, category: 'Utility Tools', categoryIcon: TerminalSquare },
+  { name: 'Character & Word Counter', description: 'Count characters, words, sentences, and paragraphs.', icon: Sigma, category: 'Utility Tools', categoryIcon: TerminalSquare },
+  { name: 'Regex Tester', description: 'Test your regular expressions in real-time.', icon: Regex, category: 'Utility Tools', categoryIcon: TerminalSquare },
+  { name: 'Unit Converter', description: 'Convert between various units of measurement.', icon: Calculator, category: 'Utility Tools', categoryIcon: TerminalSquare },
+  { name: 'Lorem Ipsum Generator', description: 'Generate placeholder text for your designs.', icon: FileText, category: 'Utility Tools', categoryIcon: TerminalSquare },
+  { name: 'Stopwatch & Timer', description: 'Measure time with a simple stopwatch or set a timer.', icon: Timer, category: 'Utility Tools', categoryIcon: TerminalSquare, isStandalone: true },
+  { name: 'JSON Formatter & Validator', description: 'Beautify and validate your JSON data.', icon: FileJson, category: 'Utility Tools', categoryIcon: TerminalSquare },
+  { name: 'Text Compare', description: 'Find the differences between two text files.', icon: FileDiff, category: 'Utility Tools', categoryIcon: TerminalSquare },
+  { name: 'MD5 / SHA-256 Generator', description: 'Calculate file hashes using various algorithms.', icon: Fingerprint, category: 'Utility Tools', categoryIcon: TerminalSquare },
+  { name: 'Base64 Encoder/Decoder', description: 'Encode to or decode from Base64.', icon: Binary, category: 'Utility Tools', categoryIcon: TerminalSquare },
+  { name: 'URL Encoder/Decoder', description: 'Encode or decode URLs for safe transmission.', icon: LinkIcon, category: 'Utility Tools', categoryIcon: TerminalSquare },
+  { name: 'Notepad', description: 'A simple online notepad for quick notes.', icon: StickyNote, category: 'Utility Tools', categoryIcon: TerminalSquare, isStandalone: true },
+  { name: 'Clipboard History', description: 'Keep track of your clipboard history.', icon: Clipboard, category: 'Utility Tools', categoryIcon: TerminalSquare, isStandalone: true },
+  { name: 'Project Planner', description: 'Outline projects with tasks and timelines.', icon: GanttChartSquare, category: 'Utility Tools', categoryIcon: TerminalSquare, isStandalone: true },
+
+  // Archive Tools
+  { name: 'Zip File Extractor', description: 'Unzip files from a compressed archive.', icon: PackageOpen, category: 'Archive Tools', categoryIcon: Package },
+  { name: 'Create Zip File', description: 'Compress multiple files into a single ZIP archive.', icon: Package, category: 'Archive Tools', categoryIcon: Package },
 ];

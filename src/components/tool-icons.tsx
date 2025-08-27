@@ -1,5 +1,5 @@
-
 import { cn } from "@/lib/utils";
+import { Link } from "lucide-react";
 import React from "react";
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {}
@@ -167,3 +167,9 @@ export const RotatePdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
         </svg>
     </IconWrapper>
 );
+
+export const LinkIcon: React.FC<IconProps> = ({ className, ...props }) => (
+    <IconWrapper className={cn("text-muted-foreground", className)}>
+        <Link {...props} width="48" height="48" />
+    </IconWrapper>
+)

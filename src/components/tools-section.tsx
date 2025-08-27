@@ -5,28 +5,26 @@ import { useState, useMemo, useEffect } from "react";
 import { tools, type Tool } from "@/lib/tools";
 import { Input } from "./ui/input";
 import { ToolCard } from "./tool-card";
-import { Calculator, FileText, Image, Search, Video, Star } from "lucide-react";
+import { Calculator, FileText, Image, Search, Video, Star, Package, TerminalSquare, AudioWaveform, Pencil, Settings2, Shield, Layers, ArrowRightLeft, SigmaSquare } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
-const PDF_CATEGORIES = [
-    "Favorites",
-    "All",
-    "Organize PDF",
-    "Optimize PDF",
-    "Convert PDF",
-    "Edit PDF",
-    "PDF Security",
+const CATEGORIES = [
+    { name: "Favorites", icon: Star },
+    { name: "All", icon: null },
+    { name: "Organize PDF", icon: Layers },
+    { name: "Optimize PDF", icon: Settings2 },
+    { name: "Convert PDF", icon: ArrowRightLeft },
+    { name: "Edit PDF", icon: Pencil },
+    { name: "PDF Security", icon: Shield },
+    { name: "Image Tools", icon: Image },
+    { name: "Video Tools", icon: Video },
+    { name: "Audio Tools", icon: AudioWaveform },
+    { name: "Utility Tools", icon: TerminalSquare },
+    { name: "Archive Tools", icon: Package },
+    { name: "Extra Tools", icon: SigmaSquare },
 ];
-
-const OTHER_CATEGORIES = [
-    "Image Tools",
-    "Video Tools",
-    "Utility Tools",
-]
-
-const ALL_CATEGORIES = [...PDF_CATEGORIES.slice(2), ...OTHER_CATEGORIES];
 
 
 const FloatingIcon = ({ icon: Icon, className }: { icon: React.ElementType, className?: string }) => (
@@ -100,7 +98,9 @@ export function ToolsSection() {
       return acc;
     }, {} as Record<string, { categoryIcon: any; tools: Tool[] }>);
 
-    return ALL_CATEGORIES
+    return CATEGORIES
+      .map(cat => cat.name)
+      .slice(2)
       .map(category => {
         if (grouped[category]) {
           return [category, grouped[category]];
@@ -147,19 +147,12 @@ export function ToolsSection() {
 
         <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
             <div className="flex justify-center mb-2">
-                <TabsList className="h-auto w-full max-w-5xl overflow-x-auto hide-scrollbar bg-muted/80 rounded-full p-1">
-                    {PDF_CATEGORIES.map(category => (
-                        <TabsTrigger key={category} value={category} className="px-4 whitespace-nowrap rounded-full">
-                           {category === 'Favorites' && <Star className="h-4 w-4 mr-2" />}
-                           {category}
+                <TabsList className="h-auto w-full max-w-5xl overflow-x-auto hide-scrollbar bg-muted/80 rounded-full p-1 flex-wrap justify-center">
+                    {CATEGORIES.map(({name, icon: Icon}) => (
+                        <TabsTrigger key={name} value={name} className="px-4 whitespace-nowrap rounded-full">
+                           {Icon && <Icon className="h-4 w-4 mr-2" />}
+                           {name}
                         </TabsTrigger>
-                    ))}
-                </TabsList>
-            </div>
-             <div className="flex justify-center">
-                <TabsList className="h-auto w-full max-w-5xl overflow-x-auto hide-scrollbar bg-muted/80 rounded-full p-1">
-                    {OTHER_CATEGORIES.map(category => (
-                        <TabsTrigger key={category} value={category} className="px-4 whitespace-nowrap rounded-full">{category}</TabsTrigger>
                     ))}
                 </TabsList>
             </div>
