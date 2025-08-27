@@ -47,7 +47,7 @@ export function Header() {
           <Link href="/" aria-label="Go to homepage">
             <div className="flex items-center gap-2">
                 <DileToolLogo />
-                <span className="text-xl font-bold text-foreground">Toolkit</span>
+                <span className="text-xl font-semibold text-foreground">Toolkit</span>
             </div>
           </Link>
           <NavigationMenu className="hidden md:flex ml-8">
@@ -158,7 +158,7 @@ export function Header() {
                     <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
                          <div className="flex items-center gap-2">
                             <DileToolLogo />
-                            <span className="text-xl font-bold text-foreground">Toolkit</span>
+                            <span className="text-xl font-semibold text-foreground">Toolkit</span>
                         </div>
                     </Link>
                     <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
@@ -222,7 +222,7 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
                 </div>
               )}
               <div className="flex-1">
-                <div className="text-sm font-medium leading-none group-hover:font-bold">{title ?? tool?.name}</div>
+                <div className="text-sm font-medium leading-none group-hover:font-semibold">{title ?? tool?.name}</div>
                 <p className="line-clamp-2 text-sm leading-snug text-muted-foreground mt-1">
                   {children ?? tool?.description}
                 </p>
@@ -235,5 +235,3 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
   }
 );
 ListItem.displayName = "ListItem";
-
-    

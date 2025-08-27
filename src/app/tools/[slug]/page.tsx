@@ -289,7 +289,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
                     <CheckCircle className="h-12 w-12 text-green-600 dark:text-green-400" />
                 </div>
             </div>
-            <h3 className="text-2xl font-bold">Processing Complete!</h3>
+            <h3 className="text-2xl font-semibold">Processing Complete!</h3>
             <p className="text-muted-foreground mt-2 mb-6">Your file is ready for download.</p>
             <div className="flex justify-center gap-4">
                 <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" asChild>
@@ -380,7 +380,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
 
 
   return (
-    <div className="flex min-h-screen flex-col bg-background pt-16">
+    <div className="flex min-h-screen flex-col bg-background pt-8">
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8">
             <div className="max-w-4xl mx-auto">
@@ -388,7 +388,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
                     <div className="inline-flex items-center justify-center p-4 bg-accent/10 dark:bg-accent/20 rounded-full mb-4">
                         <Icon className="h-12 w-12 text-accent" />
                     </div>
-                    <h1 className="text-4xl font-bold font-headline">{tool.name}</h1>
+                    <h1 className="text-4xl font-semibold">{tool.name}</h1>
                     <p className="text-muted-foreground mt-2 text-lg">{tool.description}</p>
                 </div>
                 

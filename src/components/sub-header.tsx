@@ -34,7 +34,7 @@ export function SubHeader() {
         <div className="mr-4 hidden md:flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <DileToolLogo />
-            <span className="hidden font-bold sm:inline-block">Toolkit</span>
+            <span className="hidden font-semibold sm:inline-block">Toolkit</span>
           </Link>
           <NavigationMenu>
             <NavigationMenuList>
@@ -99,7 +99,7 @@ export function SubHeader() {
         <div className="flex flex-1 items-center justify-between md:hidden">
           <Link href="/" className="flex items-center space-x-2">
             <DileToolLogo />
-            <span className="font-bold">Toolkit</span>
+            <span className="font-semibold">Toolkit</span>
           </Link>
           <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(true)}>
               <Menu className="h-6 w-6" />
@@ -123,7 +123,7 @@ export function SubHeader() {
                     <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
                          <div className="flex items-center gap-2">
                             <DileToolLogo />
-                            <span className="text-xl font-bold text-foreground">Toolkit</span>
+                            <span className="text-xl font-semibold text-foreground">Toolkit</span>
                         </div>
                     </Link>
                     <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>

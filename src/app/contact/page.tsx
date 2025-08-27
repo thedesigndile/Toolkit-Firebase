@@ -10,7 +10,7 @@ export default function ContactPage() {
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-2xl mx-auto text-center">
-            <h1 className="text-4xl font-bold font-headline">Contact Us</h1>
+            <h1 className="text-4xl font-semibold">Contact Us</h1>
             <p className="text-muted-foreground mt-2 text-lg">
               Have questions? We'd love to hear from you.
             </p>

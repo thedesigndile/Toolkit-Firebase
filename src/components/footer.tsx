@@ -35,7 +35,7 @@ export function Footer() {
                 <div className="lg:col-span-2 flex flex-col items-start">
                      <Link href="/" className="flex items-center gap-3 mb-4">
                         <FooterLogo />
-                        <span className="text-2xl font-bold text-white">Toolkit</span>
+                        <span className="text-2xl font-semibold text-white">Toolkit</span>
                     </Link>
                     <p className="text-white/80 text-base max-w-sm">
                         The all-in-one platform for your document and creative needs. Free, secure, and right in your browser.

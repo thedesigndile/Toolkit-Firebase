@@ -5,7 +5,7 @@ export default function PricingPage() {
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl font-bold font-headline">Pricing</h1>
+            <h1 className="text-4xl font-semibold">Pricing</h1>
             <p className="text-muted-foreground mt-2 text-lg">
               Find the perfect plan for your needs.
             </p>

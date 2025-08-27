@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -30,7 +31,7 @@ export function Newsletter() {
             <div className="inline-flex items-center justify-center p-4 bg-accent/10 dark:bg-accent/20 rounded-full mb-4">
                 <MailCheck className="h-12 w-12 text-accent" />
             </div>
-            <h2 className="text-3xl font-bold font-headline">Stay Updated</h2>
+            <h2 className="text-3xl font-semibold">Stay Updated</h2>
             <p className="text-muted-foreground mt-2 text-lg">
                 Subscribe to our newsletter for the latest tools and features.
             </p>

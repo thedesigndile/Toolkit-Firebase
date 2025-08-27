@@ -13,7 +13,7 @@ interface ToolCardProps {
 }
 
 const cardVariants = {
-  hidden: { opacity: 0, y: -10 },
+  hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
@@ -39,25 +39,28 @@ export function ToolCard({ tool, index }: ToolCardProps) {
     >
       <Link href={`/tools/${slug}`} className="block group relative h-full">
         <motion.div
-          whileHover={{ y: -3 }}
+          whileHover={{ boxShadow: "0 10px 20px -5px hsl(var(--brand-blue-raw) / 0.15), 0 4px 6px -4px hsl(var(--brand-blue-raw) / 0.1)" }}
           transition={{
-            duration: 0.2,
+            duration: 0.25,
             ease: "easeOut",
           }}
           className="h-full"
         >
           <Card
             className={cn(
-              "cursor-pointer transition-all duration-300 relative overflow-hidden bg-card h-full border rounded-2xl",
-              "shadow-md group-hover:shadow-xl group-hover:shadow-accent/20",
-              "group-hover:border-accent/30"
+              "cursor-pointer transition-shadow duration-250 relative overflow-hidden bg-card h-full border rounded-2xl",
+              "shadow-md group-hover:shadow-xl group-hover:shadow-accent/10",
+               "group-hover:border-accent/20"
             )}
           >
             <CardContent className="p-5 flex flex-col items-center text-center aspect-square justify-center">
-              <div className="mb-4 transition-transform duration-200 ease-out group-hover:scale-110">
+              <motion.div 
+                className="mb-4"
+                whileHover={{ y: -3, transition: { duration: 0.2, ease: "easeOut" } }}
+              >
                 <Icon className="h-16 w-16" />
-              </div>
-              <p className="text-base font-bold leading-tight text-foreground">{tool.name}</p>
+              </motion.div>
+              <p className="text-base font-semibold leading-tight text-foreground">{tool.name}</p>
               <p className="text-sm text-muted-foreground mt-2">{tool.description}</p>
             </CardContent>
           </Card>
