@@ -6,9 +6,9 @@ import { Textarea } from "@/components/ui/textarea";
 
 export default function ContactPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-background pt-20">
+    <div className="flex min-h-screen flex-col bg-background pt-16">
       <main className="flex-1">
-        <div className="container mx-auto px-4 py-12">
+        <div className="container mx-auto px-4 py-8">
           <div className="max-w-2xl mx-auto text-center">
             <h1 className="text-4xl font-bold font-headline">Contact Us</h1>
             <p className="text-muted-foreground mt-2 text-lg">

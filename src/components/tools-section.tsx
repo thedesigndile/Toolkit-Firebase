@@ -80,9 +80,9 @@ export function ToolsSection() {
   }
 
   return (
-    <div className="container mx-auto px-4 pt-12 md:pt-16 lg:pt-20">
-       <section id="all-tools" className="pb-12 md:pb-16 lg:pb-20">
-        <div className="relative text-center max-w-4xl mx-auto mb-16 overflow-hidden py-10">
+    <div className="container mx-auto px-4 pt-8 md:pt-12">
+       <section id="all-tools" className="pb-8 md:pb-12">
+        <div className="relative text-center max-w-4xl mx-auto mb-12 overflow-hidden py-10">
            <div className="absolute inset-0 -z-10 hero-gradient rounded-3xl" />
             <FloatingIcon icon={FileText} className="top-0 left-10 text-red-500 animate-float-1" />
             <FloatingIcon icon={Image} className="top-1/2 -left-4 text-blue-500 animate-float" />
@@ -125,10 +125,10 @@ export function ToolsSection() {
                 </TabsList>
             </div>
 
-            <TabsContent value={activeTab} className="mt-12">
-                 <div className="space-y-16">
+            <TabsContent value={activeTab} className="mt-8">
+                 <div className="space-y-12">
                     {categorizedTools.map(([category, { categoryIcon: CategoryIcon, tools: categoryTools }]) => (
-                        <div key={category} className="space-y-8">
+                        <div key={category} className="space-y-6">
                              {activeTab === 'All' && (
                                 <h2 className="text-2xl font-bold font-headline flex items-center justify-center gap-3 text-center">
                                     <CategoryIcon className="h-7 w-7 text-brand-blue" />

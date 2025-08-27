@@ -24,7 +24,7 @@ export function Newsletter() {
   };
 
   return (
-    <section className="py-12 md:py-16 lg:py-20 bg-muted/50 dark:bg-card/20">
+    <section className="py-8 md:py-12 lg:py-16 bg-muted/50 dark:bg-card/20">
       <div className="container mx-auto px-4">
         <div className="max-w-2xl mx-auto text-center">
             <div className="inline-flex items-center justify-center p-4 bg-accent/10 dark:bg-accent/20 rounded-full mb-4">
