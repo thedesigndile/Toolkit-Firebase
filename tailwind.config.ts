@@ -19,6 +19,15 @@ export default {
       },
     },
     extend: {
+      borderRadius: {
+        '4xl': '2rem',
+        '3xl': '1.5rem',
+        '2xl': '1.25rem', // 20px
+        xl: '0.75rem',
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
+      },
       fontFamily: {
         body: ['var(--font-body)', ...fontFamily.sans],
       },
@@ -58,13 +67,10 @@ export default {
         ring: 'hsl(var(--ring))',
         'brand-blue': 'hsl(var(--brand-blue-raw))',
         'brand-purple': 'hsl(var(--brand-purple-raw))',
+        'brand-pink': 'hsl(var(--brand-pink-raw))',
         'soft-gray': 'hsl(var(--soft-gray))'
       },
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
-      },
+      
       keyframes: {
         'accordion-down': {
           from: {

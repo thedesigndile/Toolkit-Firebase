@@ -27,17 +27,19 @@
 
     --brand-blue-raw: 224 82% 53%; /* #2563EB */
     --brand-purple-raw: 257 90% 66%; /* #8B5CF6 */
+    --brand-pink-raw: 330 89% 66%;
     --brand-green-raw: 145 63% 49%;
     --brand-teal-raw: 165 77% 40%;
     --soft-gray-raw: 220 14% 46%;
 
     --brand-blue: hsl(var(--brand-blue-raw));
     --brand-purple: hsl(var(--brand-purple-raw));
+    --brand-pink: hsl(var(--brand-pink-raw));
     --brand-green: hsl(var(--brand-green-raw));
     --brand-teal: hsl(var(--brand-teal-raw));
     --soft-gray: hsl(var(--soft-gray-raw));
 
-    --radius: 0.5rem;
+    --radius: 1rem;
   }
 
   .dark {
@@ -174,16 +176,32 @@
     animation-delay: 2s;
   }
 
-  @keyframes pulse-glow {
-    0%, 100% {
-      box-shadow: 0 0 0 0 hsl(var(--ring) / 0.4);
+  @keyframes rotate-gradient {
+    0% {
+      background-position: 0% 50%;
     }
     50% {
-      box-shadow: 0 0 0 5px hsl(var(--ring) / 0);
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
     }
   }
 
-  .animate-pulse-glow {
-    animation: pulse-glow 2s infinite;
+  .animated-gradient-border-container {
+    @apply p-1 rounded-[20px] relative bg-gradient-to-r from-brand-purple via-brand-blue to-brand-pink;
+    background-size: 200% 200%;
+    animation: rotate-gradient 8s ease infinite;
+    transition: transform 0.3s ease;
   }
+  .animated-gradient-border-container:hover {
+      transform: scale(1.03);
+      box-shadow: 0 10px 30px -10px hsl(var(--brand-purple-raw) / 0.5);
+  }
+
+  .animated-gradient-border-content {
+      @apply bg-card rounded-[17px] h-full w-full;
+      padding: 20px;
+  }
+
 }
