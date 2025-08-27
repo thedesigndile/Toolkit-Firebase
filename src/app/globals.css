@@ -24,9 +24,14 @@
     --input: 220 13% 91%;
     --ring: 259 89% 64%;
 
-    --brand-blue: 220 83% 59%;
-    --brand-purple: 259 89% 64%;
-    --soft-gray: 215 14% 47%;
+    --brand-blue-raw: 221 83% 53%;
+    --brand-purple-raw: 255 81% 66%;
+    --soft-gray-raw: 220 14% 46%;
+
+    --brand-blue: hsl(var(--brand-blue-raw)); /* #2563EB */
+    --brand-purple: hsl(var(--brand-purple-raw)); /* #8B5CF6 */
+    --soft-gray: hsl(var(--soft-gray-raw)); /* #64748B */
+
     --radius: 0.5rem;
   }
 
@@ -51,9 +56,9 @@
     --input: 222 30% 25%;
     --ring: 259 89% 68%;
 
-    --brand-blue: 220 83% 69%;
-    --brand-purple: 259 89% 68%;
-    --soft-gray: 215 13% 65%;
+    --brand-blue: hsl(var(--brand-blue-raw));
+    --brand-purple: hsl(var(--brand-purple-raw));
+    --soft-gray: hsl(var(--soft-gray-raw));
   }
 }
 

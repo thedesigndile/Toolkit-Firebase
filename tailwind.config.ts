@@ -1,7 +1,7 @@
 
 import type {Config} from 'tailwindcss';
-
 const { fontFamily } = require('tailwindcss/defaultTheme');
+const plugin = require('tailwindcss/plugin');
 
 export default {
   darkMode: ['class'],
@@ -56,15 +56,9 @@ export default {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        'brand-blue': {
-            DEFAULT: 'hsl(var(--brand-blue))'
-        },
-        'brand-purple': {
-            DEFAULT: 'hsl(var(--brand-purple))'
-        },
-        'soft-gray': {
-            DEFAULT: 'hsl(var(--soft-gray))'
-        }
+        'brand-blue': 'hsl(var(--brand-blue))',
+        'brand-purple': 'hsl(var(--brand-purple))',
+        'soft-gray': 'hsl(var(--soft-gray))'
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -88,20 +82,22 @@ export default {
             height: '0',
           },
         },
-        'pulse-glow-text': {
-            '0%, 100%': { textShadow: '0 0 2px hsl(var(--brand-blue) / 0.7)' },
-            '50%': { textShadow: '0 0 10px hsl(var(--brand-blue) / 1)' },
-        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        'pulse-glow-text': 'pulse-glow-text 2.5s infinite ease-in-out',
       },
-      boxShadow: {
-        'glow-blue': '0 0 12px 2px hsl(var(--brand-blue) / 0.5)',
-      }
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [
+    require('tailwindcss-animate'),
+    plugin(function({ addUtilities, theme }: { addUtilities: any, theme: any }) {
+      const newUtilities = {
+        '.text-shadow-brand-purple': {
+          textShadow: `1px 1px 2px ${theme('colors.brand-purple')}`,
+        },
+      }
+      addUtilities(newUtilities)
+    })
+  ],
 } satisfies Config;
