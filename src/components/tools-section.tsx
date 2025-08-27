@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useMemo } from "react";
@@ -117,11 +118,13 @@ export function ToolsSection() {
                                     {category}
                                 </h2>
                             )}
-                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                                {categoryTools.map(tool => (
-                                    <ToolCard key={tool.name} tool={tool} />
+                            <motion.div
+                                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"
+                            >
+                                {categoryTools.map((tool, i) => (
+                                    <ToolCard key={tool.name} tool={tool} index={i} />
                                 ))}
-                            </div>
+                            </motion.div>
                         </div>
                     ))}
                     {categorizedTools.length === 0 && (
@@ -136,3 +139,4 @@ export function ToolsSection() {
     </div>
   );
 }
+
