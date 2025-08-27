@@ -54,12 +54,12 @@ export function Header() {
                  >
                     {item.href ? (
                          <Link href={item.href} legacyBehavior passHref>
-                            <NavigationMenuLink className="font-semibold text-sm bg-transparent text-white/80 hover:text-white px-4 py-2 hover:bg-transparent focus:bg-transparent">
+                            <NavigationMenuLink className="font-semibold text-sm bg-transparent text-white hover:text-white/90 px-4 py-2 hover:bg-transparent focus:bg-transparent">
                                 {item.name}
                             </NavigationMenuLink>
                          </Link>
                     ) : (
-                        <NavigationMenuTrigger className="font-semibold text-sm bg-transparent text-white/80 hover:text-white hover:bg-transparent focus:bg-transparent">
+                        <NavigationMenuTrigger className="font-semibold text-sm bg-transparent text-white hover:text-white/90 hover:bg-transparent focus:bg-transparent">
                             {item.name}
                         </NavigationMenuTrigger>
                     )}
@@ -94,7 +94,7 @@ export function Header() {
           </NavigationMenu>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="ghost" className="text-white/80 hover:text-white hover:bg-white/10 rounded-full">
+          <Button variant="ghost" className="text-white hover:text-white/90 hover:bg-white/10 rounded-full">
             Log In
           </Button>
           <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-full">
