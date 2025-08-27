@@ -15,13 +15,14 @@ export function ToolCard({ tool }: ToolCardProps) {
     <Link href={`/tools/${slug}`} className="block group">
         <Card
         className={cn(
-            "cursor-pointer transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-2 relative overflow-hidden bg-card h-full border-2 border-transparent group-hover:border-accent/80"
+            "cursor-pointer transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-2 relative overflow-hidden bg-card h-full border-2 border-transparent",
+            "group-hover:border-brand-purple"
         )}
         >
             <CardContent className="p-6">
                 <div className="flex items-start gap-4">
-                    <div className="rounded-lg bg-accent/10 p-3 transition-colors duration-300 group-hover:bg-accent/20">
-                        <Icon className="h-6 w-6 text-accent transition-all duration-300 group-hover:scale-110 group-hover:-rotate-6" />
+                    <div className="rounded-lg bg-accent/10 p-3 transition-colors duration-300 group-hover:bg-brand-purple/20">
+                        <Icon className="h-6 w-6 text-accent transition-all duration-300 group-hover:scale-110 group-hover:-rotate-6 group-hover:text-brand-purple" />
                     </div>
                     <div className="flex-1">
                         <p className="text-base font-semibold">{tool.name}</p>

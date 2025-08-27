@@ -16,13 +16,13 @@
     --secondary-foreground: 222 30% 25%;
     --muted: 210 25% 94%;
     --muted-foreground: 220 13% 45%;
-    --accent: 257 90% 66%; /* #8B5CF6 */
+    --accent: 224 82% 53%; /* Blue: #2563EB */
     --accent-foreground: 210 40% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 257 90% 66%;
+    --ring: 224 82% 53%;
 
     --brand-blue-raw: 224 82% 53%; /* #2563EB */
     --brand-purple-raw: 257 90% 66%; /* #8B5CF6 */
@@ -48,13 +48,13 @@
     --secondary-foreground: 210 40% 98%;
     --muted: 222 30% 18%;
     --muted-foreground: 220 13% 65%;
-    --accent: 257 90% 76%; /* Lighter purple for dark mode */
+    --accent: 224 82% 63%; /* Lighter Blue for dark mode */
     --accent-foreground: 222 30% 14%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 222 30% 20%;
     --input: 222 30% 20%;
-    --ring: 257 90% 76%;
+    --ring: 224 82% 63%;
   }
 }
 
@@ -69,7 +69,7 @@
 
 @layer utilities {
   .bg-gradient-primary {
-    @apply bg-gradient-to-r from-accent to-brand-blue;
+    @apply bg-gradient-to-r from-brand-blue to-brand-purple;
   }
 
   .text-gradient-primary {

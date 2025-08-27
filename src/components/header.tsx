@@ -123,7 +123,7 @@ export function Header() {
                         isStatic
                         title="View All Tools"
                         href="/tools"
-                        className="col-span-2 text-center bg-accent/20"
+                        className="col-span-2 text-center bg-accent/20 hover:bg-gradient-primary hover:text-white"
                       >
                         Discover our full suite of productivity tools.
                       </ListItem>
