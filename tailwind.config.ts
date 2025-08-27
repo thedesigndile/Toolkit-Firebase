@@ -1,3 +1,4 @@
+
 import type {Config} from 'tailwindcss';
 
 const { fontFamily } = require('tailwindcss/defaultTheme');
@@ -87,16 +88,19 @@ export default {
             height: '0',
           },
         },
-        'pulse-glow': {
-            '0%, 100%': { boxShadow: '0 0 0 0 hsl(var(--brand-purple) / 0.7)' },
-            '50%': { boxShadow: '0 0 10px 4px hsl(var(--brand-purple) / 0.3)' },
+        'pulse-glow-text': {
+            '0%, 100%': { textShadow: '0 0 2px hsl(var(--brand-blue) / 0.7)' },
+            '50%': { textShadow: '0 0 10px hsl(var(--brand-blue) / 1)' },
         },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        'pulse-glow': 'pulse-glow 2.5s infinite ease-in-out',
+        'pulse-glow-text': 'pulse-glow-text 2.5s infinite ease-in-out',
       },
+      boxShadow: {
+        'glow-blue': '0 0 12px 2px hsl(var(--brand-blue) / 0.5)',
+      }
     },
   },
   plugins: [require('tailwindcss-animate')],

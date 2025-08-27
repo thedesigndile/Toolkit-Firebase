@@ -2,7 +2,6 @@
 import { Header } from "@/components/header";
 import { ToolsSection } from "@/components/tools-section";
 import { Newsletter } from "@/components/newsletter";
-import { Footer } from "@/components/footer";
 
 export default function Home() {
   return (
@@ -12,7 +11,6 @@ export default function Home() {
         <ToolsSection />
         <Newsletter />
       </main>
-      <Footer />
     </div>
   );
 }
