@@ -15,6 +15,8 @@ import React from "react";
 
 const pdfConvertTools = tools.filter(t => t.category.startsWith('Convert'));
 const imageTools = tools.filter(t => t.category === 'Image Tools');
+const organizePdfTools = tools.filter(t => t.category === 'Organize PDF');
+const editAndSignTools = tools.filter(t => t.category === 'Edit PDF' || t.category === 'PDF Security');
 const allTools = tools;
 
 const getToolUrl = (toolName: string) => `/tools/${toolName.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and')}`;
@@ -51,10 +53,42 @@ export function Header() {
           <NavigationMenu className="hidden md:flex">
             <NavigationMenuList>
               <NavigationMenuItem>
+                <NavigationMenuTrigger className="font-semibold text-sm bg-transparent">ORGANIZE PDF</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                    {organizePdfTools.map((tool) => (
+                      <ListItem
+                        key={tool.name}
+                        title={tool.name}
+                        href={getToolUrl(tool.name)}
+                      >
+                        {tool.description}
+                      </ListItem>
+                    ))}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
                 <NavigationMenuTrigger className="font-semibold text-sm bg-transparent">CONVERT PDF</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                     {pdfConvertTools.map((tool) => (
+                      <ListItem
+                        key={tool.name}
+                        title={tool.name}
+                        href={getToolUrl(tool.name)}
+                      >
+                        {tool.description}
+                      </ListItem>
+                    ))}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+               <NavigationMenuItem>
+                <NavigationMenuTrigger className="font-semibold text-sm bg-transparent">EDIT & SIGN</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                    {editAndSignTools.map((tool) => (
                       <ListItem
                         key={tool.name}
                         title={tool.name}
@@ -141,6 +175,18 @@ export function Header() {
                     </Button>
                 </div>
                 <nav className="flex flex-col items-center justify-center h-full gap-8">
+                    <Link href="/tools" className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all" onClick={() => setIsMobileMenuOpen(false)}>
+                        ORGANIZE PDF
+                    </Link>
+                     <Link href="/tools" className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all" onClick={() => setIsMobileMenuOpen(false)}>
+                        CONVERT PDF
+                    </Link>
+                     <Link href="/tools" className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all" onClick={() => setIsMobileMenuOpen(false)}>
+                        EDIT & SIGN
+                    </Link>
+                     <Link href="/tools" className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all" onClick={() => setIsMobileMenuOpen(false)}>
+                        IMAGE TOOLS
+                    </Link>
                     <Link href="/tools" className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all" onClick={() => setIsMobileMenuOpen(false)}>
                         ALL TOOLS
                     </Link>
