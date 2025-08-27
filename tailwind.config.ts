@@ -20,7 +20,6 @@ export default {
     extend: {
       fontFamily: {
         body: ['var(--font-body)', ...fontFamily.sans],
-        headline: ['var(--font-headline)', ...fontFamily.sans],
       },
       colors: {
         background: 'hsl(var(--background))',
@@ -56,6 +55,15 @@ export default {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
+        'brand-blue': {
+            DEFAULT: 'hsl(var(--brand-blue))'
+        },
+        'brand-purple': {
+            DEFAULT: 'hsl(var(--brand-purple))'
+        },
+        'soft-gray': {
+            DEFAULT: 'hsl(var(--soft-gray))'
+        }
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -79,10 +87,15 @@ export default {
             height: '0',
           },
         },
+        'pulse-glow': {
+            '0%, 100%': { boxShadow: '0 0 0 0 hsl(var(--brand-purple) / 0.7)' },
+            '50%': { boxShadow: '0 0 10px 4px hsl(var(--brand-purple) / 0.3)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'pulse-glow': 'pulse-glow 2.5s infinite ease-in-out',
       },
     },
   },

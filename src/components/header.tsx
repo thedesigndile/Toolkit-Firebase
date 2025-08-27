@@ -1,46 +1,26 @@
-
 "use client";
 
 import * as React from "react";
 import Link from "next/link";
-import { Menu } from "lucide-react";
+import { FileImage, Menu, ShieldCheck, File as PdfIcon, X } from "lucide-react";
 import { DileToolLogo } from "@/components/icons";
 import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { tools, type Tool } from "@/lib/tools";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
-import { tools, type Tool } from "@/lib/tools";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
-
-
-interface Category {
-  name: string;
-  tools: Tool[];
-}
 
 const PDF_CATEGORIES = ["Organize PDF", "Optimize PDF", "Convert to PDF", "Convert from PDF", "Edit PDF", "PDF Security", "Extra Tools"];
 
@@ -58,155 +38,160 @@ const groupTools = (filter: (tool: Tool) => boolean) => {
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-  
-  const toolCategories = React.useMemo(() => {
-    const pdfTools = groupTools(tool => PDF_CATEGORIES.includes(tool.category));
-    const imageTools = groupTools(tool => tool.category === "Image Tools");
-    const utilityTools = groupTools(tool => tool.category === "Utility Tools");
-    return { PDF: pdfTools, Image: imageTools, Utility: utilityTools };
-  }, []);
 
-  const renderToolLinks = (tools: Tool[], onLinkClick: () => void, className?: string) => (
-    tools.map((tool) => {
-      const link = `/tools/${tool.name.toLowerCase().replace(/ /g, "-").replace(/&/g, "and")}`;
-      return (
-        <Link 
-            href={link} 
-            key={tool.name} 
-            onClick={onLinkClick} 
-            className={cn("flex items-center gap-3 p-2 -m-2 rounded-md hover:bg-accent/10 transition-colors", className)}
-        >
-          <tool.icon className="h-4 w-4 text-accent flex-shrink-0" />
-          <div className="flex flex-col">
-            <span className="font-medium text-sm leading-tight">{tool.name}</span>
-          </div>
-        </Link>
-      );
-    })
+  const pdfTools = React.useMemo(() => groupTools(tool => PDF_CATEGORIES.includes(tool.category)), []);
+  const imageTools = React.useMemo(() => groupTools(tool => tool.category === "Image Tools"), []);
+  const allTools = React.useMemo(() => groupTools(() => true), []);
+
+  const renderToolLinks = (tools: Tool[], onLinkClick: () => void) => (
+    tools.map((tool) => (
+      <Link
+        href={`/tools/${tool.name.toLowerCase().replace(/ /g, "-").replace(/&/g, "and")}`}
+        key={tool.name}
+        onClick={onLinkClick}
+        className="flex items-center gap-3 p-2 -m-2 rounded-md hover:bg-muted/50 transition-colors"
+      >
+        <tool.icon className="h-4 w-4 text-accent flex-shrink-0" />
+        <span className="font-medium text-sm leading-tight text-foreground">{tool.name}</span>
+      </Link>
+    ))
   );
-  
+
+  const renderDesktopNav = () => (
+    <nav className="hidden md:flex items-center gap-2">
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" className="rounded-full border-brand-blue hover:bg-brand-blue/10 text-brand-blue">PDF Tools</Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-auto p-4" align="start">
+          <div className="grid grid-cols-3 gap-x-8 gap-y-4">
+            {pdfTools.map(category => (
+              <div key={category.name}>
+                <h3 className="font-bold text-muted-foreground mb-2 text-sm">{category.name}</h3>
+                <div className="flex flex-col gap-2">
+                  {renderToolLinks(category.tools, () => {})}
+                </div>
+              </div>
+            ))}
+          </div>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" className="rounded-full border-brand-purple hover:bg-brand-purple/10 text-brand-purple">Image Tools</Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-64 p-2">
+          {imageTools[0] && renderToolLinks(imageTools[0].tools, () => {})}
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" className="rounded-full">All Tools</Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-auto p-4" align="center">
+           <div className="grid grid-cols-4 gap-x-8 gap-y-4">
+            {allTools.map(category => (
+                <div key={category.name}>
+                     <h3 className="font-bold text-muted-foreground mb-2 text-sm">{category.name}</h3>
+                     <div className="flex flex-col gap-2">
+                       {renderToolLinks(category.tools, () => {})}
+                     </div>
+                </div>
+            ))}
+           </div>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </nav>
+  );
+
   const renderMobileNav = () => (
     <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
         <SheetTrigger asChild>
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" className="md:hidden">
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Open menu</span>
             </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="w-full max-w-sm p-0 flex flex-col">
-            <SheetHeader className="p-4 border-b">
-                <SheetTitle asChild>
-                     <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
-                        <DileToolLogo className="h-8 w-auto" />
-                     </Link>
-                </SheetTitle>
-            </SheetHeader>
-            <div className="p-4 flex-1 overflow-y-auto">
-                <Accordion type="single" collapsible className="w-full">
-                    <AccordionItem value="pdf">
-                        <AccordionTrigger className="text-lg font-semibold">PDF Tools</AccordionTrigger>
-                        <AccordionContent>
-                           <div className="pl-2 space-y-4">
-                             {toolCategories.PDF.map(category => (
-                                <div key={category.name}>
-                                    <h4 className="font-bold text-muted-foreground mb-2 text-sm">{category.name}</h4>
-                                    <div className="flex flex-col gap-2">
-                                      {renderToolLinks(category.tools, () => setIsMobileMenuOpen(false))}
-                                    </div>
-                                </div>
-                             ))}
-                           </div>
-                        </AccordionContent>
-                    </AccordionItem>
-                    <AccordionItem value="image">
-                        <AccordionTrigger className="text-lg font-semibold">Image Tools</AccordionTrigger>
-                        <AccordionContent>
-                            <div className="pl-2 flex flex-col gap-2">
-                              {renderToolLinks(toolCategories.Image[0].tools, () => setIsMobileMenuOpen(false))}
-                            </div>
-                        </AccordionContent>
-                    </AccordionItem>
-                    <AccordionItem value="utility">
-                        <AccordionTrigger className="text-lg font-semibold">Utility Tools</AccordionTrigger>
-                        <AccordionContent>
-                           <div className="pl-2 flex flex-col gap-2">
-                             {renderToolLinks(toolCategories.Utility[0].tools, () => setIsMobileMenuOpen(false))}
-                            </div>
-                        </AccordionContent>
-                    </AccordionItem>
-                </Accordion>
-                 <div className="mt-6 border-t pt-6 flex flex-col gap-2">
-                    <Link href="#" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-semibold text-muted-foreground hover:text-foreground p-2 -m-2 rounded-md">About</Link>
-                    <Link href="#" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-semibold text-muted-foreground hover:text-foreground p-2 -m-2 rounded-md">Contact</Link>
-                 </div>
+        <SheetContent side="left" className="w-full max-w-xs p-4 flex flex-col bg-background">
+            <div className="flex justify-between items-center mb-6">
+                 <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
+                    <DileToolLogo className="h-8 w-auto text-foreground" />
+                 </Link>
+                 <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
+                    <X className="h-6 w-6" />
+                 </Button>
+            </div>
+            <div className="flex flex-col gap-4 overflow-y-auto">
+                <DropdownMenuLabel className="px-0 text-base font-semibold">Tools</DropdownMenuLabel>
+                <div className="flex flex-col gap-2">
+                    <h4 className="font-bold text-brand-blue flex items-center gap-2"><PdfIcon className="w-4 h-4"/> PDF Tools</h4>
+                    {pdfTools.flatMap(c => c.tools).map(tool => (
+                      <Link href={`/tools/${tool.name.toLowerCase().replace(/ /g, "-").replace(/&/g, "and")}`} key={tool.name} onClick={() => setIsMobileMenuOpen(false)} className="pl-6 text-sm text-muted-foreground hover:text-foreground">{tool.name}</Link>
+                    ))}
+                </div>
+                <DropdownMenuSeparator />
+                 <div className="flex flex-col gap-2">
+                    <h4 className="font-bold text-brand-purple flex items-center gap-2"><FileImage className="w-4 h-4"/> Image Tools</h4>
+                    {imageTools.flatMap(c => c.tools).map(tool => (
+                      <Link href={`/tools/${tool.name.toLowerCase().replace(/ /g, "-").replace(/&/g, "and")}`} key={tool.name} onClick={() => setIsMobileMenuOpen(false)} className="pl-6 text-sm text-muted-foreground hover:text-foreground">{tool.name}</Link>
+                    ))}
+                </div>
             </div>
         </SheetContent>
     </Sheet>
   );
-
+  
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2 text-foreground">
-            <DileToolLogo className="h-8 w-auto" />
-          </Link>
-        </div>
+    <>
+      <header className="fixed top-0 z-50 w-full border-b bg-background/80 backdrop-blur-sm">
+        <div className="container mx-auto flex h-20 items-center justify-between px-4">
+          <div className="flex items-center gap-4">
+             <Link href="/" className="flex items-center gap-2">
+                <DileToolLogo className="h-8 w-auto text-foreground hidden sm:block" />
+                <DileToolLogo className="h-8 w-auto text-foreground sm:hidden" />
+             </Link>
+             <p className="hidden lg:block text-sm font-semibold text-brand-blue">
+                Offline PDF & Image Tools • Zero Uploads
+             </p>
+          </div>
 
-        <nav className="hidden md:flex items-center gap-2">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="text-base font-semibold">PDF Tools</Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-[var(--radix-dropdown-menu-trigger-width)] sm:w-auto p-4" align="start">
-                 <div className="grid grid-cols-3 gap-x-8 gap-y-4">
-                    {toolCategories.PDF.map(category => (
-                        <div key={category.name}>
-                             <h3 className="font-bold text-muted-foreground mb-2 text-sm">{category.name}</h3>
-                             <div className="flex flex-col gap-2">
-                               {renderToolLinks(category.tools, () => {}, "p-2 -m-2")}
-                             </div>
-                        </div>
-                    ))}
-                 </div>
-              </DropdownMenuContent>
-            </DropdownMenu>
+          {renderDesktopNav()}
 
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="text-base font-semibold">Image Tools</Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-64 p-2">
-                 <div className="flex flex-col gap-1">
-                    {renderToolLinks(toolCategories.Image[0].tools, () => {}, "p-3 -m-1")}
-                 </div>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="text-base font-semibold">Utility Tools</Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-64 p-2">
-                 <div className="flex flex-col gap-1">
-                    {renderToolLinks(toolCategories.Utility[0].tools, () => {}, "p-3 -m-1")}
-                 </div>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <Link href="#" className="text-base font-semibold text-muted-foreground hover:text-foreground px-3 py-2 rounded-md">About</Link>
-            <Link href="#" className="text-base font-semibold text-muted-foreground hover:text-foreground px-3 py-2 rounded-md">Contact</Link>
-        </nav>
-
-        <div className="flex items-center gap-2">
-          <ThemeToggle />
-          <div className="md:hidden">
+          <div className="flex items-center gap-2">
+            <div className="hidden sm:flex items-center gap-2">
+                <div className="bg-brand-blue text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1.5">
+                    <ShieldCheck className="h-4 w-4" />
+                    <span>Offline Mode</span>
+                </div>
+                <div className="flex flex-col items-center">
+                    <Button className="rounded-full bg-gradient-to-r from-brand-blue to-brand-purple text-white relative hover:shadow-lg hover:shadow-brand-purple/50 transition-shadow animate-pulse-glow">
+                        Upload File
+                    </Button>
+                    <p className="text-xs text-soft-gray mt-1">Files never leave your device</p>
+                </div>
+            </div>
             {renderMobileNav()}
           </div>
         </div>
+      </header>
+
+      {/* Mobile Bottom Bar */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-t p-2">
+          <div className="container mx-auto flex justify-between items-center">
+            <div className="bg-brand-blue text-white px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1">
+                <ShieldCheck className="h-4 w-4" />
+                <span>Offline Mode</span>
+            </div>
+            <div className="flex flex-col items-center">
+                <Button size="sm" className="rounded-full bg-gradient-to-r from-brand-blue to-brand-purple text-white relative hover:shadow-lg hover:shadow-brand-purple/50 transition-shadow animate-pulse-glow">
+                    Upload File
+                </Button>
+                 <p className="text-[10px] text-soft-gray mt-0.5">Files never leave your device</p>
+            </div>
+          </div>
       </div>
-    </header>
+    </>
   );
 }
-
-    
