@@ -8,7 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { tools, Tool } from "@/lib/tools";
 import React from "react";
 
@@ -53,8 +53,8 @@ export function Header() {
                     onMouseEnter={() => setHoveredItem(item.name)}
                  >
                     {item.href ? (
-                         <Link href={item.href} legacyBehavior passHref>
-                            <NavigationMenuLink className="font-semibold text-sm bg-transparent text-white hover:text-white/90 px-4 py-2 hover:bg-transparent focus:bg-transparent">
+                         <Link href={item.href} legacyBehavior={false} passHref>
+                            <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "font-semibold text-sm bg-transparent text-white hover:text-white/90 px-4 py-2 hover:bg-transparent focus:bg-transparent")}>
                                 {item.name}
                             </NavigationMenuLink>
                          </Link>

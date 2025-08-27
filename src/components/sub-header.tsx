@@ -26,7 +26,7 @@ const allTools = tools;
 export function SubHeader() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
-  const getToolUrl = (toolName: string) => `/tools/${toolName.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and')}`;
+  const getToolUrl = (toolName: string) => `/tools/${toolName.toLowerCase().replace(/ /g, '-').replace(/&g, 'and')}`;
 
   return (
     <header className="sticky top-16 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -39,21 +39,21 @@ export function SubHeader() {
           <NavigationMenu>
             <NavigationMenuList>
                <NavigationMenuItem>
-                <Link href={getToolUrl('Merge PDF')} legacyBehavior passHref>
+                <Link href={getToolUrl('Merge PDF')} passHref>
                   <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "font-semibold")}>
                     MERGE PDF
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href={getToolUrl('Split PDF')} legacyBehavior passHref>
+                <Link href={getToolUrl('Split PDF')} passHref>
                   <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "font-semibold")}>
                     SPLIT PDF
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href={getToolUrl('Compress PDF')} legacyBehavior passHref>
+                <Link href={getToolUrl('Compress PDF')} passHref>
                   <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "font-semibold")}>
                     COMPRESS PDF
                   </NavigationMenuLink>
