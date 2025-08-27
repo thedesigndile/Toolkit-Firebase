@@ -28,7 +28,6 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={cn("font-body antialiased", fontBody.variable)}>
         <ThemeProvider>
-          <Header />
           {children}
           <Toaster />
           <Footer />
