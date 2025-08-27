@@ -33,10 +33,10 @@ export function ToolsSection() {
        <section id="all-tools">
         <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl font-headline">
-                Every Tool You Need, All Offline
+                Every Tool You Need
             </h1>
             <p className="mt-6 text-lg text-muted-foreground">
-                Discover a powerful suite of offline-first tools to boost your productivity and streamline your workflow, all for free and right in your browser.
+                Discover a powerful suite of tools to boost your productivity and streamline your workflow, all for free and right in your browser.
             </p>
         </div>
         <div className="my-12 mx-auto max-w-lg relative">

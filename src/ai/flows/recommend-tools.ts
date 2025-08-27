@@ -2,7 +2,7 @@
 'use server';
 
 /**
- * @fileOverview Recommends offline tools to the user based on their past usage.
+ * @fileOverview Recommends tools to the user based on their past usage.
  *
  * - recommendTools - A function that handles the recommendation process.
  * - RecommendToolsInput - The input type for the recommendTools function.
@@ -34,7 +34,7 @@ const prompt = ai.definePrompt({
   name: 'recommendToolsPrompt',
   input: {schema: RecommendToolsInputSchema},
   output: {schema: RecommendToolsOutputSchema},
-  prompt: `You are an expert in offline productivity tools.
+  prompt: `You are an expert in productivity tools.
 
   Based on the user's past tool usage, recommend some new tools that they might find helpful. Return your response as a list of tool names.
 

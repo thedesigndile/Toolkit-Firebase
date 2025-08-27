@@ -17,8 +17,8 @@ const fontHeadline = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: 'Offline Toolkit',
-  description: 'A curated collection of offline-first tools to boost your productivity.',
+  title: 'Toolkit',
+  description: 'A curated collection of tools to boost your productivity.',
 };
 
 export default function RootLayout({

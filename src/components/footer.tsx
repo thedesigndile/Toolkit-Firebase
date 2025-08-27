@@ -14,7 +14,7 @@ export function Footer() {
                         <DileToolLogo className="h-8 w-auto" />
                     </Link>
                     <p className="text-sm text-muted-foreground">
-                      &copy; {new Date().getFullYear()} Offline Toolkit. All Rights Reserved.
+                      &copy; {new Date().getFullYear()} Toolkit. All Rights Reserved.
                     </p>
                 </div>
                 <div className="flex items-center gap-2">
