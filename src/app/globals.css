@@ -183,19 +183,22 @@
   }
 
   .animated-gradient-border-container {
-    @apply p-0.5 rounded-xl relative bg-gradient-to-r from-brand-purple via-brand-blue to-brand-pink;
-    background-size: 200% 200%;
-    animation: rotate-gradient 8s ease infinite;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    @apply p-0.5 rounded-lg relative;
+    background: linear-gradient(45deg, hsl(var(--brand-purple-raw)), hsl(var(--brand-blue-raw)), hsl(var(--brand-pink-raw)), hsl(var(--brand-blue-raw)));
+    background-size: 400% 400%;
+    animation: rotate-gradient 10s ease infinite;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, animation-duration 0.3s ease;
     box-shadow: 0 4px 15px -5px hsl(var(--brand-purple-raw) / 0.3);
   }
+
   .animated-gradient-border-container:hover {
       transform: scale(1.03);
       box-shadow: 0 10px 30px -10px hsl(var(--brand-purple-raw) / 0.5);
+      animation-duration: 6s;
   }
 
   .animated-gradient-border-content {
-      @apply bg-card rounded-lg h-full w-full;
+      @apply bg-card rounded-md h-full w-full;
       padding: 20px;
   }
 
