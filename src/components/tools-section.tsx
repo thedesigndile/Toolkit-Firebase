@@ -1,17 +1,16 @@
 
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { tools, type Tool } from "@/lib/tools";
 import { Input } from "./ui/input";
 import { ToolCard } from "./tool-card";
-import { Calculator, FileText, Image, Search, Video, Star, Package, TerminalSquare, AudioWaveform, Pencil, Settings2, Shield, Layers, ArrowRightLeft, SigmaSquare } from "lucide-react";
+import { Calculator, FileText, Image, Search, Video, Package, TerminalSquare, AudioWaveform, Pencil, Settings2, Shield, Layers, ArrowRightLeft, SigmaSquare } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
 const CATEGORIES = [
-    { name: "Favorites", icon: Star },
     { name: "All", icon: null },
     { name: "Organize PDF", icon: Layers },
     { name: "Edit PDF", icon: Pencil },
@@ -41,45 +40,15 @@ const FloatingIcon = ({ icon: Icon, className }: { icon: React.ElementType, clas
 export function ToolsSection() {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("All");
-  const [favorites, setFavorites] = useState<string[]>([]);
-  
-  useEffect(() => {
-    try {
-        const storedFavorites = localStorage.getItem("favoriteTools");
-        if (storedFavorites) {
-            setFavorites(JSON.parse(storedFavorites));
-        }
-    } catch (error) {
-        console.error("Could not load favorites from localStorage", error);
-    }
-  }, []);
-
-  const toggleFavorite = (toolName: string) => {
-    const newFavorites = favorites.includes(toolName)
-      ? favorites.filter((name) => name !== toolName)
-      : [...favorites, toolName];
-    
-    setFavorites(newFavorites);
-    try {
-      localStorage.setItem("favoriteTools", JSON.stringify(newFavorites));
-    } catch (error) {
-      console.error("Could not save favorites to localStorage", error);
-    }
-  };
 
   const filteredTools = useMemo(() => {
     return tools.filter(tool => {
         const matchesSearch = tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                               tool.description.toLowerCase().includes(searchTerm.toLowerCase());
-
-        if (activeTab === 'Favorites') {
-            return favorites.includes(tool.name) && matchesSearch;
-        }
-
         const matchesCategory = activeTab === 'All' || tool.category === activeTab;
         return matchesCategory && matchesSearch;
     });
-  }, [searchTerm, activeTab, favorites]);
+  }, [searchTerm, activeTab]);
 
   const categorizedTools = useMemo(() => {
     if (activeTab !== 'All') {
@@ -100,7 +69,7 @@ export function ToolsSection() {
 
     return CATEGORIES
       .map(cat => cat.name)
-      .slice(2)
+      .slice(1) // Skip "All"
       .map(category => {
         if (grouped[category]) {
           return [category, grouped[category]];
@@ -174,8 +143,6 @@ export function ToolsSection() {
                                           key={tool.name}
                                           tool={tool}
                                           index={i}
-                                          isFavorite={favorites.includes(tool.name)}
-                                          onToggleFavorite={toggleFavorite}
                                           isHighlighted={searchTerm.length > 1 && (tool.name.toLowerCase().includes(searchTerm.toLowerCase()) || tool.description.toLowerCase().includes(searchTerm.toLowerCase()))}
                                         />
                                     ))}
@@ -192,8 +159,6 @@ export function ToolsSection() {
                                 key={tool.name}
                                 tool={tool}
                                 index={i}
-                                isFavorite={favorites.includes(tool.name)}
-                                onToggleFavorite={toggleFavorite}
                                 isHighlighted={searchTerm.length > 1 && (tool.name.toLowerCase().includes(searchTerm.toLowerCase()) || tool.description.toLowerCase().includes(searchTerm.toLowerCase()))}
                             />
                         ))}
@@ -203,10 +168,7 @@ export function ToolsSection() {
                 {filteredTools.length === 0 && (
                   <div className="text-center py-16">
                     <p className="text-lg text-muted-foreground">
-                        {activeTab === 'Favorites'
-                            ? "You haven't favorited any tools yet. Click the star on a tool to add it here!"
-                            : `No tools found for "${searchTerm}" in this category.`
-                        }
+                        {`No tools found for "${searchTerm}" in this category.`}
                     </p>
                   </div>
                 )}
