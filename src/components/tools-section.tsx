@@ -136,7 +136,7 @@ export function ToolsSection() {
                                     {category}
                                 </h2>
                                 <motion.div
-                                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
                                 >
                                     {categoryTools.map((tool, i) => (
                                         <ToolCard
@@ -151,7 +151,7 @@ export function ToolsSection() {
                     </div>
                  ) : (
                     <motion.div
-                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
                     >
                        {filteredTools.map((tool, i) => (
                             <ToolCard

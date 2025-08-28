@@ -52,7 +52,7 @@ export function ToolCard({ tool, index }: ToolCardProps) {
                   <div className="animated-gradient-border-content flex flex-col h-full">
                     <Card
                         className={cn(
-                            "cursor-pointer transition-shadow duration-250 relative overflow-hidden bg-transparent h-full border-0 shadow-none flex flex-col justify-center",
+                            "cursor-pointer transition-shadow duration-250 relative overflow-hidden bg-transparent h-full border-0 shadow-none flex flex-col justify-between",
                         )}
                     >
                         <CardContent className="p-0 flex flex-col items-center text-center flex-1 justify-center">
@@ -78,5 +78,3 @@ export function ToolCard({ tool, index }: ToolCardProps) {
     </motion.div>
   );
 }
-
-
