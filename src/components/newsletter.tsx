@@ -53,5 +53,3 @@ export function Newsletter() {
     </section>
   );
 }
-
-    
