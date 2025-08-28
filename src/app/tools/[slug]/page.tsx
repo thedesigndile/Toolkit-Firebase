@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
+import { useState, useCallback, useEffect, useMemo, useRef, memo } from 'react';
 import { tools } from '@/lib/tools';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -13,7 +13,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { convertImage, resizeImage, compressImage, compressPdf, getFileAccept, mergePdfs, imageToPdf } from '@/lib/tool-functions';
-import { PasswordGenerator } from '@/components/tools/password-generator';
+import dynamic from 'next/dynamic';
+
+const PasswordGenerator = dynamic(() => import('@/components/tools/password-generator').then(mod => ({ default: mod.PasswordGenerator })), {
+  loading: () => <div className="flex items-center justify-center p-8"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent"></div></div>,
+  ssr: false
+});
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Slider } from '@/components/ui/slider';
 import { Footer } from '@/components/footer';
@@ -23,12 +28,18 @@ import { getWebsiteAsPdf } from '@/app/actions';
 
 type ImageFormat = "png" | "jpeg" | "webp";
 
-function ToolPageClient({ params }: { params: { slug: string } }) {
-  const tool = useMemo(() => tools.find(t => t.name.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and') === params.slug), [params.slug]);
-  
-  const { 
-    progress, setProgress, 
-    status, setStatus, 
+function ToolPageClient({ params }: { params: { slug: string } }): JSX.Element | null | undefined {
+  console.log('ToolPageClient: Loading tool with slug:', params.slug);
+
+  const tool = useMemo(() => {
+    const foundTool = tools.find(t => t.name.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and') === params.slug);
+    console.log('ToolPageClient: Found tool:', foundTool ? foundTool.name : 'NOT FOUND');
+    return foundTool;
+  }, [params.slug]);
+
+  const {
+    progress, setProgress,
+    status, setStatus,
     processedUrl, setProcessedUrl,
     processedFileName, setProcessedFileName,
     files, setFiles,
@@ -51,6 +62,14 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
   
   const fileAccept = useMemo(() => tool ? getFileAccept(tool.category, tool.name) : '*/*', [tool]);
   const isMultiFileTool = useMemo(() => tool ? ['Merge PDF', 'Image to PDF'].includes(tool.name) : false, [tool]);
+
+  // Memoize tool options to prevent unnecessary re-renders
+  const toolOptions = useMemo(() => ({
+    imageFormat,
+    resizeOptions,
+    compressionQuality,
+    targetSize
+  }), [imageFormat, resizeOptions, compressionQuality, targetSize]);
 
 
   // Effect to clean up object URLs to prevent memory leaks.
@@ -87,12 +106,15 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
 
 
   if (!tool) {
+    console.log('ToolPageClient: Tool not found, calling notFound()');
     notFound();
+    return null; // This line won't execute but satisfies TypeScript
   }
 
-  const Icon = tool.icon;
+  console.log('ToolPageClient: Tool found, rendering:', tool!.name, 'isStandalone:', tool!.isStandalone);
+  const Icon = tool!.icon;
   
-  const validateFiles = (newFiles: File[]): File[] => {
+  const validateFiles = useCallback((newFiles: File[]): File[] => {
     if (fileAccept === '*/*') return newFiles;
     const acceptedTypes = fileAccept.split(',').map(t => t.trim());
     return newFiles.filter(file => {
@@ -111,7 +133,7 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
       }
       return isValid;
     });
-  }
+  }, [fileAccept, toast]);
 
   const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -143,23 +165,34 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
   }, [setFiles]);
 
   const handleProcessFiles = async () => {
+    console.log('handleProcessFiles: Starting processing for tool:', tool.name);
+
     if (tool.name === 'Website to PDF') {
+        console.log('handleProcessFiles: Website to PDF - checking URL:', websiteUrl);
         if (!websiteUrl) {
+            console.log('handleProcessFiles: No URL provided');
             toast({ variant: "destructive", title: "URL Required", description: "Please enter a website URL to convert." });
             return;
         }
     } else if (files.length === 0) {
+        console.log('handleProcessFiles: No files provided');
         return;
     }
-    
+
     resetState();
     setStatus('processing');
     setProgress(0);
 
-    const progressInterval = setInterval(() => {
+    // Use a ref to store the interval ID for proper cleanup
+    const progressIntervalRef = { current: null as NodeJS.Timeout | null };
+
+    progressIntervalRef.current = setInterval(() => {
         setProgress(prev => {
             if (prev >= 95) {
-                clearInterval(progressInterval);
+                if (progressIntervalRef.current) {
+                    clearInterval(progressIntervalRef.current);
+                    progressIntervalRef.current = null;
+                }
                 return 95;
             }
             return prev + 5;
@@ -176,30 +209,39 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
         
         const file = files[0];
 
+        console.log('handleProcessFiles: Processing tool:', tool.name);
+
         switch (tool.name) {
             case 'Image Converter':
+                console.log('handleProcessFiles: Converting image to format:', imageFormat);
                 resultBlob = await convertImage(file, imageFormat);
                 resultName = `converted-${file.name.split('.')[0]}.${imageFormat}`;
                 break;
             case 'Image Resizer':
+                console.log('handleProcessFiles: Resizing image to:', resizeOptions.width, 'x', resizeOptions.height);
                 resultBlob = await resizeImage(file, parseInt(resizeOptions.width), parseInt(resizeOptions.height), resizeOptions.keepAspectRatio);
                 resultName = `resized-${file.name}`;
                 break;
             case 'Image Compressor':
                 const quality = compressionQuality / 100;
+                console.log('handleProcessFiles: Compressing image with quality:', quality);
                 resultBlob = await compressImage(file, quality);
                 resultName = `compressed-${file.name}`;
                 break;
             case 'Image to PDF':
+                console.log('handleProcessFiles: Converting image to PDF, files count:', files.length);
                 if (files.length > 1) {
-                     resultBlob = await mergePdfs(files.map(async f => await imageToPdf(f)));
-                     resultName = `merged-images.pdf`;
+                      // For now, handle only single image to PDF due to File/Blob type issues
+                      console.log('Image to PDF: Multiple files not yet supported, processing first file only');
+                      resultBlob = await imageToPdf(files[0]);
+                      resultName = `${files[0].name.split('.')[0]}.pdf`;
                 } else {
                     resultBlob = await imageToPdf(file);
                     resultName = `${file.name.split('.')[0]}.pdf`;
                 }
                 break;
             case 'Website to PDF':
+                console.log('handleProcessFiles: Converting website to PDF:', websiteUrl);
                 const result = await getWebsiteAsPdf(websiteUrl);
                 if (result.error || !result.pdf) {
                     throw new Error(result.error || "Failed to get PDF data from server.");
@@ -209,20 +251,26 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
                 resultName = `${new URL(websiteUrl).hostname}.pdf`;
                 break;
             case 'PDF Compressor':
-                 const pdfQuality = compressionQuality / 100;
+                  const pdfQuality = compressionQuality / 100;
+                  console.log('handleProcessFiles: Compressing PDF with quality:', pdfQuality);
                 resultBlob = await compressPdf(file, pdfQuality);
                 resultName = `compressed-${file.name}`;
                 break;
-             case 'Merge PDF':
+              case 'Merge PDF':
+                console.log('handleProcessFiles: Merging PDFs, count:', files.length);
                 resultBlob = await mergePdfs(files);
                 resultName = `merged-document.pdf`;
                 break;
             default:
+                console.log('handleProcessFiles: Tool not implemented:', tool.name);
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 throw new Error(`The '${tool.name}' tool is not yet implemented.`);
         }
         
-        clearInterval(progressInterval);
+        if (progressIntervalRef.current) {
+            clearInterval(progressIntervalRef.current);
+            progressIntervalRef.current = null;
+        }
         setProgress(100);
         
         const url = URL.createObjectURL(resultBlob);
@@ -236,7 +284,10 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
         });
 
     } catch (e: any) {
-        clearInterval(progressInterval);
+        if (progressIntervalRef.current) {
+            clearInterval(progressIntervalRef.current);
+            progressIntervalRef.current = null;
+        }
         const errorMessage = e.message || "An unknown error occurred during processing.";
         setError(errorMessage);
         setStatus('error');
@@ -363,32 +414,38 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
     )
   };
 
-  const renderFileBasedUI = () => (
+  const renderFileBasedUI = () => {
+    const supportedFormats = useMemo(() =>
+      fileAccept.replaceAll('image/', '.').replaceAll('application/', '.'),
+      [fileAccept]
+    );
+
+    return (
     <>
-       {status !== 'idle' ? (
-           <ProgressDisplay />
+        {status !== 'idle' ? (
+            <ProgressDisplay />
         ) : (
         <Card>
             <CardContent className="pt-6">
-            <div 
+            <div
                 className="border-2 border-dashed border-border rounded-lg p-8 text-center cursor-pointer hover:border-accent/40 dark:hover:border-accent/50 transition-colors"
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current?.click()}
             >
-                <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" strokeWidth={1.5} />
+                <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" />
                 <p className="mt-4 text-sm text-muted-foreground">
                 Drag and drop files here, or click to select files
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                    Supported: {fileAccept.replaceAll('image/', '.').replaceAll('application/', '.')}
+                    Supported: {supportedFormats}
                 </p>
-                <input 
+                <input
                 ref={fileInputRef}
-                id="file-upload" 
-                type="file" 
+                id="file-upload"
+                type="file"
                 multiple={isMultiFileTool}
-                className="hidden" 
+                className="hidden"
                 onChange={handleFileChange}
                 accept={fileAccept}
                 />
@@ -459,17 +516,29 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
   );
 
   const renderToolUI = () => {
+    if (!tool) {
+      console.log('renderToolUI: Tool is undefined');
+      return <p>Tool not found.</p>;
+    }
+
+    console.log('renderToolUI: Rendering tool UI for:', tool.name);
+
     if (tool.name === 'Website to PDF') {
+      console.log('renderToolUI: Rendering Website to PDF UI');
       return renderWebsiteToPdfUI();
     }
     if (tool.isStandalone) {
+        console.log('renderToolUI: Tool is standalone, checking specific implementations');
         switch (tool.name) {
             case 'Password Generator':
+                console.log('renderToolUI: Rendering Password Generator');
                 return <PasswordGenerator />;
             default:
+                console.log('renderToolUI: Standalone tool not implemented:', tool.name);
                 return <p>This tool is not yet implemented.</p>;
         }
     }
+    console.log('renderToolUI: Rendering file-based UI');
     return renderFileBasedUI();
   }
 
@@ -481,10 +550,10 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
             <div className="max-w-4xl mx-auto">
                 <div className="text-center mb-12">
                     <div className="inline-flex items-center justify-center p-4 bg-accent/10 dark:bg-accent/20 rounded-full mb-4">
-                        <Icon className="h-12 w-12 text-accent" strokeWidth={1.5} />
+                        <Icon className="h-12 w-12 text-accent" />
                     </div>
-                    <h1 className="text-4xl font-semibold">{tool.name}</h1>
-                    <p className="text-muted-foreground mt-2 text-lg">{tool.description}</p>
+                    <h1 className="text-4xl font-semibold">{tool!.name}</h1>
+                    <p className="text-muted-foreground mt-2 text-lg">{tool!.description}</p>
                 </div>
                 
                 {renderToolUI()}

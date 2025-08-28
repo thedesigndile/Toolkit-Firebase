@@ -10,6 +10,7 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { tools, Tool } from "@/lib/tools";
+import { ThemeToggle } from "./theme-toggle";
 import React from "react";
 
 const pdfConvertTools = tools.filter(t => t.category === 'Convert PDF');
@@ -84,6 +85,7 @@ export function Header() {
         </div>
 
         <div className="flex-1 flex justify-end items-center gap-2">
+          <ThemeToggle className="text-white hover:text-white/90 hover:bg-white/10 rounded-full w-10 h-10" />
           <Button variant="ghost" className="text-white hover:text-white/90 hover:bg-white/10 rounded-full">
             Log In
           </Button>
@@ -97,10 +99,13 @@ export function Header() {
       <div className="md:hidden flex justify-between items-center w-full px-4 py-2 bg-background/80 backdrop-blur-lg border-b">
          <Link href="/" aria-label="Go to homepage">
             <ModernLogo />
-          </Link>
-         <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(true)}>
-            <Menu className="h-6 w-6" strokeWidth={1.5} />
-        </Button>
+         </Link>
+         <div className="flex items-center gap-2">
+           <ThemeToggle className="w-8 h-8" />
+           <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(true)}>
+              <Menu className="h-6 w-6" strokeWidth={1.5} />
+           </Button>
+         </div>
       </div>
 
       <AnimatePresence>

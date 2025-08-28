@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { MailCheck } from "lucide-react";
+import { motion } from "framer-motion";
 
 export function Newsletter() {
   const { toast } = useToast();
@@ -25,29 +26,80 @@ export function Newsletter() {
   };
 
   return (
-    <section className="py-8 md:py-12 lg:py-16 bg-muted/50 dark:bg-card/20">
-      <div className="container mx-auto px-4">
+    <section className="py-12 md:py-16 lg:py-20 bg-gradient-to-br from-muted/30 via-background to-muted/30 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 bg-grid-small-black/[0.2] dark:bg-grid-small-white/[0.05]" />
+      <div className="absolute top-0 left-1/4 w-72 h-72 bg-accent/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-brand-blue/5 rounded-full blur-3xl" />
+
+      <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-2xl mx-auto text-center">
-            <div className="inline-flex items-center justify-center p-4 bg-accent/10 dark:bg-accent/20 rounded-full mb-4">
+            <motion.div
+              className="inline-flex items-center justify-center p-4 bg-accent/10 dark:bg-accent/20 rounded-full mb-6 shadow-lg"
+              whileHover={{ scale: 1.05, rotate: 5 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
                 <MailCheck className="h-12 w-12 text-accent" strokeWidth={1.5} />
-            </div>
-            <h2 className="text-3xl font-semibold">Stay Updated</h2>
-            <p className="text-muted-foreground mt-2 text-lg">
+            </motion.div>
+            <motion.h2
+              className="text-3xl md:text-4xl font-bold text-gradient-primary mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              Stay Updated
+            </motion.h2>
+            <motion.p
+              className="text-muted-foreground mt-2 text-lg md:text-xl leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
                 Subscribe to our newsletter for the latest tools and features.
-            </p>
-            <form onSubmit={handleSubmit} className="mt-6 flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
+            </motion.p>
+            <motion.form
+              onSubmit={handleSubmit}
+              className="mt-8 flex flex-col sm:flex-row gap-3 max-w-lg mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
                 <Input
                 type="email"
                 name="email"
-                placeholder="Enter your email"
+                placeholder="Enter your email address"
                 required
-                className="flex-1 h-11 text-base"
+                className="flex-1 h-12 text-base rounded-full border-2 border-transparent focus:border-accent/30 transition-all duration-300"
                 aria-label="Email for newsletter"
                 />
-                <Button type="submit" size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                <Button
+                  type="submit"
+                  size="lg"
+                  className="bg-accent hover:bg-accent/90 text-accent-foreground rounded-full px-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                >
                 Subscribe
-                </Button>
-            </form>
+            </Button>
+            </motion.form>
+
+            <motion.div
+              className="mt-6 flex flex-wrap justify-center gap-6 text-sm text-muted-foreground"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <span className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                No spam, ever
+              </span>
+              <span className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                Weekly updates
+              </span>
+              <span className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-purple-500 rounded-full"></div>
+                Unsubscribe anytime
+              </span>
+            </motion.div>
         </div>
       </div>
     </section>
