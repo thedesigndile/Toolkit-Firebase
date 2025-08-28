@@ -23,8 +23,9 @@ const navItems = [
     { name: "Convert PDF", subItems: pdfConvertTools },
     { name: "Organize PDF", subItems: organizePdfTools },
     { name: "Image Tools", subItems: imageTools },
-    { name: "All Tools", subItems: allTools },
+    { name: "All Tools", href: "/tools" },
     { name: "Pricing", href: "/pricing" },
+    { name: "Contact", href: "/contact" },
 ]
 
 export function Header() {
@@ -123,7 +124,7 @@ export function Header() {
               {navItems.map((item) => (
                 <Link
                   key={item.name}
-                  href={item.href || "/tools"}
+                  href={item.href || "#"}
                   className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
