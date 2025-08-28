@@ -116,9 +116,9 @@ export function ToolsSection() {
 
         <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
             <div className="flex justify-center mb-2">
-                <TabsList className="h-auto w-full max-w-5xl overflow-x-auto hide-scrollbar bg-muted/80 rounded-full p-1 flex-wrap justify-center">
+                <TabsList className="h-auto w-full max-w-5xl overflow-x-auto hide-scrollbar bg-transparent p-1 flex-wrap justify-center gap-2">
                     {CATEGORIES.map(({name, icon: Icon}) => (
-                        <TabsTrigger key={name} value={name} className="px-4 whitespace-nowrap rounded-full">
+                        <TabsTrigger key={name} value={name} className="px-4 whitespace-nowrap">
                            {Icon && <Icon className="h-4 w-4 mr-2" strokeWidth={1.5} />}
                            {name}
                         </TabsTrigger>
