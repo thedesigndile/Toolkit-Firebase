@@ -465,6 +465,7 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
             </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
@@ -477,5 +478,3 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
     </ProgressProvider>
   )
 }
-
-    

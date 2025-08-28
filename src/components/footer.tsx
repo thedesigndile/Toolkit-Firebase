@@ -1,4 +1,6 @@
 
+"use client";
+
 import Link from "next/link";
 import { ArrowUp } from "lucide-react";
 import { ModernLogo } from "./icons";
