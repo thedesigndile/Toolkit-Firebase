@@ -48,7 +48,7 @@ export function ToolCard({ tool, index }: ToolCardProps) {
         <Tooltip>
           <TooltipTrigger asChild>
             <Link href={`/tools/${slug}`} className="block group relative h-full">
-               <div className={cn("animated-gradient-border-container h-full")}>
+               <div className={cn("animated-gradient-border-container h-52")}>
                   <div className="animated-gradient-border-content flex flex-col h-full">
                     <Card
                         className={cn(
@@ -62,8 +62,8 @@ export function ToolCard({ tool, index }: ToolCardProps) {
                         >
                             <Icon className="h-12 w-12" strokeWidth={1.5} />
                         </motion.div>
-                        <p className="text-base font-semibold leading-tight text-foreground">{tool.name}</p>
-                        <p className="text-sm text-muted-foreground mt-2">{tool.description}</p>
+                        <h3 className="text-base font-semibold leading-tight text-foreground">{tool.name}</h3>
+                        <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{tool.description}</p>
                         </CardContent>
                     </Card>
                   </div>
