@@ -60,7 +60,7 @@ export function ToolCard({ tool, index }: ToolCardProps) {
                             className="mb-4"
                             whileHover={{ scale: 1.1, transition: { duration: 0.2, ease: "easeOut" } }}
                         >
-                            <Icon className="h-12 w-12" strokeWidth={1.5} />
+                            <Icon className="h-12 w-12 text-brand-blue group-hover:text-brand-purple" strokeWidth={1.5} />
                         </motion.div>
                         <h3 className="text-base font-semibold leading-tight text-foreground">{tool.name}</h3>
                         <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{tool.description}</p>
