@@ -7,7 +7,6 @@ import { Toaster } from '@/components/ui/toaster';
 import { Poppins } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import { Header } from '@/components/header';
-import { Footer } from '@/components/footer';
 
 const fontBody = Poppins({
   subsets: ['latin'],
@@ -29,7 +28,6 @@ export default function RootLayout({
             </div>
           {children}
           <Toaster />
-          <Footer />
         </ThemeProvider>
       </body>
     </html>
