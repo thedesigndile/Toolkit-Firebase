@@ -62,7 +62,7 @@ export function ToolCard({ tool, index, isFavorite, onToggleFavorite, isHighligh
                   <div className="animated-gradient-border-content">
                     <Card
                         className={cn(
-                            "cursor-pointer transition-shadow duration-250 relative overflow-hidden bg-transparent h-full border-0 shadow-none",
+                            "cursor-pointer transition-shadow duration-250 relative overflow-hidden bg-transparent h-full border-0 shadow-none flex flex-col justify-center",
                             isFavorite && "border-yellow-400/50"
                         )}
                     >
@@ -77,7 +77,7 @@ export function ToolCard({ tool, index, isFavorite, onToggleFavorite, isHighligh
                           <Star className={cn("h-5 w-5", isFavorite && "fill-current")} strokeWidth={1.5} />
                         </button>
 
-                        <CardContent className="p-0 flex flex-col items-center text-center aspect-square justify-center">
+                        <CardContent className="p-0 flex flex-col items-center text-center">
                         <motion.div
                             className="mb-4"
                             whileHover={{ scale: 1.1, transition: { duration: 0.2, ease: "easeOut" } }}
