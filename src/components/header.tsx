@@ -52,7 +52,7 @@ export function Header() {
                            </Link>
                         </NavigationMenuLink>
                     ) : (
-                        <NavigationMenuTrigger className="font-semibold text-sm bg-transparent text-white hover:text-brand-blue hover:bg-transparent focus:bg-transparent transition-colors duration-300">
+                        <NavigationMenuTrigger className="font-semibold text-sm bg-transparent text-white hover:text-brand-blue hover:bg-transparent focus:bg-transparent transition-colors duration-300 data-[state=open]:text-brand-blue">
                             {item.name}
                         </NavigationMenuTrigger>
                     )}
@@ -165,7 +165,7 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
               {!isStatic && Icon && (
                 <div className="p-1 rounded-md bg-transparent">
                   <motion.div whileHover={{ scale: 1.1 }}>
-                    <Icon className="h-10 w-10 transition-all duration-300 ease-in-out" strokeWidth={1.5} />
+                    <Icon className="h-10 w-10 transition-all duration-300 ease-in-out text-brand-blue group-hover:text-brand-purple" strokeWidth={1.5} />
                   </motion.div>
                 </div>
               )}
@@ -183,5 +183,3 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
   }
 );
 ListItem.displayName = "ListItem";
-
-    
