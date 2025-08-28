@@ -4,7 +4,6 @@
 import Link from "next/link";
 import { ArrowUp } from "lucide-react";
 import { ModernLogo } from "./icons";
-import { tools } from "@/lib/tools";
 
 const getToolUrl = (toolName: string) => `/tools/${toolName.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and')}`;
 
@@ -20,12 +19,6 @@ const FooterColumn = ({ title, children }: { title: string; children: React.Reac
     {children}
   </div>
 );
-
-const importantTools = [
-    'Merge PDF', 'Split PDF', 'Compress PDF', 'PDF to Word', 'Word to PDF',
-    'PDF to JPG', 'JPG to PDF', 'Image Converter', 'Image Compressor', 'Image Resizer',
-    'Video Compressor', 'Trim Video', 'Password Generator', 'QR Code Generator', 'Text Compare'
-]
 
 export function Footer() {
   const handleScrollToTop = () => {
@@ -60,16 +53,16 @@ export function Footer() {
                  <FooterLink href={getToolUrl('PDF to Word')}>PDF to Word</FooterLink>
                  <FooterLink href={getToolUrl('Word to PDF')}>Word to PDF</FooterLink>
                  <FooterLink href={getToolUrl('PDF to JPG')}>PDF to JPG</FooterLink>
-                 <FooterLink href={getToolUrl('JPG to PDF')}>JPG to PDF</FooterLink>
+                 <FooterLink href={getToolUrl('Image to PDF')}>Image to PDF</FooterLink>
                  <FooterLink href={getToolUrl('Image Converter')}>Image Converter</FooterLink>
             </FooterColumn>
             
             <FooterColumn title="Utilities">
                  <FooterLink href={getToolUrl('Image Compressor')}>Image Compressor</FooterLink>
-                 <FooterLink href={getToolUrl('Video Compressor')}>Video Compressor</FooterLink>
                  <FooterLink href={getToolUrl('Password Generator')}>Password Generator</FooterLink>
                  <FooterLink href={getToolUrl('QR Code Generator')}>QR Code Generator</FooterLink>
                  <FooterLink href={getToolUrl('Text Compare')}>Text Compare</FooterLink>
+                 <FooterLink href={getToolUrl('Website to PDF')}>Website to PDF</FooterLink>
             </FooterColumn>
         </div>
 

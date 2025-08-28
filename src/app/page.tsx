@@ -1,4 +1,5 @@
 
+import { Footer } from "@/components/footer";
 import { Newsletter } from "@/components/newsletter";
 import { ToolsSection } from "@/components/tools-section";
 
@@ -9,6 +10,7 @@ export default function Home() {
         <ToolsSection />
         <Newsletter />
       </main>
+      <Footer />
     </div>
   );
 }
