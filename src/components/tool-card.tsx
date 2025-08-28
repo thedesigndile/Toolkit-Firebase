@@ -48,7 +48,7 @@ export function ToolCard({ tool, index }: ToolCardProps) {
         <Tooltip>
           <TooltipTrigger asChild>
             <Link href={`/tools/${slug}`} className="block group relative h-full">
-               <div className={cn("animated-gradient-border-container")}>
+               <div className={cn("animated-gradient-border-container h-full")}>
                   <div className="animated-gradient-border-content flex flex-col h-full">
                     <Card
                         className={cn(
@@ -78,4 +78,5 @@ export function ToolCard({ tool, index }: ToolCardProps) {
     </motion.div>
   );
 }
+
 

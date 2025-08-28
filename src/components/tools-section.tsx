@@ -136,14 +136,13 @@ export function ToolsSection() {
                                     {category}
                                 </h2>
                                 <motion.div
-                                    className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"
+                                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                                 >
                                     {categoryTools.map((tool, i) => (
                                         <ToolCard
                                           key={tool.name}
                                           tool={tool}
                                           index={i}
-                                          isHighlighted={searchTerm.length > 1 && (tool.name.toLowerCase().includes(searchTerm.toLowerCase()) || tool.description.toLowerCase().includes(searchTerm.toLowerCase()))}
                                         />
                                     ))}
                                 </motion.div>
@@ -152,14 +151,13 @@ export function ToolsSection() {
                     </div>
                  ) : (
                     <motion.div
-                        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                     >
                        {filteredTools.map((tool, i) => (
                             <ToolCard
                                 key={tool.name}
                                 tool={tool}
                                 index={i}
-                                isHighlighted={searchTerm.length > 1 && (tool.name.toLowerCase().includes(searchTerm.toLowerCase()) || tool.description.toLowerCase().includes(searchTerm.toLowerCase()))}
                             />
                         ))}
                     </motion.div>
