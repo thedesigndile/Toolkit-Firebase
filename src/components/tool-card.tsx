@@ -50,10 +50,10 @@ export function ToolCard({ tool, index, isHighlighted }: ToolCardProps) {
           <TooltipTrigger asChild>
             <Link href={`/tools/${slug}`} className="block group relative h-full">
                <div className={cn("animated-gradient-border-container", isHighlighted ? "animate-pulse-glow" : "")}>
-                  <div className="animated-gradient-border-content">
+                  <div className="animated-gradient-border-content flex flex-col">
                     <Card
                         className={cn(
-                            "cursor-pointer transition-shadow duration-250 relative overflow-hidden bg-transparent h-full border-0 shadow-none flex flex-col justify-center",
+                            "cursor-pointer transition-shadow duration-250 relative overflow-hidden bg-transparent h-full border-0 shadow-none flex flex-col justify-center flex-grow",
                         )}
                     >
                         <CardContent className="p-0 flex flex-col items-center text-center">
@@ -64,7 +64,7 @@ export function ToolCard({ tool, index, isHighlighted }: ToolCardProps) {
                             <Icon className="h-12 w-12" strokeWidth={1.5} />
                         </motion.div>
                         <p className="text-base font-semibold leading-tight text-foreground">{tool.name}</p>
-                        <p className="text-sm text-muted-foreground mt-2">{tool.description}</p>
+                        <p className="text-sm text-muted-foreground mt-2 flex-grow">{tool.description}</p>
                         </CardContent>
                     </Card>
                   </div>
