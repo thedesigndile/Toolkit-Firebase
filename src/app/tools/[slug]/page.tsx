@@ -53,15 +53,22 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
   
   const fileAccept = useMemo(() => tool ? getFileAccept(tool.category) : '*/*', [tool]);
 
+  // Clean up object URLs to prevent memory leaks
   useEffect(() => {
-    // This effect runs when the component unmounts.
-    // It's a cleanup function to release the object URL and prevent memory leaks.
     return () => {
       if (processedUrl) {
         URL.revokeObjectURL(processedUrl);
       }
     };
   }, [processedUrl]);
+
+  // Reset file input when the main state is reset
+  useEffect(() => {
+    if (status === 'idle' && fileInputRef.current) {
+        fileInputRef.current.value = "";
+    }
+  }, [status]);
+
 
   useEffect(() => {
     if (files.length > 0 && (tool?.name === 'Image Compressor' || tool?.name === 'PDF Compressor')) {
@@ -111,10 +118,11 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
     if (event.target.files) {
       const validFiles = validateFiles(Array.from(event.target.files));
       if(validFiles.length > 0) {
-        setFiles(prevFiles => [...prevFiles, ...validFiles]);
+        const newFiles = isMultiFileTool ? [...files, ...validFiles] : [validFiles[0]];
+        setFiles(newFiles);
       }
     }
-  }, [fileAccept, toast, setFiles]);
+  }, [fileAccept, toast, setFiles, files]);
 
   const handleDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -125,10 +133,11 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
     if (event.dataTransfer.files) {
       const validFiles = validateFiles(Array.from(event.dataTransfer.files));
        if(validFiles.length > 0) {
-        setFiles(prevFiles => [...prevFiles, ...validFiles]);
+        const newFiles = isMultiFileTool ? [...files, ...validFiles] : [validFiles[0]];
+        setFiles(newFiles);
       }
     }
-  }, [fileAccept, toast, setFiles]);
+  }, [fileAccept, toast, setFiles, files]);
 
   const removeFile = useCallback((fileName: string) => {
     setFiles(prevFiles => prevFiles.filter(f => f.name !== fileName));
@@ -137,13 +146,12 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
   const handleProcessFiles = async () => {
     if (files.length === 0) return;
     
+    // Ensure we start from a clean slate
+    resetState();
+    
     setStatus('processing');
     setProgress(0);
-    setError(null);
-    if(processedUrl) {
-      URL.revokeObjectURL(processedUrl);
-      setProcessedUrl(null);
-    }
+   
 
     const progressInterval = setInterval(() => {
         setProgress(prev => {
@@ -212,6 +220,7 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
         const errorMessage = e.message || "An unknown error occurred during processing.";
         setError(errorMessage);
         setStatus('error');
+        setProgress(0); // Reset progress on error
         toast({
             variant: "destructive",
             title: "Processing Failed",
@@ -221,7 +230,7 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
   };
   
   const renderToolOptions = () => {
-    if (files.length === 0 || status !== 'idle' || processedUrl) return null;
+    if (files.length === 0 || status !== 'idle') return null;
 
     let optionsComponent = null;
 
@@ -389,7 +398,7 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
             {renderToolOptions()}
 
             <div className="mt-8 text-center">
-                <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" disabled={files.length === 0} onClick={handleProcessFiles}>
+                <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" disabled={files.length === 0 || status !== 'idle'} onClick={handleProcessFiles}>
                     {`Process ${files.length > 0 ? files.length : ''} File(s)`}
                 </Button>
             </div>
@@ -443,4 +452,5 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
   )
 }
 
+    
     

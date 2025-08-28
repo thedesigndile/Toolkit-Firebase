@@ -33,17 +33,19 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
 
 
   const resetState = useCallback(() => {
-    setProgress(0);
-    setStatus('idle');
+    // Only reset if not already idle to prevent unnecessary rerenders
+    if (status !== 'idle') {
+      setStatus('idle');
+    }
     setFiles([]);
+    setProgress(0);
     setError(null);
     if (processedUrl) {
       URL.revokeObjectURL(processedUrl);
+      setProcessedUrl(null);
     }
-    setProcessedUrl(null);
     setProcessedFileName('download');
-    // Note: We don't reset the file input here, as it's managed by the ToolPageClient
-  }, [processedUrl]);
+  }, [processedUrl, status]); // Add status to dependency array
 
   const value = { 
     progress, setProgress, 
