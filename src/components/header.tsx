@@ -24,7 +24,7 @@ const navItems = [
     { name: "Convert PDF", subItems: pdfConvertTools },
     { name: "Organize PDF", subItems: organizePdfTools },
     { name: "Image Tools", subItems: imageTools },
-    { name: "All Tools", href: "/tools" },
+    { name: "All Tools", subItems: allTools },
     { name: "Pricing", href: "/pricing" },
     { name: "Contact", href: "/contact" },
 ]
@@ -126,16 +126,10 @@ export function Header() {
               </Button>
             </div>
             <nav className="flex flex-col items-center justify-center h-full gap-8">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href || "#"}
-                  className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
+              {/* For mobile, we can simplify this. Or we can implement a collapsible menu */}
+               <Link href="/tools" className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all" onClick={() => setIsMobileMenuOpen(false)}>All Tools</Link>
+               <Link href="/pricing" className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all" onClick={() => setIsMobileMenuOpen(false)}>Pricing</Link>
+               <Link href="/contact" className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
               <div className="mt-8 flex flex-col gap-4 w-full px-8">
                 <Button variant="outline" size="lg">Log In</Button>
                 <Button size="lg" className="bg-blue-500 hover:bg-blue-600">Get Started</Button>
