@@ -47,12 +47,12 @@ export function Header() {
                  <NavigationMenuItem key={item.name}>
                     {item.href ? (
                          <NavigationMenuLink asChild>
-                           <Link href={item.href} className={cn(navigationMenuTriggerStyle(), "font-semibold text-sm bg-transparent text-white hover:text-brand-blue px-4 py-2 hover:bg-transparent focus:bg-transparent transition-colors duration-300")}>
+                           <Link href={item.href} className={cn(navigationMenuTriggerStyle(), "font-semibold text-sm bg-transparent text-white px-4 py-2 hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white transition-colors duration-300 rounded-full")}>
                               {item.name}
                            </Link>
                         </NavigationMenuLink>
                     ) : (
-                        <NavigationMenuTrigger className="font-semibold text-sm bg-transparent text-white hover:text-brand-blue hover:bg-transparent focus:bg-transparent transition-colors duration-300 data-[state=open]:text-brand-blue">
+                        <NavigationMenuTrigger className="font-semibold text-sm bg-transparent text-white px-4 py-2 hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white data-[state=open]:bg-blue-500 data-[state=open]:text-white transition-colors duration-300 rounded-full">
                             {item.name}
                         </NavigationMenuTrigger>
                     )}
