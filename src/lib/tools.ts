@@ -1,3 +1,4 @@
+
 import { type LucideIcon, FileJson, PenSquare, Calculator, Timer, Image, Code, KeyRound, Type, Palette, Video, GitBranch, Database, TerminalSquare, Combine, Split, FileArchive, FileText, ArrowRightLeft, Minimize2, Crop, FileImage, ImagePlus, AudioWaveform, Scissors, Mic, Minimize, MonitorUp, BookText, StickyNote, BookUser, Regex, Archive, ScanText, QrCode, Camera, Sigma, ListOrdered, FileX, ChevronsRight, Layers, FileScan, Settings2, FileLock, Shield, Fingerprint, Files, RotateCw, PlusSquare, Droplet, Pencil, Lock, ShieldCheck, Milestone, Waypoints, RedoDot, FileSliders, FileDiff, Scaling, Paintbrush, Text, SigmaSquare, BrainCircuit, ScanSearch, FileKey, WaypointsIcon, ListTree, Tags, View, ImageDown, Speaker, FileBox, FileVideo, Package, PackageOpen, Braces, Binary, GanttChartSquare, Clipboard, Share2, Link as LinkIconLucide, Images, Trash2, EyeOff, Sparkles, Wand2, Replace, Unlink, FileSignature, ALargeSmall, Columns, Pilcrow, GanttChart, CaseSensitive, Hash, Clock, WrapText, Eraser, FileCheck, CircleDot, ShieldQuestion, Bot, SquareCode, FileTerminal, Download, UploadCloud, Blend, ImageMinus, Workflow, Bookmark, BookmarkPlus, Rows, Columns3, ScanLine, RotateCcw, BoxSelect, EraserIcon, ImageUp, SparklesIcon, PaletteIcon, PaintBucket, ReplaceIcon, StarIcon, Frame, PenTool, GitCompareArrows, UnfoldVertical, MessageSquare, Repeat, BarChart, SlidersHorizontal, Settings, FileCog, FileInput, FileOutput, Shapes, BadgePercent, Heading, List, WorkflowIcon, BookOpen, Globe } from 'lucide-react';
 import {
   MergePdfIcon,
@@ -24,6 +25,7 @@ export interface Tool {
   category: string;
   categoryIcon: LucideIcon;
   isStandalone?: boolean;
+  isNew?: boolean;
 }
 
 export const tools: Tool[] = [
@@ -33,7 +35,7 @@ export const tools: Tool[] = [
   { name: 'Remove Pages', description: 'Delete one or more pages from your PDF file.', icon: FileX, category: 'Organize PDF', categoryIcon: Layers },
   { name: 'Extract Pages', description: 'Select and export specific pages from a PDF.', icon: ChevronsRight, category: 'Organize PDF', categoryIcon: Layers },
   { name: 'Reorder Pages', description: 'Sort pages of your PDF file with drag & drop.', icon: Waypoints, category: 'Organize PDF', categoryIcon: Layers },
-  { name: 'Scan to PDF', description: 'Use your camera to scan documents into a PDF.', icon: FileScan, category: 'Organize PDF', categoryIcon: Layers },
+  { name: 'Scan to PDF', description: 'Use your camera to scan documents into a PDF.', icon: FileScan, category: 'Organize PDF', categoryIcon: Layers, isNew: true },
   
   // Edit PDF
   { name: 'Rotate PDF', description: 'Rotate one or all pages in your PDF file.', icon: RotatePdfIcon, category: 'Edit PDF', categoryIcon: Pencil },
@@ -53,8 +55,8 @@ export const tools: Tool[] = [
   { name: 'PDF to Word', description: 'Convert your PDF to an editable Word document.', icon: PdfToWordIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft },
   { name: 'Word to PDF', description: 'Convert Microsoft Word documents to PDF.', icon: WordToPdfIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft },
   { name: 'PDF to JPG', description: 'Convert each PDF page into a JPG image.', icon: PdfToJpgIcon, 'category': 'Convert PDF', categoryIcon: ArrowRightLeft },
-  { name: 'Image to PDF', description: 'Convert JPG, PNG, and other images to a single PDF file.', icon: FileImage, category: 'Convert PDF', categoryIcon: ArrowRightLeft },
-  { name: 'Website to PDF', description: 'Convert any webpage into a PDF file.', icon: Globe, category: 'Convert PDF', categoryIcon: ArrowRightLeft, isStandalone: true },
+  { name: 'Image to PDF', description: 'Convert JPG, PNG, and other images to a single PDF file.', icon: FileImage, category: 'Convert PDF', categoryIcon: ArrowRightLeft, isNew: true },
+  { name: 'Website to PDF', description: 'Convert any webpage into a PDF file.', icon: Globe, category: 'Convert PDF', categoryIcon: ArrowRightLeft, isStandalone: true, isNew: true },
   { name: 'PDF to PowerPoint', description: 'Convert your PDF to a presentation.', icon: PdfToPowerpointIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft },
   { name: 'PDF to Excel', description: 'Extract data from PDF tables to an Excel sheet.', icon: PdfToExcelIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft },
   { name: 'PowerPoint to PDF', description: 'Convert PowerPoint presentations to PDF.', icon: PowerpointToPdfIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft },
@@ -73,7 +75,7 @@ export const tools: Tool[] = [
   { name: 'Image Compressor', description: 'Reduce image file sizes.', icon: Minimize2, category: 'Image Tools', categoryIcon: Image },
   { name: 'Image Resizer', description: 'Crop and resize your images.', icon: Crop, category: 'Image Tools', categoryIcon: Image },
   { name: 'Photo Editor', description: 'Make basic adjustments to your photos.', icon: ImagePlus, category: 'Image Tools', categoryIcon: Image },
-  { name: 'Background Remover', description: 'Automatically remove the background.', icon: Droplet, category: 'Image Tools', categoryIcon: Image },
+  { name: 'Background Remover', description: 'Automatically remove the background.', icon: Droplet, category: 'Image Tools', categoryIcon: Image, isNew: true },
   { name: 'Color Palette Generator', description: 'Extract a color scheme from an image.', icon: Palette, category: 'Image Tools', categoryIcon: Image },
 
   // Video Tools
@@ -89,7 +91,7 @@ export const tools: Tool[] = [
   { name: 'Audio Converter', description: 'Convert audio between MP3, WAV, M4A, etc.', icon: AudioWaveform, category: 'Audio Tools', categoryIcon: AudioWaveform },
   { name: 'Trim Audio', description: 'Cut a section from an audio file.', icon: Scissors, category: 'Audio Tools', categoryIcon: AudioWaveform },
   { name: 'Merge Audio', description: 'Join multiple audio tracks into one.', icon: Combine, category: 'Audio Tools', categoryIcon: AudioWaveform },
-  { name: 'Voice Recorder', description: 'Record audio directly from your microphone.', icon: Mic, category: 'Audio Tools', categoryIcon: AudioWaveform },
+  { name: 'Voice Recorder', description: 'Record audio directly from your microphone.', icon: Mic, category: 'Audio Tools', categoryIcon: AudioWaveform, isStandalone: true, isNew: true },
 
   // Utility Tools
   { name: 'Password Generator', description: 'Create strong, secure passwords.', icon: KeyRound, category: 'Utility Tools', categoryIcon: TerminalSquare, isStandalone: true },
@@ -105,7 +107,7 @@ export const tools: Tool[] = [
   { name: 'Text Compare', description: 'Find the differences between two text files.', icon: FileDiff, category: 'Utility Tools', categoryIcon: TerminalSquare },
   { name: 'Base64 Encoder/Decoder', description: 'Encode to or decode from Base64.', icon: Binary, category: 'Utility Tools', categoryIcon: TerminalSquare },
   { name: 'URL Encoder/Decoder', description: 'Encode or decode URLs for safe transmission.', icon: LinkIcon, category: 'Utility Tools', categoryIcon: TerminalSquare },
-  { name: 'Notepad', description: 'A simple online notepad for quick notes.', icon: StickyNote, category: 'Utility Tools', categoryIcon: TerminalSquare, isStandalone: true },
+  { name: 'Notepad', description: 'A simple online notepad for quick notes.', icon: StickyNote, category: 'Utility Tools', categoryIcon: TerminalSquare, isStandalone: true, isNew: true },
 
   // Converters
   { name: 'Markdown <-> HTML', description: 'Convert between Markdown and HTML.', icon: GitCompareArrows, category: 'Converters', categoryIcon: ArrowRightLeft },

@@ -50,6 +50,11 @@ export function ToolCard({ tool, index }: ToolCardProps) {
             <Link href={`/tools/${slug}`} className="block group relative h-full">
                <div className={cn("animated-gradient-border-container h-52")}>
                   <div className="animated-gradient-border-content flex flex-col h-full">
+                    {tool.isNew && (
+                        <div className="absolute top-2 right-2 px-2 py-0.5 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-[10px] font-bold rounded-full shadow-md animate-pulse z-10">
+                            NEW
+                        </div>
+                    )}
                     <Card
                         className={cn(
                             "cursor-pointer transition-shadow duration-250 relative overflow-hidden bg-transparent h-full border-0 shadow-none flex flex-col justify-between",
