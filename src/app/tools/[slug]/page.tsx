@@ -28,11 +28,15 @@ type ImageFormat = "png" | "jpeg" | "webp";
 function ToolPageClient({ params }: { params: { slug: string } }) {
   const tool = useMemo(() => tools.find(t => t.name.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and') === params.slug), [params.slug]);
   
-  const [files, setFiles] = useState<File[]>([]);
-  const { progress, setProgress, status, setStatus, resetProgress } = useProgress();
-  const [processedUrl, setProcessedUrl] = useState<string | null>(null);
-  const [processedFileName, setProcessedFileName] = useState<string>('download');
-  const [error, setError] = useState<string | null>(null);
+  const { 
+    progress, setProgress, 
+    status, setStatus, 
+    processedUrl, setProcessedUrl,
+    processedFileName, setProcessedFileName,
+    files, setFiles,
+    error, setError,
+    resetState,
+  } = useProgress();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   
@@ -50,6 +54,8 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
   const fileAccept = useMemo(() => tool ? getFileAccept(tool.category) : '*/*', [tool]);
 
   useEffect(() => {
+    // This effect runs when the component unmounts.
+    // It's a cleanup function to release the object URL and prevent memory leaks.
     return () => {
       if (processedUrl) {
         URL.revokeObjectURL(processedUrl);
@@ -106,11 +112,9 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
       const validFiles = validateFiles(Array.from(event.target.files));
       if(validFiles.length > 0) {
         setFiles(prevFiles => [...prevFiles, ...validFiles]);
-        setProcessedUrl(null);
-        setError(null);
       }
     }
-  }, [fileAccept, toast]);
+  }, [fileAccept, toast, setFiles]);
 
   const handleDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -122,43 +126,25 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
       const validFiles = validateFiles(Array.from(event.dataTransfer.files));
        if(validFiles.length > 0) {
         setFiles(prevFiles => [...prevFiles, ...validFiles]);
-        setProcessedUrl(null);
-        setError(null);
       }
     }
-  }, [fileAccept, toast]);
+  }, [fileAccept, toast, setFiles]);
 
   const removeFile = useCallback((fileName: string) => {
     setFiles(prevFiles => prevFiles.filter(f => f.name !== fileName));
-  }, []);
-  
-  const resetState = useCallback(() => {
-    setFiles([]);
-    setError(null);
-    if (processedUrl) {
-      URL.revokeObjectURL(processedUrl);
-    }
-    setProcessedUrl(null);
-    if(fileInputRef.current) {
-        fileInputRef.current.value = "";
-    }
-    resetProgress();
-  }, [processedUrl, resetProgress]);
-
+  }, [setFiles]);
 
   const handleProcessFiles = async () => {
     if (files.length === 0) return;
     
     setStatus('processing');
     setProgress(0);
-
+    setError(null);
     if(processedUrl) {
       URL.revokeObjectURL(processedUrl);
       setProcessedUrl(null);
     }
-    setError(null);
 
-    // Simulate progress
     const progressInterval = setInterval(() => {
         setProgress(prev => {
             if (prev >= 95) {
@@ -202,19 +188,19 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
                 resultName = `merged-document.pdf`;
                 break;
             default:
+                 // This case handles tools that are listed but don't have client-side logic implemented yet.
+                 // It simulates a process and then throws a clear error for the user.
                 await new Promise(resolve => setTimeout(resolve, 1000));
-                resultBlob = new Blob([`Processed ${file.name} with ${tool.name}`], { type: 'text/plain' });
-                resultName = `processed-${file.name}.txt`;
-                break;
+                throw new Error(`The '${tool.name}' tool is not yet implemented.`);
         }
         
         clearInterval(progressInterval);
         setProgress(100);
-        setStatus('complete');
-
+        
         const url = URL.createObjectURL(resultBlob);
         setProcessedUrl(url);
         setProcessedFileName(resultName);
+        setStatus('complete');
 
         toast({
             title: "Success!",
@@ -352,21 +338,8 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
 
   const renderFileBasedUI = () => (
     <>
-       {status !== 'idle' && status !== 'error' ? (
-           <ProgressDisplay
-             fileName={files.length > 1 ? `${files.length} files` : files[0].name}
-             progress={progress}
-             status={status}
-             onDownload={() => {
-                const a = document.createElement('a');
-                a.href = processedUrl!;
-                a.download = processedFileName;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-             }}
-             onReset={resetState}
-           />
+       {status !== 'idle' ? (
+           <ProgressDisplay />
         ) : (
         <Card>
             <CardContent className="pt-6">
@@ -390,7 +363,6 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
                 multiple={isMultiFileTool}
                 className="hidden" 
                 onChange={handleFileChange}
-                disabled={status !== 'idle'}
                 accept={fileAccept}
                 />
             </div>
@@ -405,7 +377,7 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
                         <File className="h-5 w-5 text-muted-foreground" strokeWidth={1.5} />
                         <span className="text-sm font-medium">{file.name}</span>
                         </div>
-                        <Button variant="ghost" size="icon" onClick={() => removeFile(file.name)} disabled={status !== 'idle'}>
+                        <Button variant="ghost" size="icon" onClick={() => removeFile(file.name)}>
                         <X className="h-4 w-4" strokeWidth={1.5} />
                         </Button>
                     </li>
@@ -417,9 +389,8 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
             {renderToolOptions()}
 
             <div className="mt-8 text-center">
-                <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" disabled={files.length === 0 || status !== 'idle'} onClick={handleProcessFiles}>
-                    {status === 'processing' && <Loader2 className="mr-2 h-4 w-4 animate-spin" strokeWidth={1.5} />}
-                    {status === 'processing' ? "Processing..." : `Process ${files.length > 0 ? files.length : ''} File(s)`}
+                <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" disabled={files.length === 0} onClick={handleProcessFiles}>
+                    {`Process ${files.length > 0 ? files.length : ''} File(s)`}
                 </Button>
             </div>
             </CardContent>
@@ -454,13 +425,6 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
                     <p className="text-muted-foreground mt-2 text-lg">{tool.description}</p>
                 </div>
                 
-                {error && (
-                    <Alert variant="destructive" className="mb-4">
-                        <AlertTitle>Error</AlertTitle>
-                        <AlertDescription>{error}</AlertDescription>
-                    </Alert>
-                )}
-
                 {renderToolUI()}
             </div>
         </div>
@@ -478,3 +442,5 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
     </ProgressProvider>
   )
 }
+
+    
