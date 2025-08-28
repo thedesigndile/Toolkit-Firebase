@@ -6,19 +6,20 @@ import { tools } from '@/lib/tools';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { UploadCloud, File, X, Settings2 } from 'lucide-react';
+import { UploadCloud, File, X, Settings2, Globe } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
-import { convertImage, resizeImage, compressImage, compressPdf, getFileAccept, mergePdfs } from '@/lib/tool-functions';
+import { convertImage, resizeImage, compressImage, compressPdf, getFileAccept, mergePdfs, imageToPdf } from '@/lib/tool-functions';
 import { PasswordGenerator } from '@/components/tools/password-generator';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Slider } from '@/components/ui/slider';
 import { Footer } from '@/components/footer';
 import { ProgressProvider, useProgress } from '@/components/progress-provider';
 import { ProgressDisplay } from '@/components/progress-display';
+import { getWebsiteAsPdf } from '@/app/actions';
 
 type ImageFormat = "png" | "jpeg" | "webp";
 
@@ -44,11 +45,12 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
   const [targetSize, setTargetSize] = useState('');
   const [originalFileSize, setOriginalFileSize] = useState<string | null>(null);
   const [estimatedFileSize, setEstimatedFileSize] = useState<string | null>(null);
+  const [websiteUrl, setWebsiteUrl] = useState('');
 
   const { toast } = useToast();
   
-  const fileAccept = useMemo(() => tool ? getFileAccept(tool.category) : '*/*', [tool]);
-  const isMultiFileTool = useMemo(() => tool ? ['Merge PDF'].includes(tool.name) : false, [tool]);
+  const fileAccept = useMemo(() => tool ? getFileAccept(tool.category, tool.name) : '*/*', [tool]);
+  const isMultiFileTool = useMemo(() => tool ? ['Merge PDF', 'Image to PDF'].includes(tool.name) : false, [tool]);
 
 
   // Effect to clean up object URLs to prevent memory leaks.
@@ -141,11 +143,16 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
   }, [setFiles]);
 
   const handleProcessFiles = async () => {
-    if (files.length === 0) return;
+    if (tool.name === 'Website to PDF') {
+        if (!websiteUrl) {
+            toast({ variant: "destructive", title: "URL Required", description: "Please enter a website URL to convert." });
+            return;
+        }
+    } else if (files.length === 0) {
+        return;
+    }
     
-    // Ensure we start from a clean slate for the UI and logic
     resetState();
-    
     setStatus('processing');
     setProgress(0);
 
@@ -163,12 +170,11 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
         let resultBlob: Blob;
         let resultName: string;
         
-        // This check is now redundant for the UI but good for logical safety
-        if (!isMultiFileTool && files.length > 1) {
+        if (!isMultiFileTool && files.length > 1 && tool.name !== 'Website to PDF') {
           throw new Error(`${tool.name} only supports one file at a time.`);
         }
         
-        const file = files[0]; // Even for multi-file, we often base the name on the first file.
+        const file = files[0];
 
         switch (tool.name) {
             case 'Image Converter':
@@ -183,6 +189,24 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
                 const quality = compressionQuality / 100;
                 resultBlob = await compressImage(file, quality);
                 resultName = `compressed-${file.name}`;
+                break;
+            case 'Image to PDF':
+                if (files.length > 1) {
+                     resultBlob = await mergePdfs(files.map(async f => await imageToPdf(f)));
+                     resultName = `merged-images.pdf`;
+                } else {
+                    resultBlob = await imageToPdf(file);
+                    resultName = `${file.name.split('.')[0]}.pdf`;
+                }
+                break;
+            case 'Website to PDF':
+                const result = await getWebsiteAsPdf(websiteUrl);
+                if (result.error || !result.pdf) {
+                    throw new Error(result.error || "Failed to get PDF data from server.");
+                }
+                const fetchResult = await fetch(result.pdf);
+                resultBlob = await fetchResult.blob();
+                resultName = `${new URL(websiteUrl).hostname}.pdf`;
                 break;
             case 'PDF Compressor':
                  const pdfQuality = compressionQuality / 100;
@@ -402,7 +426,42 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
     </>
   );
 
+  const renderWebsiteToPdfUI = () => (
+    <>
+      {status !== 'idle' ? (
+        <ProgressDisplay />
+      ) : (
+        <Card>
+          <CardContent className="pt-6">
+            <div className="space-y-4">
+              <Label htmlFor="website-url" className="text-base">Website URL</Label>
+              <div className="flex items-center gap-2">
+                <Globe className="h-5 w-5 text-muted-foreground" />
+                <Input
+                  id="website-url"
+                  type="url"
+                  placeholder="https://example.com"
+                  value={websiteUrl}
+                  onChange={(e) => setWebsiteUrl(e.target.value)}
+                  className="h-11 text-base"
+                />
+              </div>
+            </div>
+            <div className="mt-8 text-center">
+              <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" disabled={!websiteUrl || status !== 'idle'} onClick={handleProcessFiles}>
+                Convert to PDF
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+    </>
+  );
+
   const renderToolUI = () => {
+    if (tool.name === 'Website to PDF') {
+      return renderWebsiteToPdfUI();
+    }
     if (tool.isStandalone) {
         switch (tool.name) {
             case 'Password Generator':
@@ -445,5 +504,3 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
     </ProgressProvider>
   )
 }
-
-    

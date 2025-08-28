@@ -2,7 +2,7 @@
 
 // @ts-nocheck
 import imageCompression from 'browser-image-compression';
-import { PDFDocument } from 'pdf-lib';
+import { PDFDocument, rgb } from 'pdf-lib';
 
 // =============== IMAGE TOOLS ===============
 
@@ -52,6 +52,31 @@ export async function compressImage(file: File, quality: number) {
     return compressedFile;
 }
 
+export async function imageToPdf(file: File): Promise<Blob> {
+    const pdfDoc = await PDFDocument.create();
+    const imageBytes = await file.arrayBuffer();
+    
+    let image;
+    if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
+        image = await pdfDoc.embedJpg(imageBytes);
+    } else if (file.type === 'image/png') {
+        image = await pdfDoc.embedPng(imageBytes);
+    } else {
+        throw new Error('Unsupported image type. Please use JPG or PNG.');
+    }
+
+    const page = pdfDoc.addPage([image.width, image.height]);
+    page.drawImage(image, {
+        x: 0,
+        y: 0,
+        width: image.width,
+        height: image.height,
+    });
+
+    const pdfBytes = await pdfDoc.save();
+    return new Blob([pdfBytes], { type: 'application/pdf' });
+}
+
 
 // =============== PDF TOOLS ===============
 
@@ -84,7 +109,11 @@ export async function mergePdfs(files: File[]): Promise<Blob> {
     return new Blob([mergedPdfBytes], { type: 'application/pdf' });
 }
 
-export function getFileAccept(toolCategory: string) {
+export function getFileAccept(toolCategory: string, toolName: string = '') {
+    if (toolName === 'Image to PDF') {
+        return 'image/jpeg,image/png';
+    }
+
     switch(toolCategory) {
         case 'Image Tools':
             return 'image/png,image/jpeg,image/webp';
@@ -96,6 +125,7 @@ export function getFileAccept(toolCategory: string) {
         case 'Edit PDF':
         case 'PDF Security':
         case 'Extra Tools':
+        case 'Convert PDF':
             return 'application/pdf';
         case 'Audio Tools':
             return 'audio/mpeg,audio/wav,audio/ogg';
