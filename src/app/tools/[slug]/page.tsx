@@ -6,19 +6,16 @@ import { tools } from '@/lib/tools';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { UploadCloud, File, X, Loader2, Download, CheckCircle, RotateCcw, Settings2, HelpCircle } from 'lucide-react';
+import { UploadCloud, File, X, Settings2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { convertImage, resizeImage, compressImage, compressPdf, getFileAccept, mergePdfs } from '@/lib/tool-functions';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { PasswordGenerator } from '@/components/tools/password-generator';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Slider } from '@/components/ui/slider';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Footer } from '@/components/footer';
 import { ProgressProvider, useProgress } from '@/components/progress-provider';
 import { ProgressDisplay } from '@/components/progress-display';
@@ -48,12 +45,13 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
   const [originalFileSize, setOriginalFileSize] = useState<string | null>(null);
   const [estimatedFileSize, setEstimatedFileSize] = useState<string | null>(null);
 
-
   const { toast } = useToast();
   
   const fileAccept = useMemo(() => tool ? getFileAccept(tool.category) : '*/*', [tool]);
+  const isMultiFileTool = useMemo(() => tool ? ['Merge PDF'].includes(tool.name) : false, [tool]);
 
-  // Clean up object URLs to prevent memory leaks
+
+  // Effect to clean up object URLs to prevent memory leaks.
   useEffect(() => {
     return () => {
       if (processedUrl) {
@@ -62,14 +60,14 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
     };
   }, [processedUrl]);
 
-  // Reset file input when the main state is reset
+  // Effect to reset the file input visually when the state is reset.
   useEffect(() => {
     if (status === 'idle' && fileInputRef.current) {
         fileInputRef.current.value = "";
     }
   }, [status]);
 
-
+  // Effect to calculate file sizes for compressor tools
   useEffect(() => {
     if (files.length > 0 && (tool?.name === 'Image Compressor' || tool?.name === 'PDF Compressor')) {
       const totalSize = files.reduce((acc, file) => acc + file.size, 0);
@@ -77,9 +75,8 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
 
       // Simple estimation logic
       const qualityRatio = compressionQuality / 100;
-      const estimated = totalSize * qualityRatio * 0.5; // Further adjust based on typical compression results
+      const estimated = totalSize * qualityRatio * 0.5;
       setEstimatedFileSize((estimated / 1024 / 1024).toFixed(2) + ' MB');
-
     } else {
       setOriginalFileSize(null);
       setEstimatedFileSize(null);
@@ -117,12 +114,12 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
   const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const validFiles = validateFiles(Array.from(event.target.files));
-      if(validFiles.length > 0) {
+      if (validFiles.length > 0) {
         const newFiles = isMultiFileTool ? [...files, ...validFiles] : [validFiles[0]];
         setFiles(newFiles);
       }
     }
-  }, [fileAccept, toast, setFiles, files]);
+  }, [fileAccept, toast, setFiles, files, isMultiFileTool]);
 
   const handleDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -132,12 +129,12 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
     event.preventDefault();
     if (event.dataTransfer.files) {
       const validFiles = validateFiles(Array.from(event.dataTransfer.files));
-       if(validFiles.length > 0) {
+       if (validFiles.length > 0) {
         const newFiles = isMultiFileTool ? [...files, ...validFiles] : [validFiles[0]];
         setFiles(newFiles);
       }
     }
-  }, [fileAccept, toast, setFiles, files]);
+  }, [fileAccept, toast, setFiles, files, isMultiFileTool]);
 
   const removeFile = useCallback((fileName: string) => {
     setFiles(prevFiles => prevFiles.filter(f => f.name !== fileName));
@@ -146,12 +143,11 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
   const handleProcessFiles = async () => {
     if (files.length === 0) return;
     
-    // Ensure we start from a clean slate
+    // Ensure we start from a clean slate for the UI and logic
     resetState();
     
     setStatus('processing');
     setProgress(0);
-   
 
     const progressInterval = setInterval(() => {
         setProgress(prev => {
@@ -166,27 +162,29 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
     try {
         let resultBlob: Blob;
         let resultName: string;
-        const file = files[0]; 
+        
+        // This check is now redundant for the UI but good for logical safety
+        if (!isMultiFileTool && files.length > 1) {
+          throw new Error(`${tool.name} only supports one file at a time.`);
+        }
+        
+        const file = files[0]; // Even for multi-file, we often base the name on the first file.
 
         switch (tool.name) {
             case 'Image Converter':
-                if (files.length > 1) throw new Error("Image Converter only supports one file at a time.");
                 resultBlob = await convertImage(file, imageFormat);
                 resultName = `converted-${file.name.split('.')[0]}.${imageFormat}`;
                 break;
             case 'Image Resizer':
-                 if (files.length > 1) throw new Error("Image Resizer only supports one file at a time.");
                 resultBlob = await resizeImage(file, parseInt(resizeOptions.width), parseInt(resizeOptions.height), resizeOptions.keepAspectRatio);
                 resultName = `resized-${file.name}`;
                 break;
             case 'Image Compressor':
-                 if (files.length > 1) throw new Error("Image Compressor only supports one file at a time.");
                 const quality = compressionQuality / 100;
                 resultBlob = await compressImage(file, quality);
                 resultName = `compressed-${file.name}`;
                 break;
             case 'PDF Compressor':
-                 if (files.length > 1) throw new Error("PDF Compressor only supports one file at a time.");
                  const pdfQuality = compressionQuality / 100;
                 resultBlob = await compressPdf(file, pdfQuality);
                 resultName = `compressed-${file.name}`;
@@ -196,8 +194,6 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
                 resultName = `merged-document.pdf`;
                 break;
             default:
-                 // This case handles tools that are listed but don't have client-side logic implemented yet.
-                 // It simulates a process and then throws a clear error for the user.
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 throw new Error(`The '${tool.name}' tool is not yet implemented.`);
         }
@@ -343,8 +339,6 @@ function ToolPageClient({ params }: { params: { slug: string } }) {
     )
   };
 
-  const isMultiFileTool = ['Merge PDF'].includes(tool.name);
-
   const renderFileBasedUI = () => (
     <>
        {status !== 'idle' ? (
@@ -452,5 +446,4 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
   )
 }
 
-    
     

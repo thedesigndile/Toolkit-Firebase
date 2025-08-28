@@ -25,7 +25,7 @@ export function ProgressDisplay() {
   } = useProgress();
 
   const handleDownload = () => {
-    if (!processedUrl) return;
+    if (!processedUrl || !processedFileName) return;
     const a = document.createElement('a');
     a.href = processedUrl;
     a.download = processedFileName;

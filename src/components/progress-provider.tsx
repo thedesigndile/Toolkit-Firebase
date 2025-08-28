@@ -33,19 +33,19 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
 
 
   const resetState = useCallback(() => {
-    // Only reset if not already idle to prevent unnecessary rerenders
-    if (status !== 'idle') {
-      setStatus('idle');
-    }
-    setFiles([]);
-    setProgress(0);
-    setError(null);
+    // Revoke the old URL before setting a new one or clearing.
     if (processedUrl) {
       URL.revokeObjectURL(processedUrl);
-      setProcessedUrl(null);
     }
+    
+    // Reset all state values to their initial state.
+    setStatus('idle');
+    setFiles([]); // This was the critical missing piece.
+    setProgress(0);
+    setError(null);
+    setProcessedUrl(null);
     setProcessedFileName('download');
-  }, [processedUrl, status]); // Add status to dependency array
+  }, [processedUrl]);
 
   const value = { 
     progress, setProgress, 
