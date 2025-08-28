@@ -29,7 +29,6 @@ const navItems = [
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
   return (
     <>
@@ -43,35 +42,21 @@ export function Header() {
             <ModernLogo />
           </Link>
           <NavigationMenu>
-            <NavigationMenuList 
-                className="relative"
-                onMouseLeave={() => setHoveredItem(null)}
-            >
+            <NavigationMenuList>
               {navItems.map((item) => (
-                 <NavigationMenuItem 
-                    key={item.name} 
-                    onMouseEnter={() => setHoveredItem(item.name)}
-                 >
+                 <NavigationMenuItem key={item.name}>
                     {item.href ? (
                          <NavigationMenuLink asChild>
-                           <Link href={item.href} className={cn(navigationMenuTriggerStyle(), "font-semibold text-sm bg-transparent text-white hover:text-white/90 px-4 py-2 hover:bg-transparent focus:bg-transparent")}>
+                           <Link href={item.href} className={cn(navigationMenuTriggerStyle(), "font-semibold text-sm bg-transparent text-white hover:text-brand-blue px-4 py-2 hover:bg-transparent focus:bg-transparent transition-colors duration-300")}>
                               {item.name}
                            </Link>
                         </NavigationMenuLink>
                     ) : (
-                        <NavigationMenuTrigger className="font-semibold text-sm bg-transparent text-white hover:text-white/90 hover:bg-transparent focus:bg-transparent">
+                        <NavigationMenuTrigger className="font-semibold text-sm bg-transparent text-white hover:text-brand-blue hover:bg-transparent focus:bg-transparent transition-colors duration-300">
                             {item.name}
                         </NavigationMenuTrigger>
                     )}
                    
-                    {hoveredItem === item.name && (
-                       <motion.div
-                          className="absolute -z-10 inset-0 bg-blue-500/20 rounded-full"
-                          layoutId="hover-bg"
-                          transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-                        />
-                    )}
-
                     {item.subItems && (
                         <NavigationMenuContent>
                         <ul className={cn("grid gap-3 p-4", {
