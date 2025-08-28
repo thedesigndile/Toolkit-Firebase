@@ -66,7 +66,7 @@ export function Header() {
                    
                     {hoveredItem === item.name && (
                        <motion.div
-                          className="absolute -z-10 inset-0 bg-white/10 rounded-full"
+                          className="absolute -z-10 inset-0 bg-blue-500/20 rounded-full"
                           layoutId="hover-bg"
                           transition={{ type: 'spring', stiffness: 350, damping: 30 }}
                         />

@@ -1,9 +1,10 @@
 
 import Link from "next/link";
-import { Github, Twitter, Linkedin, Facebook, Instagram, Mail, ArrowUp } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { ArrowUp } from "lucide-react";
 import { ModernLogo } from "./icons";
+import { tools } from "@/lib/tools";
+
+const getToolUrl = (toolName: string) => `/tools/${toolName.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and')}`;
 
 const FooterLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
   <Link href={href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
@@ -18,12 +19,11 @@ const FooterColumn = ({ title, children }: { title: string; children: React.Reac
   </div>
 );
 
-const SocialIcon = ({ href, icon: Icon }: { href: string; icon: React.ElementType }) => (
-    <Link href={href} className="text-muted-foreground hover:text-foreground transition-colors">
-        <Icon className="h-5 w-5" strokeWidth={1.5} />
-    </Link>
-);
-
+const importantTools = [
+    'Merge PDF', 'Split PDF', 'Compress PDF', 'PDF to Word', 'Word to PDF',
+    'PDF to JPG', 'JPG to PDF', 'Image Converter', 'Image Compressor', 'Image Resizer',
+    'Video Compressor', 'Trim Video', 'Password Generator', 'QR Code Generator', 'Text Compare'
+]
 
 export function Footer() {
   const handleScrollToTop = () => {
@@ -34,7 +34,6 @@ export function Footer() {
     <footer className="footer-bg text-foreground relative">
       <div className="container mx-auto px-4 py-12 md:py-16">
         
-        {/* Top section: Main grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
             {/* Brand Section */}
             <div className="lg:col-span-1 flex flex-col items-start max-w-sm">
@@ -47,53 +46,32 @@ export function Footer() {
                 </p>
             </div>
 
-            {/* Navigation Links */}
-            <FooterColumn title="Navigation">
-                <FooterLink href="/about">About Us</FooterLink>
-                <FooterLink href="/tools">All Tools</FooterLink>
-                <FooterLink href="/blog">Blog</FooterLink>
-                <FooterLink href="/contact">Contact</FooterLink>
+            <FooterColumn title="Organize">
+                <FooterLink href={getToolUrl('Merge PDF')}>Merge PDF</FooterLink>
+                <FooterLink href={getToolUrl('Split PDF')}>Split PDF</FooterLink>
+                <FooterLink href={getToolUrl('Remove Pages')}>Remove Pages</FooterLink>
+                <FooterLink href={getToolUrl('Extract Pages')}>Extract Pages</FooterLink>
+                <FooterLink href={getToolUrl('Reorder Pages')}>Reorder Pages</FooterLink>
             </FooterColumn>
 
-            {/* Resources & Support */}
-            <FooterColumn title="Resources">
-                <FooterLink href="/help">Help Center</FooterLink>
-                <FooterLink href="/pricing">Pricing</FooterLink>
-                <FooterLink href="/terms">Terms of Service</FooterLink>
-                <FooterLink href="/privacy">Privacy Policy</FooterLink>
+            <FooterColumn title="Convert">
+                 <FooterLink href={getToolUrl('PDF to Word')}>PDF to Word</FooterLink>
+                 <FooterLink href={getToolUrl('Word to PDF')}>Word to PDF</FooterLink>
+                 <FooterLink href={getToolUrl('PDF to JPG')}>PDF to JPG</FooterLink>
+                 <FooterLink href={getToolUrl('JPG to PDF')}>JPG to PDF</FooterLink>
+                 <FooterLink href={getToolUrl('Image Converter')}>Image Converter</FooterLink>
             </FooterColumn>
             
-            {/* Contact & Socials */}
-             <div className="flex flex-col gap-4">
-                <h4 className="font-semibold text-foreground tracking-wider uppercase text-sm">Contact Us</h4>
-                <a href="mailto:support@toolkit.dev" className="text-sm text-muted-foreground hover:text-foreground transition-colors">support@toolkit.dev</a>
-                 <div className="flex items-center gap-4 mt-2">
-                    <SocialIcon href="#" icon={Twitter} />
-                    <SocialIcon href="#" icon={Github} />
-                    <SocialIcon href="#" icon={Linkedin} />
-                    <SocialIcon href="#" icon={Instagram} />
-                </div>
-            </div>
+            <FooterColumn title="Utilities">
+                 <FooterLink href={getToolUrl('Image Compressor')}>Image Compressor</FooterLink>
+                 <FooterLink href={getToolUrl('Video Compressor')}>Video Compressor</FooterLink>
+                 <FooterLink href={getToolUrl('Password Generator')}>Password Generator</FooterLink>
+                 <FooterLink href={getToolUrl('QR Code Generator')}>QR Code Generator</FooterLink>
+                 <FooterLink href={getToolUrl('Text Compare')}>Text Compare</FooterLink>
+            </FooterColumn>
         </div>
 
-        {/* Newsletter Section */}
-        <div className="max-w-3xl mx-auto my-12 py-8 text-center bg-card/5 border border-white/10 rounded-2xl p-8 backdrop-blur-sm">
-            <h3 className="font-semibold text-lg mb-3 flex items-center justify-center gap-2">
-                <Mail className="h-5 w-5" strokeWidth={1.5} />
-                Stay Updated
-            </h3>
-            <p className="text-muted-foreground mb-4 text-sm max-w-md mx-auto">
-                Get the latest tool releases and feature updates delivered to your inbox. No spam, ever.
-            </p>
-            <form className="flex w-full max-w-sm items-center space-x-2 mx-auto">
-                <Input type="email" placeholder="Enter your email" className="bg-white/5 border-white/20 placeholder:text-muted-foreground h-11" />
-                <Button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white h-11 rounded-lg">Subscribe</Button>
-            </form>
-        </div>
-
-
-        {/* Bottom section: Copyright and Socials */}
-        <div className="mt-8 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-sm text-muted-foreground text-center sm:text-left">
                 &copy; {new Date().getFullYear()} Toolkit Inc. All Rights Reserved.
             </p>
