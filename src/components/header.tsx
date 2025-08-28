@@ -37,10 +37,13 @@ export function Header() {
           "hidden md:flex items-center justify-between w-full max-w-6xl mx-auto p-2 rounded-full header-bg shadow-lg"
         )}
       >
-        <div className="flex items-center gap-4">
+        <div className="flex-1">
           <Link href="/" aria-label="Go to homepage">
             <ModernLogo />
           </Link>
+        </div>
+        
+        <div className="flex-none">
           <NavigationMenu>
             <NavigationMenuList>
               {navItems.map((item) => (
@@ -78,7 +81,8 @@ export function Header() {
             </NavigationMenuList>
           </NavigationMenu>
         </div>
-        <div className="flex items-center gap-2">
+
+        <div className="flex-1 flex justify-end items-center gap-2">
           <Button variant="ghost" className="text-white hover:text-white/90 hover:bg-white/10 rounded-full">
             Log In
           </Button>
