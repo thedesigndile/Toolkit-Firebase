@@ -16,7 +16,6 @@ import {
 interface ToolCardProps {
   tool: Tool;
   index: number;
-  isHighlighted: boolean;
 }
 
 const cardVariants = {
@@ -32,7 +31,7 @@ const cardVariants = {
   }),
 };
 
-export function ToolCard({ tool, index, isHighlighted }: ToolCardProps) {
+export function ToolCard({ tool, index }: ToolCardProps) {
   const Icon = tool.icon;
   const slug = tool.name.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and');
 
@@ -49,14 +48,14 @@ export function ToolCard({ tool, index, isHighlighted }: ToolCardProps) {
         <Tooltip>
           <TooltipTrigger asChild>
             <Link href={`/tools/${slug}`} className="block group relative h-full">
-               <div className={cn("animated-gradient-border-container", isHighlighted ? "animate-pulse-glow" : "")}>
-                  <div className="animated-gradient-border-content flex flex-col">
+               <div className={cn("animated-gradient-border-container")}>
+                  <div className="animated-gradient-border-content flex flex-col h-full">
                     <Card
                         className={cn(
-                            "cursor-pointer transition-shadow duration-250 relative overflow-hidden bg-transparent h-full border-0 shadow-none flex flex-col justify-center flex-grow",
+                            "cursor-pointer transition-shadow duration-250 relative overflow-hidden bg-transparent h-full border-0 shadow-none flex flex-col justify-center",
                         )}
                     >
-                        <CardContent className="p-0 flex flex-col items-center text-center">
+                        <CardContent className="p-0 flex flex-col items-center text-center flex-1 justify-center">
                         <motion.div
                             className="mb-4"
                             whileHover={{ scale: 1.1, transition: { duration: 0.2, ease: "easeOut" } }}
@@ -64,7 +63,7 @@ export function ToolCard({ tool, index, isHighlighted }: ToolCardProps) {
                             <Icon className="h-12 w-12" strokeWidth={1.5} />
                         </motion.div>
                         <p className="text-base font-semibold leading-tight text-foreground">{tool.name}</p>
-                        <p className="text-sm text-muted-foreground mt-2 flex-grow">{tool.description}</p>
+                        <p className="text-sm text-muted-foreground mt-2">{tool.description}</p>
                         </CardContent>
                     </Card>
                   </div>
@@ -79,3 +78,4 @@ export function ToolCard({ tool, index, isHighlighted }: ToolCardProps) {
     </motion.div>
   );
 }
+
