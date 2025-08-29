@@ -95,32 +95,30 @@ export function Header() {
 
       {/* Mobile Header */}
       <div className="md:hidden flex justify-between items-center w-full px-4 py-2 bg-background/80 backdrop-blur-lg border-b">
-         <Link href="/" aria-label="Go to homepage" className="flex items-center gap-3">
+        <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsMobileMenuOpen(true)}
+            aria-label="Open navigation menu"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-navigation"
+            className="w-10 h-10"
+        >
+            <Menu className="h-6 w-6" aria-hidden="true" />
+        </Button>
+        <Link href="/" aria-label="Go to homepage" className="flex items-center gap-2">
             <ModernLogo />
             <span className={cn(fontLogo.className, "font-semibold text-xl text-foreground tracking-widest whitespace-nowrap")}>TOOL KIT</span>
-         </Link>
-         <div className="flex items-center gap-2">
-           <ThemeToggle className="w-10 h-10" aria-label="Toggle theme" />
-           <Button
-             variant="ghost"
-             size="icon"
-             onClick={() => setIsMobileMenuOpen(true)}
-             aria-label="Open navigation menu"
-             aria-expanded={isMobileMenuOpen}
-             aria-controls="mobile-navigation"
-             className="w-10 h-10"
-           >
-              <Menu className="h-6 w-6" aria-hidden="true" />
-           </Button>
-         </div>
+        </Link>
+        <ThemeToggle className="w-10 h-10" aria-label="Toggle theme" />
       </div>
 
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, x: "100%" }}
+            initial={{ opacity: 0, x: "-100%" }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
+            exit={{ opacity: 0, x: "-100%" }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="md:hidden fixed inset-0 bg-background z-50 flex flex-col"
             role="dialog"
@@ -267,3 +265,6 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
   }
 );
 ListItem.displayName = "ListItem";
+
+
+    
