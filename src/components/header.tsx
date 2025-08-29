@@ -46,7 +46,7 @@ export function Header() {
         <div className="flex-1 flex justify-start">
           <Link href="/" aria-label="Go to homepage" className="flex items-center gap-3">
             <ModernLogo />
-            <span className={cn(fontLogo.className, "font-semibold text-2xl text-white tracking-widest")}>TOOL KIT</span>
+            <span className={cn(fontLogo.className, "font-semibold text-2xl text-white tracking-widest whitespace-nowrap")}>TOOL KIT</span>
           </Link>
         </div>
         
@@ -104,7 +104,7 @@ export function Header() {
       <div className="md:hidden flex justify-between items-center w-full px-4 py-2 bg-background/80 backdrop-blur-lg border-b">
          <Link href="/" aria-label="Go to homepage" className="flex items-center gap-3">
             <ModernLogo />
-            <span className={cn(fontLogo.className, "font-semibold text-xl text-foreground tracking-widest")}>TOOL KIT</span>
+            <span className={cn(fontLogo.className, "font-semibold text-xl text-foreground tracking-widest whitespace-nowrap")}>TOOL KIT</span>
          </Link>
          <div className="flex items-center gap-2">
            <ThemeToggle className="w-10 h-10" aria-label="Toggle theme" />
@@ -138,7 +138,7 @@ export function Header() {
             <div className="flex justify-between items-center p-4 border-b">
               <Link href="/" onClick={() => setIsMobileMenuOpen(false)} aria-label="Go to homepage" className="flex items-center gap-3">
                 <ModernLogo />
-                 <span className={cn(fontLogo.className, "font-semibold text-xl text-foreground tracking-widest")}>TOOL KIT</span>
+                 <span className={cn(fontLogo.className, "font-semibold text-xl text-foreground tracking-widest whitespace-nowrap")}>TOOL KIT</span>
               </Link>
               <Button
                 variant="ghost"

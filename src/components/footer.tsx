@@ -48,7 +48,7 @@ export function Footer() {
             <div className="flex flex-col items-start max-w-sm">
                 <Link href="/" className="flex items-center gap-3 mb-4">
                     <ModernLogo />
-                    <span className={cn(fontLogo.className, "font-semibold text-2xl text-white tracking-widest")}>TOOL KIT</span>
+                    <span className={cn(fontLogo.className, "font-semibold text-2xl text-white tracking-widest whitespace-nowrap")}>TOOL KIT</span>
                 </Link>
                 <p className="text-gray-300 text-base">
                     Your all-in-one suite of online tools for documents, images, and more. Simple, fast, and secure processing right in your browser.
