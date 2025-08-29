@@ -14,8 +14,19 @@ import { getFileAccept, pdfToImages, validateFileSize, downloadBlob, checkMemory
 import { Footer } from '@/components/footer';
 import { useProgress } from '@/components/progress-provider';
 import { ProgressDisplay } from '@/components/progress-display';
+import { convertPdfToWord } from '@/app/actions';
 
 type ImageFormat = "png" | "jpeg" | "webp";
+
+// Helper to convert file to data URI
+const fileToDataUri = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+};
 
 export function ToolPageClient({ params }: { params: { slug: string } }): JSX.Element | null | undefined {
   // All hooks must be called before any early returns
@@ -25,10 +36,13 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
   }, [params.slug]);
 
   const {
+    progress,
     setProgress,
     status, setStatus,
     files, setFiles,
-    setError,
+    error, setError,
+    processedUrl, setProcessedUrl,
+    processedFileName, setProcessedFileName,
     resetState,
   } = useProgress();
 
@@ -141,19 +155,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
   const handleProcessFiles = async () => {
     if (files.length === 0) return;
 
-    // For now, process only the first file for single-file tools
-    // TODO: Implement multi-file processing for tools like Merge PDF
     const file = files[0];
-
-    // Check memory limits before processing
-    if (!checkMemoryLimit(file.size, tool.name)) {
-      toast({
-        variant: "destructive",
-        title: "File Too Large",
-        description: "This file is too large to process in your browser. Please try a smaller file.",
-      });
-      return;
-    }
 
     resetState();
     setStatus('processing');
@@ -161,6 +163,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
 
     const progressIntervalRef = { current: null as NodeJS.Timeout | null };
 
+    // Simulate progress for a better user experience
     progressIntervalRef.current = setInterval(() => {
       setProgress(prev => {
         if (prev >= 95) {
@@ -175,33 +178,42 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
     }, 200);
 
     try {
-      if (tool.name === 'PDF to JPG') {
+      if (tool.name === 'PDF to Word') {
+        const pdfDataUri = await fileToDataUri(file);
+        const result = await convertPdfToWord(pdfDataUri);
+
+        if (result.error) throw new Error(result.error);
+        if (!result.docx) throw new Error("Conversion returned no data.");
+
+        setProcessedUrl(result.docx);
+        setProcessedFileName(`${file.name.replace(/\.pdf$/i, '')}.docx`);
+      } else if (tool.name === 'PDF to JPG') {
         // Check if we're in browser environment
         if (typeof window === 'undefined') {
           throw new Error('PDF processing is only available in browser environment.');
         }
-
+        if (!checkMemoryLimit(file.size, tool.name)) {
+            throw new Error("This file is too large to process in your browser. Please try a smaller file.");
+        }
         const format = pdfImageFormat === 'webp' ? 'png' : pdfImageFormat;
         const images = await pdfToImages(file, format as 'png' | 'jpeg', pdfImageQuality / 100);
         setConvertedImages(images);
-        setProgress(100);
-        setStatus('complete');
-
-        if (progressIntervalRef.current) {
-          clearInterval(progressIntervalRef.current);
-          progressIntervalRef.current = null;
-        }
-
-        toast({
-          title: "Success!",
-          description: `PDF converted to ${images.length} ${format.toUpperCase()} images.`,
-        });
-        return;
+      } else {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        throw new Error(`The '${tool.name}' tool is not yet implemented.`);
       }
 
-      // Handle other tools here if needed
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      throw new Error(`The '${tool.name}' tool is not yet implemented.`);
+      // If we reach here, processing was successful for all tool types handled
+      setProgress(100);
+      setStatus('complete');
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+        progressIntervalRef.current = null;
+      }
+      toast({
+        title: "Success!",
+        description: `Your file has been processed successfully.`,
+      });
 
     } catch (e: any) {
       if (progressIntervalRef.current) {
@@ -272,7 +284,6 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
   );
 
   const renderFileBasedUI = () => {
-
     return (
       <>
         {status !== 'idle' ? (
@@ -412,8 +423,12 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
   const renderToolUI = () => {
     if (!tool) return <p>Tool not found.</p>;
 
-    if (tool.name === 'PDF to JPG' && convertedImages.length > 0) {
+    if (tool.name === 'PDF to JPG' && status === 'complete' && convertedImages.length > 0) {
       return renderPdfToImageResults();
+    }
+    
+    if (status === 'complete' && processedUrl) {
+      return <ProgressDisplay />;
     }
 
     return renderFileBasedUI();
