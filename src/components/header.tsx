@@ -12,6 +12,12 @@ import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMe
 import { tools, Tool } from "@/lib/tools";
 import { ThemeToggle } from "./theme-toggle";
 import React from "react";
+import { Rajdhani } from "next/font/google";
+
+const fontLogo = Rajdhani({
+  subsets: ['latin'],
+  weight: ['600'],
+});
 
 const pdfConvertTools = tools.filter(t => t.category === 'Convert PDF');
 const imageTools = tools.filter(t => t.category === 'Image Tools');
@@ -25,6 +31,7 @@ const navItems = [
     { name: "Organize PDF", subItems: organizePdfTools },
     { name: "Image Tools", subItems: imageTools },
     { name: "All Tools", subItems: allTools },
+    { name: "Pricing", href: "/pricing" },
     { name: "Contact", href: "/contact" },
 ]
 
@@ -41,7 +48,7 @@ export function Header() {
         <div className="flex-1">
           <Link href="/" aria-label="Go to homepage" className="flex items-center gap-3">
             <ModernLogo />
-            <span className="font-bold text-xl text-white tracking-wider">TOOL KIT</span>
+            <span className={cn(fontLogo.className, "font-semibold text-2xl text-white tracking-widest")}>TOOL KIT</span>
           </Link>
         </div>
         
@@ -99,7 +106,7 @@ export function Header() {
       <div className="md:hidden flex justify-between items-center w-full px-4 py-2 bg-background/80 backdrop-blur-lg border-b">
          <Link href="/" aria-label="Go to homepage" className="flex items-center gap-3">
             <ModernLogo />
-            <span className="font-bold text-lg text-foreground">TOOL KIT</span>
+            <span className={cn(fontLogo.className, "font-semibold text-xl text-foreground tracking-widest")}>TOOL KIT</span>
          </Link>
          <div className="flex items-center gap-2">
            <ThemeToggle className="w-10 h-10" aria-label="Toggle theme" />
@@ -133,7 +140,7 @@ export function Header() {
             <div className="flex justify-between items-center p-4 border-b">
               <Link href="/" onClick={() => setIsMobileMenuOpen(false)} aria-label="Go to homepage" className="flex items-center gap-3">
                 <ModernLogo />
-                 <span className="font-bold text-lg text-foreground">TOOL KIT</span>
+                 <span className={cn(fontLogo.className, "font-semibold text-xl text-foreground tracking-widest")}>TOOL KIT</span>
               </Link>
               <Button
                 variant="ghost"
@@ -156,6 +163,13 @@ export function Header() {
                  onClick={() => setIsMobileMenuOpen(false)}
                >
                  All Tools
+               </Link>
+               <Link
+                 href="/pricing"
+                 className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg px-4 py-2"
+                 onClick={() => setIsMobileMenuOpen(false)}
+               >
+                Pricing
                </Link>
                <Link
                  href="/contact"
