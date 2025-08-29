@@ -1,4 +1,3 @@
-
 "use client";
 
 export function AnimatedHeroBackground() {
@@ -14,6 +13,3 @@ export function AnimatedHeroBackground() {
     </div>
   );
 }
-
-
-    

@@ -77,7 +77,7 @@ export function Header() {
           </Link>
         </div>
         
-        <div className="flex-[2] flex justify-center">
+        <div className="flex-1 flex justify-center">
           <NavigationMenu>
             <NavigationMenuList className="gap-6">
               {navItems.map((item) => (
