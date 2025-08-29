@@ -24,7 +24,6 @@ const fontLogo = Rajdhani({
 const pdfConvertTools = tools.filter(t => t.category === 'Convert PDF');
 const imageTools = tools.filter(t => t.category === 'Image Tools');
 const organizePdfTools = tools.filter(t => t.category === 'Organize PDF');
-const allTools = tools;
 
 const getToolUrl = (toolName: string) => `/tools/${toolName.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and')}`;
 
@@ -32,7 +31,6 @@ const navItems = [
     { name: "Convert PDF", subItems: pdfConvertTools },
     { name: "Organize PDF", subItems: organizePdfTools },
     { name: "Image Tools", subItems: imageTools },
-    { name: "All Tools", subItems: allTools },
 ]
 
 export function Header() {
@@ -85,8 +83,7 @@ export function Header() {
                     {item.subItems && (
                         <NavigationMenuContent>
                         <ul className={cn("grid gap-3 p-4", {
-                            "w-[400px] md:w-[500px] md:grid-cols-2 lg:w-[600px]": item.name !== "All Tools",
-                            "w-[400px] md:w-[800px] md:grid-cols-4 lg:w-[800px]": item.name === "All Tools",
+                            "w-[400px] md:w-[500px] md:grid-cols-2 lg:w-[600px]": true
                         })}>
                             {item.subItems.map((tool) => (
                             <ListItem
@@ -100,6 +97,13 @@ export function Header() {
                     )}
                 </NavigationMenuItem>
               ))}
+               <NavigationMenuItem>
+                 <Link href="/tools" legacyBehavior passHref>
+                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "font-semibold text-sm bg-transparent text-white px-2 py-2 hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white transition-colors duration-300 rounded-full")}>
+                      All Tools
+                    </NavigationMenuLink>
+                  </Link>
+              </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
         </div>
@@ -178,7 +182,7 @@ export function Header() {
             >
               <div className="p-4">
                 <Accordion type="multiple" className="w-full">
-                  {navItems.filter(i => i.name !== "All Tools").map(item => (
+                  {navItems.map(item => (
                     <motion.div key={item.name} variants={mobileMenuItemVariants}>
                       <AccordionItem value={item.name}>
                         <AccordionTrigger className="text-base font-semibold py-4 hover:no-underline">
