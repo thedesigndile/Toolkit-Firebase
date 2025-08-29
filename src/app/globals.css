@@ -119,6 +119,10 @@
     @apply bg-gradient-primary bg-clip-text text-transparent;
   }
 
+  .text-gradient-blue {
+    @apply bg-gradient-blue bg-clip-text text-transparent;
+  }
+
   .text-shadow {
     text-shadow: 1px 1px 3px hsl(var(--brand-purple-raw) / 0.25);
   }

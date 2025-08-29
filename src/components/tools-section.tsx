@@ -117,7 +117,7 @@ export function ToolsSection() {
             >
               <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-shadow text-foreground mb-6">
                 <span className="block">Every Tool</span>
-                <span className="block text-gradient-primary">You Need</span>
+                <span className="block text-gradient-blue">You Need</span>
               </h1>
               <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4">
                  Discover a powerful suite of free tools to boost your productivity, streamline your workflow, and handle tasks like PDF editing, image conversion, and more— all right in your browser.
@@ -262,5 +262,3 @@ export function ToolsSection() {
     </div>
   );
 }
-
-    
