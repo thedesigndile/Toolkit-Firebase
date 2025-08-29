@@ -95,22 +95,28 @@ export function Header() {
 
       {/* Mobile Header */}
       <div className="md:hidden flex justify-between items-center w-full px-4 py-2 bg-background/80 backdrop-blur-lg border-b">
-        <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsMobileMenuOpen(true)}
-            aria-label="Open navigation menu"
-            aria-expanded={isMobileMenuOpen}
-            aria-controls="mobile-navigation"
-            className="w-10 h-10"
-        >
-            <Menu className="h-6 w-6" aria-hidden="true" />
-        </Button>
-        <Link href="/" aria-label="Go to homepage" className="flex items-center gap-2">
-            <ModernLogo />
-            <span className={cn(fontLogo.className, "font-semibold text-xl text-foreground tracking-widest whitespace-nowrap")}>TOOL KIT</span>
-        </Link>
-        <ThemeToggle className="w-10 h-10" aria-label="Toggle theme" />
+        <div className="flex-1">
+          <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsMobileMenuOpen(true)}
+              aria-label="Open navigation menu"
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-navigation"
+              className="w-10 h-10"
+          >
+              <Menu className="h-6 w-6" aria-hidden="true" />
+          </Button>
+        </div>
+        <div className="flex-1 flex justify-center">
+            <Link href="/" aria-label="Go to homepage" className="flex items-center gap-2">
+                <ModernLogo />
+                <span className={cn(fontLogo.className, "font-semibold text-xl text-foreground tracking-widest whitespace-nowrap")}>TOOL KIT</span>
+            </Link>
+        </div>
+        <div className="flex-1 flex justify-end">
+          <ThemeToggle className="w-10 h-10" aria-label="Toggle theme" />
+        </div>
       </div>
 
       <AnimatePresence>
