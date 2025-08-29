@@ -80,7 +80,7 @@
 
 @layer utilities {
   .bg-gradient-primary {
-    @apply bg-gradient-to-r from-brand-blue to-brand-purple;
+    @apply bg-gradient-to-r from-brand-purple to-brand-pink;
   }
 
   .bg-gradient-upload {
@@ -98,8 +98,8 @@
   }
   
   .icon-gradient-primary {
-    @apply text-brand-blue; /* Fallback */
-    background: linear-gradient(45deg, hsl(var(--brand-blue-raw)), hsl(var(--brand-purple-raw)));
+    @apply text-brand-purple; /* Fallback */
+    background: linear-gradient(45deg, hsl(var(--brand-purple-raw)), hsl(var(--brand-pink-raw)));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
@@ -123,12 +123,12 @@
   }
   
   .hero-gradient {
-    @apply bg-gradient-to-br from-blue-50/50 via-white to-purple-50/50;
+    @apply bg-gradient-to-br from-purple-50/50 via-white to-pink-50/50;
   }
   
   .dark .hero-gradient {
-    background: radial-gradient(ellipse at 50% 0%, hsl(var(--brand-blue-raw)/0.1), transparent 70%),
-                radial-gradient(ellipse at 50% 100%, hsl(var(--brand-purple-raw)/0.1), transparent 70%);
+    background: radial-gradient(ellipse at 50% 0%, hsl(var(--brand-purple-raw)/0.1), transparent 70%),
+                radial-gradient(ellipse at 50% 100%, hsl(var(--brand-pink-raw)/0.1), transparent 70%);
   }
   
   .footer-bg {
