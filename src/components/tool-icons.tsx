@@ -171,7 +171,7 @@ export const RotatePdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
 
 export const LinkIcon: React.FC<IconProps> = ({ className, ...props }) => (
     <IconWrapper className={cn("text-muted-foreground", className)}>
-        <Link2 {...props} width="48" height="48" strokeWidth={1.5} />
+        <Link2 {...props} width="48" height="48" />
     </IconWrapper>
 )
 

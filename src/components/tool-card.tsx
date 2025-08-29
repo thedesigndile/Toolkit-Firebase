@@ -49,8 +49,12 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Link href={`/tools/${slug}`} className="block group relative h-full">
-               <div className={cn("animated-gradient-border-container h-52 group-hover:shadow-2xl transition-shadow duration-300")}>
+            <Link
+              href={`/tools/${slug}`}
+              className="block group relative h-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg"
+              aria-label={`Open ${tool.name} tool`}
+            >
+               <div className={cn("animated-gradient-border-container h-52 sm:h-48 md:h-52 group-hover:shadow-2xl transition-shadow duration-300")}>
                   <div className="animated-gradient-border-content flex flex-col h-full relative overflow-hidden">
                     {/* Background gradient on hover */}
                     <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/5 to-brand-purple/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

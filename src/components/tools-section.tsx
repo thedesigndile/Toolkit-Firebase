@@ -45,12 +45,15 @@ export function ToolsSection() {
   const [isLoading, setIsLoading] = useState(true);
 
   const filteredTools = useMemo(() => {
-    return tools.filter(tool => {
-        const matchesSearch = tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                              tool.description.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesCategory = activeTab === 'All' || tool.category === activeTab;
-        return matchesCategory && matchesSearch;
-    });
+    // If there's a search term, filter all tools regardless of the active tab.
+    if (searchTerm) {
+        return tools.filter(tool => 
+            tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            tool.description.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }
+    // If no search term, filter by the active category.
+    return tools.filter(tool => activeTab === 'All' || tool.category === activeTab);
   }, [searchTerm, activeTab]);
 
   // Simulate initial loading
@@ -60,7 +63,7 @@ export function ToolsSection() {
   }, []);
 
   const categorizedTools = useMemo(() => {
-    if (activeTab !== 'All') {
+    if (activeTab !== 'All' || searchTerm) {
         return [];
     }
 
@@ -87,11 +90,14 @@ export function ToolsSection() {
       })
       .filter(Boolean) as [string, { categoryIcon: any; tools: Tool[] }][];
 
-  }, [filteredTools, activeTab]);
+  }, [filteredTools, activeTab, searchTerm]);
 
   const handleTabChange = (value: string) => {
       setActiveTab(value);
+      setSearchTerm(""); // Clear search when changing tabs
   }
+
+  const isShowingCategorizedView = activeTab === 'All' && !searchTerm;
 
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
@@ -119,19 +125,20 @@ export function ToolsSection() {
             </motion.div>
 
             <motion.div
-              className="my-10 mx-auto max-w-lg relative"
+              className="my-10 mx-auto max-w-lg relative px-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             >
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" strokeWidth={1.5} />
+              <Search className="absolute left-8 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true" />
               <Input
                 type="search"
                 placeholder="Search for any tool..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 h-14 md:h-16 text-base md:text-lg rounded-full shadow-xl border-2 border-transparent focus:border-brand-blue/30 transition-all duration-300"
+                className="w-full pl-12 pr-4 h-14 md:h-16 text-base md:text-lg rounded-full shadow-xl border-2 border-transparent focus:border-brand-blue/30 transition-all duration-300"
                 aria-label="Search for a tool"
+                role="searchbox"
               />
             </motion.div>
 
@@ -157,19 +164,30 @@ export function ToolsSection() {
         </div>
 
         <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-            <div className="flex justify-center mb-2">
-                <TabsList className="h-auto w-full max-w-5xl overflow-x-auto hide-scrollbar bg-transparent p-1 flex-wrap justify-center gap-2">
-                    {CATEGORIES.map(({name, icon: Icon}) => (
-                        <TabsTrigger key={name} value={name} className="px-4 whitespace-nowrap">
-                           {Icon && <Icon className="h-4 w-4 mr-2" strokeWidth={1.5} />}
-                           {name}
-                        </TabsTrigger>
-                    ))}
-                </TabsList>
-            </div>
+            {!searchTerm && (
+              <div className="flex justify-center mb-2 px-4">
+                  <TabsList
+                    className="h-auto w-full max-w-5xl overflow-x-auto hide-scrollbar bg-transparent p-1 flex-wrap justify-center gap-2"
+                    role="tablist"
+                    aria-label="Tool categories"
+                  >
+                      {CATEGORIES.map(({name, icon: Icon}) => (
+                          <TabsTrigger
+                            key={name}
+                            value={name}
+                            className="px-3 py-2 whitespace-nowrap min-h-[44px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                            aria-label={`${name} tools`}
+                          >
+                            {Icon && <Icon className="h-4 w-4 mr-2" aria-hidden="true" />}
+                            <span className="text-sm md:text-base">{name}</span>
+                          </TabsTrigger>
+                      ))}
+                  </TabsList>
+              </div>
+            )}
             
             <div className="mt-8">
-                 {activeTab === 'All' ? (
+                 {isShowingCategorizedView ? (
                      <div className="space-y-12">
                         {isLoading ? (
                           // Show skeleton categories while loading
@@ -231,10 +249,10 @@ export function ToolsSection() {
                     </motion.div>
                  )}
 
-                {filteredTools.length === 0 && (
+                {filteredTools.length === 0 && !isLoading && (
                   <div className="text-center py-16">
                     <p className="text-lg text-muted-foreground">
-                        {`No tools found for "${searchTerm}" in this category.`}
+                        {searchTerm ? `No tools found for "${searchTerm}".` : `No tools in this category.`}
                     </p>
                   </div>
                 )}

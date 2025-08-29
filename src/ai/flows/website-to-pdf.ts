@@ -41,12 +41,56 @@ const websiteToPdfFlow = ai.defineFlow(
   },
   async ({ url }) => {
     let browser;
+    let page;
     try {
-      browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
-      const page = await browser.newPage();
-      await page.goto(url, { waitUntil: 'networkidle0' });
-      const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true });
-      
+      // Launch browser with improved resource management
+      browser = await puppeteer.launch({
+        headless: true,
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-accelerated-2d-canvas',
+          '--no-first-run',
+          '--no-zygote',
+          '--single-process', // Prevent zombie processes
+          '--disable-gpu'
+        ]
+      });
+
+      page = await browser.newPage();
+
+      // Set reasonable timeouts and resource limits
+      await page.setDefaultTimeout(30000); // 30 second timeout
+      await page.setDefaultNavigationTimeout(30000);
+
+      // Block unnecessary resources to improve performance
+      await page.setRequestInterception(true);
+      page.on('request', (request) => {
+        const resourceType = request.resourceType();
+        if (['image', 'media', 'font', 'stylesheet'].includes(resourceType)) {
+          request.abort();
+        } else {
+          request.continue();
+        }
+      });
+
+      await page.goto(url, {
+        waitUntil: 'networkidle2', // More reliable than networkidle0
+        timeout: 30000
+      });
+
+      const pdfBuffer = await page.pdf({
+        format: 'A4',
+        printBackground: true,
+        margin: {
+          top: '1cm',
+          right: '1cm',
+          bottom: '1cm',
+          left: '1cm'
+        }
+      });
+
       const pdfDataUri = `data:application/pdf;base64,${pdfBuffer.toString('base64')}`;
 
       return {
@@ -56,8 +100,20 @@ const websiteToPdfFlow = ai.defineFlow(
       console.error("Error converting website to PDF", e);
       throw new Error(`Failed to convert ${url} to PDF. Please ensure it's a valid and accessible URL.`);
     } finally {
+        // Ensure proper cleanup
+        if(page) {
+            try {
+                await page.close();
+            } catch(e) {
+                console.warn("Error closing page:", e);
+            }
+        }
         if(browser) {
-            await browser.close();
+            try {
+                await browser.close();
+            } catch(e) {
+                console.warn("Error closing browser:", e);
+            }
         }
     }
   }
