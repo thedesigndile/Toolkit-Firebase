@@ -6,11 +6,11 @@ import { ArrowUp, Twitter, Facebook, Instagram } from "lucide-react";
 import { ModernLogo } from "./icons";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
-import { Orbitron } from "next/font/google";
+import { Rajdhani } from "next/font/google";
 
-const fontLogo = Orbitron({
+const fontLogo = Rajdhani({
   subsets: ['latin'],
-  weight: ['600'],
+  weight: ['700'],
 });
 
 const getToolUrl = (toolName: string) => `/tools/${toolName.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and')}`;
