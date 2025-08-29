@@ -12,6 +12,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
+const AnimatedHeroBackground = dynamic(
+  () => import("./animated-hero-background").then(mod => mod.AnimatedHeroBackground),
+  { ssr: false }
+);
+
+
 const CATEGORIES = [
     { name: "All", icon: null },
     { name: "Organize PDF", icon: Layers },
@@ -27,17 +33,6 @@ const CATEGORIES = [
     { name: "Archive Tools", icon: Package },
 ];
 
-
-const FloatingIcon = ({ icon: Icon, className }: { icon: React.ElementType, className?: string }) => (
-    <motion.div
-      className={cn("absolute rounded-full p-3 shadow-lg bg-card border", className)}
-      initial={{ opacity: 0, scale: 0.5 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, ease: "backOut" }}
-    >
-      <Icon className="h-6 w-6" strokeWidth={1.5} />
-    </motion.div>
-);
 
 export function ToolsSection() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -102,65 +97,61 @@ export function ToolsSection() {
   return (
     <div className="container mx-auto px-4">
        <section id="all-tools">
-        <div className="relative text-center max-w-5xl mx-auto mb-8 overflow-hidden py-16 md:py-20">
-           <div className="absolute inset-0 -z-10 hero-gradient rounded-3xl" />
-            <FloatingIcon icon={FileText} className="top-4 left-8 md:left-16 text-red-500 animate-float-1" />
-            <FloatingIcon icon={Image} className="top-1/3 -left-6 md:-left-4 text-blue-500 animate-float" />
-            <FloatingIcon icon={Video} className="bottom-4 left-12 md:left-24 text-green-500 animate-float-2" />
-            <FloatingIcon icon={Calculator} className="top-8 right-8 md:right-16 text-purple-500 animate-float-2" />
-            <FloatingIcon icon={Search} className="top-1/3 -right-6 md:-right-4 text-orange-500 animate-float" />
+        <div className="relative text-center max-w-5xl mx-auto mb-8 overflow-hidden rounded-3xl">
+           <AnimatedHeroBackground />
+           <div className="relative z-10 py-16 md:py-20">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+              >
+                <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-shadow text-white mb-6">
+                  <span className="block">Every Tool</span>
+                  <span className="block text-gradient-blue">You Need</span>
+                </h1>
+                <p className="mt-6 text-lg md:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed px-4">
+                  Discover a powerful suite of free tools to boost your productivity, streamline your workflow, and handle tasks like PDF editing, image conversion, and more— all right in your browser.
+                </p>
+              </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-            >
-              <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-shadow text-foreground mb-6">
-                <span className="block">Every Tool</span>
-                <span className="block text-gradient-blue">You Need</span>
-              </h1>
-              <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4">
-                 Discover a powerful suite of free tools to boost your productivity, streamline your workflow, and handle tasks like PDF editing, image conversion, and more— all right in your browser.
-              </p>
-            </motion.div>
+              <motion.div
+                className="my-10 mx-auto max-w-lg relative px-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+              >
+                <Search className="absolute left-8 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true" />
+                <Input
+                  type="search"
+                  placeholder="Search for any tool..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-12 pr-4 h-14 md:h-16 text-base md:text-lg rounded-full shadow-xl border-2 border-transparent focus:border-brand-blue/30 transition-all duration-300 bg-white/90"
+                  aria-label="Search for a tool"
+                  role="searchbox"
+                />
+              </motion.div>
 
-            <motion.div
-              className="my-10 mx-auto max-w-lg relative px-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-            >
-              <Search className="absolute left-8 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true" />
-              <Input
-                type="search"
-                placeholder="Search for any tool..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 h-14 md:h-16 text-base md:text-lg rounded-full shadow-xl border-2 border-transparent focus:border-brand-blue/30 transition-all duration-300"
-                aria-label="Search for a tool"
-                role="searchbox"
-              />
-            </motion.div>
-
-            <motion.div
-              className="flex flex-wrap justify-center gap-4 mt-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
-            >
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span>Free & Unlimited</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                <span>No Registration</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
-                <span>Browser-Based</span>
-              </div>
-            </motion.div>
+              <motion.div
+                className="flex flex-wrap justify-center gap-4 mt-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+              >
+                <div className="flex items-center gap-2 text-sm text-white/80">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <span>Free & Unlimited</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-white/80">
+                  <div className="w-2 h-2 bg-sky-400 rounded-full animate-pulse"></div>
+                  <span>No Registration</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-white/80">
+                  <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                  <span>Browser-Based</span>
+                </div>
+              </motion.div>
+           </div>
         </div>
 
         <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
