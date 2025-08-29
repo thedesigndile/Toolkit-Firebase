@@ -102,7 +102,7 @@ export function ToolsSection() {
   return (
     <div className="container mx-auto px-4">
        <section id="all-tools">
-        <div className="relative text-center max-w-5xl mx-auto mb-12 overflow-hidden py-16 md:py-20">
+        <div className="relative text-center max-w-5xl mx-auto mb-8 overflow-hidden py-16 md:py-20">
            <div className="absolute inset-0 -z-10 hero-gradient rounded-3xl" />
             <FloatingIcon icon={FileText} className="top-4 left-8 md:left-16 text-red-500 animate-float-1" />
             <FloatingIcon icon={Image} className="top-1/3 -left-6 md:-left-4 text-blue-500 animate-float" />
@@ -262,3 +262,5 @@ export function ToolsSection() {
     </div>
   );
 }
+
+    
