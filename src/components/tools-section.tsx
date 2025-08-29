@@ -6,16 +6,12 @@ import { tools, type Tool } from "@/lib/tools";
 import { Input } from "./ui/input";
 import { ToolCard } from "./tool-card";
 import { ToolCardSkeleton } from "./ui/skeleton";
-import dynamic from "next/dynamic";
 import { Calculator, FileText, Image, Search, Video, Package, TerminalSquare, AudioWaveform, Pencil, Settings2, Shield, Layers, ArrowRightLeft, SigmaSquare } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-
-const AnimatedHeroBackground = dynamic(
-  () => import("./animated-hero-background").then(mod => mod.AnimatedHeroBackground),
-  { ssr: false }
-);
+import { ScrollReveal, StaggerContainer, StaggerItem } from "./scroll-reveal";
+import { AnimatedHeroBackground } from "./animated-hero-background";
 
 
 const CATEGORIES = [
@@ -100,57 +96,50 @@ export function ToolsSection() {
         <div className="relative text-center max-w-5xl mx-auto mb-8 overflow-hidden rounded-3xl">
            <AnimatedHeroBackground />
            <div className="relative z-10 py-16 md:py-20">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-              >
+              <ScrollReveal animation="slideUp" delay={0}>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-shadow text-white mb-6">
                   <span className="block">Every Tool</span>
                   <span className="block text-gradient-blue">You Need</span>
                 </h1>
+              </ScrollReveal>
+
+              <ScrollReveal animation="slideUp" delay={200}>
                 <p className="mt-6 text-lg md:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed px-4">
                   Discover a powerful suite of free tools to boost your productivity, streamline your workflow, and handle tasks like PDF editing, image conversion, and more— all right in your browser.
                 </p>
-              </motion.div>
+              </ScrollReveal>
 
-              <motion.div
-                className="my-10 mx-auto max-w-lg relative px-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-              >
-                <Search className="absolute left-8 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true" />
-                <Input
-                  type="search"
-                  placeholder="Search for any tool..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-12 pr-4 h-14 md:h-16 text-base md:text-lg rounded-full shadow-xl border-2 border-transparent focus:border-brand-blue/30 transition-all duration-300 bg-white/90"
-                  aria-label="Search for a tool"
-                  role="searchbox"
-                />
-              </motion.div>
+              <ScrollReveal animation="scale" delay={400}>
+                <div className="my-10 mx-auto max-w-lg relative px-4">
+                  <Search className="absolute left-8 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true" />
+                  <Input
+                    type="search"
+                    placeholder="Search for any tool..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-12 pr-4 h-14 md:h-16 text-base md:text-lg rounded-full shadow-xl border-2 border-transparent focus:border-brand-blue/30 transition-all duration-300 bg-white/90"
+                    aria-label="Search for a tool"
+                    role="searchbox"
+                  />
+                </div>
+              </ScrollReveal>
 
-              <motion.div
-                className="flex flex-wrap justify-center gap-4 mt-8"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
-              >
-                <div className="flex items-center gap-2 text-sm text-white/80">
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                  <span>Free & Unlimited</span>
+              <ScrollReveal animation="fade" delay={600}>
+                <div className="flex flex-wrap justify-center gap-4 mt-8">
+                  <div className="flex items-center gap-2 text-sm text-white/80">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span>Free & Unlimited</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-white/80">
+                    <div className="w-2 h-2 bg-sky-400 rounded-full animate-pulse"></div>
+                    <span>No Registration</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-white/80">
+                    <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                    <span>Browser-Based</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-white/80">
-                  <div className="w-2 h-2 bg-sky-400 rounded-full animate-pulse"></div>
-                  <span>No Registration</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-white/80">
-                  <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
-                  <span>Browser-Based</span>
-                </div>
-              </motion.div>
+              </ScrollReveal>
            </div>
         </div>
 
@@ -197,24 +186,26 @@ export function ToolsSection() {
                           ))
                         ) : (
                           categorizedTools.map(([category, { categoryIcon: CategoryIcon, tools: categoryTools }]) => (
-                            <div key={category} className="space-y-6">
-                                <h2 className="text-2xl font-semibold flex items-center justify-center gap-3 text-center">
-                                    <CategoryIcon className="h-7 w-7 text-brand-blue" strokeWidth={1.5} />
-                                    {category}
-                                </h2>
-                                <motion.div
-                                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-                                >
+                            <ScrollReveal key={category} animation="slideUp" className="space-y-6">
+                                <ScrollReveal animation="fade" delay={200}>
+                                  <h2 className="text-2xl font-semibold flex items-center justify-center gap-3 text-center">
+                                      <CategoryIcon className="h-7 w-7 text-brand-blue" strokeWidth={1.5} />
+                                      {category}
+                                  </h2>
+                                </ScrollReveal>
+                                <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" staggerDelay={0.1}>
                                     {categoryTools.map((tool, i) => (
-                                        <Suspense key={tool.name} fallback={<ToolCardSkeleton />}>
-                                          <ToolCard
-                                            tool={tool}
-                                            index={i}
-                                          />
-                                        </Suspense>
+                                        <StaggerItem key={tool.name}>
+                                          <Suspense fallback={<ToolCardSkeleton />}>
+                                            <ToolCard
+                                              tool={tool}
+                                              index={i}
+                                            />
+                                          </Suspense>
+                                        </StaggerItem>
                                     ))}
-                                </motion.div>
-                            </div>
+                                </StaggerContainer>
+                            </ScrollReveal>
                           ))
                         )}
                     </div>
@@ -253,3 +244,5 @@ export function ToolsSection() {
     </div>
   );
 }
+
+    

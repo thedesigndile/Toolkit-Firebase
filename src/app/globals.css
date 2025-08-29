@@ -29,6 +29,7 @@
     --brand-dark-blue-raw: 224 82% 45%; /* Darker Blue */
     --brand-purple-raw: 257 90% 66%; /* #8B5CF6 */
     --brand-pink-raw: 330 89% 66%;
+    --brand-orange-raw: 25 95% 53%; /* #F97316 */
     --brand-green-raw: 145 63% 49%;
     --brand-teal-raw: 165 77% 40%;
     --soft-gray-raw: 220 14% 46%;
@@ -37,6 +38,7 @@
     --brand-dark-blue: hsl(var(--brand-dark-blue-raw));
     --brand-purple: hsl(var(--brand-purple-raw));
     --brand-pink: hsl(var(--brand-pink-raw));
+    --brand-orange: hsl(var(--brand-orange-raw));
     --brand-green: hsl(var(--brand-green-raw));
     --brand-teal: hsl(var(--brand-teal-raw));
     --soft-gray: hsl(var(--soft-gray-raw));
@@ -290,9 +292,237 @@
     height: 1500px;
     opacity: 0.05;
     animation-timing-function: cubic-bezier(.6, 0, .4, 1);
-	  animation-delay: 1.2s;
+   animation-delay: 1.2s;
+  }
+
+  /* Enhanced Color Gradients */
+  .gradient-mesh {
+    background: radial-gradient(ellipse at 20% 80%, hsl(var(--brand-blue-raw)/0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, hsl(var(--brand-purple-raw)/0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 40% 40%, hsl(var(--brand-pink-raw)/0.2) 0%, transparent 50%);
+  }
+
+  .gradient-sunset {
+    background: linear-gradient(135deg,
+      hsl(var(--brand-orange-raw)) 0%,
+      hsl(var(--brand-pink-raw)) 25%,
+      hsl(var(--brand-purple-raw)) 50%,
+      hsl(var(--brand-blue-raw)) 75%,
+      hsl(var(--brand-teal-raw)) 100%);
+  }
+
+  .gradient-ocean {
+    background: linear-gradient(135deg,
+      hsl(var(--brand-teal-raw)) 0%,
+      hsl(var(--brand-blue-raw)) 50%,
+      hsl(var(--brand-purple-raw)) 100%);
+  }
+
+  .gradient-aurora {
+    background: linear-gradient(135deg,
+      hsl(var(--brand-green-raw)) 0%,
+      hsl(var(--brand-teal-raw)) 25%,
+      hsl(var(--brand-blue-raw)) 50%,
+      hsl(var(--brand-purple-raw)) 75%,
+      hsl(var(--brand-pink-raw)) 100%);
+  }
+
+  /* Advanced Text Gradients */
+  .text-gradient-sunset {
+    background: linear-gradient(135deg,
+      hsl(var(--brand-orange-raw)),
+      hsl(var(--brand-pink-raw)),
+      hsl(var(--brand-purple-raw)));
+    @apply bg-clip-text text-transparent;
+  }
+
+  .text-gradient-ocean {
+    background: linear-gradient(135deg,
+      hsl(var(--brand-teal-raw)),
+      hsl(var(--brand-blue-raw)),
+      hsl(var(--brand-purple-raw)));
+    @apply bg-clip-text text-transparent;
+  }
+
+  .text-gradient-aurora {
+    background: linear-gradient(135deg,
+      hsl(var(--brand-green-raw)),
+      hsl(var(--brand-teal-raw)),
+      hsl(var(--brand-blue-raw)),
+      hsl(var(--brand-purple-raw)),
+      hsl(var(--brand-pink-raw)));
+    @apply bg-clip-text text-transparent;
+  }
+
+  /* Subtle Background Patterns */
+  .bg-dots {
+    background-image: radial-gradient(circle, hsl(var(--brand-blue-raw)/0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(hsl(var(--brand-blue-raw)/0.1) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--brand-blue-raw)/0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.02;
+  }
+
+  /* Glassmorphism Effects */
+  .glass-card {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+
+  .dark .glass-card {
+    @apply bg-black/10 backdrop-blur-md border border-white/10;
+  }
+
+  .glass-button {
+    @apply bg-white/20 backdrop-blur-sm border border-white/30;
+  }
+
+  .dark .glass-button {
+    @apply bg-black/20 backdrop-blur-sm border border-white/20;
+  }
+
+  /* Scroll-triggered Animation Keyframes */
+  @keyframes slideInFromLeft {
+    0% {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideInFromRight {
+    0% {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideInFromBottom {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes rotateIn {
+    0% {
+      opacity: 0;
+      transform: rotate(-10deg) scale(0.8);
+    }
+    100% {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+    }
+  }
+
+  /* Scroll Animation Classes */
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .animate-on-scroll.animate {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .animate-slide-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .animate-slide-left.animate {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .animate-slide-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .animate-slide-right.animate {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .animate-scale-in {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .animate-scale-in.animate {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .animate-fade-in {
+    opacity: 0;
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .animate-fade-in.animate {
+    opacity: 1;
+  }
+
+  /* Stagger Animation Delays */
+  .animate-delay-100 { transition-delay: 0.1s; }
+  .animate-delay-200 { transition-delay: 0.2s; }
+  .animate-delay-300 { transition-delay: 0.3s; }
+  .animate-delay-400 { transition-delay: 0.4s; }
+  .animate-delay-500 { transition-delay: 0.5s; }
+
+  /* Parallax Effect */
+  .parallax-element {
+    will-change: transform;
   }
 
 }
 
+    
     
