@@ -34,7 +34,6 @@ const navItems = [
 ];
 
 const navLinks = [
-    { name: "All Tools", href: "/tools"},
     { name: "Pricing", href: "/pricing"},
     { name: "Contact", href: "/contact"},
 ]
@@ -127,7 +126,7 @@ export function Header() {
 
       {/* Mobile Header */}
       <div className="md:hidden flex justify-between items-center w-full px-4 py-2 bg-background/80 backdrop-blur-lg border-b">
-        <div className="flex-1">
+        <div className="flex-1 flex justify-start">
           <Button
               variant="ghost"
               size="icon"
@@ -140,7 +139,7 @@ export function Header() {
               <Menu className="h-6 w-6" aria-hidden="true" />
           </Button>
         </div>
-        <div className="flex-1 flex justify-center">
+        <div className="flex justify-center">
             <Link href="/" aria-label="Go to homepage" className="flex items-center gap-2">
                 <ModernLogo />
                 <span className={cn(fontLogo.className, "font-bold text-2xl text-foreground tracking-wider whitespace-nowrap")}>TOOL KIT</span>
@@ -216,7 +215,16 @@ export function Header() {
                 <Separator className="my-4" />
 
                 <motion.div className="flex flex-col" variants={mobileMenuContainerVariants} initial="hidden" animate="visible">
-                    {navLinks.map((link, i) => (
+                    <motion.div variants={mobileMenuItemVariants}>
+                         <Link
+                            href="/tools"
+                            className="block p-4 text-lg font-semibold text-foreground hover:bg-accent/10 rounded-md transition-colors"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                            All Tools
+                        </Link>
+                    </motion.div>
+                    {navLinks.map((link) => (
                         <motion.div key={link.name} variants={mobileMenuItemVariants}>
                              <Link
                                 href={link.href}

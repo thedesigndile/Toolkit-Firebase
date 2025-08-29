@@ -80,22 +80,23 @@ export function Footer() {
             </FooterColumn>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col-reverse sm:grid sm:grid-cols-3 justify-between items-center gap-6">
-            <div className="flex gap-4 items-center">
+        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-8">
+            <p className="text-sm text-gray-400 text-center sm:text-left order-last sm:order-first">
+                &copy; {new Date().getFullYear()} Toolkit Inc. All Rights Reserved.
+            </p>
+
+            <div className="flex gap-4 items-center order-2 sm:order-last">
                 <SocialIcon href="https://x.com" icon={Twitter} />
                 <SocialIcon href="https://facebook.com" icon={Facebook} />
                 <SocialIcon href="https://instagram.com" icon={Instagram} />
             </div>
 
-            <div className="flex justify-center">
+            <div className="relative order-first sm:order-none sm:absolute sm:left-1/2 sm:-translate-x-1/2">
                  <Button onClick={handleScrollToTop} variant="outline" className="p-3 rounded-full bg-transparent border-white/20 hover:bg-white/10 text-white transition-all hover:scale-110 focus:outline-none h-auto w-auto">
                     <ArrowUp className="h-5 w-5" />
                 </Button>
             </div>
             
-            <p className="text-sm text-gray-400 text-center sm:text-right">
-                &copy; {new Date().getFullYear()} Toolkit Inc. All Rights Reserved.
-            </p>
         </div>
       </div>
     </footer>
