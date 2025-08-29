@@ -31,7 +31,6 @@ const navItems = [
     { name: "Organize PDF", subItems: organizePdfTools },
     { name: "Image Tools", subItems: imageTools },
     { name: "All Tools", subItems: allTools },
-    { name: "Contact", href: "/contact" },
 ]
 
 export function Header() {
@@ -44,7 +43,7 @@ export function Header() {
           "hidden md:flex items-center justify-between w-full max-w-6xl mx-auto p-2 rounded-full header-bg shadow-lg"
         )}
       >
-        <div className="flex-1">
+        <div className="flex-1 flex justify-start">
           <Link href="/" aria-label="Go to homepage" className="flex items-center gap-3">
             <ModernLogo />
             <span className={cn(fontLogo.className, "font-semibold text-2xl text-white tracking-widest")}>TOOL KIT</span>
