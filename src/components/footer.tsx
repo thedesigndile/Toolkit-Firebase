@@ -8,14 +8,14 @@ import { ModernLogo } from "./icons";
 const getToolUrl = (toolName: string) => `/tools/${toolName.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and')}`;
 
 const FooterLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
-  <Link href={href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+  <Link href={href} className="text-sm text-gray-300 hover:text-white transition-colors">
     {children}
   </Link>
 );
 
 const FooterColumn = ({ title, children }: { title: string; children: React.ReactNode }) => (
   <div className="flex flex-col gap-3">
-    <h4 className="font-semibold text-foreground tracking-wider uppercase text-sm">{title}</h4>
+    <h4 className="font-semibold text-white tracking-wider uppercase text-sm">{title}</h4>
     {children}
   </div>
 );
@@ -26,7 +26,7 @@ export function Footer() {
   };
     
   return (
-    <footer className="footer-bg text-foreground relative">
+    <footer className="footer-bg text-gray-200 relative">
       <div className="container mx-auto px-4 py-12 md:py-16">
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
@@ -34,9 +34,9 @@ export function Footer() {
             <div className="lg:col-span-1 flex flex-col items-start max-w-sm">
                 <Link href="/" className="flex items-center gap-3 mb-4">
                     <ModernLogo />
-                    <span className="text-2xl font-bold">Toolkit</span>
+                    <span className="text-2xl font-bold text-white">Toolkit</span>
                 </Link>
-                <p className="text-muted-foreground text-base">
+                <p className="text-gray-300 text-base">
                     Your all-in-one suite of online tools for documents, images, and more. Simple, fast, and secure processing right in your browser.
                 </p>
             </div>
@@ -67,7 +67,7 @@ export function Footer() {
         </div>
 
         <div className="mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-muted-foreground text-center sm:text-left">
+            <p className="text-sm text-gray-400 text-center sm:text-left">
                 &copy; {new Date().getFullYear()} Toolkit Inc. All Rights Reserved.
             </p>
              <button onClick={handleScrollToTop} className="absolute bottom-6 right-6 p-3 rounded-full bg-blue-500/80 hover:bg-blue-500 text-white transition-all hover:scale-110 focus:outline-none">
