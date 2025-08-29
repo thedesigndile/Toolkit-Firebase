@@ -86,11 +86,11 @@
   }
 
   .bg-gradient-blue {
-    background-image: linear-gradient(to right, hsl(var(--brand-blue-raw)), hsl(var(--brand-dark-blue-raw)));
+    background-image: linear-gradient(to right, hsl(var(--brand-blue-raw)), hsl(var(--brand-purple-raw)));
   }
   
   .hover\:bg-gradient-blue-hover:hover {
-      background-image: linear-gradient(to right, hsl(var(--brand-blue-raw) / 0.9), hsl(var(--brand-dark-blue-raw) / 0.9));
+      background-image: linear-gradient(to right, hsl(var(--brand-blue-raw) / 0.9), hsl(var(--brand-purple-raw) / 0.9));
   }
 
   .bg-gradient-upload {
@@ -120,7 +120,7 @@
   }
 
   .text-gradient-blue {
-    @apply bg-gradient-blue bg-clip-text text-transparent;
+    @apply bg-gradient-primary bg-clip-text text-transparent;
   }
 
   .text-shadow {
