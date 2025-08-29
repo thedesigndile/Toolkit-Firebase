@@ -70,16 +70,16 @@ export function Header() {
           "hidden md:flex items-center justify-between w-full max-w-6xl mx-auto p-2 rounded-full header-bg shadow-lg"
         )}
       >
-        <div className="flex-[0.75] flex justify-start">
+        <div className="flex-1 flex justify-start">
           <Link href="/" aria-label="Go to homepage" className="flex items-center gap-3">
             <ModernLogo />
             <span className={cn(fontLogo.className, "font-bold text-3xl text-white tracking-wider whitespace-nowrap")}>TOOL KIT</span>
           </Link>
         </div>
         
-        <div className="flex-1 flex justify-center">
+        <div className="flex-[2] flex justify-center">
           <NavigationMenu>
-            <NavigationMenuList className="gap-4">
+            <NavigationMenuList className="gap-6">
               {navItems.map((item) => (
                  <NavigationMenuItem key={item.name}>
                     <NavigationMenuTrigger className="font-semibold text-sm bg-transparent text-white px-3 py-2 hover:bg-gradient-blue hover:text-white focus:bg-gradient-blue focus:text-white data-[state=open]:bg-gradient-blue data-[state=open]:text-white transition-colors duration-300 rounded-full">
@@ -103,7 +103,7 @@ export function Header() {
                 </NavigationMenuItem>
               ))}
                <NavigationMenuItem>
-                 <Link href="/tools" legacyBehavior={false}>
+                 <Link href="/tools" legacyBehavior passHref>
                     <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "font-semibold text-sm bg-transparent text-white px-3 py-2 hover:bg-gradient-blue hover:text-white focus:bg-gradient-blue focus:text-white transition-colors duration-300 rounded-full")}>
                       All Tools
                     </NavigationMenuLink>
@@ -113,7 +113,7 @@ export function Header() {
           </NavigationMenu>
         </div>
 
-        <div className="flex-[0.75] flex justify-end items-center gap-2">
+        <div className="flex-1 flex justify-end items-center gap-2">
           <ThemeToggle className="text-white hover:text-white/90 hover:bg-white/10 rounded-full w-10 h-10" />
           <Button variant="ghost" className="text-white hover:text-white/90 hover:bg-white/10 rounded-full">
             Log In
@@ -322,5 +322,4 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
 );
 ListItem.displayName = "ListItem";
 
-    
     
