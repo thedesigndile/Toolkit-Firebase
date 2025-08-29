@@ -25,7 +25,6 @@ const navItems = [
     { name: "Organize PDF", subItems: organizePdfTools },
     { name: "Image Tools", subItems: imageTools },
     { name: "All Tools", subItems: allTools },
-    { name: "Pricing", href: "/pricing" },
     { name: "Contact", href: "/contact" },
 ]
 
@@ -154,13 +153,6 @@ export function Header() {
                  onClick={() => setIsMobileMenuOpen(false)}
                >
                  All Tools
-               </Link>
-               <Link
-                 href="/pricing"
-                 className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg px-4 py-2"
-                 onClick={() => setIsMobileMenuOpen(false)}
-               >
-                 Pricing
                </Link>
                <Link
                  href="/contact"
