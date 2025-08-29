@@ -6,13 +6,15 @@ import Link from "next/link";
 import { ModernLogo } from "./icons";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "./ui/button";
-import { Menu, X, Twitter, Facebook, Instagram } from "lucide-react";
+import { Menu, X, Twitter, Facebook, Instagram, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { tools, Tool } from "@/lib/tools";
 import { ThemeToggle } from "./theme-toggle";
 import React from "react";
 import { Rajdhani } from "next/font/google";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Separator } from "./ui/separator";
 
 const fontLogo = Rajdhani({
   subsets: ['latin'],
@@ -55,18 +57,9 @@ export function Header() {
             <NavigationMenuList>
               {navItems.map((item) => (
                  <NavigationMenuItem key={item.name}>
-                    {item.href ? (
-                         <NavigationMenuLink asChild>
-                           <Link href={item.href} className={cn(navigationMenuTriggerStyle(), "font-semibold text-sm bg-transparent text-white px-2 py-2 hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white transition-colors duration-300 rounded-full")}>
-                              {item.name}
-                           </Link>
-                        </NavigationMenuLink>
-                    ) : (
-                        <NavigationMenuTrigger className="font-semibold text-sm bg-transparent text-white px-2 py-2 hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white data-[state=open]:bg-blue-500 data-[state=open]:text-white transition-colors duration-300 rounded-full">
-                            {item.name}
-                        </NavigationMenuTrigger>
-                    )}
-                   
+                    <NavigationMenuTrigger className="font-semibold text-sm bg-transparent text-white px-2 py-2 hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white data-[state=open]:bg-blue-500 data-[state=open]:text-white transition-colors duration-300 rounded-full">
+                        {item.name}
+                    </NavigationMenuTrigger>
                     {item.subItems && (
                         <NavigationMenuContent>
                         <ul className={cn("grid gap-3 p-4", {
@@ -150,65 +143,77 @@ export function Header() {
                 <X className="h-6 w-6" aria-hidden="true" />
               </Button>
             </div>
-            <nav
-              className="flex-1 flex flex-col p-8"
-              role="navigation"
-              aria-label="Mobile navigation"
-            >
-              <div className="flex flex-col gap-6">
-                <Link
-                  href="/tools"
-                  className="text-3xl font-semibold text-foreground hover:text-gradient-primary transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  All Tools
-                </Link>
-                <Link
-                  href="/pricing"
-                  className="text-3xl font-semibold text-foreground hover:text-gradient-primary transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Pricing
-                </Link>
-                <Link
-                  href="/contact"
-                  className="text-3xl font-semibold text-foreground hover:text-gradient-primary transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Contact
-                </Link>
+            
+            <nav className="flex-1 overflow-y-auto">
+              <div className="p-4">
+                <Accordion type="multiple" className="w-full">
+                  {navItems.filter(i => i.name !== "All Tools").map(item => (
+                    <AccordionItem value={item.name} key={item.name}>
+                      <AccordionTrigger className="text-base font-semibold py-4 hover:no-underline">
+                        {item.name}
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <div className="flex flex-col gap-1 pl-4">
+                          {item.subItems?.map(tool => (
+                            <Link
+                              key={tool.name}
+                              href={getToolUrl(tool.name)}
+                              className="block p-3 rounded-md text-muted-foreground hover:bg-accent/10 hover:text-accent-foreground transition-colors"
+                              onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                              {tool.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+                <Separator className="my-4" />
+                <div className="flex flex-col gap-2">
+                  <Link
+                    href="/tools"
+                    className="p-4 text-base font-semibold text-foreground hover:bg-accent/10 rounded-md transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    All Tools
+                  </Link>
+                   <Link
+                    href="/pricing"
+                    className="p-4 text-base font-semibold text-foreground hover:bg-accent/10 rounded-md transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Pricing
+                  </Link>
+                   <Link
+                    href="/contact"
+                    className="p-4 text-base font-semibold text-foreground hover:bg-accent/10 rounded-md transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Contact
+                  </Link>
+                </div>
               </div>
-
             </nav>
-            <div className="mt-auto p-8 space-y-6">
-                <div className="flex flex-col gap-4 w-full">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="w-full min-h-[44px]"
-                    aria-label="Log in to your account"
-                  >
-                    Log In
-                  </Button>
-                  <Button
-                    size="lg"
-                    className="bg-blue-500 hover:bg-blue-600 w-full min-h-[44px]"
-                    aria-label="Get started with our tools"
-                  >
-                    Get Started
-                  </Button>
-                </div>
-                <div className="flex justify-center gap-6">
-                    <Link href="https://x.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
-                        <Twitter className="h-6 w-6" />
-                    </Link>
-                    <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
-                        <Facebook className="h-6 w-6" />
-                    </Link>
-                    <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
-                        <Instagram className="h-6 w-6" />
-                    </Link>
-                </div>
+
+            <div className="p-4 border-t">
+              <div className="grid grid-cols-2 gap-2">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full"
+                  aria-label="Log in to your account"
+                >
+                  Log In
+                </Button>
+                <Button
+                  size="lg"
+                  className="bg-blue-500 hover:bg-blue-600 text-white w-full"
+                  aria-label="Get started with our tools"
+                >
+                  Get Started
+                </Button>
+              </div>
             </div>
           </motion.div>
         )}
