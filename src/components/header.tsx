@@ -31,7 +31,6 @@ const navItems = [
     { name: "Organize PDF", subItems: organizePdfTools },
     { name: "Image Tools", subItems: imageTools },
     { name: "All Tools", subItems: allTools },
-    { name: "Pricing", href: "/pricing" },
     { name: "Contact", href: "/contact" },
 ]
 
