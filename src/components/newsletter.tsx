@@ -69,7 +69,7 @@ export function Newsletter() {
                 name="email"
                 placeholder="Enter your email address"
                 required
-                className="flex-1 h-12 text-base rounded-full border-2 border-transparent focus:border-brand-blue/30 transition-all duration-300"
+                className="flex-1 h-12 text-base rounded-full border-2 border-border focus:border-brand-blue/30 transition-all duration-300"
                 aria-label="Email for newsletter"
                 />
                 <Button
