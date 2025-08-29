@@ -11,7 +11,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "./scroll-reveal";
-import { AnimatedHero } from "./animated-hero";
 
 
 const CATEGORIES = [
@@ -93,7 +92,25 @@ export function ToolsSection() {
   return (
     <div className="container mx-auto px-4">
        <section id="all-tools">
-        <AnimatedHero searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        <div className="text-center py-12 md:py-16">
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+            <span className="block">Every Tool</span>
+            <span className="block text-gradient-blue">You Need</span>
+          </h1>
+          <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
+            Discover a powerful suite of free tools to boost your productivity, streamline your workflow, and handle tasks like PDF editing, image conversion, and more— all right in your browser.
+          </p>
+          <div className="mt-8 mx-auto max-w-lg relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Search for any tool..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-12 pr-4 h-14 text-lg rounded-full shadow-md"
+            />
+          </div>
+        </div>
 
         <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
             {!searchTerm && (

@@ -43,6 +43,13 @@ const websiteToPdfFlow = ai.defineFlow(
     let browser;
     let page;
     try {
+      // Validate URL
+      try {
+        new URL(url);
+      } catch {
+        throw new Error('Invalid URL provided');
+      }
+
       // Launch browser with improved resource management
       browser = await puppeteer.launch({
         headless: true,
@@ -98,7 +105,9 @@ const websiteToPdfFlow = ai.defineFlow(
       };
     } catch(e) {
       console.error("Error converting website to PDF", e);
-      throw new Error(`Failed to convert ${url} to PDF. Please ensure it's a valid and accessible URL.`);
+      // Return a more user-friendly error
+      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred';
+      throw new Error(`Failed to convert ${url} to PDF: ${errorMessage}`);
     } finally {
         // Ensure proper cleanup
         if(page) {

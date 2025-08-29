@@ -13,4 +13,6 @@
       }
     ]
   }
+  // Note: For production deployment with server features,
+  // consider using Firebase App Hosting or Vercel for full Next.js support
 }

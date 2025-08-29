@@ -5,13 +5,29 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBDg7XkkjiHGBo9fh1Y6JtwrEKxp-u2QcU",
-  authDomain: "offline-toolkit-4jn7l.firebaseapp.com",
-  projectId: "offline-toolkit-4jn7l",
-  storageBucket: "offline-toolkit-4jn7l.firebasestorage.app",
-  messagingSenderId: "919241860042",
-  appId: "1:919241860042:web:40143bda67450d1e5c6533"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
 };
+
+// Validate required environment variables
+const requiredEnvVars = [
+  'NEXT_PUBLIC_FIREBASE_API_KEY',
+  'NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN',
+  'NEXT_PUBLIC_FIREBASE_PROJECT_ID',
+  'NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET',
+  'NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID',
+  'NEXT_PUBLIC_FIREBASE_APP_ID'
+];
+
+const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
+
+if (missingEnvVars.length > 0) {
+  throw new Error(`Missing required Firebase environment variables: ${missingEnvVars.join(', ')}`);
+}
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);

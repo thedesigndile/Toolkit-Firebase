@@ -50,7 +50,18 @@ const recommendToolsFlow = ai.defineFlow(
     outputSchema: RecommendToolsOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
-    return output!;
+    try {
+      const {output} = await prompt(input);
+      if (!output) {
+        throw new Error('No recommendations generated');
+      }
+      return output;
+    } catch (error) {
+      console.error('Error in recommendToolsFlow:', error);
+      // Return a fallback response
+      return {
+        recommendations: ['PDF Editor', 'Image Compressor', 'Text Extractor']
+      };
+    }
   }
 );

@@ -1,12 +1,11 @@
 
-"use client";
-
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { Poppins } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import { Header } from '@/components/header';
+import { ClientHeader } from '@/components/client-header';
 
 const fontBody = Poppins({
   subsets: ['latin'],
@@ -24,7 +23,7 @@ export default function RootLayout({
       <body className={cn("font-body antialiased", fontBody.variable)}>
         <ThemeProvider>
             <div className="fixed top-4 left-0 right-0 z-50 flex justify-center">
-              <Header />
+              <ClientHeader />
             </div>
           {children}
           <Toaster />
