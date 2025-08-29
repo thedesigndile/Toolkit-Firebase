@@ -4,6 +4,13 @@
 import Link from "next/link";
 import { ArrowUp } from "lucide-react";
 import { ModernLogo } from "./icons";
+import { Rajdhani } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const fontLogo = Rajdhani({
+  subsets: ['latin'],
+  weight: ['600'],
+});
 
 const getToolUrl = (toolName: string) => `/tools/${toolName.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and')}`;
 
@@ -29,12 +36,12 @@ export function Footer() {
     <footer className="footer-bg text-white relative">
       <div className="container mx-auto px-4 py-12 md:py-16">
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] gap-10 lg:gap-12">
             {/* Brand Section */}
-            <div className="lg:col-span-1 flex flex-col items-start max-w-sm">
+            <div className="flex flex-col items-start max-w-sm">
                 <Link href="/" className="flex items-center gap-3 mb-4">
                     <ModernLogo />
-                    <span className="text-2xl font-bold text-white">Toolkit</span>
+                    <span className={cn(fontLogo.className, "font-semibold text-2xl text-white tracking-widest")}>TOOL KIT</span>
                 </Link>
                 <p className="text-gray-300 text-base">
                     Your all-in-one suite of online tools for documents, images, and more. Simple, fast, and secure processing right in your browser.
