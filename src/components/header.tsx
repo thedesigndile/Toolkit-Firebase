@@ -103,7 +103,7 @@ export function Header() {
                 </NavigationMenuItem>
               ))}
                <NavigationMenuItem>
-                 <Link href="/tools">
+                 <Link href="/tools" legacyBehavior={false}>
                     <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "font-semibold text-sm bg-transparent text-white px-3 py-2 hover:bg-gradient-blue hover:text-white focus:bg-gradient-blue focus:text-white transition-colors duration-300 rounded-full")}>
                       All Tools
                     </NavigationMenuLink>
@@ -322,4 +322,5 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
 );
 ListItem.displayName = "ListItem";
 
+    
     
