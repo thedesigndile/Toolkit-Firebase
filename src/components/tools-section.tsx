@@ -34,6 +34,11 @@ export function ToolsSection() {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("All");
   const [isLoading, setIsLoading] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const filteredTools = useMemo(() => {
     // If there's a search term, filter all tools regardless of the active tab.
@@ -94,7 +99,7 @@ export function ToolsSection() {
     <div className="container mx-auto px-4">
        <section id="all-tools">
         <div className="relative text-center max-w-5xl mx-auto mb-8 overflow-hidden rounded-3xl">
-           <AnimatedHeroBackground />
+           {isMounted && <AnimatedHeroBackground />}
            <div className="relative z-10 py-16 md:py-20">
               <ScrollReveal animation="slideUp" delay={0}>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-shadow text-white mb-6">
@@ -244,5 +249,3 @@ export function ToolsSection() {
     </div>
   );
 }
-
-    
