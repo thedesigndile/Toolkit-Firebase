@@ -1,8 +1,10 @@
-require('dotenv').config();
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
   /* config options here */
+  output: 'export',
+  distDir: 'out',
+  trailingSlash: true,
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -24,10 +26,9 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+    unoptimized: true,
   },
-  experimental: {
-    serverComponentsExternalPackages: ['puppeteer'],
-  },
+  serverExternalPackages: ['puppeteer'],
 };
 
 export default nextConfig;

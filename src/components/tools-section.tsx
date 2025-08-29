@@ -37,7 +37,7 @@ export function ToolsSection() {
   const filteredTools = useMemo(() => {
     // If there's a search term, filter all tools regardless of the active tab.
     if (searchTerm) {
-        return tools.filter(tool => 
+        return tools.filter(tool =>
             tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             tool.description.toLowerCase().includes(searchTerm.toLowerCase())
         );
@@ -45,6 +45,34 @@ export function ToolsSection() {
     // If no search term, filter by the active category.
     return tools.filter(tool => activeTab === 'All' || tool.category === activeTab);
   }, [searchTerm, activeTab]);
+
+  // Function to get category-specific background classes
+  const getCategoryBackgroundClasses = (category: string) => {
+    const baseClasses = "category-section-bg bg-pulse";
+
+    switch (category) {
+      case 'Convert PDF':
+      case 'Organize PDF':
+      case 'Edit PDF':
+      case 'Optimize PDF':
+      case 'PDF Security':
+        return `${baseClasses} category-pdf-bg`;
+      case 'Image Tools':
+        return `${baseClasses} category-image-bg`;
+      case 'Video Tools':
+        return `${baseClasses} category-video-bg`;
+      case 'Audio Tools':
+        return `${baseClasses} category-audio-bg`;
+      case 'Utility Tools':
+        return `${baseClasses} category-utility-bg`;
+      case 'Archive Tools':
+        return `${baseClasses} category-archive-bg`;
+      case 'Converters':
+        return `${baseClasses} category-converters-bg`;
+      default:
+        return baseClasses;
+    }
+  };
 
   // Simulate initial loading
   useEffect(() => {
@@ -156,24 +184,29 @@ export function ToolsSection() {
                         ) : (
                           categorizedTools.map(([category, { categoryIcon: CategoryIcon, tools: categoryTools }]) => (
                             <ScrollReveal key={category} animation="slideUp" className="space-y-6">
-                                <ScrollReveal animation="fade" delay={200}>
-                                  <h2 className="text-2xl font-semibold flex items-center justify-center gap-3 text-center">
-                                      <CategoryIcon className="h-7 w-7 text-brand-blue" strokeWidth={1.5} />
-                                      {category}
-                                  </h2>
-                                </ScrollReveal>
-                                <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" staggerDelay={0.1}>
-                                    {categoryTools.map((tool, i) => (
-                                        <StaggerItem key={tool.name}>
-                                          <Suspense fallback={<ToolCardSkeleton />}>
-                                            <ToolCard
-                                              tool={tool}
-                                              index={i}
-                                            />
-                                          </Suspense>
-                                        </StaggerItem>
-                                    ))}
-                                </StaggerContainer>
+                                <div className={getCategoryBackgroundClasses(category)}>
+                                  {/* Floating particles animation */}
+                                  <div className={`floating-particles ${categoryTools.length > 6 ? 'floating-particles-large' : ''}`} />
+
+                                  <ScrollReveal animation="fade" delay={200}>
+                                    <h2 className="text-2xl font-semibold flex items-center justify-center gap-3 text-center relative z-10">
+                                        <CategoryIcon className="h-7 w-7 text-brand-blue" strokeWidth={1.5} />
+                                        {category}
+                                    </h2>
+                                  </ScrollReveal>
+                                  <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 relative z-10" staggerDelay={0.1}>
+                                      {categoryTools.map((tool, i) => (
+                                          <StaggerItem key={tool.name}>
+                                            <Suspense fallback={<ToolCardSkeleton />}>
+                                              <ToolCard
+                                                tool={tool}
+                                                index={i}
+                                              />
+                                            </Suspense>
+                                          </StaggerItem>
+                                      ))}
+                                  </StaggerContainer>
+                                </div>
                             </ScrollReveal>
                           ))
                         )}
