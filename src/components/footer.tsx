@@ -2,15 +2,10 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, Twitter, Facebook, Instagram } from "lucide-react";
 import { ModernLogo } from "./icons";
-import { Rajdhani } from "next/font/google";
 import { cn } from "@/lib/utils";
-
-const fontLogo = Rajdhani({
-  subsets: ['latin'],
-  weight: ['600'],
-});
+import { Button } from "./ui/button";
 
 const getToolUrl = (toolName: string) => `/tools/${toolName.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and')}`;
 
@@ -27,6 +22,12 @@ const FooterColumn = ({ title, children }: { title: string; children: React.Reac
   </div>
 );
 
+const SocialIcon = ({ href, icon: Icon }: { href: string, icon: React.ElementType }) => (
+    <Link href={href} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+        <Icon className="h-5 w-5" />
+    </Link>
+)
+
 export function Footer() {
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -36,12 +37,12 @@ export function Footer() {
     <footer className="footer-bg text-white relative">
       <div className="container mx-auto px-4 py-12 md:py-16">
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] gap-10 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] gap-12 lg:gap-16">
             {/* Brand Section */}
             <div className="flex flex-col items-start max-w-sm">
                 <Link href="/" className="flex items-center gap-3 mb-4">
                     <ModernLogo />
-                    <span className={cn(fontLogo.className, "font-semibold text-2xl text-white tracking-widest")}>TOOL KIT</span>
+                    <span className={cn("font-semibold text-2xl text-white tracking-widest")}>TOOL KIT</span>
                 </Link>
                 <p className="text-gray-300 text-base">
                     Your all-in-one suite of online tools for documents, images, and more. Simple, fast, and secure processing right in your browser.
@@ -73,13 +74,22 @@ export function Footer() {
             </FooterColumn>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-gray-400 text-center sm:text-left">
+        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col-reverse sm:grid sm:grid-cols-3 justify-between items-center gap-6">
+            <div className="flex gap-4 items-center">
+                <SocialIcon href="https://x.com" icon={Twitter} />
+                <SocialIcon href="https://facebook.com" icon={Facebook} />
+                <SocialIcon href="https://instagram.com" icon={Instagram} />
+            </div>
+
+            <div className="flex justify-center">
+                 <Button onClick={handleScrollToTop} variant="outline" className="p-3 rounded-full bg-transparent border-white/20 hover:bg-white/10 text-white transition-all hover:scale-110 focus:outline-none h-auto w-auto">
+                    <ArrowUp className="h-5 w-5" />
+                </Button>
+            </div>
+            
+            <p className="text-sm text-gray-400 text-center sm:text-right">
                 &copy; {new Date().getFullYear()} Toolkit Inc. All Rights Reserved.
             </p>
-             <button onClick={handleScrollToTop} className="absolute bottom-6 right-6 p-3 rounded-full bg-blue-500/80 hover:bg-blue-500 text-white transition-all hover:scale-110 focus:outline-none">
-                <ArrowUp className="h-5 w-5" />
-            </button>
         </div>
       </div>
     </footer>

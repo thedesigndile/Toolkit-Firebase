@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ModernLogo } from "./icons";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "./ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Twitter, Facebook, Instagram } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { tools, Tool } from "@/lib/tools";
