@@ -14,7 +14,7 @@ const FooterLink = ({ href, children }: { href: string; children: React.ReactNod
 );
 
 const FooterColumn = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <div className="flex flex-col gap-3">
+  <div className="flex flex-col gap-4">
     <h4 className="font-semibold text-white tracking-wider uppercase text-sm">{title}</h4>
     {children}
   </div>
@@ -26,10 +26,10 @@ export function Footer() {
   };
     
   return (
-    <footer className="footer-bg text-gray-200 relative">
+    <footer className="footer-bg text-white relative">
       <div className="container mx-auto px-4 py-12 md:py-16">
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-16">
             {/* Brand Section */}
             <div className="lg:col-span-1 flex flex-col items-start max-w-sm">
                 <Link href="/" className="flex items-center gap-3 mb-4">
