@@ -103,7 +103,7 @@ export function Header() {
                 </NavigationMenuItem>
               ))}
                <NavigationMenuItem>
-                 <Link href="/tools" legacyBehavior={false} passHref>
+                 <Link href="/tools" legacyBehavior={false}>
                     <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "font-semibold text-sm bg-transparent text-white px-2 py-2 hover:bg-brand-blue/80 hover:text-white focus:bg-brand-blue focus:text-white transition-colors duration-300 rounded-full")}>
                       All Tools
                     </NavigationMenuLink>
@@ -157,7 +157,7 @@ export function Header() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "-100%" }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden fixed inset-0 bg-background z-50 flex flex-col"
+            className="md:hidden fixed inset-0 bg-background z-50 flex flex-col bg-mobile-menu-gradient"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile navigation menu"

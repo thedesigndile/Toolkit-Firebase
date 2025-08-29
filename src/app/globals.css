@@ -17,7 +17,7 @@
     --secondary-foreground: 222 30% 25%;
     --muted: 210 25% 94%;
     --muted-foreground: 220 13% 45%;
-    --accent: 224 82% 53%; /* Blue */
+    --accent: 257 90% 66%; /* #8B5CF6 -> Purple */
     --accent-foreground: 210 40% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
@@ -57,7 +57,7 @@
     --secondary-foreground: 210 40% 98%;
     --muted: 222 30% 18%;
     --muted-foreground: 220 13% 65%;
-    --accent: 224 82% 60%; /* Lighter Blue for dark mode */
+    --accent: 257 90% 70%; /* Lighter Purple for dark mode */
     --accent-foreground: 222 30% 14%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
@@ -114,13 +114,13 @@
     -webkit-text-fill-color: transparent;
   }
   
-
   .text-gradient-primary {
     @apply bg-gradient-primary bg-clip-text text-transparent;
   }
 
   .text-gradient-blue {
-    @apply bg-gradient-primary bg-clip-text text-transparent;
+    background-image: linear-gradient(to right, hsl(var(--brand-blue-raw)), hsl(var(--brand-purple-raw)));
+    @apply bg-clip-text text-transparent;
   }
 
   .text-shadow {
@@ -158,6 +158,14 @@
   .dark .header-bg {
     background: hsl(0 0% 13%);
     border: 1px solid hsl(0 0% 20%);
+  }
+
+  .bg-mobile-menu-gradient {
+    background-image: linear-gradient(to bottom right, hsl(224 82% 97%), hsl(257 90% 97%));
+  }
+
+  .dark .bg-mobile-menu-gradient {
+    background-image: linear-gradient(to bottom right, hsl(224 30% 12%), hsl(257 40% 12%));
   }
 
   @keyframes float {
