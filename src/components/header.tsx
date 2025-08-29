@@ -38,6 +38,28 @@ const navItems = [
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const mobileMenuContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const mobileMenuItemVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        ease: "easeOut",
+        duration: 0.3,
+      },
+    },
+  };
+
   return (
     <>
       <header
@@ -148,33 +170,40 @@ export function Header() {
               </Button>
             </div>
             
-            <nav className="flex-1 overflow-y-auto">
+            <motion.nav
+              className="flex-1 overflow-y-auto"
+              variants={mobileMenuContainerVariants}
+              initial="hidden"
+              animate="visible"
+            >
               <div className="p-4">
                 <Accordion type="multiple" className="w-full">
                   {navItems.filter(i => i.name !== "All Tools").map(item => (
-                    <AccordionItem value={item.name} key={item.name}>
-                      <AccordionTrigger className="text-base font-semibold py-4 hover:no-underline">
-                        {item.name}
-                      </AccordionTrigger>
-                      <AccordionContent>
-                        <div className="flex flex-col gap-1 pl-4">
-                          {item.subItems?.map(tool => (
-                            <Link
-                              key={tool.name}
-                              href={getToolUrl(tool.name)}
-                              className="block p-3 rounded-md text-muted-foreground hover:bg-accent/10 hover:text-accent-foreground transition-colors"
-                              onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                              {tool.name}
-                            </Link>
-                          ))}
-                        </div>
-                      </AccordionContent>
-                    </AccordionItem>
+                    <motion.div key={item.name} variants={mobileMenuItemVariants}>
+                      <AccordionItem value={item.name}>
+                        <AccordionTrigger className="text-base font-semibold py-4 hover:no-underline">
+                          {item.name}
+                        </AccordionTrigger>
+                        <AccordionContent>
+                          <div className="flex flex-col gap-1 pl-4">
+                            {item.subItems?.map(tool => (
+                              <Link
+                                key={tool.name}
+                                href={getToolUrl(tool.name)}
+                                className="block p-3 rounded-md text-muted-foreground hover:bg-accent/10 hover:text-accent-foreground transition-colors"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                              >
+                                {tool.name}
+                              </Link>
+                            ))}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </motion.div>
                   ))}
                 </Accordion>
                 <Separator className="my-4" />
-                <div className="flex flex-col gap-2">
+                <motion.div className="flex flex-col gap-2" variants={mobileMenuItemVariants}>
                   <Link
                     href="/tools"
                     className="p-4 text-base font-semibold text-foreground hover:bg-accent/10 rounded-md transition-colors"
@@ -196,11 +225,16 @@ export function Header() {
                   >
                     Contact
                   </Link>
-                </div>
+                </motion.div>
               </div>
-            </nav>
+            </motion.nav>
 
-            <div className="p-4 border-t">
+            <motion.div
+              className="p-4 border-t"
+              variants={mobileMenuItemVariants}
+              initial="hidden"
+              animate="visible"
+            >
               <div className="grid grid-cols-2 gap-2">
                 <Button
                   variant="outline"
@@ -218,7 +252,7 @@ export function Header() {
                   Get Started
                 </Button>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
