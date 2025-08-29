@@ -103,7 +103,7 @@ export function Header() {
                 </NavigationMenuItem>
               ))}
                <NavigationMenuItem>
-                 <Link href="/tools" legacyBehavior passHref>
+                 <Link href="/tools" legacyBehavior={false} passHref>
                     <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "font-semibold text-sm bg-transparent text-white px-2 py-2 hover:bg-brand-blue/80 hover:text-white focus:bg-brand-blue focus:text-white transition-colors duration-300 rounded-full")}>
                       All Tools
                     </NavigationMenuLink>
