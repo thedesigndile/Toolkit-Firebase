@@ -6,9 +6,9 @@ import { ArrowUp, Twitter, Facebook, Instagram } from "lucide-react";
 import { ModernLogo } from "./icons";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
-import { Rajdhani } from "next/font/google";
+import { Orbitron } from "next/font/google";
 
-const fontLogo = Rajdhani({
+const fontLogo = Orbitron({
   subsets: ['latin'],
   weight: ['600'],
 });
