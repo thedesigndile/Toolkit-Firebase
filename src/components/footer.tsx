@@ -6,9 +6,9 @@ import { ArrowUp, Twitter, Facebook, Instagram } from "lucide-react";
 import { ModernLogo } from "./icons";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
-import { Orbitron } from "next/font/google";
+import { Rajdhani } from "next/font/google";
 
-const fontLogo = Orbitron({
+const fontLogo = Rajdhani({
   subsets: ['latin'],
   weight: ['600'],
 });
@@ -55,7 +55,7 @@ export function Footer() {
                 </p>
             </div>
 
-            <FooterColumn title="Convert">
+            <FooterColumn title="Convert PDF">
                  <FooterLink href={getToolUrl('PDF to Word')}>PDF to Word</FooterLink>
                  <FooterLink href={getToolUrl('Word to PDF')}>Word to PDF</FooterLink>
                  <FooterLink href={getToolUrl('PDF to JPG')}>PDF to JPG</FooterLink>
@@ -63,7 +63,7 @@ export function Footer() {
                  <FooterLink href={getToolUrl('Image Converter')}>Image Converter</FooterLink>
             </FooterColumn>
             
-            <FooterColumn title="Organize">
+            <FooterColumn title="Organize PDF">
                 <FooterLink href={getToolUrl('Merge PDF')}>Merge PDF</FooterLink>
                 <FooterLink href={getToolUrl('Split PDF')}>Split PDF</FooterLink>
                 <FooterLink href={getToolUrl('Remove Pages')}>Remove Pages</FooterLink>

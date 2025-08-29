@@ -12,9 +12,9 @@ import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMe
 import { tools, Tool } from "@/lib/tools";
 import { ThemeToggle } from "./theme-toggle";
 import React from "react";
-import { Orbitron } from "next/font/google";
+import { Rajdhani } from "next/font/google";
 
-const fontLogo = Orbitron({
+const fontLogo = Rajdhani({
   subsets: ['latin'],
   weight: ['600'],
 });
