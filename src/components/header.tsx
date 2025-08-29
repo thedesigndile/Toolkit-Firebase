@@ -129,7 +129,7 @@ export function Header() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden fixed inset-0 bg-background z-50"
+            className="md:hidden fixed inset-0 bg-background z-50 flex flex-col"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile navigation menu"
@@ -151,49 +151,65 @@ export function Header() {
               </Button>
             </div>
             <nav
-              className="flex flex-col items-center justify-center h-full gap-8"
+              className="flex-1 flex flex-col p-8"
               role="navigation"
               aria-label="Mobile navigation"
             >
-               <Link
-                 href="/tools"
-                 className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg px-4 py-2"
-                 onClick={() => setIsMobileMenuOpen(false)}
-               >
-                 All Tools
-               </Link>
-               <Link
-                 href="/pricing"
-                 className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg px-4 py-2"
-                 onClick={() => setIsMobileMenuOpen(false)}
-               >
-                Pricing
-               </Link>
-               <Link
-                 href="/contact"
-                 className="text-2xl font-semibold text-foreground hover:text-gradient-primary transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg px-4 py-2"
-                 onClick={() => setIsMobileMenuOpen(false)}
-               >
-                 Contact
-               </Link>
-              <div className="mt-8 flex flex-col gap-4 w-full px-8">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="w-full min-h-[44px]"
-                  aria-label="Log in to your account"
+              <div className="flex flex-col gap-6">
+                <Link
+                  href="/tools"
+                  className="text-3xl font-semibold text-foreground hover:text-gradient-primary transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Log In
-                </Button>
-                <Button
-                  size="lg"
-                  className="bg-blue-500 hover:bg-blue-600 w-full min-h-[44px]"
-                  aria-label="Get started with our tools"
+                  All Tools
+                </Link>
+                <Link
+                  href="/pricing"
+                  className="text-3xl font-semibold text-foreground hover:text-gradient-primary transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Get Started
-                </Button>
+                  Pricing
+                </Link>
+                <Link
+                  href="/contact"
+                  className="text-3xl font-semibold text-foreground hover:text-gradient-primary transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Contact
+                </Link>
               </div>
+
             </nav>
+            <div className="mt-auto p-8 space-y-6">
+                <div className="flex flex-col gap-4 w-full">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full min-h-[44px]"
+                    aria-label="Log in to your account"
+                  >
+                    Log In
+                  </Button>
+                  <Button
+                    size="lg"
+                    className="bg-blue-500 hover:bg-blue-600 w-full min-h-[44px]"
+                    aria-label="Get started with our tools"
+                  >
+                    Get Started
+                  </Button>
+                </div>
+                <div className="flex justify-center gap-6">
+                    <Link href="https://x.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+                        <Twitter className="h-6 w-6" />
+                    </Link>
+                    <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+                        <Facebook className="h-6 w-6" />
+                    </Link>
+                    <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+                        <Instagram className="h-6 w-6" />
+                    </Link>
+                </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
