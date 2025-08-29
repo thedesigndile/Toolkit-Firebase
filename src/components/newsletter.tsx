@@ -75,7 +75,7 @@ export function Newsletter() {
                 <Button
                   type="submit"
                   size="lg"
-                  className="bg-brand-blue hover:bg-brand-blue/90 text-white rounded-full px-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                  className="bg-gradient-blue hover:bg-gradient-blue-hover text-white rounded-full px-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                 >
                 Subscribe
             </Button>

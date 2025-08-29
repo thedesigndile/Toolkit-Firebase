@@ -1,24 +1,24 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { ModernLogo } from "./icons";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "./ui/button";
-import { Menu, X, Twitter, Facebook, Instagram, ChevronDown } from "lucide-react";
+import { Menu, X, Facebook, Instagram, Twitter } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { tools, Tool } from "@/lib/tools";
 import { ThemeToggle } from "./theme-toggle";
 import React from "react";
-import { Orbitron } from "next/font/google";
+import { Rajdhani } from "next/font/google";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Separator } from "./ui/separator";
 
-const fontLogo = Orbitron({
+const fontLogo = Rajdhani({
   subsets: ['latin'],
-  weight: ['600'],
+  weight: ['700'],
 });
 
 const pdfConvertTools = tools.filter(t => t.category === 'Convert PDF');
@@ -31,6 +31,12 @@ const navItems = [
     { name: "Convert PDF", subItems: pdfConvertTools },
     { name: "Organize PDF", subItems: organizePdfTools },
     { name: "Image Tools", subItems: imageTools },
+];
+
+const navLinks = [
+    { name: "All Tools", href: "/tools"},
+    { name: "Pricing", href: "/pricing"},
+    { name: "Contact", href: "/contact"},
 ]
 
 export function Header() {
@@ -47,10 +53,10 @@ export function Header() {
   };
 
   const mobileMenuItemVariants = {
-    hidden: { opacity: 0, x: -20 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
-      x: 0,
+      y: 0,
       transition: {
         ease: "easeOut",
         duration: 0.3,
@@ -68,7 +74,7 @@ export function Header() {
         <div className="flex-1 flex justify-start">
           <Link href="/" aria-label="Go to homepage" className="flex items-center gap-3">
             <ModernLogo />
-            <span className={cn(fontLogo.className, "font-semibold text-2xl text-white tracking-widest whitespace-nowrap")}>TOOL KIT</span>
+            <span className={cn(fontLogo.className, "font-bold text-3xl text-white tracking-wider whitespace-nowrap")}>TOOL KIT</span>
           </Link>
         </div>
         
@@ -77,7 +83,7 @@ export function Header() {
             <NavigationMenuList>
               {navItems.map((item) => (
                  <NavigationMenuItem key={item.name}>
-                    <NavigationMenuTrigger className="font-semibold text-sm bg-transparent text-white px-2 py-2 hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white data-[state=open]:bg-blue-500 data-[state=open]:text-white transition-colors duration-300 rounded-full">
+                    <NavigationMenuTrigger className="font-semibold text-sm bg-transparent text-white px-2 py-2 hover:bg-brand-blue/80 hover:text-white focus:bg-brand-blue focus:text-white data-[state=open]:bg-brand-blue data-[state=open]:text-white transition-colors duration-300 rounded-full">
                         {item.name}
                     </NavigationMenuTrigger>
                     {item.subItems && (
@@ -99,7 +105,7 @@ export function Header() {
               ))}
                <NavigationMenuItem>
                  <Link href="/tools" legacyBehavior passHref>
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "font-semibold text-sm bg-transparent text-white px-2 py-2 hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white transition-colors duration-300 rounded-full")}>
+                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "font-semibold text-sm bg-transparent text-white px-2 py-2 hover:bg-brand-blue/80 hover:text-white focus:bg-brand-blue focus:text-white transition-colors duration-300 rounded-full")}>
                       All Tools
                     </NavigationMenuLink>
                   </Link>
@@ -113,7 +119,7 @@ export function Header() {
           <Button variant="ghost" className="text-white hover:text-white/90 hover:bg-white/10 rounded-full">
             Log In
           </Button>
-          <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-full">
+          <Button className="bg-gradient-blue hover:bg-gradient-blue-hover text-white rounded-full">
             Get Started
           </Button>
         </div>
@@ -137,7 +143,7 @@ export function Header() {
         <div className="flex-1 flex justify-center">
             <Link href="/" aria-label="Go to homepage" className="flex items-center gap-2">
                 <ModernLogo />
-                <span className={cn(fontLogo.className, "font-semibold text-xl text-foreground tracking-widest whitespace-nowrap")}>TOOL KIT</span>
+                <span className={cn(fontLogo.className, "font-bold text-2xl text-foreground tracking-wider whitespace-nowrap")}>TOOL KIT</span>
             </Link>
         </div>
         <div className="flex-1 flex justify-end">
@@ -161,7 +167,7 @@ export function Header() {
             <div className="flex justify-between items-center p-4 border-b">
               <Link href="/" onClick={() => setIsMobileMenuOpen(false)} aria-label="Go to homepage" className="flex items-center gap-3">
                 <ModernLogo />
-                 <span className={cn(fontLogo.className, "font-semibold text-xl text-foreground tracking-widest whitespace-nowrap")}>TOOL KIT</span>
+                 <span className={cn(fontLogo.className, "font-bold text-2xl text-foreground tracking-wider whitespace-nowrap")}>TOOL KIT</span>
               </Link>
               <Button
                 variant="ghost"
@@ -174,88 +180,86 @@ export function Header() {
               </Button>
             </div>
             
-            <motion.nav
+            <motion.div
               className="flex-1 overflow-y-auto"
               variants={mobileMenuContainerVariants}
               initial="hidden"
               animate="visible"
             >
               <div className="p-4">
-                <Accordion type="multiple" className="w-full">
-                  {navItems.map(item => (
-                    <motion.div key={item.name} variants={mobileMenuItemVariants}>
-                      <AccordionItem value={item.name}>
-                        <AccordionTrigger className="text-base font-semibold py-4 hover:no-underline">
-                          {item.name}
-                        </AccordionTrigger>
-                        <AccordionContent>
-                          <div className="flex flex-col gap-1 pl-4">
-                            {item.subItems?.map(tool => (
-                              <Link
-                                key={tool.name}
-                                href={getToolUrl(tool.name)}
-                                className="block p-3 rounded-md text-muted-foreground hover:bg-accent/10 hover:text-accent-foreground transition-colors"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                              >
-                                {tool.name}
-                              </Link>
-                            ))}
-                          </div>
-                        </AccordionContent>
-                      </AccordionItem>
-                    </motion.div>
-                  ))}
-                </Accordion>
+                <motion.div variants={mobileMenuItemVariants}>
+                  <Accordion type="multiple" className="w-full">
+                    {navItems.map(item => (
+                      <AccordionItem value={item.name} key={item.name}>
+                          <AccordionTrigger className="text-lg font-semibold py-4 hover:no-underline">
+                            {item.name}
+                          </AccordionTrigger>
+                          <AccordionContent>
+                            <div className="flex flex-col gap-1 pl-4">
+                              {item.subItems?.map(tool => (
+                                <Link
+                                  key={tool.name}
+                                  href={getToolUrl(tool.name)}
+                                  className="block p-3 rounded-md text-muted-foreground hover:bg-accent/10 hover:text-accent-foreground transition-colors text-base"
+                                  onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                  {tool.name}
+                                </Link>
+                              ))}
+                            </div>
+                          </AccordionContent>
+                        </AccordionItem>
+                    ))}
+                  </Accordion>
+                </motion.div>
+
                 <Separator className="my-4" />
-                <motion.div className="flex flex-col gap-2" variants={mobileMenuItemVariants}>
-                  <Link
-                    href="/tools"
-                    className="p-4 text-base font-semibold text-foreground hover:bg-accent/10 rounded-md transition-colors"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    All Tools
-                  </Link>
-                   <Link
-                    href="/pricing"
-                    className="p-4 text-base font-semibold text-foreground hover:bg-accent/10 rounded-md transition-colors"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Pricing
-                  </Link>
-                   <Link
-                    href="/contact"
-                    className="p-4 text-base font-semibold text-foreground hover:bg-accent/10 rounded-md transition-colors"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Contact
-                  </Link>
+
+                <motion.div className="flex flex-col" variants={mobileMenuContainerVariants} initial="hidden" animate="visible">
+                    {navLinks.map((link, i) => (
+                        <motion.div key={link.name} variants={mobileMenuItemVariants}>
+                             <Link
+                                href={link.href}
+                                className="block p-4 text-lg font-semibold text-foreground hover:bg-accent/10 rounded-md transition-colors"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                {link.name}
+                            </Link>
+                        </motion.div>
+                    ))}
                 </motion.div>
               </div>
-            </motion.nav>
+            </motion.div>
 
             <motion.div
               className="p-4 border-t"
-              variants={mobileMenuItemVariants}
+              variants={mobileMenuContainerVariants}
               initial="hidden"
               animate="visible"
             >
-              <div className="grid grid-cols-2 gap-2">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="w-full"
-                  aria-label="Log in to your account"
-                >
-                  Log In
-                </Button>
-                <Button
-                  size="lg"
-                  className="bg-blue-500 hover:bg-blue-600 text-white w-full"
-                  aria-label="Get started with our tools"
-                >
-                  Get Started
-                </Button>
-              </div>
+               <motion.div className="grid grid-cols-2 gap-2 mb-4" variants={mobileMenuItemVariants}>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full"
+                    aria-label="Log in to your account"
+                  >
+                    Log In
+                  </Button>
+                  <Button
+                    size="lg"
+                    className="bg-gradient-blue hover:bg-gradient-blue-hover text-white w-full"
+                    aria-label="Get started with our tools"
+                  >
+                    Get Started
+                  </Button>
+              </motion.div>
+
+              <motion.div className="flex justify-center gap-6" variants={mobileMenuItemVariants}>
+                  <Link href="#" className="text-muted-foreground hover:text-foreground"><Twitter /></Link>
+                  <Link href="#" className="text-muted-foreground hover:text-foreground"><Facebook /></Link>
+                  <Link href="#" className="text-muted-foreground hover:text-foreground"><Instagram /></Link>
+              </motion.div>
             </motion.div>
           </motion.div>
         )}
@@ -309,6 +313,3 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
   }
 );
 ListItem.displayName = "ListItem";
-
-
-    

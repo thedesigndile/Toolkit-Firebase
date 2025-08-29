@@ -31,7 +31,7 @@ export default function ContactPage() {
               <Textarea id="message" placeholder="Your message..." rows={5} />
             </div>
             <div className="text-center">
-              <Button type="submit" size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground w-full sm:w-auto">Send Message</Button>
+              <Button type="submit" size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground w-full sm:w-auto">Send Message</Button>
             </div>
           </form>
         </div>

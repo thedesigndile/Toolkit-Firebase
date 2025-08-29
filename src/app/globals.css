@@ -11,21 +11,22 @@
     --card-foreground: 222 30% 20%;
     --popover: 0 0% 100%;
     --popover-foreground: 222 30% 20%;
-    --primary: 220 13% 35%; /* #4A5568 */
+    --primary: 224 82% 53%; /* #2563EB -> Blue */
     --primary-foreground: 210 40% 98%;
     --secondary: 210 25% 94%;
     --secondary-foreground: 222 30% 25%;
     --muted: 210 25% 94%;
     --muted-foreground: 220 13% 45%;
-    --accent: 257 90% 66%; /* #684DF4 -> Purple */
+    --accent: 224 82% 53%; /* Blue */
     --accent-foreground: 210 40% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 257 90% 66%;
+    --ring: 224 82% 53%;
 
     --brand-blue-raw: 224 82% 53%; /* #2563EB */
+    --brand-dark-blue-raw: 224 82% 45%; /* Darker Blue */
     --brand-purple-raw: 257 90% 66%; /* #8B5CF6 */
     --brand-pink-raw: 330 89% 66%;
     --brand-green-raw: 145 63% 49%;
@@ -33,6 +34,7 @@
     --soft-gray-raw: 220 14% 46%;
 
     --brand-blue: hsl(var(--brand-blue-raw));
+    --brand-dark-blue: hsl(var(--brand-dark-blue-raw));
     --brand-purple: hsl(var(--brand-purple-raw));
     --brand-pink: hsl(var(--brand-pink-raw));
     --brand-green: hsl(var(--brand-green-raw));
@@ -49,19 +51,19 @@
     --card-foreground: 210 40% 98%;
     --popover: 222 30% 10%;
     --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 220 13% 25%;
+    --primary: 224 82% 60%; /* Lighter Blue for dark mode */
+    --primary-foreground: 222 30% 14%;
     --secondary: 222 30% 18%;
     --secondary-foreground: 210 40% 98%;
     --muted: 222 30% 18%;
     --muted-foreground: 220 13% 65%;
-    --accent: 257 90% 70%; /* Lighter Purple for dark mode */
+    --accent: 224 82% 60%; /* Lighter Blue for dark mode */
     --accent-foreground: 222 30% 14%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 222 30% 20%;
     --input: 222 30% 20%;
-    --ring: 257 90% 70%;
+    --ring: 224 82% 60%;
   }
 }
 
@@ -80,7 +82,15 @@
 
 @layer utilities {
   .bg-gradient-primary {
-    @apply bg-gradient-to-r from-brand-purple to-brand-pink;
+    @apply bg-gradient-to-r from-brand-blue to-brand-purple;
+  }
+
+  .bg-gradient-blue {
+    background-image: linear-gradient(to right, hsl(var(--brand-blue-raw)), hsl(var(--brand-dark-blue-raw)));
+  }
+  
+  .hover\:bg-gradient-blue-hover:hover {
+      background-image: linear-gradient(to right, hsl(var(--brand-blue-raw) / 0.9), hsl(var(--brand-dark-blue-raw) / 0.9));
   }
 
   .bg-gradient-upload {
