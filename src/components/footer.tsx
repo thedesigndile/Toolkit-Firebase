@@ -49,14 +49,6 @@ export function Footer() {
                 </p>
             </div>
 
-            <FooterColumn title="Organize">
-                <FooterLink href={getToolUrl('Merge PDF')}>Merge PDF</FooterLink>
-                <FooterLink href={getToolUrl('Split PDF')}>Split PDF</FooterLink>
-                <FooterLink href={getToolUrl('Remove Pages')}>Remove Pages</FooterLink>
-                <FooterLink href={getToolUrl('Extract Pages')}>Extract Pages</FooterLink>
-                <FooterLink href={getToolUrl('Reorder Pages')}>Reorder Pages</FooterLink>
-            </FooterColumn>
-
             <FooterColumn title="Convert">
                  <FooterLink href={getToolUrl('PDF to Word')}>PDF to Word</FooterLink>
                  <FooterLink href={getToolUrl('Word to PDF')}>Word to PDF</FooterLink>
@@ -65,6 +57,14 @@ export function Footer() {
                  <FooterLink href={getToolUrl('Image Converter')}>Image Converter</FooterLink>
             </FooterColumn>
             
+            <FooterColumn title="Organize">
+                <FooterLink href={getToolUrl('Merge PDF')}>Merge PDF</FooterLink>
+                <FooterLink href={getToolUrl('Split PDF')}>Split PDF</FooterLink>
+                <FooterLink href={getToolUrl('Remove Pages')}>Remove Pages</FooterLink>
+                <FooterLink href={getToolUrl('Extract Pages')}>Extract Pages</FooterLink>
+                <FooterLink href={getToolUrl('Reorder Pages')}>Reorder Pages</FooterLink>
+            </FooterColumn>
+
             <FooterColumn title="Utilities">
                  <FooterLink href={getToolUrl('Image Compressor')}>Image Compressor</FooterLink>
                  <FooterLink href={getToolUrl('Password Generator')}>Password Generator</FooterLink>
