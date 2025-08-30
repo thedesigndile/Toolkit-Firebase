@@ -90,18 +90,17 @@ export function Header() {
     }
   };
 
-  const navButtonClasses = "font-semibold text-sm px-4 py-3 bg-transparent text-white data-[state=open]:bg-white/10";
+  const navButtonClasses = "font-semibold text-sm px-4 py-3 bg-transparent text-primary-foreground data-[state=open]:bg-primary/80 hover:bg-primary/90";
 
 
   return (
     <>
       <motion.header
         className={cn(
-          "hidden md:flex items-center justify-between w-full max-w-6xl mx-auto p-3 rounded-2xl"
+          "hidden md:flex items-center justify-between w-full max-w-6xl mx-auto p-3 rounded-2xl header-bg"
         )}
         style={{
-          background: 'linear-gradient(90deg, #007ACC, #0A84FF)',
-          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)'
+          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)'
         }}
         variants={headerVariants}
         initial="hidden"
@@ -119,7 +118,7 @@ export function Header() {
               <ModernLogo />
             </motion.div>
             <motion.span
-              className={cn(fontLogo.className, "font-bold text-3xl bg-gradient-to-r from-white via-accent to-white bg-clip-text text-transparent tracking-wider whitespace-nowrap")}
+              className={cn(fontLogo.className, "font-bold text-3xl text-primary-foreground tracking-wider whitespace-nowrap")}
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
@@ -206,29 +205,19 @@ export function Header() {
           variants={navItemVariants}
         >
           <motion.div
-            whileHover={{ scale: 1.1, rotate: 180 }}
+            whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <ThemeToggle className="text-white hover:text-white/90 rounded-full w-11 h-11 border border-white/20" />
+            <ThemeToggle className="text-primary-foreground hover:text-white/90 rounded-full w-11 h-11 border-2 border-primary-foreground/20 hover:bg-primary/90" />
           </motion.div>
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             <Button
-              variant="ghost"
-              className="text-white hover:text-white/90 rounded-xl border border-white/20 px-4 py-2 font-medium"
-              style={{
-                background: 'transparent',
-                borderImage: 'linear-gradient(90deg, #8A2BE2, #0A84FF) 1'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(90deg, #8A2BE2, #0A84FF)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'transparent';
-              }}
+              variant="outline"
+              className="text-primary-foreground border-primary-foreground/50 hover:bg-primary/90 hover:text-primary-foreground rounded-xl px-4 py-2 font-medium"
             >
               Log In
             </Button>
@@ -238,18 +227,8 @@ export function Header() {
             whileTap={{ scale: 0.95 }}
           >
             <Button
-              className="text-white rounded-xl px-6 py-2 font-semibold shadow-lg hover:shadow-xl"
-              style={{
-                background: 'linear-gradient(90deg, #007ACC, #0A84FF)',
-                border: '2px solid transparent',
-                borderImage: 'linear-gradient(90deg, #8A2BE2, #0A84FF) 1'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(90deg, #8A2BE2, #0A84FF)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(90deg, #007ACC, #0A84FF)';
-              }}
+              variant="secondary"
+              className="rounded-xl px-6 py-2 font-semibold shadow-lg hover:shadow-xl"
             >
               Get Started
             </Button>
@@ -259,10 +238,7 @@ export function Header() {
 
       {/* Mobile Header */}
       <motion.div
-        className="md:hidden flex justify-between items-center w-full px-4 py-3"
-        style={{
-          background: 'linear-gradient(90deg, #007ACC, #0A84FF)',
-        }}
+        className="md:hidden flex justify-between items-center w-full px-4 py-3 header-bg"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 100 }}
@@ -278,17 +254,7 @@ export function Header() {
               aria-label="Open navigation menu"
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-navigation"
-              className="w-11 h-11 text-white hover:text-white/90 border border-white/20"
-              style={{
-                background: 'transparent',
-                borderImage: 'linear-gradient(90deg, #8A2BE2, #0A84FF) 1'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(90deg, #8A2BE2, #0A84FF)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'transparent';
-              }}
+              className="w-11 h-11 text-primary-foreground hover:text-primary-foreground/90 border border-primary-foreground/20"
           >
               <Menu className="h-6 w-6" aria-hidden="true" />
           </Button>
@@ -305,7 +271,7 @@ export function Header() {
                   <ModernLogo />
                 </motion.div>
                 <motion.span
-                  className={cn(fontLogo.className, "font-bold text-2xl bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent tracking-wider whitespace-nowrap")}
+                  className={cn(fontLogo.className, "font-bold text-2xl text-primary-foreground tracking-wider whitespace-nowrap")}
                   whileHover={{ scale: 1.05 }}
                 >
                   TOOL KIT
@@ -317,18 +283,8 @@ export function Header() {
           whileHover={{ scale: 1.1 }}
         >
           <ThemeToggle
-            className="w-11 h-11 text-white hover:text-white/90 border border-white/20"
-            style={{
-              background: 'transparent',
-              borderImage: 'linear-gradient(90deg, #8A2BE2, #0A84FF) 1'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'linear-gradient(90deg, #8A2BE2, #0A84FF)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'transparent';
-            }}
-            aria-label="Accessibility settings"
+            className="w-11 h-11 text-primary-foreground hover:text-primary-foreground/90 border border-primary-foreground/20"
+            aria-label="Toggle theme"
           />
         </motion.div>
       </motion.div>
@@ -376,16 +332,6 @@ export function Header() {
                   onClick={() => setIsMobileMenuOpen(false)}
                   aria-label="Close navigation menu"
                   className="w-11 h-11 border"
-                  style={{
-                    background: 'transparent',
-                    borderImage: 'linear-gradient(90deg, #8A2BE2, #0A84FF) 1'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'linear-gradient(90deg, #8A2BE2, #0A84FF)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'transparent';
-                  }}
                 >
                   <X className="h-6 w-6" aria-hidden="true" />
                 </Button>
@@ -475,18 +421,7 @@ export function Header() {
                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                      <Button
                        size="lg"
-                       className="text-white w-full"
-                       style={{
-                         background: 'linear-gradient(90deg, #007ACC, #0A84FF)',
-                         border: '2px solid transparent',
-                         borderImage: 'linear-gradient(90deg, #8A2BE2, #0A84FF) 1'
-                       }}
-                       onMouseEnter={(e) => {
-                         e.currentTarget.style.background = 'linear-gradient(90deg, #8A2BE2, #0A84FF)';
-                       }}
-                       onMouseLeave={(e) => {
-                         e.currentTarget.style.background = 'linear-gradient(90deg, #007ACC, #0A84FF)';
-                       }}
+                       className="w-full"
                        aria-label="Get started with our tools"
                      >
                        Get Started
@@ -502,18 +437,6 @@ export function Header() {
                      <Link
                        href="#"
                        className="text-muted-foreground p-3 rounded-full border"
-                       style={{
-                         background: 'transparent',
-                         borderImage: 'linear-gradient(90deg, #8A2BE2, #0A84FF) 1'
-                       }}
-                       onMouseEnter={(e) => {
-                         e.currentTarget.style.background = 'linear-gradient(90deg, #8A2BE2, #0A84FF)';
-                         e.currentTarget.style.color = 'white';
-                       }}
-                       onMouseLeave={(e) => {
-                         e.currentTarget.style.background = 'transparent';
-                         e.currentTarget.style.color = 'var(--muted-foreground)';
-                       }}
                      >
                        <Twitter />
                      </Link>
@@ -522,18 +445,6 @@ export function Header() {
                      <Link
                        href="#"
                        className="text-muted-foreground p-3 rounded-full border"
-                       style={{
-                         background: 'transparent',
-                         borderImage: 'linear-gradient(90deg, #8A2BE2, #0A84FF) 1'
-                       }}
-                       onMouseEnter={(e) => {
-                         e.currentTarget.style.background = 'linear-gradient(90deg, #8A2BE2, #0A84FF)';
-                         e.currentTarget.style.color = 'white';
-                       }}
-                       onMouseLeave={(e) => {
-                         e.currentTarget.style.background = 'transparent';
-                         e.currentTarget.style.color = 'var(--muted-foreground)';
-                       }}
                      >
                        <Facebook />
                      </Link>
@@ -542,18 +453,6 @@ export function Header() {
                      <Link
                        href="#"
                        className="text-muted-foreground p-3 rounded-full border"
-                       style={{
-                         background: 'transparent',
-                         borderImage: 'linear-gradient(90deg, #8A2BE2, #0A84FF) 1'
-                       }}
-                       onMouseEnter={(e) => {
-                         e.currentTarget.style.background = 'linear-gradient(90deg, #8A2BE2, #0A84FF)';
-                         e.currentTarget.style.color = 'white';
-                       }}
-                       onMouseLeave={(e) => {
-                         e.currentTarget.style.background = 'transparent';
-                         e.currentTarget.style.color = 'var(--muted-foreground)';
-                       }}
                      >
                        <Instagram />
                      </Link>

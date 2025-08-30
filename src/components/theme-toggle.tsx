@@ -2,40 +2,38 @@
 "use client"
 
 import * as React from "react"
-import { Moon, Sun, Eye, Type, Contrast, Settings } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
-
+import { Moon, Sun } from "lucide-react"
 import { useTheme } from "./theme-provider"
-import { useAccessibility } from "./accessibility-provider"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
-export function ThemeToggle({ className, style, onMouseEnter, onMouseLeave }: {
+export function ThemeToggle({ className, ...props }: {
   className?: string;
-  style?: React.CSSProperties;
-  onMouseEnter?: React.MouseEventHandler;
-  onMouseLeave?: React.MouseEventHandler;
 }) {
-  // Wait until mounted to render to avoid hydration errors
+  const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = React.useState(false)
+
   React.useEffect(() => setMounted(true), [])
+
   if (!mounted) {
-    // Render a placeholder or nothing on the server
-    // to avoid hydration mismatch.
     return <div className={cn("h-10 w-10", className)} />;
   }
 
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light")
+  }
+
   return (
-    <div
-      className={cn("flex items-center gap-2 text-white/80 p-2", className)}
-      style={style}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={toggleTheme}
+      className={cn("rounded-full", className)}
+      {...props}
     >
-      <Eye className="h-4 w-4" />
-      <span className="text-sm font-medium">Reduced Motion: On</span>
-    </div>
+      <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+      <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+      <span className="sr-only">Toggle theme</span>
+    </Button>
   )
 }
-
-    

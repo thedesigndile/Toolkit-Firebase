@@ -5,12 +5,10 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 
 interface AccessibilityContextType {
   highContrast: boolean;
-  reducedMotion: boolean;
   largeText: boolean;
   screenReader: boolean;
   focusVisible: boolean;
   setHighContrast: (value: boolean) => void;
-  setReducedMotion: (value: boolean) => void;
   setLargeText: (value: boolean) => void;
   setScreenReader: (value: boolean) => void;
   announceToScreenReader: (message: string, priority?: 'polite' | 'assertive') => void;
@@ -32,23 +30,12 @@ interface AccessibilityProviderProps {
 
 export function AccessibilityProvider({ children }: AccessibilityProviderProps) {
   const [highContrast, setHighContrast] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(true);
   const [largeText, setLargeText] = useState(false);
   const [screenReader, setScreenReader] = useState(false);
   const [focusVisible, setFocusVisible] = useState(false);
 
   // Detect system preferences
   useEffect(() => {
-    // Check for reduced motion preference
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setReducedMotion(mediaQuery.matches);
-
-    const handleMotionChange = (e: MediaQueryListEvent) => {
-      setReducedMotion(e.matches);
-    };
-
-    mediaQuery.addEventListener('change', handleMotionChange);
-
     // Check for high contrast preference
     const contrastQuery = window.matchMedia('(prefers-contrast: high)');
     setHighContrast(contrastQuery.matches);
@@ -70,7 +57,6 @@ export function AccessibilityProvider({ children }: AccessibilityProviderProps) 
     screenReaderQuery.addEventListener('change', handleScreenReaderChange);
 
     return () => {
-      mediaQuery.removeEventListener('change', handleMotionChange);
       contrastQuery.removeEventListener('change', handleContrastChange);
       screenReaderQuery.removeEventListener('change', handleScreenReaderChange);
     };
@@ -104,7 +90,6 @@ export function AccessibilityProvider({ children }: AccessibilityProviderProps) 
     const classes = [];
 
     if (highContrast) classes.push('high-contrast');
-    if (reducedMotion) classes.push('reduced-motion');
     if (largeText) classes.push('large-text');
     if (screenReader) classes.push('screen-reader');
     if (focusVisible) classes.push('focus-visible');
@@ -115,13 +100,11 @@ export function AccessibilityProvider({ children }: AccessibilityProviderProps) 
     if (highContrast) {
       document.documentElement.style.setProperty('--bg-primary', '#000000');
       document.documentElement.style.setProperty('--text-primary', '#FFFFFF');
-      document.documentElement.style.setProperty('--glass-bg', 'rgba(0, 0, 0, 0.9)');
     } else {
       document.documentElement.style.setProperty('--bg-primary', '#F7FAFC');
       document.documentElement.style.setProperty('--text-primary', '#1A202C');
-      document.documentElement.style.setProperty('--glass-bg', 'rgba(255, 255, 255, 0.1)');
     }
-  }, [highContrast, reducedMotion, largeText, screenReader, focusVisible]);
+  }, [highContrast, largeText, screenReader, focusVisible]);
 
   const announceToScreenReader = (message: string, priority: 'polite' | 'assertive' = 'polite') => {
     const announcement = document.createElement('div');
@@ -143,12 +126,10 @@ export function AccessibilityProvider({ children }: AccessibilityProviderProps) 
 
   const value: AccessibilityContextType = {
     highContrast,
-    reducedMotion,
     largeText,
     screenReader,
     focusVisible,
     setHighContrast,
-    setReducedMotion,
     setLargeText,
     setScreenReader,
     announceToScreenReader,
