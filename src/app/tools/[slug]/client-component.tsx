@@ -1,10 +1,11 @@
+
 "use client";
 
 import { useState, useCallback, useMemo, useRef } from 'react';
 import { tools } from '@/lib/tools';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { UploadCloud, File, X, Download, ImageIcon, Sparkles, Zap } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Label } from '@/components/ui/label';
@@ -18,144 +19,9 @@ import { convertPdfToWord } from '@/app/actions';
 import { TextToSpeechComponent } from '@/components/tools/text-to-speech';
 import { PasswordGenerator } from '@/components/tools/password-generator';
 import { VoiceRecorderComponent } from '@/components/tools/voice-recorder';
-import { motion, useSpring } from 'framer-motion';
-import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import { ParticleBackground, FloatingElements } from '@/components/particle-background';
 import { useAccessibility, AccessibleButton } from '@/components/accessibility-provider';
-
-// Enhanced Styled Components
-const AnimatedCard = styled(motion.div)`
-  background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  }
-`;
-
-const GlassmorphicContainer = styled(motion.div)`
-  background: var(--glass-bg);
-  backdrop-filter: blur(15px);
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  padding: 2rem;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
-    animation: shimmer 3s ease-in-out infinite;
-  }
-
-  @keyframes shimmer {
-    0%, 100% { transform: translateX(-100%); }
-    50% { transform: translateX(100%); }
-  }
-`;
-
-const EnhancedButton = styled(motion.button)`
-  background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
-  border: none;
-  border-radius: 12px;
-  padding: 1rem 2rem;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.5s;
-  }
-
-  &:hover::before {
-    left: 100%;
-  }
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-`;
-
-const FloatingParticles = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: hidden;
-
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 70%, transparent 100%);
-    animation: float-particle 8s ease-in-out infinite;
-  }
-
-  &::before {
-    width: 40px;
-    height: 40px;
-    top: 20%;
-    left: 10%;
-    animation-delay: 0s;
-  }
-
-  &::after {
-    width: 30px;
-    height: 30px;
-    top: 60%;
-    right: 15%;
-    animation-delay: 4s;
-  }
-
-  @keyframes float-particle {
-    0%, 100% {
-      transform: translateY(0px) translateX(0px) rotate(0deg);
-      opacity: 0.3;
-    }
-    25% {
-      transform: translateY(-20px) translateX(10px) rotate(90deg);
-      opacity: 0.6;
-    }
-    50% {
-      transform: translateY(-10px) translateX(-5px) rotate(180deg);
-      opacity: 0.4;
-    }
-    75% {
-      transform: translateY(-25px) translateX(15px) rotate(270deg);
-      opacity: 0.7;
-    }
-  }
-`;
 
 type ImageFormat = "png" | "jpeg" | "webp";
 
@@ -440,53 +306,30 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
   );
 
   const renderFileBasedUI = () => {
-    const scale = useSpring(1);
-
     return (
       <>
         {status !== 'idle' ? (
           <ProgressDisplay />
         ) : (
-          <GlassmorphicContainer
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, type: 'spring' }}
-            className="glass neumorphic max-w-4xl w-full mx-auto"
-          >
-            <FloatingParticles />
-            <div className="relative z-10">
+          <Card className="max-w-4xl w-full mx-auto">
+            <CardHeader className="text-center">
               <motion.div
-                className="text-center mb-8"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
+                className="inline-flex items-center justify-center p-4 bg-primary/10 rounded-full mb-4 mx-auto"
+                whileHover={{ rotate: 360, scale: 1.1 }}
+                transition={{ duration: 0.6 }}
               >
-                <motion.div
-                  className="inline-flex items-center justify-center p-4 bg-accent/10 dark:bg-accent/20 rounded-full mb-4"
-                  whileHover={{ rotate: 360, scale: 1.1 }}
-                  transition={{ duration: 0.6 }}
-                >
-                  <Icon className="h-12 w-12 text-accent" />
-                </motion.div>
-                <motion.h2
-                  className="text-3xl font-bold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent"
-                  animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-                  transition={{ duration: 5, repeat: Infinity }}
-                >
-                  {tool.name}
-                </motion.h2>
-                <motion.p
-                  className="text-muted-foreground mt-2 text-lg"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                >
-                  {tool.description}
-                </motion.p>
+                <Icon className="h-12 w-12 text-primary" />
               </motion.div>
-
-              <motion.div
-                className="border-2 border-dashed border-accent/40 dark:border-accent/50 rounded-xl p-12 text-center cursor-pointer hover:border-accent/60 dark:hover:border-accent/70 transition-all duration-300 hover:shadow-lg hover:shadow-accent/20 focus-within:ring-4 focus-within:ring-accent/20"
+              <CardTitle className="text-3xl font-bold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+                {tool.name}
+              </CardTitle>
+              <p className="text-muted-foreground mt-2 text-lg">
+                {tool.description}
+              </p>
+            </CardHeader>
+            <CardContent>
+              <div
+                className="border-2 border-dashed border-border rounded-xl p-12 text-center cursor-pointer hover:border-primary/50 transition-all duration-300 focus-within:ring-4 focus-within:ring-primary/20"
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current?.click()}
@@ -496,11 +339,6 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
                     fileInputRef.current?.click();
                   }
                 }}
-                whileHover={{ scale: 1.02, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}
-                whileTap={{ scale: 0.98 }}
-                style={{ transform: scale.to(s => `scale(${s})`) }}
-                onHoverStart={() => scale.set(1.05)}
-                onHoverEnd={() => scale.set(1)}
                 role="button"
                 tabIndex={0}
                 aria-label={`Upload files for ${tool?.name}. Supported formats: ${supportedFormats}`}
@@ -510,26 +348,14 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
                   animate={reducedMotion ? {} : { y: [0, -10, 0] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
-                  <UploadCloud className="mx-auto h-16 w-16 text-accent mb-4" aria-hidden="true" />
+                  <UploadCloud className="mx-auto h-16 w-16 text-primary mb-4" aria-hidden="true" />
                 </motion.div>
-                <motion.p
-                  className="text-lg font-medium mb-2"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.6 }}
-                  id="upload-instructions"
-                >
+                <p className="text-lg font-medium mb-2" id="upload-instructions">
                   Drag and drop files here, or click to select files
-                </motion.p>
-                <motion.p
-                  className="text-sm text-muted-foreground"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.8 }}
-                  aria-label={`Supported file formats: ${supportedFormats}`}
-                >
+                </p>
+                <p className="text-sm text-muted-foreground" aria-label={`Supported file formats: ${supportedFormats}`}>
                   Supported formats: {supportedFormats}
-                </motion.p>
+                </p>
                 <input
                   ref={fileInputRef}
                   id="file-upload"
@@ -540,7 +366,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
                   multiple
                   aria-label="File upload input"
                 />
-              </motion.div>
+              </div>
 
               {files.length > 0 && (
                 <motion.div
@@ -550,51 +376,30 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
                   transition={{ delay: 0.3 }}
                 >
                   <div className="flex items-center justify-between mb-4">
-                    <motion.h3
-                      className="text-xl font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                    >
+                    <h3 className="text-xl font-semibold">
                       Uploaded Files ({files.length})
-                    </motion.h3>
+                    </h3>
                     {files.length > 1 && (
-                      <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <Button
+                      <Button
                           variant="outline"
                           size="sm"
                           onClick={clearAllFiles}
-                          className="glass-button hover:glow-accent"
                         >
                           Clear All
-                        </Button>
-                      </motion.div>
+                      </Button>
                     )}
                   </div>
-                  <motion.ul
-                    className="space-y-2"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.4 }}
-                  >
+                  <ul className="space-y-2">
                     {files.map((file, index) => (
                       <motion.li
                         key={`${file.name}-${file.lastModified}`}
-                        className="flex items-center justify-between p-4 glass-card rounded-lg hover:glow-primary transition-all duration-300"
+                        className="flex items-center justify-between p-3 border rounded-lg"
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.1 * index }}
-                        whileHover={{ scale: 1.02 }}
                       >
                         <div className="flex items-center gap-3">
-                          <motion.div
-                            whileHover={{ rotate: 360 }}
-                            transition={{ duration: 0.5 }}
-                          >
-                            <File className="h-6 w-6 text-accent" strokeWidth={1.5} />
-                          </motion.div>
+                          <File className="h-6 w-6 text-primary" strokeWidth={1.5} />
                           <div>
                             <span className="text-sm font-medium">{file.name}</span>
                             <span className="text-xs text-muted-foreground block">
@@ -602,63 +407,45 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
                             </span>
                           </div>
                         </div>
-                        <motion.div
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.9 }}
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => removeFile(file.name)}
+                          className="hover:bg-destructive/20 hover:text-destructive"
                         >
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => removeFile(file.name)}
-                            className="hover:bg-red-500/20 hover:text-red-500"
-                          >
-                            <X className="h-4 w-4" strokeWidth={1.5} />
-                          </Button>
-                        </motion.div>
+                          <X className="h-4 w-4" strokeWidth={1.5} />
+                        </Button>
                       </motion.li>
                     ))}
-                  </motion.ul>
+                  </ul>
                   {files.length > 1 && (
-                    <motion.div
-                      className="mt-4 text-center"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.6 }}
-                    >
+                    <div className="mt-4 text-center">
                       <p className="text-sm text-muted-foreground bg-yellow-500/10 p-3 rounded-lg">
                         ⚠️ Note: Currently processing only the first file. Multi-file support coming soon.
                       </p>
-                    </motion.div>
+                    </div>
                   )}
                 </motion.div>
               )}
 
               {renderToolOptions()}
 
-              <motion.div
-                className="mt-12 text-center"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 }}
-              >
+              <div className="mt-12 text-center">
                 <AccessibleButton
                   onClick={handleProcessFiles}
                   disabled={files.length === 0 || status !== 'idle'}
                   loading={status === 'processing'}
-                  variant="primary"
+                  variant="default"
                   size="lg"
-                  className="px-8 py-4 text-lg font-semibold bg-gradient-to-r from-accent to-primary hover:from-accent/90 hover:to-primary/90 text-white rounded-xl shadow-lg hover:shadow-xl glow-accent"
+                  className="px-8 py-3 text-lg font-semibold"
                   ariaLabel={files.length === 0 ? "No files selected. Please upload a file first." : `Process ${files.length} file${files.length > 1 ? 's' : ''} with ${tool?.name}`}
                   ariaDescribedBy="processing-status"
                 >
-                  <motion.div
-                    className="flex items-center gap-2"
-                    whileHover={{ gap: 8 }}
-                  >
+                  <div className="flex items-center gap-2">
                     <Zap className="h-5 w-5" aria-hidden="true" />
                     {status === 'processing' ? 'Processing...' : 'Process File'}
                     <Sparkles className="h-4 w-4" aria-hidden="true" />
-                  </motion.div>
+                  </div>
                 </AccessibleButton>
 
                 {/* Status announcement for screen readers */}
@@ -672,9 +459,9 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
                   {status === 'complete' && "File processing completed successfully"}
                   {status === 'error' && `Error: ${error}`}
                 </div>
-              </motion.div>
-            </div>
-          </GlassmorphicContainer>
+              </div>
+            </CardContent>
+          </Card>
         )}
       </>
     );
@@ -716,7 +503,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
           <div className="text-center">
             <Button
               size="lg"
-              className="bg-accent hover:bg-accent/90 text-accent-foreground"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground"
               onClick={downloadAllImages}
             >
               <Download className="h-5 w-5 mr-2" />
