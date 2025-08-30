@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -52,7 +51,7 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
               className="block group relative h-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-2xl"
               aria-label={`Open ${tool.name} tool`}
             >
-               <Card className="h-52 sm:h-48 md:h-52 transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 overflow-hidden">
+               <Card className="h-52 sm:h-48 md:h-52 transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 overflow-hidden bg-white dark:bg-slate-900/70 border-slate-200 dark:border-slate-800 hover:border-primary/50">
                   <CardContent className="flex flex-col h-full p-6 text-center justify-center items-center">
                     {tool.isNew && (
                         <motion.div
@@ -75,10 +74,10 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
                       >
                           <Icon className="h-10 w-10 text-primary group-hover:text-primary/80 transition-colors duration-300" />
                       </motion.div>
-                      <h3 className="text-lg font-semibold leading-tight text-foreground group-hover:text-primary transition-colors duration-300">
+                      <h3 className="text-lg font-semibold leading-tight text-slate-800 dark:text-slate-100 group-hover:text-primary transition-colors duration-300">
                         {tool.name}
                       </h3>
-                      <p className="text-sm text-muted-foreground mt-2 line-clamp-2 px-2 transition-colors duration-300">
+                      <p className="text-sm text-slate-600 dark:text-slate-400 mt-2 line-clamp-2 px-2 transition-colors duration-300">
                         {tool.description}
                       </p>
                     </div>

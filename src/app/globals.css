@@ -50,7 +50,6 @@
     /* Advanced Design System Variables */
     --bg-primary: #F7FAFC;
     --text-primary: #1A202C;
-    --glass-bg: rgba(255, 255, 255, 0.1);
     --neumorphic-shadow: inset 5px 5px 10px #E0E5EC, inset -5px -5px 10px #FFFFFF;
   }
 
@@ -78,7 +77,6 @@
     /* Advanced Design System Variables for Dark Mode */
     --bg-primary: #1A202C;
     --text-primary: #F7FAFC;
-    --glass-bg: rgba(0, 0, 0, 0.1);
     --neumorphic-shadow: inset 5px 5px 10px #2D3748, inset -5px -5px 10px #4A5568;
   }
 }
@@ -296,23 +294,6 @@
   .bg-noise {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
     opacity: 0.02;
-  }
-
-  /* Glassmorphism Effects */
-  .glass-card {
-    @apply bg-white/10 backdrop-blur-md border border-white/20;
-  }
-
-  .dark .glass-card {
-    @apply bg-black/10 backdrop-blur-md border border-white/10;
-  }
-
-  .glass-button {
-    @apply bg-white/20 backdrop-blur-sm border border-white/30;
-  }
-
-  .dark .glass-button {
-    @apply bg-black/20 backdrop-blur-sm border border-white/20;
   }
 
   /* Scroll-triggered Animation Keyframes */
@@ -882,7 +863,6 @@
   .high-contrast {
     --bg-primary: #000000 !important;
     --text-primary: #FFFFFF !important;
-    --glass-bg: rgba(0, 0, 0, 0.9) !important;
     --border-color: #FFFFFF !important;
     --focus-ring: #FFFF00 !important;
   }
@@ -891,11 +871,6 @@
     border-color: var(--border-color) !important;
   }
   
-  .high-contrast .glass-card,
-  .high-contrast .glass-button {
-    background: var(--glass-bg) !important;
-    border: 2px solid #FFFFFF !important;
-  }
   
   /* Focus Management */
   .focus-visible *:focus {
@@ -944,13 +919,11 @@
     :root {
       --bg-primary: #000000;
       --text-primary: #FFFFFF;
-      --glass-bg: rgba(0, 0, 0, 0.9);
     }
   
     .dark {
       --bg-primary: #FFFFFF;
       --text-primary: #000000;
-      --glass-bg: rgba(255, 255, 255, 0.9);
     }
   }
   
@@ -1133,46 +1106,12 @@
 
 }
 
-/* Enhanced Glassmorphism and Neumorphism */
-.glass {
-background: var(--glass-bg);
-backdrop-filter: blur(10px);
-border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
+/* Enhanced Neumorphism */
 .neumorphic {
 box-shadow: var(--neumorphic-shadow);
 border-radius: 12px;
 }
 
-/* Advanced Glass Effects */
-.glass-card {
-@apply bg-white/10 backdrop-blur-md border border-white/20;
-}
-
-.dark .glass-card {
-@apply bg-black/10 backdrop-blur-md border border-white/10;
-}
-
-.glass-button {
-@apply bg-white/20 backdrop-blur-sm border border-white/30;
-}
-
-.dark .glass-button {
-@apply bg-black/20 backdrop-blur-sm border border-white/20;
-}
-
-.glass-nav-button {
-  @apply bg-black/20 text-white backdrop-blur-sm border border-white/20 transition-all duration-300 rounded-xl;
-}
-
-.hover\:bg-gradient-glass:hover {
-  background-image: linear-gradient(to right, hsl(var(--brand-dark-blue-raw) / 0.5), hsl(var(--brand-darker-blue-raw) / 0.5));
-  @apply border-white/30;
-}
-
-
-/* Enhanced Neumorphism */
 .neumorphic-inset {
 box-shadow: inset 3px 3px 6px rgba(0,0,0,0.1), inset -3px -3px 6px rgba(255,255,255,0.8);
 }
