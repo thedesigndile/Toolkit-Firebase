@@ -107,7 +107,7 @@ export function Header() {
         animate="visible"
       >
         <motion.div
-          className="flex-1 flex justify-start"
+          className="flex justify-start"
           variants={navItemVariants}
         >
           <Link href="/" aria-label="Go to homepage" className="flex items-center gap-3 group">
@@ -184,16 +184,16 @@ export function Header() {
                   whileTap={{ scale: 0.95 }}
                 >
                   <NavigationMenuItem>
-                     <NavigationMenuLink asChild className={cn(navigationMenuTriggerStyle(), navButtonClasses)}>
-                       <Link href="/tools">
+                     <Link href="/tools">
+                       <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), navButtonClasses)}>
                          <motion.span
                            whileHover={{ scale: 1.05 }}
                            transition={{ type: "spring", stiffness: 400 }}
                          >
                            All Tools
                          </motion.span>
-                       </Link>
-                     </NavigationMenuLink>
+                       </NavigationMenuLink>
+                     </Link>
                  </NavigationMenuItem>
                 </motion.div>
              </NavigationMenuList>
@@ -201,7 +201,7 @@ export function Header() {
         </motion.div>
 
         <motion.div
-          className="flex-1 flex justify-end items-center gap-3"
+          className="flex justify-end items-center gap-3"
           variants={navItemVariants}
         >
           <motion.div
