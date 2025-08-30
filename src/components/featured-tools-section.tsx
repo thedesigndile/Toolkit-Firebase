@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -36,9 +37,9 @@ export function FeaturedToolsSection() {
     <section className="py-16 md:py-20">
       <div className="container mx-auto px-4">
         <ScrollReveal animation="slideUp" className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/10 to-blue-500/10 px-4 py-2 rounded-full mb-4">
-            <Sparkles className="h-4 w-4 text-purple-600" />
-            <span className="text-sm font-medium text-purple-600">Featured</span>
+          <div className="inline-flex items-center gap-2 bg-accent/10 px-4 py-2 rounded-full mb-4">
+            <Sparkles className="h-4 w-4 text-accent" />
+            <span className="text-sm font-medium text-accent">Featured</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
             Most Popular Tools
@@ -56,28 +57,28 @@ export function FeaturedToolsSection() {
                   whileHover={{ y: -5 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <Card className="group relative overflow-hidden border-2 hover:border-purple-200 dark:hover:border-purple-800 transition-all duration-300 h-full">
+                  <Card className="group relative overflow-hidden border-2 hover:border-primary/20 transition-all duration-300 h-full">
                     {/* Popular badge */}
                     <div className="absolute top-3 right-3 z-10">
-                      <Badge variant="secondary" className="bg-gradient-to-r from-purple-500 to-blue-500 text-white border-0">
+                      <Badge variant="secondary" className="bg-gradient-to-r from-primary to-accent text-white border-0">
                         <TrendingUp className="h-3 w-3 mr-1" />
                         Popular
                       </Badge>
                     </div>
 
                     {/* Background gradient effect */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                     <CardContent className="p-6 relative z-10">
                       <div className="flex flex-col items-center text-center space-y-4">
                         {/* Larger icon */}
-                        <div className="p-4 bg-gradient-to-br from-purple-100 to-blue-100 dark:from-purple-900/30 dark:to-blue-900/30 rounded-2xl group-hover:scale-110 transition-transform duration-300">
-                           <tool.icon className="h-12 w-12 text-purple-600 dark:text-purple-300" />
+                        <div className="p-4 bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl group-hover:scale-110 transition-transform duration-300">
+                           <tool.icon className="h-12 w-12 text-primary" />
                          </div>
 
                         {/* Tool name and description */}
                         <div className="space-y-2">
-                          <h3 className="text-xl font-semibold group-hover:text-purple-600 dark:group-hover:text-purple-300 transition-colors">
+                          <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">
                             {tool.name}
                           </h3>
                           <p className="text-muted-foreground leading-relaxed">
@@ -92,7 +93,7 @@ export function FeaturedToolsSection() {
                       </div>
 
                       {/* Hover effect overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-purple-500/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
                     </CardContent>
                   </Card>
                 </motion.div>
@@ -109,13 +110,13 @@ export function FeaturedToolsSection() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="/tools"
-              className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-medium rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+              className="inline-flex items-center justify-center px-6 py-3 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-all duration-200 shadow-lg hover:shadow-xl"
             >
               Explore All Tools
             </a>
             <a
               href="/pricing"
-              className="inline-flex items-center justify-center px-6 py-3 border border-purple-200 dark:border-purple-800 text-purple-600 dark:text-purple-400 font-medium rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/10 transition-all duration-200"
+              className="inline-flex items-center justify-center px-6 py-3 border border-border text-primary font-medium rounded-lg hover:bg-primary/10 transition-all duration-200"
             >
               View Pricing
             </a>

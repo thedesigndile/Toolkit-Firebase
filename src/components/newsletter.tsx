@@ -30,7 +30,7 @@ export function Newsletter() {
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-2xl mx-auto text-center">
             <motion.div
-              className="inline-flex items-center justify-center p-4 bg-primary/10 dark:bg-primary/20 rounded-full mb-6 shadow-lg"
+              className="inline-flex items-center justify-center p-4 bg-primary/10 rounded-full mb-6 shadow-lg"
               whileHover={{ scale: 1.05, rotate: 5 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
@@ -70,7 +70,7 @@ export function Newsletter() {
                 <Button
                   type="submit"
                   size="lg"
-                  className="bg-primary hover:bg-primary/90 text-white rounded-full px-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                 >
                 Subscribe
             </Button>

@@ -123,7 +123,7 @@ export function ToolsSection() {
         <div className="text-center py-12 md:py-16">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
             <span className="block">Every Tool</span>
-            <span className="block text-gradient-blue">You Need</span>
+            <span className="block text-gradient-primary">You Need</span>
           </h1>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
             Discover a powerful suite of free tools to boost your productivity, streamline your workflow, and handle tasks like PDF editing, image conversion, and more— all right in your browser.
@@ -152,7 +152,7 @@ export function ToolsSection() {
                           <TabsTrigger
                             key={name}
                             value={name}
-                            className="px-3 py-2 whitespace-nowrap min-h-[44px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                            className="px-3 py-2 whitespace-nowrap min-h-[44px] focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                             aria-label={`${name} tools`}
                           >
                             {Icon && <Icon className="h-4 w-4 mr-2" aria-hidden="true" />}
@@ -190,7 +190,7 @@ export function ToolsSection() {
 
                                   <ScrollReveal animation="fade" delay={200}>
                                     <h2 className="text-2xl font-semibold flex items-center justify-center gap-3 text-center relative z-10">
-                                        <CategoryIcon className="h-7 w-7 text-brand-blue" strokeWidth={1.5} />
+                                        <CategoryIcon className="h-7 w-7 text-primary" strokeWidth={1.5} />
                                         {category}
                                     </h2>
                                   </ScrollReveal>
