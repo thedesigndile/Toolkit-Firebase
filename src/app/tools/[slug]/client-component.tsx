@@ -19,7 +19,6 @@ import { TextToSpeechComponent } from '@/components/tools/text-to-speech';
 import { PasswordGenerator } from '@/components/tools/password-generator';
 import { VoiceRecorderComponent } from '@/components/tools/voice-recorder';
 import { motion } from 'framer-motion';
-import { ParticleBackground, FloatingElements } from '@/components/particle-background';
 import { useAccessibility, AccessibleButton } from '@/components/accessibility-provider';
 import * as pdfjsLib from 'pdfjs-dist';
 import { Document, Packer, Paragraph } from 'docx';
@@ -469,7 +468,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
                   onClick={handleProcessFiles}
                   disabled={files.length === 0 || status !== 'idle'}
                   loading={status === 'processing'}
-                  variant="default"
+                  variant="primary"
                   size="lg"
                   className="px-8 py-3 text-lg font-semibold"
                   ariaLabel={files.length === 0 ? "No files selected. Please upload a file first." : `Process ${files.length} file${files.length > 1 ? 's' : ''} with ${tool?.name}`}
@@ -578,39 +577,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-br from-background via-background to-accent/5 pt-24 relative overflow-hidden">
-      {/* Advanced Background Effects */}
-      <ParticleBackground />
-      <FloatingElements />
-
-      {/* Enhanced gradient overlays */}
-      <div className="absolute inset-0 bg-gradient-mesh opacity-20"></div>
-      <motion.div
-        className="absolute top-20 left-10 w-72 h-72 bg-accent/10 rounded-full blur-3xl"
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.6, 0.3]
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
-      <motion.div
-        className="absolute bottom-20 right-10 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
-        animate={{
-          scale: [1.2, 1, 1.2],
-          opacity: [0.4, 0.7, 0.4]
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 2
-        }}
-      />
-
+    <div className="flex min-h-screen flex-col bg-background pt-24">
       <main className="flex-1 relative z-10">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-6xl mx-auto">
