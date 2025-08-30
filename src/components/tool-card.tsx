@@ -49,11 +49,11 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
           <TooltipTrigger asChild>
             <Link
               href={`/tools/${slug}`}
-              className="block group relative h-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-2xl"
+              className="block group relative h-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-2xl"
               aria-label={`Open ${tool.name} tool`}
             >
-               <div className="animated-gradient-border-container h-52 sm:h-48 md:h-52">
-                  <div className="animated-gradient-border-content flex flex-col h-full p-6">
+               <Card className="h-52 sm:h-48 md:h-52 transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 overflow-hidden">
+                  <CardContent className="flex flex-col h-full p-6 text-center justify-center items-center">
                     {tool.isNew && (
                         <motion.div
                           className="absolute top-3 right-3 px-3 py-1 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-bold rounded-full shadow-md z-10"
@@ -66,24 +66,24 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
                     )}
                     <div className="flex flex-col items-center text-center flex-1 justify-center relative z-10">
                       <motion.div
-                          className="mb-4 p-3 rounded-full bg-gradient-to-br from-blue-500/10 to-indigo-600/10 transition-all duration-300"
+                          className="mb-4 p-3 rounded-full bg-primary/10 transition-all duration-300"
                           whileHover={{
                             scale: 1.15,
                             rotate: 5,
                             transition: { duration: 0.2, ease: "easeOut" }
                           }}
                       >
-                          <Icon className="h-10 w-10 text-blue-600 group-hover:text-indigo-700 transition-colors duration-300" />
+                          <Icon className="h-10 w-10 text-primary group-hover:text-primary/80 transition-colors duration-300" />
                       </motion.div>
-                      <h3 className="text-lg font-semibold leading-tight text-foreground group-hover:text-blue-600 transition-colors duration-300">
+                      <h3 className="text-lg font-semibold leading-tight text-foreground group-hover:text-primary transition-colors duration-300">
                         {tool.name}
                       </h3>
                       <p className="text-sm text-muted-foreground mt-2 line-clamp-2 px-2 transition-colors duration-300">
                         {tool.description}
                       </p>
                     </div>
-                  </div>
-               </div>
+                  </CardContent>
+               </Card>
             </Link>
           </TooltipTrigger>
           <TooltipContent>

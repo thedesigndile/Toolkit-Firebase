@@ -221,36 +221,6 @@
     animation-delay: 2s;
   }
 
-  @keyframes rotate-gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  .animated-gradient-border-container {
-    @apply p-0.5 rounded-2xl relative;
-    background: linear-gradient(45deg, hsl(var(--brand-purple-raw)), hsl(var(--brand-blue-raw)), hsl(var(--brand-pink-raw)), hsl(var(--brand-blue-raw)));
-    background-size: 400% 400%;
-    animation: rotate-gradient 10s ease infinite;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 15px -5px hsl(var(--brand-purple-raw) / 0.2);
-  }
-
-  .animated-gradient-border-container:hover {
-      transform: scale(1.03);
-      box-shadow: 0 8px 30px -10px hsl(var(--brand-purple-raw) / 0.4);
-      animation-duration: 6s;
-  }
-
-  .animated-gradient-border-content {
-      @apply bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl h-full w-full;
-  }
-  
-  .dark .animated-gradient-border-content {
-      @apply bg-gradient-to-br from-gray-800 to-gray-900;
-  }
-
-
   /* Enhanced Color Gradients */
   .gradient-mesh {
     background: radial-gradient(ellipse at 20% 80%, hsl(var(--brand-blue-raw)/0.3) 0%, transparent 50%),
