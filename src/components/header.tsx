@@ -94,7 +94,7 @@ export function Header() {
     <>
       <motion.header
         className={cn(
-          "hidden md:flex items-center justify-between w-full max-w-6xl mx-auto p-3 rounded-2xl glass-card shadow-2xl border border-white/20"
+          "hidden md:flex items-center justify-between w-full max-w-6xl mx-auto p-3 rounded-2xl header-bg shadow-2xl"
         )}
         variants={headerVariants}
         initial="hidden"
@@ -229,7 +229,7 @@ export function Header() {
 
       {/* Mobile Header */}
       <motion.div
-        className="md:hidden flex justify-between items-center w-full px-4 py-3 glass-card border-b border-white/20"
+        className="md:hidden flex justify-between items-center w-full px-4 py-3 header-bg"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 100 }}
@@ -508,3 +508,5 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
 ListItem.displayName = "ListItem";
 
     
+
+  
