@@ -75,10 +75,10 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
                       >
                           <Icon className="h-10 w-10 text-blue-600 group-hover:text-indigo-700 transition-colors duration-300" />
                       </motion.div>
-                      <h3 className="text-lg font-semibold leading-tight text-gray-900 dark:text-gray-800 group-hover:text-blue-600 transition-colors duration-300">
+                      <h3 className="text-lg font-semibold leading-tight text-foreground group-hover:text-blue-600 transition-colors duration-300">
                         {tool.name}
                       </h3>
-                      <p className="text-sm text-gray-700 dark:text-gray-600 mt-2 line-clamp-2 px-2 transition-colors duration-300">
+                      <p className="text-sm text-muted-foreground mt-2 line-clamp-2 px-2 transition-colors duration-300">
                         {tool.description}
                       </p>
                     </div>

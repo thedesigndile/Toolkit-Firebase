@@ -243,8 +243,13 @@
   }
 
   .animated-gradient-border-content {
-      @apply bg-gradient-to-br from-gray-50 to-gray-200 dark:from-gray-800 dark:to-gray-900 rounded-xl h-full w-full;
+      @apply bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl h-full w-full;
   }
+  
+  .dark .animated-gradient-border-content {
+      @apply bg-gradient-to-br from-gray-800 to-gray-900;
+  }
+
 
   /* Enhanced Color Gradients */
   .gradient-mesh {
@@ -1247,4 +1252,5 @@ box-shadow: 0 0 20px rgba(139, 92, 246, 0.4), 0 0 40px rgba(139, 92, 246, 0.2);
     
 
   
+
 
