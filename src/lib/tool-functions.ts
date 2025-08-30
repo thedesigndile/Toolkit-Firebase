@@ -2,6 +2,8 @@
 
 import imageCompression from 'browser-image-compression';
 import { PDFDocument, rgb } from 'pdf-lib';
+import * as pdfjsLib from 'pdfjs-dist';
+
 
 // =============== IMAGE TOOLS ===============
 
@@ -172,13 +174,9 @@ export async function pdfToImages(file: File, format: 'png' | 'jpeg' = 'png', qu
         throw new Error('PDF file too large. Maximum size: 50MB');
     }
 
-    // Dynamically import PDF.js only on client side
-    const pdfjsLib = await import('pdfjs-dist');
-
     // Initialize PDF.js worker
     if (typeof window !== 'undefined' && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
-        // Use CDN for PDF.js worker (acceptable for this use case)
-        pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+        pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.mjs`;
     }
 
     const arrayBuffer = await file.arrayBuffer();
