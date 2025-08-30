@@ -1,7 +1,9 @@
+
 "use client";
 
 import { useEffect, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { Button } from './ui/button';
 
 export function ServiceWorkerRegistration() {
   const [isOnline, setIsOnline] = useState(true);
@@ -42,7 +44,9 @@ export function ServiceWorkerRegistration() {
     window.addEventListener('offline', handleOffline);
 
     // Set initial online status
-    setIsOnline(navigator.onLine);
+    if (typeof window !== 'undefined') {
+      setIsOnline(navigator.onLine);
+    }
 
     return () => {
       window.removeEventListener('online', handleOnline);
@@ -67,12 +71,13 @@ export function ServiceWorkerRegistration() {
               // New version available
               toast({
                 title: "Update Available",
-                description: "A new version is available. Refresh to update.",
-                action: {
-                  altText: "Refresh",
-                  onClick: () => window.location.reload(),
-                },
-                duration: 10000,
+                description: "A new version of the website is ready.",
+                action: (
+                  <Button onClick={() => window.location.reload()} >
+                    Refresh
+                  </Button>
+                ),
+                duration: 10000, // Keep toast open longer
               });
             }
           });
@@ -142,7 +147,9 @@ export function useOfflineStatus() {
   const [isOnline, setIsOnline] = useState(true);
 
   useEffect(() => {
-    setIsOnline(navigator.onLine);
+    if (typeof window !== 'undefined') {
+      setIsOnline(navigator.onLine);
+    }
 
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
@@ -168,13 +175,17 @@ export function useServiceWorker() {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.ready.then(setRegistration);
 
-      navigator.serviceWorker.addEventListener('updatefound', () => {
-        const newRegistration = navigator.serviceWorker.getRegistration();
-        if (newRegistration) {
-          setRegistration(newRegistration);
-          setUpdateAvailable(true);
-        }
-      });
+      const handleUpdateFound = () => {
+        navigator.serviceWorker.getRegistration().then(newRegistration => {
+          if (newRegistration) {
+            setRegistration(newRegistration);
+            setUpdateAvailable(true);
+          }
+        });
+      };
+
+      navigator.serviceWorker.addEventListener('updatefound', handleUpdateFound);
+      return () => navigator.serviceWorker.removeEventListener('updatefound', handleUpdateFound);
     }
   }, []);
 
