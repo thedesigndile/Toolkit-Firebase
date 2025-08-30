@@ -21,7 +21,7 @@ const GradientDef = () => (
 );
 
 export const MergePdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
-    <IconWrapper className={cn("text-brand-blue", className)}>
+    <IconWrapper className={cn("text-primary", className)}>
         <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <GradientDef />
             <path d="M8 12h8m-4 4V8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="1.0"/>
@@ -32,7 +32,7 @@ export const MergePdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
 
 
 export const SplitPdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
-    <IconWrapper className={cn("text-brand-blue", className)}>
+    <IconWrapper className={cn("text-primary", className)}>
         <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <GradientDef />
             <path d="M12 10v4m0 0l-1.5-1.5m1.5 1.5l1.5-1.5m-1.5 7V6m0 0l-1.5 1.5M12 6l1.5 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="1.0" />
@@ -42,7 +42,7 @@ export const SplitPdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
 );
 
 export const CompressPdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
-    <IconWrapper className={cn("text-brand-blue", className)}>
+    <IconWrapper className={cn("text-primary", className)}>
          <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <GradientDef />
             <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#iconGradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -54,7 +54,7 @@ export const CompressPdfIcon: React.FC<IconProps> = ({ className, ...props }) =>
 );
 
 export const PdfToWordIcon: React.FC<IconProps> = ({ className, ...props }) => (
-    <IconWrapper className={cn("text-brand-blue", className)}>
+    <IconWrapper className={cn("text-primary", className)}>
         <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <GradientDef />
             <path d="M4 8h16M4 16h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="1.0"/>
@@ -65,7 +65,7 @@ export const PdfToWordIcon: React.FC<IconProps> = ({ className, ...props }) => (
 );
 
 export const WordToPdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
-    <IconWrapper className={cn("text-brand-blue", className)}>
+    <IconWrapper className={cn("text-primary", className)}>
         <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <GradientDef />
             <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#iconGradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -75,7 +75,7 @@ export const WordToPdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
 );
 
 export const PdfToPowerpointIcon: React.FC<IconProps> = ({ className, ...props }) => (
-     <IconWrapper className={cn("text-brand-blue", className)}>
+     <IconWrapper className={cn("text-primary", className)}>
         <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
              <GradientDef />
             <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#iconGradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -85,7 +85,7 @@ export const PdfToPowerpointIcon: React.FC<IconProps> = ({ className, ...props }
 );
 
 export const PowerpointToPdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
-     <IconWrapper className={cn("text-brand-blue", className)}>
+     <IconWrapper className={cn("text-primary", className)}>
         <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
              <GradientDef />
             <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#iconGradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -95,7 +95,7 @@ export const PowerpointToPdfIcon: React.FC<IconProps> = ({ className, ...props }
 );
 
 export const PdfToExcelIcon: React.FC<IconProps> = ({ className, ...props }) => (
-    <IconWrapper className={cn("text-brand-blue", className)}>
+    <IconWrapper className={cn("text-primary", className)}>
        <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <GradientDef />
             <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#iconGradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -105,7 +105,7 @@ export const PdfToExcelIcon: React.FC<IconProps> = ({ className, ...props }) => 
 );
 
 export const ExcelToPdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
-   <IconWrapper className={cn("text-brand-blue", className)}>
+   <IconWrapper className={cn("text-primary", className)}>
        <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <GradientDef />
             <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#iconGradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -115,7 +115,7 @@ export const ExcelToPdfIcon: React.FC<IconProps> = ({ className, ...props }) => 
 );
 
 export const EditPdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
-    <IconWrapper className={cn("text-brand-blue", className)}>
+    <IconWrapper className={cn("text-primary", className)}>
          <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <GradientDef />
             <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#iconGradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -126,7 +126,7 @@ export const EditPdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
 );
 
 export const PdfToJpgIcon: React.FC<IconProps> = ({ className, ...props }) => (
-    <IconWrapper className={cn("text-brand-blue", className)}>
+    <IconWrapper className={cn("text-primary", className)}>
        <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <GradientDef />
             <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#iconGradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -137,7 +137,7 @@ export const PdfToJpgIcon: React.FC<IconProps> = ({ className, ...props }) => (
 );
 
 export const SignPdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
-    <IconWrapper className={cn("text-brand-blue", className)}>
+    <IconWrapper className={cn("text-primary", className)}>
         <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <GradientDef />
             <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#iconGradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -148,7 +148,7 @@ export const SignPdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
 );
 
 export const WatermarkIcon: React.FC<IconProps> = ({ className, ...props }) => (
-    <IconWrapper className={cn("text-brand-blue", className)}>
+    <IconWrapper className={cn("text-primary", className)}>
         <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <GradientDef />
             <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#iconGradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -159,7 +159,7 @@ export const WatermarkIcon: React.FC<IconProps> = ({ className, ...props }) => (
 
 
 export const RotatePdfIcon: React.FC<IconProps> = ({ className, ...props }) => (
-    <IconWrapper className={cn("text-brand-blue", className)}>
+    <IconWrapper className={cn("text-primary", className)}>
         <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <GradientDef />
             <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#iconGradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>

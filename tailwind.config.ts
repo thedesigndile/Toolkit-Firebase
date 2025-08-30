@@ -61,7 +61,6 @@ export default {
         accent: {
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',
-          DEFAULT: '#00D4FF',
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
@@ -198,9 +197,6 @@ export default {
     require('@tailwindcss/typography'),
     plugin(function({ addUtilities, theme }: { addUtilities: any, theme: any }) {
       const newUtilities = {
-        '.text-shadow': {
-          textShadow: `1px 1px 3px hsl(var(--brand-purple-raw) / 0.25)`,
-        },
       }
       addUtilities(newUtilities, ['responsive', 'hover'])
     })
