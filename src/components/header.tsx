@@ -181,7 +181,7 @@ export function Header() {
                   whileTap={{ scale: 0.95 }}
                 >
                   <NavigationMenuItem>
-                    <Link href="/tools" legacyBehavior passHref>
+                    <Link href="/tools" passHref>
                        <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), navButtonClasses)}>
                          <motion.span
                            whileHover={{ scale: 1.05 }}
@@ -513,4 +513,5 @@ ListItem.displayName = "ListItem";
     
 
   
+
 

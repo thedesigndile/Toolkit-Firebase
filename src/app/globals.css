@@ -60,19 +60,19 @@
     --card-foreground: 210 40% 98%;
     --popover: 222 30% 10%;
     --popover-foreground: 210 40% 98%;
-    --primary: 224 82% 60%; /* Lighter Blue for dark mode */
+    --primary: 224 82% 65%; /* Even lighter Blue for dark mode */
     --primary-foreground: 222 30% 14%;
     --secondary: 222 30% 18%;
     --secondary-foreground: 210 40% 98%;
     --muted: 222 30% 18%;
-    --muted-foreground: 220 13% 65%;
-    --accent: 257 90% 70%; /* Lighter Purple for dark mode */
+    --muted-foreground: 220 13% 80%; /* Increased from 65% to 80% for better visibility */
+    --accent: 257 90% 75%; /* Even lighter Purple for dark mode */
     --accent-foreground: 222 30% 14%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 222 30% 20%;
-    --input: 222 30% 20%;
-    --ring: 224 82% 60%;
+    --border: 222 30% 25%; /* Slightly lighter border */
+    --input: 222 30% 25%; /* Slightly lighter input */
+    --ring: 224 82% 65%;
 
     /* Advanced Design System Variables for Dark Mode */
     --bg-primary: #1A202C;

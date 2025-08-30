@@ -66,18 +66,18 @@ export function FeaturedToolsSection() {
                     </div>
 
                     {/* Background gradient effect */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                     <CardContent className="p-6 relative z-10">
                       <div className="flex flex-col items-center text-center space-y-4">
                         {/* Larger icon */}
-                        <div className="p-4 bg-gradient-to-br from-purple-100 to-blue-100 dark:from-purple-900/20 dark:to-blue-900/20 rounded-2xl group-hover:scale-110 transition-transform duration-300">
-                          <tool.icon className="h-12 w-12 text-purple-600 dark:text-purple-400" />
-                        </div>
+                        <div className="p-4 bg-gradient-to-br from-purple-100 to-blue-100 dark:from-purple-900/30 dark:to-blue-900/30 rounded-2xl group-hover:scale-110 transition-transform duration-300">
+                           <tool.icon className="h-12 w-12 text-purple-600 dark:text-purple-300" />
+                         </div>
 
                         {/* Tool name and description */}
                         <div className="space-y-2">
-                          <h3 className="text-xl font-semibold group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                          <h3 className="text-xl font-semibold group-hover:text-purple-600 dark:group-hover:text-purple-300 transition-colors">
                             {tool.name}
                           </h3>
                           <p className="text-muted-foreground leading-relaxed">
@@ -92,7 +92,7 @@ export function FeaturedToolsSection() {
                       </div>
 
                       {/* Hover effect overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-purple-500/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
                     </CardContent>
                   </Card>
                 </motion.div>
