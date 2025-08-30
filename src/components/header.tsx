@@ -97,7 +97,7 @@ export function Header() {
     <>
       <motion.header
         className={cn(
-          "hidden md:flex items-center justify-between w-full max-w-6xl mx-auto p-3 rounded-2xl header-bg"
+          "hidden md:flex items-center justify-between w-full max-w-6xl mx-auto p-3 rounded-2xl bg-primary"
         )}
         style={{
           boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)'
@@ -209,7 +209,7 @@ export function Header() {
             whileTap={{ scale: 0.9 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <ThemeToggle className="text-primary-foreground hover:text-white/90 rounded-full w-11 h-11 border-2 border-primary-foreground/20 hover:bg-primary/90" />
+            <ThemeToggle />
           </motion.div>
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -238,7 +238,7 @@ export function Header() {
 
       {/* Mobile Header */}
       <motion.div
-        className="md:hidden flex justify-between items-center w-full px-4 py-3 header-bg"
+        className="md:hidden flex justify-between items-center w-full px-4 py-3 bg-primary"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 100 }}
@@ -283,7 +283,6 @@ export function Header() {
           whileHover={{ scale: 1.1 }}
         >
           <ThemeToggle
-            className="w-11 h-11 text-primary-foreground hover:text-primary-foreground/90 border border-primary-foreground/20"
             aria-label="Toggle theme"
           />
         </motion.div>

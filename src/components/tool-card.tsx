@@ -53,7 +53,7 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
               className="block group relative h-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-2xl"
               aria-label={`Open ${tool.name} tool`}
             >
-               <Card className="h-52 sm:h-48 md:h-52 transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 overflow-hidden bg-card border hover:border-primary/50">
+               <Card className="h-full transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 overflow-hidden bg-card border hover:border-primary/50">
                   <CardContent className="flex flex-col h-full p-6 text-center justify-center items-center">
                     {tool.isNew && (
                         <motion.div

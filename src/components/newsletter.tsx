@@ -26,23 +26,18 @@ export function Newsletter() {
   };
 
   return (
-    <section className="py-8 md:py-12 bg-gradient-to-br from-muted/30 via-background to-muted/30 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 bg-grid-small-black/[0.2] dark:bg-grid-small-white/[0.05]" />
-      <div className="absolute top-0 left-1/4 w-72 h-72 bg-brand-blue/10 rounded-full blur-lg" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-brand-pink/10 rounded-full blur-lg" />
-
+    <section className="py-8 md:py-12 bg-background relative overflow-hidden">
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-2xl mx-auto text-center">
             <motion.div
-              className="inline-flex items-center justify-center p-4 bg-brand-blue/10 dark:bg-brand-blue/20 rounded-full mb-6 shadow-lg"
+              className="inline-flex items-center justify-center p-4 bg-primary/10 dark:bg-primary/20 rounded-full mb-6 shadow-lg"
               whileHover={{ scale: 1.05, rotate: 5 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-                <MailCheck className="h-12 w-12 text-brand-blue" strokeWidth={1.5} />
+                <MailCheck className="h-12 w-12 text-primary" strokeWidth={1.5} />
             </motion.div>
             <motion.h2
-              className="text-3xl md:text-4xl font-bold text-brand-blue mb-4"
+              className="text-3xl md:text-4xl font-bold text-primary mb-4"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -69,13 +64,13 @@ export function Newsletter() {
                 name="email"
                 placeholder="Enter your email address"
                 required
-                className="flex-1 h-12 text-base rounded-full border-2 border-border focus:border-brand-blue/30 transition-all duration-300"
+                className="flex-1 h-12 text-base rounded-full border-2 border-border focus:border-primary/30 transition-all duration-300"
                 aria-label="Email for newsletter"
                 />
                 <Button
                   type="submit"
                   size="lg"
-                  className="bg-gradient-blue hover:bg-gradient-blue-hover text-white rounded-full px-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                  className="bg-primary hover:bg-primary/90 text-white rounded-full px-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                 >
                 Subscribe
             </Button>
