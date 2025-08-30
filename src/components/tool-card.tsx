@@ -35,6 +35,7 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
   const Icon = tool.icon;
   const slug = useMemo(() => tool.name.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and'), [tool.name]);
 
+
   return (
     <motion.div
       variants={cardVariants}

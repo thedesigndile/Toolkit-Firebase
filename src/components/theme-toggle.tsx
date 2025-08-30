@@ -57,7 +57,11 @@ export function ThemeToggle({ className }: { className?: string }) {
   // Wait until mounted to render to avoid hydration errors
   const [mounted, setMounted] = React.useState(false)
   React.useEffect(() => setMounted(true), [])
-  if (!mounted) return <Button variant="ghost" size="icon" className={cn("w-10 h-10", className)} />
+  if (!mounted) {
+    // Render a placeholder or nothing on the server
+    // to avoid hydration mismatch.
+    return <div className={cn("h-10 w-10", className)} />;
+  }
 
   return (
     <div className="relative">
@@ -186,5 +190,3 @@ export function ThemeToggle({ className }: { className?: string }) {
     </div>
   )
 }
-
-    

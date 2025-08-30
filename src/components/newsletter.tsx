@@ -29,8 +29,8 @@ export function Newsletter() {
     <section className="py-8 md:py-12 bg-gradient-to-br from-muted/30 via-background to-muted/30 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-grid-small-black/[0.2] dark:bg-grid-small-white/[0.05]" />
-      <div className="absolute top-0 left-1/4 w-72 h-72 bg-brand-blue/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-brand-pink/10 rounded-full blur-3xl" />
+      <div className="absolute top-0 left-1/4 w-72 h-72 bg-brand-blue/10 rounded-full blur-lg" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-brand-pink/10 rounded-full blur-lg" />
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-2xl mx-auto text-center">

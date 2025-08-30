@@ -114,7 +114,7 @@ export function ParticleBackground() {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-0"
-      style={{ opacity: 0.6 }}
+      style={{ opacity: 0.3 }}
     />
   );
 }
@@ -137,7 +137,7 @@ export function FloatingElements() {
         }}
         style={{
           background: 'linear-gradient(45deg, rgba(0, 212, 255, 0.1), rgba(102, 126, 234, 0.1))',
-          backdropFilter: 'blur(10px)'
+          backdropFilter: 'blur(5px)'
         }}
       />
 
@@ -227,7 +227,7 @@ export function GradientOrbs() {
     <div className="fixed inset-0 pointer-events-none z-0">
       {/* Large gradient orbs */}
       <motion.div
-        className="absolute -top-32 -left-32 w-96 h-96 rounded-full blur-3xl"
+        className="absolute -top-32 -left-32 w-96 h-96 rounded-full blur-lg"
         animate={{
           scale: [1, 1.2, 1],
           opacity: [0.3, 0.6, 0.3]
@@ -243,7 +243,7 @@ export function GradientOrbs() {
       />
 
       <motion.div
-        className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full blur-3xl"
+        className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full blur-lg"
         animate={{
           scale: [1.2, 1, 1.2],
           opacity: [0.4, 0.7, 0.4]
@@ -260,7 +260,7 @@ export function GradientOrbs() {
       />
 
       <motion.div
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full blur-3xl"
+        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full blur-lg"
         animate={{
           scale: [1, 1.3, 1],
           opacity: [0.2, 0.5, 0.2]

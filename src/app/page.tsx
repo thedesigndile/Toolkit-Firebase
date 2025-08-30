@@ -13,7 +13,7 @@ export default function Home() {
       <GradientOrbs />
 
       {/* Subtle mesh gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-mesh opacity-20 pointer-events-none" aria-hidden="true" />
+      <div className="absolute inset-0 bg-gradient-mesh opacity-10 pointer-events-none" aria-hidden="true" />
 
       <main className="flex-1 pt-24 relative z-10" id="main-content" role="main">
         <div className="space-y-12 md:space-y-16">

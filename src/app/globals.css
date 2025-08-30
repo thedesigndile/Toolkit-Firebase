@@ -11,7 +11,7 @@
     --card-foreground: 222 30% 20%;
     --popover: 0 0% 100%;
     --popover-foreground: 222 30% 20%;
-    --primary: 224 82% 53%; /* #2563EB -> Blue */
+    --primary: 224 90% 45%; /* #1D4ED8 -> Darker, more saturated Blue */
     --primary-foreground: 210 40% 98%;
     --secondary: 210 25% 94%;
     --secondary-foreground: 222 30% 25%;
@@ -23,11 +23,11 @@
     --destructive-foreground: 0 0% 98%;
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 224 82% 53%;
+    --ring: 224 85% 50%;
 
-    --brand-blue-raw: 224 82% 53%; /* #2563EB */
-    --brand-dark-blue-raw: 224 82% 45%; /* Darker Blue for gradient */
-    --brand-darker-blue-raw: 224 82% 35%; /* Even darker for gradient */
+    --brand-blue-raw: 224 85% 50%; /* #1E40AF - More visible blue */
+    --brand-dark-blue-raw: 224 85% 42%; /* Darker Blue for gradient */
+    --brand-darker-blue-raw: 224 85% 32%; /* Even darker for gradient */
     --brand-purple-raw: 257 90% 66%; /* #8B5CF6 */
     --brand-pink-raw: 330 89% 66%;
     --brand-orange-raw: 25 95% 53%; /* #F97316 */
@@ -60,7 +60,7 @@
     --card-foreground: 210 40% 98%;
     --popover: 222 30% 10%;
     --popover-foreground: 210 40% 98%;
-    --primary: 224 82% 65%; /* Even lighter Blue for dark mode */
+    --primary: 224 85% 55%; /* More visible Blue for dark mode */
     --primary-foreground: 222 30% 14%;
     --secondary: 222 30% 18%;
     --secondary-foreground: 210 40% 98%;
@@ -72,7 +72,7 @@
     --destructive-foreground: 0 0% 98%;
     --border: 222 30% 25%; /* Slightly lighter border */
     --input: 222 30% 25%; /* Slightly lighter input */
-    --ring: 224 82% 65%;
+    --ring: 224 85% 55%;
 
     /* Advanced Design System Variables for Dark Mode */
     --bg-primary: #1A202C;
@@ -435,7 +435,7 @@
   .category-section-bg {
     @apply relative overflow-hidden rounded-xl transition-all duration-500;
     background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.6) 100%);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(5px);
     border: 1px solid rgba(255,255,255,0.2);
     padding: 2rem;
   }
