@@ -75,7 +75,7 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
                             "cursor-pointer transition-all duration-300 relative overflow-hidden h-full border-0 shadow-none flex flex-col justify-between group-hover:bg-card",
                         )}
                     >
-                        <CardContent className="p-0 flex flex-col items-center text-center flex-1 justify-center relative z-10">
+                        <CardContent className="p-5 flex flex-col items-center text-center flex-1 justify-center relative z-10">
                         <motion.div
                             className="mb-4 p-3 rounded-full bg-gradient-to-br from-brand-blue/10 to-brand-purple/10 group-hover:from-brand-blue/20 group-hover:to-brand-purple/20 transition-all duration-300"
                             whileHover={{
