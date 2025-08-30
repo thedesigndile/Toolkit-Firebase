@@ -90,7 +90,7 @@ export function Header() {
     }
   };
 
-  const navButtonClasses = "font-semibold text-sm text-white px-4 py-3 bg-gradient-blue hover:bg-gradient-blue-hover data-[state=open]:bg-gradient-blue-active focus:bg-gradient-blue-active transition-all duration-300 rounded-xl border-none";
+  const navButtonClasses = "font-semibold text-sm px-4 py-3 glass-nav-button hover:bg-gradient-glass data-[state=open]:bg-gradient-glass";
 
 
   return (
@@ -513,3 +513,4 @@ ListItem.displayName = "ListItem";
     
 
   
+

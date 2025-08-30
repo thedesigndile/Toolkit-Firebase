@@ -26,7 +26,8 @@
     --ring: 224 82% 53%;
 
     --brand-blue-raw: 224 82% 53%; /* #2563EB */
-    --brand-dark-blue-raw: 224 82% 45%; /* Darker Blue */
+    --brand-dark-blue-raw: 224 82% 45%; /* Darker Blue for gradient */
+    --brand-darker-blue-raw: 224 82% 35%; /* Even darker for gradient */
     --brand-purple-raw: 257 90% 66%; /* #8B5CF6 */
     --brand-pink-raw: 330 89% 66%;
     --brand-orange-raw: 25 95% 53%; /* #F97316 */
@@ -36,6 +37,7 @@
 
     --brand-blue: hsl(var(--brand-blue-raw));
     --brand-dark-blue: hsl(var(--brand-dark-blue-raw));
+    --brand-darker-blue: hsl(var(--brand-darker-blue-raw));
     --brand-purple: hsl(var(--brand-purple-raw));
     --brand-pink: hsl(var(--brand-pink-raw));
     --brand-orange: hsl(var(--brand-orange-raw));
@@ -1185,6 +1187,16 @@ border-radius: 12px;
 @apply bg-black/20 backdrop-blur-sm border border-white/20;
 }
 
+.glass-nav-button {
+  @apply bg-black/20 text-white backdrop-blur-sm border border-white/20 transition-all duration-300 rounded-xl;
+}
+
+.hover\:bg-gradient-glass:hover {
+  background-image: linear-gradient(to right, hsl(var(--brand-dark-blue-raw) / 0.5), hsl(var(--brand-darker-blue-raw) / 0.5));
+  @apply border-white/30;
+}
+
+
 /* Enhanced Neumorphism */
 .neumorphic-inset {
 box-shadow: inset 3px 3px 6px rgba(0,0,0,0.1), inset -3px -3px 6px rgba(255,255,255,0.8);
@@ -1235,3 +1247,4 @@ box-shadow: 0 0 20px rgba(139, 92, 246, 0.4), 0 0 40px rgba(139, 92, 246, 0.2);
     
 
   
+
