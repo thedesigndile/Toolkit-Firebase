@@ -72,7 +72,7 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
 
                     <Card
                         className={cn(
-                            "cursor-pointer transition-all duration-300 relative overflow-hidden bg-card/50 backdrop-blur-sm h-full border-0 shadow-none flex flex-col justify-between group-hover:bg-card/80",
+                            "cursor-pointer transition-all duration-300 relative overflow-hidden h-full border-0 shadow-none flex flex-col justify-between group-hover:bg-card",
                         )}
                     >
                         <CardContent className="p-0 flex flex-col items-center text-center flex-1 justify-center relative z-10">

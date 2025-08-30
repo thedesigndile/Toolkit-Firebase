@@ -5,7 +5,7 @@ import { tools } from '@/lib/tools';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { UploadCloud, File, X, Download, ImageIcon } from 'lucide-react';
+import { UploadCloud, File, X, Download, ImageIcon, Sparkles, Zap } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -15,6 +15,147 @@ import { Footer } from '@/components/footer';
 import { useProgress } from '@/components/progress-provider';
 import { ProgressDisplay } from '@/components/progress-display';
 import { convertPdfToWord } from '@/app/actions';
+import { TextToSpeechComponent } from '@/components/tools/text-to-speech';
+import { PasswordGenerator } from '@/components/tools/password-generator';
+import { VoiceRecorderComponent } from '@/components/tools/voice-recorder';
+import { motion, useSpring } from 'framer-motion';
+import styled from 'styled-components';
+import { ParticleBackground, FloatingElements } from '@/components/particle-background';
+import { useAccessibility, AccessibleButton } from '@/components/accessibility-provider';
+
+// Enhanced Styled Components
+const AnimatedCard = styled(motion.div)`
+  background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  }
+`;
+
+const GlassmorphicContainer = styled(motion.div)`
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0%, 100% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
+  }
+`;
+
+const EnhancedButton = styled(motion.button)`
+  background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
+  border: none;
+  border-radius: 12px;
+  padding: 1rem 2rem;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+  }
+
+  &:hover::before {
+    left: 100%;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+`;
+
+const FloatingParticles = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 70%, transparent 100%);
+    animation: float-particle 8s ease-in-out infinite;
+  }
+
+  &::before {
+    width: 40px;
+    height: 40px;
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+  }
+
+  &::after {
+    width: 30px;
+    height: 30px;
+    top: 60%;
+    right: 15%;
+    animation-delay: 4s;
+  }
+
+  @keyframes float-particle {
+    0%, 100% {
+      transform: translateY(0px) translateX(0px) rotate(0deg);
+      opacity: 0.3;
+    }
+    25% {
+      transform: translateY(-20px) translateX(10px) rotate(90deg);
+      opacity: 0.6;
+    }
+    50% {
+      transform: translateY(-10px) translateX(-5px) rotate(180deg);
+      opacity: 0.4;
+    }
+    75% {
+      transform: translateY(-25px) translateX(15px) rotate(270deg);
+      opacity: 0.7;
+    }
+  }
+`;
 
 type ImageFormat = "png" | "jpeg" | "webp";
 
@@ -30,6 +171,8 @@ const fileToDataUri = (file: File): Promise<string> => {
 
 export function ToolPageClient({ params }: { params: { slug: string } }): JSX.Element | null | undefined {
   // All hooks must be called before any early returns
+  const { announceToScreenReader, reducedMotion } = useAccessibility();
+
   const tool = useMemo(() => {
     const foundTool = tools.find(t => t.name.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and') === params.slug);
     return foundTool;
@@ -103,9 +246,15 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
       const validFiles = validateFiles(Array.from(event.target.files));
       if (validFiles.length > 0) {
         setFiles(validFiles);
+        announceToScreenReader(
+          `Successfully uploaded ${validFiles.length} file${validFiles.length > 1 ? 's' : ''}: ${validFiles.map(f => f.name).join(', ')}`,
+          'polite'
+        );
+      } else {
+        announceToScreenReader('No valid files were uploaded. Please check the file format and try again.', 'assertive');
       }
     }
-  }, [validateFiles, setFiles]);
+  }, [validateFiles, setFiles, announceToScreenReader]);
 
   const handleDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -117,13 +266,20 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
       const validFiles = validateFiles(Array.from(event.dataTransfer.files));
       if (validFiles.length > 0) {
         setFiles(validFiles);
+        announceToScreenReader(
+          `Successfully uploaded ${validFiles.length} file${validFiles.length > 1 ? 's' : ''} via drag and drop: ${validFiles.map(f => f.name).join(', ')}`,
+          'polite'
+        );
+      } else {
+        announceToScreenReader('No valid files were dropped. Please check the file format and try again.', 'assertive');
       }
     }
-  }, [validateFiles, setFiles]);
+  }, [validateFiles, setFiles, announceToScreenReader]);
 
   const removeFile = useCallback((fileName: string) => {
     setFiles(prevFiles => prevFiles.filter(f => f.name !== fileName));
-  }, [setFiles]);
+    announceToScreenReader(`Removed file: ${fileName}`, 'polite');
+  }, [setFiles, announceToScreenReader]);
 
   const clearAllFiles = useCallback(() => {
     setFiles([]);
@@ -284,26 +440,96 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
   );
 
   const renderFileBasedUI = () => {
+    const scale = useSpring(1);
+
     return (
       <>
         {status !== 'idle' ? (
           <ProgressDisplay />
         ) : (
-          <Card>
-            <CardContent className="pt-6">
-              <div
-                className="border-2 border-dashed border-border rounded-lg p-8 text-center cursor-pointer hover:border-accent/40 dark:hover:border-accent/50 transition-colors"
+          <GlassmorphicContainer
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, type: 'spring' }}
+            className="glass neumorphic max-w-4xl w-full mx-auto"
+          >
+            <FloatingParticles />
+            <div className="relative z-10">
+              <motion.div
+                className="text-center mb-8"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                <motion.div
+                  className="inline-flex items-center justify-center p-4 bg-accent/10 dark:bg-accent/20 rounded-full mb-4"
+                  whileHover={{ rotate: 360, scale: 1.1 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <Icon className="h-12 w-12 text-accent" />
+                </motion.div>
+                <motion.h2
+                  className="text-3xl font-bold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent"
+                  animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+                  transition={{ duration: 5, repeat: Infinity }}
+                >
+                  {tool.name}
+                </motion.h2>
+                <motion.p
+                  className="text-muted-foreground mt-2 text-lg"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  {tool.description}
+                </motion.p>
+              </motion.div>
+
+              <motion.div
+                className="border-2 border-dashed border-accent/40 dark:border-accent/50 rounded-xl p-12 text-center cursor-pointer hover:border-accent/60 dark:hover:border-accent/70 transition-all duration-300 hover:shadow-lg hover:shadow-accent/20 focus-within:ring-4 focus-within:ring-accent/20"
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current?.click()}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    fileInputRef.current?.click();
+                  }
+                }}
+                whileHover={{ scale: 1.02, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}
+                whileTap={{ scale: 0.98 }}
+                style={{ transform: scale.to(s => `scale(${s})`) }}
+                onHoverStart={() => scale.set(1.05)}
+                onHoverEnd={() => scale.set(1)}
+                role="button"
+                tabIndex={0}
+                aria-label={`Upload files for ${tool?.name}. Supported formats: ${supportedFormats}`}
+                aria-describedby="upload-instructions"
               >
-                <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" />
-                <p className="mt-4 text-sm text-muted-foreground">
+                <motion.div
+                  animate={reducedMotion ? {} : { y: [0, -10, 0] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  <UploadCloud className="mx-auto h-16 w-16 text-accent mb-4" aria-hidden="true" />
+                </motion.div>
+                <motion.p
+                  className="text-lg font-medium mb-2"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.6 }}
+                  id="upload-instructions"
+                >
                   Drag and drop files here, or click to select files
-                </p>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  Supported: {supportedFormats}
-                </p>
+                </motion.p>
+                <motion.p
+                  className="text-sm text-muted-foreground"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.8 }}
+                  aria-label={`Supported file formats: ${supportedFormats}`}
+                >
+                  Supported formats: {supportedFormats}
+                </motion.p>
                 <input
                   ref={fileInputRef}
                   id="file-upload"
@@ -312,61 +538,143 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
                   onChange={handleFileChange}
                   accept={fileAccept}
                   multiple
+                  aria-label="File upload input"
                 />
-              </div>
+              </motion.div>
 
               {files.length > 0 && (
-                <div className="mt-6">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-lg font-medium">
-                      Uploaded Files ({files.length}):
-                    </h3>
+                <motion.div
+                  className="mt-8"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <motion.h3
+                      className="text-xl font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                    >
+                      Uploaded Files ({files.length})
+                    </motion.h3>
                     {files.length > 1 && (
-                      <Button variant="outline" size="sm" onClick={clearAllFiles}>
-                        Clear All
-                      </Button>
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={clearAllFiles}
+                          className="glass-button hover:glow-accent"
+                        >
+                          Clear All
+                        </Button>
+                      </motion.div>
                     )}
                   </div>
-                  <ul className="divide-y divide-border border rounded-md">
-                    {files.map(file => (
-                      <li key={`${file.name}-${file.lastModified}`} className="flex items-center justify-between p-3">
+                  <motion.ul
+                    className="space-y-2"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                  >
+                    {files.map((file, index) => (
+                      <motion.li
+                        key={`${file.name}-${file.lastModified}`}
+                        className="flex items-center justify-between p-4 glass-card rounded-lg hover:glow-primary transition-all duration-300"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.1 * index }}
+                        whileHover={{ scale: 1.02 }}
+                      >
                         <div className="flex items-center gap-3">
-                          <File className="h-5 w-5 text-muted-foreground" strokeWidth={1.5} />
-                          <span className="text-sm font-medium">{file.name}</span>
-                          <span className="text-xs text-muted-foreground">
-                            ({(file.size / 1024 / 1024).toFixed(2)} MB)
-                          </span>
+                          <motion.div
+                            whileHover={{ rotate: 360 }}
+                            transition={{ duration: 0.5 }}
+                          >
+                            <File className="h-6 w-6 text-accent" strokeWidth={1.5} />
+                          </motion.div>
+                          <div>
+                            <span className="text-sm font-medium">{file.name}</span>
+                            <span className="text-xs text-muted-foreground block">
+                              ({(file.size / 1024 / 1024).toFixed(2)} MB)
+                            </span>
+                          </div>
                         </div>
-                        <Button variant="ghost" size="icon" onClick={() => removeFile(file.name)}>
-                          <X className="h-4 w-4" strokeWidth={1.5} />
-                        </Button>
-                      </li>
+                        <motion.div
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                        >
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => removeFile(file.name)}
+                            className="hover:bg-red-500/20 hover:text-red-500"
+                          >
+                            <X className="h-4 w-4" strokeWidth={1.5} />
+                          </Button>
+                        </motion.div>
+                      </motion.li>
                     ))}
-                  </ul>
+                  </motion.ul>
                   {files.length > 1 && (
-                    <div className="mt-4 text-center">
-                      <p className="text-sm text-muted-foreground">
-                        Note: Currently processing only the first file. Multi-file support coming soon.
+                    <motion.div
+                      className="mt-4 text-center"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.6 }}
+                    >
+                      <p className="text-sm text-muted-foreground bg-yellow-500/10 p-3 rounded-lg">
+                        ⚠️ Note: Currently processing only the first file. Multi-file support coming soon.
                       </p>
-                    </div>
+                    </motion.div>
                   )}
-                </div>
+                </motion.div>
               )}
 
               {renderToolOptions()}
 
-              <div className="mt-8 text-center">
-                <Button
-                  size="lg"
-                  className="bg-accent hover:bg-accent/90 text-accent-foreground"
-                  disabled={files.length === 0 || status !== 'idle'}
+              <motion.div
+                className="mt-12 text-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+              >
+                <AccessibleButton
                   onClick={handleProcessFiles}
+                  disabled={files.length === 0 || status !== 'idle'}
+                  loading={status === 'processing'}
+                  variant="primary"
+                  size="lg"
+                  className="px-8 py-4 text-lg font-semibold bg-gradient-to-r from-accent to-primary hover:from-accent/90 hover:to-primary/90 text-white rounded-xl shadow-lg hover:shadow-xl glow-accent"
+                  ariaLabel={files.length === 0 ? "No files selected. Please upload a file first." : `Process ${files.length} file${files.length > 1 ? 's' : ''} with ${tool?.name}`}
+                  ariaDescribedBy="processing-status"
                 >
-                  Process File
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+                  <motion.div
+                    className="flex items-center gap-2"
+                    whileHover={{ gap: 8 }}
+                  >
+                    <Zap className="h-5 w-5" aria-hidden="true" />
+                    {status === 'processing' ? 'Processing...' : 'Process File'}
+                    <Sparkles className="h-4 w-4" aria-hidden="true" />
+                  </motion.div>
+                </AccessibleButton>
+
+                {/* Status announcement for screen readers */}
+                <div
+                  id="processing-status"
+                  className="sr-only"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
+                  {status === 'processing' && "Processing your files, please wait..."}
+                  {status === 'complete' && "File processing completed successfully"}
+                  {status === 'error' && `Error: ${error}`}
+                </div>
+              </motion.div>
+            </div>
+          </GlassmorphicContainer>
         )}
       </>
     );
@@ -423,10 +731,24 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
   const renderToolUI = () => {
     if (!tool) return <p>Tool not found.</p>;
 
+    // Handle standalone tools that don't need file upload
+    if (tool.isStandalone) {
+      if (tool.name === 'Text to Speech') {
+        return <TextToSpeechComponent />;
+      }
+      if (tool.name === 'Password Generator') {
+        return <PasswordGenerator />;
+      }
+      if (tool.name === 'Voice Recorder') {
+        return <VoiceRecorderComponent />;
+      }
+      // Add other standalone tools here
+    }
+
     if (tool.name === 'PDF to JPG' && status === 'complete' && convertedImages.length > 0) {
       return renderPdfToImageResults();
     }
-    
+
     if (status === 'complete' && processedUrl) {
       return <ProgressDisplay />;
     }
@@ -435,18 +757,42 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-background pt-24">
-      <main className="flex-1">
-        <div className="container mx-auto px-4 py-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center justify-center p-4 bg-accent/10 dark:bg-accent/20 rounded-full mb-4">
-                <Icon className="h-12 w-12 text-accent" />
-              </div>
-              <h1 className="text-4xl font-semibold">{tool.name}</h1>
-              <p className="text-muted-foreground mt-2 text-lg">{tool.description}</p>
-            </div>
+    <div className="flex min-h-screen flex-col bg-gradient-to-br from-background via-background to-accent/5 pt-24 relative overflow-hidden">
+      {/* Advanced Background Effects */}
+      <ParticleBackground />
+      <FloatingElements />
 
+      {/* Enhanced gradient overlays */}
+      <div className="absolute inset-0 bg-gradient-mesh opacity-20"></div>
+      <motion.div
+        className="absolute top-20 left-10 w-72 h-72 bg-accent/10 rounded-full blur-3xl"
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.6, 0.3]
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+      <motion.div
+        className="absolute bottom-20 right-10 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
+        animate={{
+          scale: [1.2, 1, 1.2],
+          opacity: [0.4, 0.7, 0.4]
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 2
+        }}
+      />
+
+      <main className="flex-1 relative z-10">
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-6xl mx-auto">
             {renderToolUI()}
           </div>
         </div>

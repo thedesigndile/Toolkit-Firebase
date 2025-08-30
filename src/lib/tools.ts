@@ -92,6 +92,7 @@ export const tools: Tool[] = [
   { name: 'Trim Audio', description: 'Cut a section from an audio file.', icon: Scissors, category: 'Audio Tools', categoryIcon: AudioWaveform },
   { name: 'Merge Audio', description: 'Join multiple audio tracks into one.', icon: Combine, category: 'Audio Tools', categoryIcon: AudioWaveform },
   { name: 'Voice Recorder', description: 'Record audio directly from your microphone.', icon: Mic, category: 'Audio Tools', categoryIcon: AudioWaveform, isStandalone: true, isNew: true },
+  { name: 'Text to Speech', description: 'Convert text into natural-sounding speech.', icon: Speaker, category: 'Audio Tools', categoryIcon: AudioWaveform, isStandalone: true, isNew: true },
 
   // Utility Tools
   { name: 'Password Generator', description: 'Create strong, secure passwords.', icon: KeyRound, category: 'Utility Tools', categoryIcon: TerminalSquare, isStandalone: true },

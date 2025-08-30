@@ -63,70 +63,181 @@ export function Header() {
     },
   };
 
+  const headerVariants = {
+    hidden: { y: -100, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 20,
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const navItemVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 120,
+        damping: 15
+      }
+    }
+  };
+
   return (
     <>
-      <header
+      <motion.header
         className={cn(
-          "hidden md:flex items-center justify-between w-full max-w-6xl mx-auto p-2 rounded-full header-bg shadow-lg"
+          "hidden md:flex items-center justify-between w-full max-w-6xl mx-auto p-3 rounded-2xl glass-card shadow-2xl border border-white/20"
         )}
+        variants={headerVariants}
+        initial="hidden"
+        animate="visible"
       >
-        <div className="flex-1 flex justify-start">
-          <Link href="/" aria-label="Go to homepage" className="flex items-center gap-3">
-            <ModernLogo />
-            <span className={cn(fontLogo.className, "font-bold text-3xl text-white tracking-wider whitespace-nowrap")}>TOOL KIT</span>
+        <motion.div
+          className="flex-1 flex justify-start"
+          variants={navItemVariants}
+        >
+          <Link href="/" aria-label="Go to homepage" className="flex items-center gap-3 group">
+            <motion.div
+              whileHover={{ rotate: 360, scale: 1.1 }}
+              transition={{ duration: 0.6 }}
+            >
+              <ModernLogo />
+            </motion.div>
+            <motion.span
+              className={cn(fontLogo.className, "font-bold text-3xl bg-gradient-to-r from-white via-accent to-white bg-clip-text text-transparent tracking-wider whitespace-nowrap")}
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              TOOL KIT
+            </motion.span>
           </Link>
-        </div>
+        </motion.div>
         
-        <div className="flex-1 flex justify-center">
+        <motion.div
+          className="flex-1 flex justify-center"
+          variants={navItemVariants}
+        >
           <NavigationMenu>
-            <NavigationMenuList className="gap-6">
-              {navItems.map((item) => (
-                 <NavigationMenuItem key={item.name}>
-                    <NavigationMenuTrigger className="font-semibold text-sm bg-transparent text-white px-3 py-2 hover:bg-gradient-blue hover:text-white focus:bg-gradient-blue focus:text-white data-[state=open]:bg-gradient-blue data-[state=open]:text-white transition-colors duration-300 rounded-full">
-                        {item.name}
-                    </NavigationMenuTrigger>
-                    {item.subItems && (
-                        <NavigationMenuContent>
-                        <ul className={cn("grid gap-3 p-4", {
-                            "w-[400px] md:w-[500px] md:grid-cols-2 lg:w-[600px]": true
-                        })}>
-                            {item.subItems.map((tool) => (
-                            <ListItem
-                                key={tool.name}
-                                tool={tool}
-                                href={getToolUrl(tool.name)}
-                            />
-                            ))}
-                        </ul>
-                        </NavigationMenuContent>
-                    )}
-                </NavigationMenuItem>
-              ))}
-               <NavigationMenuItem>
-                 <Link href="/tools" legacyBehavior passHref>
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "font-semibold text-sm bg-transparent text-white px-3 py-2 hover:bg-gradient-blue hover:text-white focus:bg-gradient-blue focus:text-white transition-colors duration-300 rounded-full")}>
-                      All Tools
-                    </NavigationMenuLink>
-                  </Link>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
-        </div>
+            <NavigationMenuList className="gap-8">
+              {navItems.map((item, index) => (
+                  <motion.div
+                    key={item.name}
+                    variants={navItemVariants}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <NavigationMenuItem>
+                       <NavigationMenuTrigger className="font-semibold text-sm bg-transparent text-white px-4 py-3 hover:bg-gradient-to-r hover:from-accent/20 hover:to-primary/20 hover:text-white focus:bg-gradient-to-r focus:from-accent/20 focus:to-primary/20 focus:text-white data-[state=open]:bg-gradient-to-r data-[state=open]:from-accent/20 data-[state=open]:to-primary/20 data-[state=open]:text-white transition-all duration-300 rounded-xl glass-button border border-white/10 hover:border-white/30">
+                         <motion.span
+                           whileHover={{ scale: 1.05 }}
+                           transition={{ type: "spring", stiffness: 400 }}
+                         >
+                           {item.name}
+                         </motion.span>
+                       </NavigationMenuTrigger>
+                       {item.subItems && (
+                           <NavigationMenuContent>
+                           <motion.ul
+                             className={cn("grid gap-4 p-6 glass-card rounded-xl border border-white/20", {
+                                 "w-[400px] md:w-[500px] md:grid-cols-2 lg:w-[600px]": true
+                             })}
+                             initial={{ opacity: 0, y: 20 }}
+                             animate={{ opacity: 1, y: 0 }}
+                             transition={{ duration: 0.3 }}
+                           >
+                               {item.subItems.map((tool, toolIndex) => (
+                               <motion.div
+                                 key={tool.name}
+                                 initial={{ opacity: 0, x: -20 }}
+                                 animate={{ opacity: 1, x: 0 }}
+                                 transition={{ delay: toolIndex * 0.1 }}
+                               >
+                                 <ListItem
+                                     tool={tool}
+                                     href={getToolUrl(tool.name)}
+                                 />
+                               </motion.div>
+                               ))}
+                           </motion.ul>
+                         </NavigationMenuContent>
+                       )}
+                   </NavigationMenuItem>
+                  </motion.div>
+               ))}
+                <motion.div
+                  variants={navItemVariants}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <NavigationMenuItem>
+                    <Link href="/tools" legacyBehavior passHref>
+                       <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "font-semibold text-sm bg-transparent text-white px-4 py-3 hover:bg-gradient-to-r hover:from-accent/20 hover:to-primary/20 hover:text-white focus:bg-gradient-to-r focus:from-accent/20 focus:to-primary/20 focus:text-white transition-all duration-300 rounded-xl glass-button border border-white/10 hover:border-white/30")}>
+                         <motion.span
+                           whileHover={{ scale: 1.05 }}
+                           transition={{ type: "spring", stiffness: 400 }}
+                         >
+                           All Tools
+                         </motion.span>
+                       </NavigationMenuLink>
+                     </Link>
+                 </NavigationMenuItem>
+                </motion.div>
+             </NavigationMenuList>
+           </NavigationMenu>
+        </motion.div>
 
-        <div className="flex-1 flex justify-end items-center gap-2">
-          <ThemeToggle className="text-white hover:text-white/90 hover:bg-white/10 rounded-full w-10 h-10" />
-          <Button variant="ghost" className="text-white hover:text-white/90 hover:bg-white/10 rounded-full">
-            Log In
-          </Button>
-          <Button className="bg-gradient-blue hover:bg-gradient-blue-hover text-white rounded-full">
-            Get Started
-          </Button>
-        </div>
-      </header>
+        <motion.div
+          className="flex-1 flex justify-end items-center gap-3"
+          variants={navItemVariants}
+        >
+          <motion.div
+            whileHover={{ scale: 1.1, rotate: 180 }}
+            whileTap={{ scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <ThemeToggle className="text-white hover:text-white/90 hover:bg-white/10 rounded-full w-11 h-11 glass-button border border-white/20" />
+          </motion.div>
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Button
+              variant="ghost"
+              className="text-white hover:text-white/90 hover:bg-white/10 rounded-xl glass-button border border-white/20 px-4 py-2 font-medium"
+            >
+              Log In
+            </Button>
+          </motion.div>
+          <motion.div
+            whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(0,0,0,0.2)" }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Button className="bg-gradient-to-r from-accent to-primary hover:from-accent/90 hover:to-primary/90 text-white rounded-xl px-6 py-2 font-semibold shadow-lg hover:shadow-xl glow-accent">
+              Get Started
+            </Button>
+          </motion.div>
+        </motion.div>
+      </motion.header>
 
       {/* Mobile Header */}
-      <div className="md:hidden flex justify-between items-center w-full px-4 py-2 bg-background/80 backdrop-blur-lg border-b">
-        <div className="flex-1 flex justify-start">
+      <motion.div
+        className="md:hidden flex justify-between items-center w-full px-4 py-3 glass-card border-b border-white/20"
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 100 }}
+      >
+        <motion.div
+          className="flex-1 flex justify-start"
+          whileTap={{ scale: 0.95 }}
+        >
           <Button
               variant="ghost"
               size="icon"
@@ -134,21 +245,37 @@ export function Header() {
               aria-label="Open navigation menu"
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-navigation"
-              className="w-10 h-10"
+              className="w-11 h-11 glass-button border border-white/20"
           >
               <Menu className="h-6 w-6" aria-hidden="true" />
           </Button>
-        </div>
-        <div className="flex justify-center">
+        </motion.div>
+        <motion.div
+          className="flex justify-center"
+          whileHover={{ scale: 1.05 }}
+        >
             <Link href="/" aria-label="Go to homepage" className="flex items-center gap-2">
-                <ModernLogo />
-                <span className={cn(fontLogo.className, "font-bold text-2xl text-foreground tracking-wider whitespace-nowrap")}>TOOL KIT</span>
+                <motion.div
+                  whileHover={{ rotate: 360 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <ModernLogo />
+                </motion.div>
+                <motion.span
+                  className={cn(fontLogo.className, "font-bold text-2xl bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent tracking-wider whitespace-nowrap")}
+                  whileHover={{ scale: 1.05 }}
+                >
+                  TOOL KIT
+                </motion.span>
             </Link>
-        </div>
-        <div className="flex-1 flex justify-end">
-          <ThemeToggle className="w-10 h-10" aria-label="Toggle theme" />
-        </div>
-      </div>
+        </motion.div>
+        <motion.div
+          className="flex-1 flex justify-end"
+          whileHover={{ scale: 1.1 }}
+        >
+          <ThemeToggle className="w-11 h-11 glass-button border border-white/20" aria-label="Toggle theme" />
+        </motion.div>
+      </motion.div>
 
       <AnimatePresence>
         {isMobileMenuOpen && (
@@ -156,28 +283,48 @@ export function Header() {
             initial={{ opacity: 0, x: "-100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "-100%" }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden fixed inset-0 bg-background z-50 flex flex-col bg-mobile-menu-gradient"
+            transition={{ duration: 0.4, ease: "easeInOut", type: "spring", stiffness: 100 }}
+            className="md:hidden fixed inset-0 glass-card z-50 flex flex-col"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile navigation menu"
             id="mobile-navigation"
           >
-            <div className="flex justify-between items-center p-4 border-b">
+            <motion.div
+              className="flex justify-between items-center p-6 border-b border-white/20"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+            >
               <Link href="/" onClick={() => setIsMobileMenuOpen(false)} aria-label="Go to homepage" className="flex items-center gap-3">
-                <ModernLogo />
-                 <span className={cn(fontLogo.className, "font-bold text-2xl text-foreground tracking-wider whitespace-nowrap")}>TOOL KIT</span>
+                <motion.div
+                  whileHover={{ rotate: 360 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <ModernLogo />
+                </motion.div>
+                  <motion.span
+                    className={cn(fontLogo.className, "font-bold text-2xl bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent tracking-wider whitespace-nowrap")}
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    TOOL KIT
+                  </motion.span>
               </Link>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setIsMobileMenuOpen(false)}
-                aria-label="Close navigation menu"
-                className="w-10 h-10"
+              <motion.div
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
               >
-                <X className="h-6 w-6" aria-hidden="true" />
-              </Button>
-            </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  aria-label="Close navigation menu"
+                  className="w-11 h-11 glass-button border border-white/20"
+                >
+                  <X className="h-6 w-6" aria-hidden="true" />
+                </Button>
+              </motion.div>
+            </motion.div>
             
             <motion.div
               className="flex-1 overflow-y-auto"
@@ -240,34 +387,56 @@ export function Header() {
             </motion.div>
 
             <motion.div
-              className="p-4 border-t"
+              className="p-6 border-t border-white/20"
               variants={mobileMenuContainerVariants}
               initial="hidden"
               animate="visible"
             >
-               <motion.div className="grid grid-cols-2 gap-2 mb-4" variants={mobileMenuItemVariants}>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="w-full"
-                    aria-label="Log in to your account"
-                  >
-                    Log In
-                  </Button>
-                  <Button
-                    size="lg"
-                    className="bg-gradient-blue hover:bg-gradient-blue-hover text-white w-full"
-                    aria-label="Get started with our tools"
-                  >
-                    Get Started
-                  </Button>
-              </motion.div>
+               <motion.div
+                 className="grid grid-cols-2 gap-3 mb-6"
+                 variants={mobileMenuItemVariants}
+               >
+                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                     <Button
+                       variant="outline"
+                       size="lg"
+                       className="w-full glass-button border border-white/20 hover:glow-primary"
+                       aria-label="Log in to your account"
+                     >
+                       Log In
+                     </Button>
+                   </motion.div>
+                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                     <Button
+                       size="lg"
+                       className="bg-gradient-to-r from-accent to-primary hover:from-accent/90 hover:to-primary/90 text-white w-full glow-accent"
+                       aria-label="Get started with our tools"
+                     >
+                       Get Started
+                     </Button>
+                   </motion.div>
+               </motion.div>
 
-              <motion.div className="flex justify-center gap-6" variants={mobileMenuItemVariants}>
-                  <Link href="#" className="text-muted-foreground hover:text-foreground"><Twitter /></Link>
-                  <Link href="#" className="text-muted-foreground hover:text-foreground"><Facebook /></Link>
-                  <Link href="#" className="text-muted-foreground hover:text-foreground"><Instagram /></Link>
-              </motion.div>
+               <motion.div
+                 className="flex justify-center gap-8"
+                 variants={mobileMenuItemVariants}
+               >
+                   <motion.div whileHover={{ scale: 1.2, rotate: 360 }} transition={{ duration: 0.3 }}>
+                     <Link href="#" className="text-muted-foreground hover:text-accent glass-button p-3 rounded-full border border-white/20">
+                       <Twitter />
+                     </Link>
+                   </motion.div>
+                   <motion.div whileHover={{ scale: 1.2, rotate: 360 }} transition={{ duration: 0.3 }}>
+                     <Link href="#" className="text-muted-foreground hover:text-accent glass-button p-3 rounded-full border border-white/20">
+                       <Facebook />
+                     </Link>
+                   </motion.div>
+                   <motion.div whileHover={{ scale: 1.2, rotate: 360 }} transition={{ duration: 0.3 }}>
+                     <Link href="#" className="text-muted-foreground hover:text-accent glass-button p-3 rounded-full border border-white/20">
+                       <Instagram />
+                     </Link>
+                   </motion.div>
+               </motion.div>
             </motion.div>
           </motion.div>
         )}
@@ -290,31 +459,47 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
     return (
       <li>
         <NavigationMenuLink asChild>
-          <a
+          <motion.a
             ref={ref}
             className={cn(
-              "group block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors",
-              "bg-transparent hover:bg-accent/10 focus:bg-accent/10",
+              "group block select-none space-y-1 rounded-lg p-4 leading-none no-underline outline-none transition-all duration-300",
+              "glass-card hover:glow-primary border border-white/10 hover:border-white/30",
               className
             )}
+            whileHover={{
+              scale: 1.02,
+              boxShadow: "0 10px 30px rgba(0,0,0,0.1)"
+            }}
+            whileTap={{ scale: 0.98 }}
             {...props}
           >
-            <div className="flex items-start gap-3">
+            <div className="flex items-start gap-4">
               {!isStatic && Icon && (
-                <div className="p-1 rounded-md bg-transparent">
-                  <motion.div whileHover={{ scale: 1.1 }}>
-                    <Icon className="h-10 w-10 transition-all duration-300 ease-in-out text-brand-blue group-hover:text-brand-purple" />
-                  </motion.div>
-                </div>
+                <motion.div
+                  className="p-2 rounded-lg glass-button border border-white/20"
+                  whileHover={{ rotate: 360, scale: 1.1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Icon className="h-8 w-8 text-accent group-hover:text-primary transition-colors duration-300" />
+                </motion.div>
               )}
               <div className="flex-1">
-                <div className="text-sm font-semibold leading-none group-hover:font-semibold">{title ?? tool?.name}</div>
-                <p className="line-clamp-2 text-sm leading-snug text-muted-foreground mt-1">
+                <motion.div
+                  className="text-sm font-semibold leading-none group-hover:font-bold text-foreground"
+                  whileHover={{ scale: 1.02 }}
+                >
+                  {title ?? tool?.name}
+                </motion.div>
+                <motion.p
+                  className="line-clamp-2 text-sm leading-snug text-muted-foreground mt-2 group-hover:text-foreground/80"
+                  initial={{ opacity: 0.8 }}
+                  whileHover={{ opacity: 1 }}
+                >
                   {children ?? tool?.description}
-                </p>
+                </motion.p>
               </div>
             </div>
-          </a>
+          </motion.a>
         </NavigationMenuLink>
       </li>
     );

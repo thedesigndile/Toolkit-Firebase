@@ -1,37 +1,39 @@
-'use server';
+// Static version for deployment - AI features will be implemented with Firebase Functions later
 
-import { recommendTools, type RecommendToolsInput } from '@/ai/flows/recommend-tools';
-import { websiteToPdf } from '@/ai/flows/website-to-pdf';
-import { pdfToWord } from '@/ai/flows/pdf-to-word';
+export async function getRecommendedTools(data: { pastTools: string[] }): Promise<{recommendations?: string[], error?: string}> {
+  // Return static recommendations for now
+  const allTools = [
+    'PDF to Word', 'Word to PDF', 'PDF to JPG', 'Image to PDF',
+    'Website to PDF', 'Background Remover', 'Voice Recorder', 'Password Generator'
+  ];
 
-export async function getRecommendedTools(data: RecommendToolsInput): Promise<{recommendations?: string[], error?: string}> {
-  try {
-    const result = await recommendTools(data);
-    return { recommendations: result.recommendations };
-  } catch (error) {
-    console.error('AI Recommendation Error:', error);
-    return { error: 'Sorry, we couldn\'t generate recommendations at this time. Please try again later.' };
-  }
+  const recommendations = allTools
+    .filter(tool => !data.pastTools.includes(tool))
+    .slice(0, 3);
+
+  return { recommendations };
 }
 
-
 export async function getWebsiteAsPdf(url: string): Promise<{pdf?: string, error?: string}> {
-    try {
-        const result = await websiteToPdf({ url });
-        return { pdf: result.pdfDataUri };
-    } catch(e) {
-        console.error("Website to PDF error", e);
-        return { error: `Sorry, we couldn't convert this website to PDF. Please check the URL and try again.`}
-    }
+  // Placeholder for static deployment
+  return {
+    error: 'Website to PDF conversion is currently unavailable. This feature will be available soon with our backend upgrade.'
+  };
 }
 
 export async function convertPdfToWord(pdfDataUri: string): Promise<{docx?: string, error?: string}> {
   try {
+    // Import the PDF to Word flow dynamically to avoid issues in static deployment
+    const { pdfToWord } = await import('@/ai/flows/pdf-to-word');
+
     const result = await pdfToWord({ pdfDataUri });
+
     return { docx: result.docxDataUri };
-  } catch(e) {
-    console.error("PDF to Word error", e);
-    const errorMessage = e instanceof Error ? e.message : 'An unknown error occurred.';
-    return { error: `Sorry, we couldn't convert this PDF to Word. ${errorMessage}` }
+  } catch (error) {
+    console.error('PDF to Word conversion error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+    return {
+      error: `PDF to Word conversion failed: ${errorMessage}`
+    };
   }
 }

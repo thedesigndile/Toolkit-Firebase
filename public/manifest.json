@@ -1,0 +1,90 @@
+{
+  "name": "Offline Toolkit - Advanced PDF and Document Tools",
+  "short_name": "Offline Toolkit",
+  "description": "A comprehensive offline toolkit with PDF tools, text-to-speech, password generator, and more. Works completely offline.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563EB",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["productivity", "utilities", "business"],
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "PDF to Word",
+      "short_name": "PDF→Word",
+      "description": "Convert PDF files to editable Word documents",
+      "url": "/tools/pdf-to-word",
+      "icons": [
+        {
+          "src": "/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Text to Speech",
+      "short_name": "TTS",
+      "description": "Convert text to natural-sounding speech",
+      "url": "/tools/text-to-speech",
+      "icons": [
+        {
+          "src": "/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Password Generator",
+      "short_name": "Password",
+      "description": "Generate secure passwords",
+      "url": "/tools/password-generator",
+      "icons": [
+        {
+          "src": "/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "screenshots": [
+    {
+      "src": "/screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/screenshot-narrow.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "features": [
+    "Cross Platform",
+    "Offline First",
+    "Fast",
+    "Accessible"
+  ],
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
+}
