@@ -51,7 +51,7 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
               className="block group relative h-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-2xl"
               aria-label={`Open ${tool.name} tool`}
             >
-               <Card className="h-52 sm:h-48 md:h-52 transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 overflow-hidden bg-white dark:bg-slate-900/70 border-slate-200 dark:border-slate-800 hover:border-primary/50">
+               <Card className="h-52 sm:h-48 md:h-52 transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 overflow-hidden bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-primary/50">
                   <CardContent className="flex flex-col h-full p-6 text-center justify-center items-center">
                     {tool.isNew && (
                         <motion.div
@@ -65,7 +65,7 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
                     )}
                     <div className="flex flex-col items-center text-center flex-1 justify-center relative z-10">
                       <motion.div
-                          className="mb-4 p-3 rounded-full bg-primary/10 transition-all duration-300"
+                          className="mb-4 p-3 rounded-full bg-slate-100 dark:bg-slate-800 transition-all duration-300"
                           whileHover={{
                             scale: 1.15,
                             rotate: 5,
