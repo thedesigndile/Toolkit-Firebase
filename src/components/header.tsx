@@ -132,7 +132,7 @@ export function Header() {
           variants={navItemVariants}
         >
           <NavigationMenu>
-            <NavigationMenuList className="gap-4">
+            <NavigationMenuList>
               {navItems.map((item, index) => (
                   <motion.div
                     key={item.name}
