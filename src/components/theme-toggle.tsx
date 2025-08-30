@@ -85,7 +85,7 @@ export function ThemeToggle({ className }: { className?: string }) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute right-0 top-full mt-2 w-64 glass-card rounded-lg border border-white/20 p-4 shadow-xl z-50"
+            className="absolute right-0 top-full mt-2 w-64 bg-popover rounded-lg border border-border p-4 shadow-xl z-50"
             role="menu"
             aria-label="Accessibility options"
           >
@@ -98,7 +98,6 @@ export function ThemeToggle({ className }: { className?: string }) {
                   size="sm"
                   onClick={toggleTheme}
                   aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
-                  className="glass-button"
                 >
                   <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                   <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
@@ -118,7 +117,6 @@ export function ThemeToggle({ className }: { className?: string }) {
                   aria-label={`${highContrast ? 'Disable' : 'Enable'} high contrast mode`}
                   aria-pressed={highContrast}
                   className={cn(
-                    "glass-button",
                     highContrast && "bg-accent text-accent-foreground"
                   )}
                 >
@@ -139,7 +137,6 @@ export function ThemeToggle({ className }: { className?: string }) {
                   aria-label={`${largeText ? 'Disable' : 'Enable'} large text mode`}
                   aria-pressed={largeText}
                   className={cn(
-                    "glass-button",
                     largeText && "bg-accent text-accent-foreground"
                   )}
                 >
@@ -160,7 +157,6 @@ export function ThemeToggle({ className }: { className?: string }) {
                   aria-label={`${reducedMotion ? 'Disable' : 'Enable'} reduced motion`}
                   aria-pressed={reducedMotion}
                   className={cn(
-                    "glass-button",
                     reducedMotion && "bg-accent text-accent-foreground"
                   )}
                 >
@@ -170,7 +166,7 @@ export function ThemeToggle({ className }: { className?: string }) {
             </div>
 
             {/* Keyboard shortcuts info */}
-            <div className="mt-4 pt-3 border-t border-white/20">
+            <div className="mt-4 pt-3 border-t border-border">
               <p className="text-xs text-muted-foreground">
                 <strong>Keyboard:</strong> Tab to navigate, Enter to activate
               </p>
@@ -190,3 +186,5 @@ export function ThemeToggle({ className }: { className?: string }) {
     </div>
   )
 }
+
+    

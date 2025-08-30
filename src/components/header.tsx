@@ -90,7 +90,7 @@ export function Header() {
     }
   };
 
-  const navButtonClasses = "font-semibold text-sm px-4 py-3 glass-nav-button hover:bg-gradient-glass data-[state=open]:bg-gradient-glass";
+  const navButtonClasses = "font-semibold text-sm px-4 py-3 bg-transparent text-white hover:bg-white/10 data-[state=open]:bg-white/10";
 
 
   return (
@@ -149,7 +149,7 @@ export function Header() {
                        {item.subItems && (
                            <NavigationMenuContent>
                            <motion.ul
-                             className={cn("grid gap-4 p-6 glass-card rounded-xl border border-white/20", {
+                             className={cn("grid gap-4 p-6 bg-popover rounded-xl border border-border", {
                                  "w-[400px] md:w-[500px] md:grid-cols-2 lg:w-[600px]": true
                              })}
                              initial={{ opacity: 0, y: 20 }}
@@ -206,7 +206,7 @@ export function Header() {
             whileTap={{ scale: 0.9 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <ThemeToggle className="text-white hover:text-white/90 hover:bg-white/10 rounded-full w-11 h-11 glass-button border border-white/20" />
+            <ThemeToggle className="text-white hover:text-white/90 hover:bg-white/10 rounded-full w-11 h-11 border border-white/20" />
           </motion.div>
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -214,7 +214,7 @@ export function Header() {
           >
             <Button
               variant="ghost"
-              className="text-white hover:text-white/90 hover:bg-white/10 rounded-xl glass-button border border-white/20 px-4 py-2 font-medium"
+              className="text-white hover:text-white/90 hover:bg-white/10 rounded-xl border border-white/20 px-4 py-2 font-medium"
             >
               Log In
             </Button>
@@ -248,7 +248,7 @@ export function Header() {
               aria-label="Open navigation menu"
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-navigation"
-              className="w-11 h-11 glass-button border border-white/20"
+              className="w-11 h-11 text-white hover:text-white/90 hover:bg-white/10 border border-white/20"
           >
               <Menu className="h-6 w-6" aria-hidden="true" />
           </Button>
@@ -276,7 +276,7 @@ export function Header() {
           className="flex-1 flex justify-end"
           whileHover={{ scale: 1.1 }}
         >
-          <ThemeToggle className="w-11 h-11 glass-button border border-white/20" aria-label="Toggle theme" />
+          <ThemeToggle className="w-11 h-11 text-white hover:text-white/90 hover:bg-white/10 border border-white/20" aria-label="Toggle theme" />
         </motion.div>
       </motion.div>
 
@@ -287,14 +287,14 @@ export function Header() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "-100%" }}
             transition={{ duration: 0.4, ease: "easeInOut", type: "spring", stiffness: 100 }}
-            className="md:hidden fixed inset-0 glass-card z-50 flex flex-col"
+            className="md:hidden fixed inset-0 bg-background z-50 flex flex-col"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile navigation menu"
             id="mobile-navigation"
           >
             <motion.div
-              className="flex justify-between items-center p-6 border-b border-white/20"
+              className="flex justify-between items-center p-6 border-b border-border"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
@@ -322,7 +322,7 @@ export function Header() {
                   size="icon"
                   onClick={() => setIsMobileMenuOpen(false)}
                   aria-label="Close navigation menu"
-                  className="w-11 h-11 glass-button border border-white/20"
+                  className="w-11 h-11 border"
                 >
                   <X className="h-6 w-6" aria-hidden="true" />
                 </Button>
@@ -390,7 +390,7 @@ export function Header() {
             </motion.div>
 
             <motion.div
-              className="p-6 border-t border-white/20"
+              className="p-6 border-t border-border"
               variants={mobileMenuContainerVariants}
               initial="hidden"
               animate="visible"
@@ -403,7 +403,7 @@ export function Header() {
                      <Button
                        variant="outline"
                        size="lg"
-                       className="w-full glass-button border border-white/20 hover:glow-primary"
+                       className="w-full"
                        aria-label="Log in to your account"
                      >
                        Log In
@@ -425,17 +425,17 @@ export function Header() {
                  variants={mobileMenuItemVariants}
                >
                    <motion.div whileHover={{ scale: 1.2, rotate: 360 }} transition={{ duration: 0.3 }}>
-                     <Link href="#" className="text-muted-foreground hover:text-accent glass-button p-3 rounded-full border border-white/20">
+                     <Link href="#" className="text-muted-foreground hover:text-accent p-3 rounded-full border">
                        <Twitter />
                      </Link>
                    </motion.div>
                    <motion.div whileHover={{ scale: 1.2, rotate: 360 }} transition={{ duration: 0.3 }}>
-                     <Link href="#" className="text-muted-foreground hover:text-accent glass-button p-3 rounded-full border border-white/20">
+                     <Link href="#" className="text-muted-foreground hover:text-accent p-3 rounded-full border">
                        <Facebook />
                      </Link>
                    </motion.div>
                    <motion.div whileHover={{ scale: 1.2, rotate: 360 }} transition={{ duration: 0.3 }}>
-                     <Link href="#" className="text-muted-foreground hover:text-accent glass-button p-3 rounded-full border border-white/20">
+                     <Link href="#" className="text-muted-foreground hover:text-accent p-3 rounded-full border">
                        <Instagram />
                      </Link>
                    </motion.div>
@@ -466,7 +466,7 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
             ref={ref}
             className={cn(
               "group block select-none space-y-1 rounded-lg p-4 leading-none no-underline outline-none transition-all duration-300",
-              "glass-card hover:glow-primary border border-white/10 hover:border-white/30",
+              "bg-popover hover:bg-accent/10 hover:text-accent-foreground border border-transparent hover:border-border",
               className
             )}
             whileHover={{
@@ -479,7 +479,7 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
             <div className="flex items-start gap-4">
               {!isStatic && Icon && (
                 <motion.div
-                  className="p-2 rounded-lg glass-button border border-white/20"
+                  className="p-2 rounded-lg bg-background border"
                   whileHover={{ rotate: 360, scale: 1.1 }}
                   transition={{ duration: 0.5 }}
                 >
@@ -515,3 +515,6 @@ ListItem.displayName = "ListItem";
   
 
 
+
+
+    
