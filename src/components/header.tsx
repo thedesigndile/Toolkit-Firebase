@@ -38,6 +38,17 @@ const navLinks = [
     { name: "Contact", href: "/contact"},
 ]
 
+const ListItemLink = React.forwardRef<
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a"> & { tool: Tool }
+>(({ className, tool, ...props }, ref) => {
+  return (
+    <ListItem ref={ref} href={getToolUrl(tool.name)} tool={tool} {...props} />
+  );
+});
+ListItemLink.displayName = "ListItemLink";
+
+
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -128,7 +139,7 @@ export function Header() {
         </motion.div>
         
         <motion.div
-          className="flex-1 flex justify-center"
+          className="flex justify-center"
           variants={navItemVariants}
         >
           <NavigationMenu>
@@ -166,9 +177,8 @@ export function Header() {
                                  animate={{ opacity: 1, x: 0 }}
                                  transition={{ delay: toolIndex * 0.1 }}
                                >
-                                 <ListItem
+                                 <ListItemLink
                                      tool={tool}
-                                     href={getToolUrl(tool.name)}
                                  />
                                </motion.div>
                                ))}
@@ -184,16 +194,16 @@ export function Header() {
                   whileTap={{ scale: 0.95 }}
                 >
                   <NavigationMenuItem>
-                     <Link href="/tools">
-                       <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), navButtonClasses)}>
-                         <motion.span
-                           whileHover={{ scale: 1.05 }}
-                           transition={{ type: "spring", stiffness: 400 }}
-                         >
-                           All Tools
-                         </motion.span>
-                       </NavigationMenuLink>
-                     </Link>
+                     <NavigationMenuLink asChild className={cn(navigationMenuTriggerStyle(), navButtonClasses)}>
+                         <Link href="/tools">
+                           <motion.span
+                             whileHover={{ scale: 1.05 }}
+                             transition={{ type: "spring", stiffness: 400 }}
+                           >
+                             All Tools
+                           </motion.span>
+                         </Link>
+                     </NavigationMenuLink>
                  </NavigationMenuItem>
                 </motion.div>
              </NavigationMenuList>
@@ -201,7 +211,7 @@ export function Header() {
         </motion.div>
 
         <motion.div
-          className="flex justify-end items-center gap-3"
+          className="flex justify-end items-center gap-2"
           variants={navItemVariants}
         >
           <motion.div
@@ -217,7 +227,7 @@ export function Header() {
           >
             <Button
               variant="outline"
-              className="text-primary-foreground border-primary-foreground/50 hover:bg-primary/90 hover:text-primary-foreground rounded-xl px-4 py-2 font-medium"
+              className="text-primary-foreground border-primary-foreground/50 hover:bg-primary/90 hover:text-primary-foreground rounded-xl px-3 py-2 font-medium"
             >
               Log In
             </Button>
@@ -228,7 +238,7 @@ export function Header() {
           >
             <Button
               variant="secondary"
-              className="rounded-xl px-6 py-2 font-semibold shadow-lg hover:shadow-xl"
+              className="rounded-xl px-4 py-2 font-semibold shadow-lg hover:shadow-xl"
             >
               Get Started
             </Button>
