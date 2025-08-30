@@ -90,15 +90,19 @@ export function Header() {
     }
   };
 
-  const navButtonClasses = "font-semibold text-sm px-4 py-3 bg-transparent text-white hover:bg-white/10 data-[state=open]:bg-white/10";
+  const navButtonClasses = "font-semibold text-sm px-4 py-3 bg-transparent text-white data-[state=open]:bg-white/10";
 
 
   return (
     <>
       <motion.header
         className={cn(
-          "hidden md:flex items-center justify-between w-full max-w-6xl mx-auto p-3 rounded-2xl header-bg shadow-2xl"
+          "hidden md:flex items-center justify-between w-full max-w-6xl mx-auto p-3 rounded-2xl"
         )}
+        style={{
+          background: 'linear-gradient(90deg, #007ACC, #0A84FF)',
+          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)'
+        }}
         variants={headerVariants}
         initial="hidden"
         animate="visible"
@@ -181,14 +185,16 @@ export function Header() {
                   whileTap={{ scale: 0.95 }}
                 >
                   <NavigationMenuItem>
-                    <Link href="/tools" passHref>
-                       <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), navButtonClasses)}>
-                         <motion.span
-                           whileHover={{ scale: 1.05 }}
-                           transition={{ type: "spring", stiffness: 400 }}
-                         >
-                           All Tools
-                         </motion.span>
+                    <Link href="/tools" legacyBehavior={false}>
+                       <NavigationMenuLink asChild className={cn(navigationMenuTriggerStyle(), navButtonClasses)}>
+                         <a>
+                           <motion.span
+                             whileHover={{ scale: 1.05 }}
+                             transition={{ type: "spring", stiffness: 400 }}
+                           >
+                             All Tools
+                           </motion.span>
+                         </a>
                        </NavigationMenuLink>
                      </Link>
                  </NavigationMenuItem>
@@ -206,7 +212,7 @@ export function Header() {
             whileTap={{ scale: 0.9 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <ThemeToggle className="text-white hover:text-white/90 hover:bg-white/10 rounded-full w-11 h-11 border border-white/20" />
+            <ThemeToggle className="text-white hover:text-white/90 rounded-full w-11 h-11 border border-white/20" />
           </motion.div>
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -214,7 +220,17 @@ export function Header() {
           >
             <Button
               variant="ghost"
-              className="text-white hover:text-white/90 hover:bg-white/10 rounded-xl border border-white/20 px-4 py-2 font-medium"
+              className="text-white hover:text-white/90 rounded-xl border border-white/20 px-4 py-2 font-medium"
+              style={{
+                background: 'transparent',
+                borderImage: 'linear-gradient(90deg, #8A2BE2, #0A84FF) 1'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'linear-gradient(90deg, #8A2BE2, #0A84FF)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent';
+              }}
             >
               Log In
             </Button>
@@ -223,7 +239,20 @@ export function Header() {
             whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(0,0,0,0.2)" }}
             whileTap={{ scale: 0.95 }}
           >
-            <Button className="bg-gradient-to-r from-accent to-primary hover:from-accent/90 hover:to-primary/90 text-white rounded-xl px-6 py-2 font-semibold shadow-lg hover:shadow-xl glow-accent">
+            <Button
+              className="text-white rounded-xl px-6 py-2 font-semibold shadow-lg hover:shadow-xl"
+              style={{
+                background: 'linear-gradient(90deg, #007ACC, #0A84FF)',
+                border: '2px solid transparent',
+                borderImage: 'linear-gradient(90deg, #8A2BE2, #0A84FF) 1'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'linear-gradient(90deg, #8A2BE2, #0A84FF)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'linear-gradient(90deg, #007ACC, #0A84FF)';
+              }}
+            >
               Get Started
             </Button>
           </motion.div>
@@ -232,7 +261,10 @@ export function Header() {
 
       {/* Mobile Header */}
       <motion.div
-        className="md:hidden flex justify-between items-center w-full px-4 py-3 header-bg"
+        className="md:hidden flex justify-between items-center w-full px-4 py-3"
+        style={{
+          background: 'linear-gradient(90deg, #007ACC, #0A84FF)',
+        }}
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 100 }}
@@ -248,7 +280,17 @@ export function Header() {
               aria-label="Open navigation menu"
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-navigation"
-              className="w-11 h-11 text-white hover:text-white/90 hover:bg-white/10 border border-white/20"
+              className="w-11 h-11 text-white hover:text-white/90 border border-white/20"
+              style={{
+                background: 'transparent',
+                borderImage: 'linear-gradient(90deg, #8A2BE2, #0A84FF) 1'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'linear-gradient(90deg, #8A2BE2, #0A84FF)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent';
+              }}
           >
               <Menu className="h-6 w-6" aria-hidden="true" />
           </Button>
@@ -276,7 +318,20 @@ export function Header() {
           className="flex-1 flex justify-end"
           whileHover={{ scale: 1.1 }}
         >
-          <ThemeToggle className="w-11 h-11 text-white hover:text-white/90 hover:bg-white/10 border border-white/20" aria-label="Toggle theme" />
+          <ThemeToggle
+            className="w-11 h-11 text-white hover:text-white/90 border border-white/20"
+            style={{
+              background: 'transparent',
+              borderImage: 'linear-gradient(90deg, #8A2BE2, #0A84FF) 1'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'linear-gradient(90deg, #8A2BE2, #0A84FF)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent';
+            }}
+            aria-label="Accessibility settings"
+          />
         </motion.div>
       </motion.div>
 
@@ -323,6 +378,16 @@ export function Header() {
                   onClick={() => setIsMobileMenuOpen(false)}
                   aria-label="Close navigation menu"
                   className="w-11 h-11 border"
+                  style={{
+                    background: 'transparent',
+                    borderImage: 'linear-gradient(90deg, #8A2BE2, #0A84FF) 1'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'linear-gradient(90deg, #8A2BE2, #0A84FF)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent';
+                  }}
                 >
                   <X className="h-6 w-6" aria-hidden="true" />
                 </Button>
@@ -412,7 +477,18 @@ export function Header() {
                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                      <Button
                        size="lg"
-                       className="bg-gradient-to-r from-accent to-primary hover:from-accent/90 hover:to-primary/90 text-white w-full glow-accent"
+                       className="text-white w-full"
+                       style={{
+                         background: 'linear-gradient(90deg, #007ACC, #0A84FF)',
+                         border: '2px solid transparent',
+                         borderImage: 'linear-gradient(90deg, #8A2BE2, #0A84FF) 1'
+                       }}
+                       onMouseEnter={(e) => {
+                         e.currentTarget.style.background = 'linear-gradient(90deg, #8A2BE2, #0A84FF)';
+                       }}
+                       onMouseLeave={(e) => {
+                         e.currentTarget.style.background = 'linear-gradient(90deg, #007ACC, #0A84FF)';
+                       }}
                        aria-label="Get started with our tools"
                      >
                        Get Started
@@ -425,17 +501,62 @@ export function Header() {
                  variants={mobileMenuItemVariants}
                >
                    <motion.div whileHover={{ scale: 1.2, rotate: 360 }} transition={{ duration: 0.3 }}>
-                     <Link href="#" className="text-muted-foreground hover:text-accent p-3 rounded-full border">
+                     <Link
+                       href="#"
+                       className="text-muted-foreground p-3 rounded-full border"
+                       style={{
+                         background: 'transparent',
+                         borderImage: 'linear-gradient(90deg, #8A2BE2, #0A84FF) 1'
+                       }}
+                       onMouseEnter={(e) => {
+                         e.currentTarget.style.background = 'linear-gradient(90deg, #8A2BE2, #0A84FF)';
+                         e.currentTarget.style.color = 'white';
+                       }}
+                       onMouseLeave={(e) => {
+                         e.currentTarget.style.background = 'transparent';
+                         e.currentTarget.style.color = 'var(--muted-foreground)';
+                       }}
+                     >
                        <Twitter />
                      </Link>
                    </motion.div>
                    <motion.div whileHover={{ scale: 1.2, rotate: 360 }} transition={{ duration: 0.3 }}>
-                     <Link href="#" className="text-muted-foreground hover:text-accent p-3 rounded-full border">
+                     <Link
+                       href="#"
+                       className="text-muted-foreground p-3 rounded-full border"
+                       style={{
+                         background: 'transparent',
+                         borderImage: 'linear-gradient(90deg, #8A2BE2, #0A84FF) 1'
+                       }}
+                       onMouseEnter={(e) => {
+                         e.currentTarget.style.background = 'linear-gradient(90deg, #8A2BE2, #0A84FF)';
+                         e.currentTarget.style.color = 'white';
+                       }}
+                       onMouseLeave={(e) => {
+                         e.currentTarget.style.background = 'transparent';
+                         e.currentTarget.style.color = 'var(--muted-foreground)';
+                       }}
+                     >
                        <Facebook />
                      </Link>
                    </motion.div>
                    <motion.div whileHover={{ scale: 1.2, rotate: 360 }} transition={{ duration: 0.3 }}>
-                     <Link href="#" className="text-muted-foreground hover:text-accent p-3 rounded-full border">
+                     <Link
+                       href="#"
+                       className="text-muted-foreground p-3 rounded-full border"
+                       style={{
+                         background: 'transparent',
+                         borderImage: 'linear-gradient(90deg, #8A2BE2, #0A84FF) 1'
+                       }}
+                       onMouseEnter={(e) => {
+                         e.currentTarget.style.background = 'linear-gradient(90deg, #8A2BE2, #0A84FF)';
+                         e.currentTarget.style.color = 'white';
+                       }}
+                       onMouseLeave={(e) => {
+                         e.currentTarget.style.background = 'transparent';
+                         e.currentTarget.style.color = 'var(--muted-foreground)';
+                       }}
+                     >
                        <Instagram />
                      </Link>
                    </motion.div>
@@ -516,5 +637,7 @@ ListItem.displayName = "ListItem";
 
 
 
+
+    
 
     

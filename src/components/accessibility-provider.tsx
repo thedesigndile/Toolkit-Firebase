@@ -9,7 +9,6 @@ interface AccessibilityContextType {
   screenReader: boolean;
   focusVisible: boolean;
   setHighContrast: (value: boolean) => void;
-  setReducedMotion: (value: boolean) => void;
   setLargeText: (value: boolean) => void;
   setScreenReader: (value: boolean) => void;
   announceToScreenReader: (message: string, priority?: 'polite' | 'assertive') => void;
@@ -31,7 +30,7 @@ interface AccessibilityProviderProps {
 
 export function AccessibilityProvider({ children }: AccessibilityProviderProps) {
   const [highContrast, setHighContrast] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const [reducedMotion] = useState(true); // Always true, no setter
   const [largeText, setLargeText] = useState(false);
   const [screenReader, setScreenReader] = useState(false);
   const [focusVisible, setFocusVisible] = useState(false);
@@ -147,7 +146,6 @@ export function AccessibilityProvider({ children }: AccessibilityProviderProps) 
     screenReader,
     focusVisible,
     setHighContrast,
-    setReducedMotion,
     setLargeText,
     setScreenReader,
     announceToScreenReader,
