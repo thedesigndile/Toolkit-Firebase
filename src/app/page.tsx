@@ -2,14 +2,12 @@
 import { Footer } from "@/components/footer";
 import { Newsletter } from "@/components/newsletter";
 import { ToolsSection } from "@/components/tools-section";
-import { FeaturedToolsSection } from "@/components/featured-tools-section";
 import { ParticleBackground, FloatingElements, GradientOrbs } from "@/components/particle-background";
 import { LazyWrapper } from "@/components/performance-monitor";
 import { lazy } from "react";
 
 // Lazy load heavy components
 const LazyToolsSection = lazy(() => import("@/components/tools-section").then(module => ({ default: module.ToolsSection })));
-const LazyFeaturedToolsSection = lazy(() => import("@/components/featured-tools-section").then(module => ({ default: module.FeaturedToolsSection })));
 const LazyNewsletter = lazy(() => import("@/components/newsletter").then(module => ({ default: module.Newsletter })));
 
 export default function Home() {
@@ -25,11 +23,6 @@ export default function Home() {
 
       <main className="flex-1 pt-24 relative z-10" id="main-content" role="main">
         <div className="space-y-12 md:space-y-16">
-          <section aria-labelledby="featured-tools-heading">
-            <LazyWrapper>
-              <LazyFeaturedToolsSection />
-            </LazyWrapper>
-          </section>
           <section aria-labelledby="tools-section-heading">
             <LazyWrapper>
               <LazyToolsSection />
