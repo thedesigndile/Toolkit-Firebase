@@ -90,6 +90,9 @@ export function Header() {
     }
   };
 
+  const navButtonClasses = "font-semibold text-sm text-white px-4 py-3 bg-gradient-blue hover:bg-gradient-blue-hover data-[state=open]:bg-gradient-blue-active focus:bg-gradient-blue-active transition-all duration-300 rounded-xl border-none";
+
+
   return (
     <>
       <motion.header
@@ -135,7 +138,7 @@ export function Header() {
                     whileTap={{ scale: 0.95 }}
                   >
                     <NavigationMenuItem>
-                       <NavigationMenuTrigger className="font-semibold text-sm bg-transparent text-white px-4 py-3 hover:bg-gradient-to-r hover:from-accent/20 hover:to-primary/20 hover:text-white focus:bg-gradient-to-r focus:from-accent/20 focus:to-primary/20 focus:text-white data-[state=open]:bg-gradient-to-r data-[state=open]:from-accent/20 data-[state=open]:to-primary/20 data-[state=open]:text-white transition-all duration-300 rounded-xl glass-button border border-white/10 hover:border-white/30">
+                       <NavigationMenuTrigger className={navButtonClasses}>
                          <motion.span
                            whileHover={{ scale: 1.05 }}
                            transition={{ type: "spring", stiffness: 400 }}
@@ -179,7 +182,7 @@ export function Header() {
                 >
                   <NavigationMenuItem>
                     <Link href="/tools" legacyBehavior passHref>
-                       <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "font-semibold text-sm bg-transparent text-white px-4 py-3 hover:bg-gradient-to-r hover:from-accent/20 hover:to-primary/20 hover:text-white focus:bg-gradient-to-r focus:from-accent/20 focus:to-primary/20 focus:text-white transition-all duration-300 rounded-xl glass-button border border-white/10 hover:border-white/30")}>
+                       <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), navButtonClasses)}>
                          <motion.span
                            whileHover={{ scale: 1.05 }}
                            transition={{ type: "spring", stiffness: 400 }}

@@ -110,6 +110,10 @@
       background-image: linear-gradient(to right, hsl(var(--brand-blue-raw) / 0.9), hsl(var(--brand-purple-raw) / 0.9));
   }
 
+  .bg-gradient-blue-active {
+    background-image: linear-gradient(to right, hsl(var(--brand-blue-raw) / 0.8), hsl(var(--brand-purple-raw) / 0.8));
+  }
+
   .bg-gradient-upload {
     @apply bg-gradient-to-r from-blue-500 to-purple-500;
   }
