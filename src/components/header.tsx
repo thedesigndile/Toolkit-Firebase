@@ -185,18 +185,16 @@ export function Header() {
                   whileTap={{ scale: 0.95 }}
                 >
                   <NavigationMenuItem>
-                    <Link href="/tools" legacyBehavior={false}>
-                       <NavigationMenuLink asChild className={cn(navigationMenuTriggerStyle(), navButtonClasses)}>
-                         <a>
-                           <motion.span
-                             whileHover={{ scale: 1.05 }}
-                             transition={{ type: "spring", stiffness: 400 }}
-                           >
-                             All Tools
-                           </motion.span>
-                         </a>
-                       </NavigationMenuLink>
-                     </Link>
+                     <NavigationMenuLink asChild className={cn(navigationMenuTriggerStyle(), navButtonClasses)}>
+                       <Link href="/tools">
+                         <motion.span
+                           whileHover={{ scale: 1.05 }}
+                           transition={{ type: "spring", stiffness: 400 }}
+                         >
+                           All Tools
+                         </motion.span>
+                       </Link>
+                     </NavigationMenuLink>
                  </NavigationMenuItem>
                 </motion.div>
              </NavigationMenuList>
@@ -630,14 +628,3 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
   }
 );
 ListItem.displayName = "ListItem";
-
-    
-
-  
-
-
-
-
-    
-
-    
