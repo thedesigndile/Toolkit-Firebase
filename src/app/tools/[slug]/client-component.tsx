@@ -15,13 +15,15 @@ import { getFileAccept, pdfToImages, validateFileSize, downloadBlob, checkMemory
 import { Footer } from '@/components/footer';
 import { useProgress } from '@/components/progress-provider';
 import { ProgressDisplay } from '@/components/progress-display';
-import { convertPdfToWord } from '@/app/actions';
 import { TextToSpeechComponent } from '@/components/tools/text-to-speech';
 import { PasswordGenerator } from '@/components/tools/password-generator';
 import { VoiceRecorderComponent } from '@/components/tools/voice-recorder';
 import { motion } from 'framer-motion';
 import { ParticleBackground, FloatingElements } from '@/components/particle-background';
 import { useAccessibility, AccessibleButton } from '@/components/accessibility-provider';
+import * as pdfjsLib from 'pdfjs-dist';
+import { Document, Packer, Paragraph } from 'docx';
+import { saveAs } from 'file-saver';
 
 type ImageFormat = "png" | "jpeg" | "webp";
 
@@ -174,8 +176,43 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
     });
   }, [convertedImages, pdfImageFormat, downloadImage, toast]);
 
+  const handlePdfToWord = async (file: File) => {
+      if (typeof window === 'undefined') {
+        throw new Error('PDF processing is only available in the browser.');
+      }
+      if (!checkMemoryLimit(file.size, tool.name)) {
+        throw new Error('This file is too large to process in your browser. Please try a smaller file.');
+      }
+
+      pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+      
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      const numPages = pdf.numPages;
+      const paragraphs: Paragraph[] = [];
+      
+      for (let i = 1; i <= numPages; i++) {
+        const page = await pdf.getPage(i);
+        const textContent = await page.getTextContent();
+        const pageText = textContent.items.map(item => ('str' in item ? item.str : '')).join(' ');
+        paragraphs.push(new Paragraph({ text: pageText }));
+        setProgress(Math.round((i / numPages) * 100));
+      }
+
+      const doc = new Document({
+        sections: [
+          {
+            children: paragraphs,
+          },
+        ],
+      });
+      
+      const blob = await Packer.toBlob(doc);
+      saveAs(blob, `${file.name.replace(/\.pdf$/i, '')}.docx`);
+  };
+
   const handleProcessFiles = async () => {
-    if (files.length === 0) return;
+    if (files.length === 0 || !tool) return;
 
     const file = files[0];
 
@@ -186,29 +223,24 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
     const progressIntervalRef = { current: null as NodeJS.Timeout | null };
 
     // Simulate progress for a better user experience
-    progressIntervalRef.current = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 95) {
-          if (progressIntervalRef.current) {
-            clearInterval(progressIntervalRef.current);
-            progressIntervalRef.current = null;
+    if (tool.name !== 'PDF to Word') { // pdf to word has its own progress
+      progressIntervalRef.current = setInterval(() => {
+        setProgress(prev => {
+          if (prev >= 95) {
+            if (progressIntervalRef.current) {
+              clearInterval(progressIntervalRef.current);
+              progressIntervalRef.current = null;
+            }
+            return 95;
           }
-          return 95;
-        }
-        return prev + 5;
-      });
-    }, 200);
-
+          return prev + 5;
+        });
+      }, 200);
+    }
+    
     try {
       if (tool.name === 'PDF to Word') {
-        const pdfDataUri = await fileToDataUri(file);
-        const result = await convertPdfToWord(pdfDataUri);
-
-        if (result.error) throw new Error(result.error);
-        if (!result.docx) throw new Error("Conversion returned no data.");
-
-        setProcessedUrl(result.docx);
-        setProcessedFileName(`${file.name.replace(/\.pdf$/i, '')}.docx`);
+        await handlePdfToWord(file);
       } else if (tool.name === 'PDF to JPG') {
         // Check if we're in browser environment
         if (typeof window === 'undefined') {
@@ -255,7 +287,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
   };
 
   const renderToolOptions = () => {
-    if (files.length === 0 || status !== 'idle') return null;
+    if (files.length === 0 || status !== 'idle' || !tool) return null;
 
     if (tool.name === 'PDF to JPG') {
       return (
