@@ -67,7 +67,7 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
                     )}
                     <div className="flex flex-col items-center text-center flex-1 justify-center relative z-10">
                       <motion.div
-                          className="mb-4 p-3 rounded-full bg-muted transition-all duration-300"
+                          className="mb-4 p-3 rounded-full bg-muted/50 transition-all duration-300"
                           whileHover={{
                             scale: 1.15,
                             rotate: 5,
