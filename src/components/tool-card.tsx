@@ -67,14 +67,14 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
                     )}
                     <div className="flex flex-col items-center text-center flex-1 justify-center relative z-10">
                       <motion.div
-                          className="mb-4 p-3 rounded-full bg-muted/50 transition-all duration-300"
+                          className="mb-4 p-3 rounded-full transition-all duration-300"
                           whileHover={{
                             scale: 1.15,
                             rotate: 5,
                             transition: { duration: 0.2, ease: "easeOut" }
                           }}
                       >
-                          <Icon className="h-10 w-10 icon-gradient" />
+                          <Icon className="h-10 w-10" />
                       </motion.div>
                       <h3 className="text-lg font-semibold leading-tight text-foreground group-hover:text-primary transition-colors duration-300">
                         {tool.name}
