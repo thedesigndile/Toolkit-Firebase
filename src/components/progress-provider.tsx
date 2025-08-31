@@ -3,7 +3,7 @@
 
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 
-type ProgressStatus = 'idle' | 'processing' | 'complete' | 'error';
+type ProgressStatus = 'idle' | 'uploading' | 'processing' | 'complete' | 'error';
 
 interface ProgressContextType {
   progress: number;

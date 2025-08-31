@@ -36,6 +36,8 @@ export function ProgressDisplay() {
   
   const getStatusText = () => {
     switch (status) {
+      case 'uploading':
+        return 'Preparing your files...';
       case 'processing':
         return `Processing... ${Math.round(progress)}%`;
       case 'complete':
@@ -53,6 +55,48 @@ export function ProgressDisplay() {
 
   const renderContent = () => {
     switch (status) {
+      case 'uploading':
+        return (
+           <div className="text-center p-8 border rounded-lg bg-card shadow-lg">
+                <div className="relative w-32 h-32 mx-auto mb-4">
+                  <svg className="w-full h-full" viewBox="0 0 100 100">
+                    <circle
+                      className="text-border/50"
+                      stroke="currentColor"
+                      strokeWidth="8"
+                      cx="50"
+                      cy="50"
+                      r="42"
+                      fill="transparent"
+                    />
+                    <motion.circle
+                      className="text-primary"
+                      stroke="currentColor"
+                      strokeWidth="8"
+                      strokeLinecap="round"
+                      cx="50"
+                      cy="50"
+                      r="42"
+                      fill="transparent"
+                      strokeDasharray="264"
+                      strokeDashoffset={264}
+                      animate={{ strokeDashoffset: [264, 50, 264] }}
+                      transition={{
+                        duration: 2.5,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                      transform="rotate(-90 50 50)"
+                    />
+                  </svg>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Loader2 className="h-10 w-10 text-primary animate-spin" />
+                  </div>
+                </div>
+                <h3 className="text-2xl font-semibold text-foreground">Uploading...</h3>
+                <p className="text-muted-foreground mt-2">Preparing your files, please wait.</p>
+            </div>
+        )
       case 'complete':
         return (
           <div className="text-center p-8 border rounded-lg bg-card shadow-lg">

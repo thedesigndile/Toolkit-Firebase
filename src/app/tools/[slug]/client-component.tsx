@@ -61,6 +61,9 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
   const Icon = tool.icon;
 
   const validateAndSetFiles = useCallback((newFiles: File[], isAddingMore: boolean = false) => {
+    setStatus('uploading');
+    setProgress(0);
+
     const validFiles = newFiles.filter(file => {
       const sizeValidation = validateFileSize(file, tool.category);
       if (!sizeValidation.valid) {
@@ -70,11 +73,16 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
       return true;
     });
 
-    if (validFiles.length > 0) {
-      setFiles(prevFiles => isAddingMore ? [...prevFiles, ...validFiles] : validFiles);
-      announceToScreenReader(`Uploaded ${validFiles.length} file(s).`, 'polite');
-    }
-  }, [tool.category, setFiles, toast, announceToScreenReader]);
+    // Simulate upload/preparation time
+    setTimeout(() => {
+      if (validFiles.length > 0) {
+        setFiles(prevFiles => isAddingMore ? [...prevFiles, ...validFiles] : validFiles);
+        announceToScreenReader(`Uploaded ${validFiles.length} file(s).`, 'polite');
+      }
+      setStatus('idle');
+    }, 1500); // 1.5 second delay for animation
+  }, [tool.category, setFiles, toast, announceToScreenReader, setStatus, setProgress]);
+
 
   const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, isAddingMore: boolean = false) => {
     if (event.target.files) {
@@ -105,9 +113,12 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
   const handleProcessFiles = async () => {
     if (files.length === 0 || !tool) return;
   
-    resetState();
+    // We don't call resetState() here because it would clear the files before processing
     setStatus('processing');
     setProgress(10); // Initial progress
+    setError(null);
+    setProcessedUrl(null);
+    setProcessedFileName('download');
   
     try {
       let resultBlob: Blob | Blob[];
@@ -179,15 +190,17 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
   const renderFileBasedUI = () => {
     const showAddMore = tool.processorType === 'merge-pdf';
 
+    if (status === 'uploading' || status === 'processing' || status === 'error' || (status === 'complete' && processedUrl)) {
+      return <ProgressDisplay />;
+    }
+
     return (
-      <>
-        {status !== 'idle' ? (
-          <ProgressDisplay />
-        ) : (
           <Card className="max-w-4xl w-full mx-auto bg-card/80 backdrop-blur-sm border-border/50">
             <CardHeader className="text-center">
               <motion.div className="inline-flex items-center justify-center p-4 bg-primary/10 rounded-full mb-4 mx-auto" whileHover={{ rotate: 360, scale: 1.1 }} transition={{ duration: 0.6 }}>
-                <Icon className="h-12 w-12 icon-gradient" />
+                <div className="icon-gradient-container">
+                    <Icon className="h-12 w-12" />
+                </div>
               </motion.div>
               <CardTitle className="text-3xl font-bold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">{tool.name}</CardTitle>
               <p className="text-muted-foreground mt-2 text-lg">{tool.description}</p>
@@ -258,8 +271,6 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
               </div>
             </CardContent>
           </Card>
-        )}
-      </>
     );
   };
   
@@ -314,11 +325,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
     if (tool.processorType === 'pdf-to-image' && status === 'complete' && convertedImages.length > 0) {
       return renderPdfToImageResults();
     }
-
-    if (status === 'complete' && processedUrl) {
-      return <ProgressDisplay />;
-    }
-
+    
     return renderFileBasedUI();
   };
 
