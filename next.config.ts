@@ -122,7 +122,6 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  serverExternalPackages: ['puppeteer'],
 };
 
 export default nextConfig;

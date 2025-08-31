@@ -6,7 +6,7 @@ import { tools, type Tool } from "@/lib/tools";
 import { Input } from "./ui/input";
 import { ToolCard } from "./tool-card";
 import { ToolCardSkeleton, Skeleton } from "./ui/skeleton";
-import { Calculator, FileText, Image, Search, Video, Package, TerminalSquare, AudioWaveform, Pencil, Settings2, Shield, Layers, ArrowRightLeft, SigmaSquare } from "lucide-react";
+import { Calculator, FileText, Image, Search, Video, Package, TerminalSquare, AudioWaveform, Pencil, Settings2, Shield, Layers, ArrowRightLeft, SigmaSquare, Rocket, ChevronDown, ChevronRight } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
@@ -15,23 +15,35 @@ import { ScrollReveal, StaggerContainer, StaggerItem } from "./scroll-reveal";
 
 const CATEGORIES = [
     { name: "All", icon: null },
-    { name: "Organize PDF", icon: Layers },
     { name: "Edit PDF", icon: Pencil },
-    { name: "Optimize PDF", icon: Settings2 },
     { name: "Convert PDF", icon: ArrowRightLeft },
-    { name: "PDF Security", icon: Shield },
+    { name: "Protect & Secure", icon: Shield },
+    { name: "View & Organize", icon: Layers },
     { name: "Image Tools", icon: Image },
-    { name: "Video Tools", icon: Video },
-    { name: "Audio Tools", icon: AudioWaveform },
-    { name: "Converters", icon: ArrowRightLeft },
-    { name: "Utility Tools", icon: TerminalSquare },
-    { name: "Archive Tools", icon: Package },
+    { name: "Other Tools", icon: Settings2 },
+    { name: "Advanced Features", icon: Rocket },
 ];
 
 
 export function ToolsSection() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+   const [searchTerm, setSearchTerm] = useState("");
+   const [isLoading, setIsLoading] = useState(true);
+   const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({
+      "Edit PDF": true,
+      "Convert PDF": true,
+      "Protect & Secure": true,
+      "View & Organize": true,
+      "Image Tools": true,
+      "Other Tools": true,
+      "Advanced Features": true,
+   });
+
+   const toggleCategory = (category: string) => {
+      setExpandedCategories(prev => ({
+         ...prev,
+         [category]: !prev[category]
+      }));
+   };
 
   const filteredTools = useMemo(() => {
     return tools.filter(tool =>
@@ -76,6 +88,16 @@ export function ToolsSection() {
 
   return (
     <div className="container mx-auto px-4">
+       {/* SVG Gradient Definition */}
+       <svg width="0" height="0" className="absolute">
+         <defs>
+           <linearGradient id="blue-purple-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+             <stop offset="0%" stopColor="#3b82f6" />
+             <stop offset="100%" stopColor="#8b5cf6" />
+           </linearGradient>
+         </defs>
+       </svg>
+
        <section id="all-tools">
         <div className="text-center py-12 md:py-16">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
@@ -137,23 +159,40 @@ export function ToolsSection() {
                       categorizedTools.map(([category, { categoryIcon: CategoryIcon, tools: categoryTools }]) => (
                         <ScrollReveal key={category} animation="slideUp" className="space-y-8">
                             <ScrollReveal animation="fade" delay={200}>
-                                <h2 className="text-3xl font-bold flex items-center justify-center gap-3 text-center relative z-10">
-                                    <CategoryIcon className="h-8 w-8 icon-gradient" strokeWidth={1.5} />
-                                    {category}
-                                </h2>
+                                <div className="flex items-center justify-center gap-3 text-center relative z-10">
+                                    <div className="icon-gradient-container">
+                                        <CategoryIcon className="h-8 w-8" strokeWidth={1.5} />
+                                    </div>
+                                    <h2 className="text-3xl font-bold">{category}</h2>
+                                    <button
+                                        onClick={() => toggleCategory(category)}
+                                        className="ml-2 p-1 rounded-full hover:bg-muted transition-colors"
+                                        aria-label={expandedCategories[category] ? `Collapse ${category}` : `Expand ${category}`}
+                                    >
+                                        <div className="icon-gradient-container">
+                                            {expandedCategories[category] ? (
+                                                <ChevronDown className="h-5 w-5" />
+                                            ) : (
+                                                <ChevronRight className="h-5 w-5" />
+                                            )}
+                                        </div>
+                                    </button>
+                                </div>
                             </ScrollReveal>
-                            <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 relative z-10" staggerDelay={0.05}>
-                                {categoryTools.map((tool, i) => (
-                                    <StaggerItem key={tool.name}>
-                                      <Suspense fallback={<ToolCardSkeleton />}>
-                                        <ToolCard
-                                          tool={tool}
-                                          index={i}
-                                        />
-                                      </Suspense>
-                                    </StaggerItem>
-                                ))}
-                            </StaggerContainer>
+                            {expandedCategories[category] && (
+                                <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 relative z-10" staggerDelay={0.05}>
+                                    {categoryTools.map((tool, i) => (
+                                        <StaggerItem key={tool.name}>
+                                          <Suspense fallback={<ToolCardSkeleton />}>
+                                            <ToolCard
+                                              tool={tool}
+                                              index={i}
+                                            />
+                                          </Suspense>
+                                        </StaggerItem>
+                                    ))}
+                                </StaggerContainer>
+                            )}
                         </ScrollReveal>
                       ))
                     )}
