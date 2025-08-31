@@ -49,8 +49,8 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
       <svg width="0" height="0" className="absolute">
         <defs>
           <linearGradient id="blue-purple-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#3b82f6" />
-            <stop offset="100%" stopColor="#8b5cf6" />
+            <stop offset="0%" stopColor="hsl(var(--brand-blue-raw))" />
+            <stop offset="100%" stopColor="hsl(var(--brand-purple-raw))" />
           </linearGradient>
         </defs>
       </svg>

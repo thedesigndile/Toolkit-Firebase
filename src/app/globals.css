@@ -107,8 +107,8 @@
   }
 
   .icon-gradient-container svg {
-    fill: url(#blue-purple-gradient);
     stroke: url(#blue-purple-gradient);
+    fill: transparent;
     transition: filter 0.2s ease;
   }
 
