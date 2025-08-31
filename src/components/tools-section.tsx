@@ -172,4 +172,3 @@ export function ToolsSection() {
     </div>
   );
 }
-
