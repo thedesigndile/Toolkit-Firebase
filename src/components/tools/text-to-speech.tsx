@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from 'react';
@@ -274,7 +275,7 @@ export function TextToSpeechComponent() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <FileText className="h-5 w-5" />
+              <FileText className="h-5 w-5 icon-gradient" />
               Enter Text to Convert
             </CardTitle>
           </CardHeader>
@@ -308,7 +309,7 @@ export function TextToSpeechComponent() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Settings className="h-5 w-5" />
+              <Settings className="h-5 w-5 icon-gradient" />
               Voice Settings
             </CardTitle>
           </CardHeader>
@@ -437,18 +438,18 @@ export function TextToSpeechComponent() {
                 ) : isPlaying ? (
                   isPaused ? (
                     <>
-                      <Play className="h-4 w-4" />
+                      <Play className="h-4 w-4 icon-gradient" />
                       Resume
                     </>
                   ) : (
                     <>
-                      <Pause className="h-4 w-4" />
+                      <Pause className="h-4 w-4 icon-gradient" />
                       Pause
                     </>
                   )
                 ) : (
                   <>
-                    <Play className="h-4 w-4" />
+                    <Play className="h-4 w-4 icon-gradient" />
                     Speak
                   </>
                 )}
@@ -461,7 +462,7 @@ export function TextToSpeechComponent() {
                 size="lg"
                 className="flex items-center gap-2"
               >
-                <Square className="h-4 w-4" />
+                <Square className="h-4 w-4 icon-gradient" />
                 Stop
               </Button>
 
@@ -471,7 +472,7 @@ export function TextToSpeechComponent() {
                 size="lg"
                 className="flex items-center gap-2"
               >
-                <RotateCcw className="h-4 w-4" />
+                <RotateCcw className="h-4 w-4 icon-gradient" />
                 Reset
               </Button>
 
@@ -482,7 +483,7 @@ export function TextToSpeechComponent() {
                 size="lg"
                 className="flex items-center gap-2"
               >
-                <Download className="h-4 w-4" />
+                <Download className="h-4 w-4 icon-gradient" />
                 Download
               </Button>
             </div>
@@ -499,7 +500,7 @@ export function TextToSpeechComponent() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Zap className="h-5 w-5" />
+              <Zap className="h-5 w-5 icon-gradient" />
               Quick Examples
             </CardTitle>
           </CardHeader>
@@ -517,7 +518,7 @@ export function TextToSpeechComponent() {
                   className="text-left h-auto p-3 justify-start"
                   onClick={() => handleTextChange(example)}
                 >
-                  <Mic className="h-4 w-4 mr-2 flex-shrink-0" />
+                  <Mic className="h-4 w-4 mr-2 flex-shrink-0 icon-gradient" />
                   <span className="text-sm">{example}</span>
                 </Button>
               ))}

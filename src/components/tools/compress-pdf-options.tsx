@@ -21,7 +21,7 @@ export function CompressPdfOptions({ level, setLevel }: CompressPdfOptionsProps)
             <div className="flex items-center gap-4">
               <RadioGroupItem value="low" id="compress-low" />
               <div className="text-center flex-1">
-                <Shield className="mx-auto h-8 w-8 mb-2 text-blue-500" />
+                <Shield className="mx-auto h-8 w-8 mb-2 icon-gradient" />
                 <h4 className="font-semibold">Low Compression</h4>
                 <p className="text-xs text-muted-foreground">High Quality, large file size</p>
               </div>
@@ -33,7 +33,7 @@ export function CompressPdfOptions({ level, setLevel }: CompressPdfOptionsProps)
             <div className="flex items-center gap-4">
               <RadioGroupItem value="recommended" id="compress-recommended" />
               <div className="text-center flex-1">
-                <Zap className="mx-auto h-8 w-8 mb-2 text-green-500" />
+                <Zap className="mx-auto h-8 w-8 mb-2 icon-gradient" />
                 <h4 className="font-semibold">Recommended</h4>
                 <p className="text-xs text-muted-foreground">Good quality, balanced size</p>
               </div>
@@ -45,7 +45,7 @@ export function CompressPdfOptions({ level, setLevel }: CompressPdfOptionsProps)
             <div className="flex items-center gap-4">
               <RadioGroupItem value="extreme" id="compress-extreme" />
               <div className="text-center flex-1">
-                <Gem className="mx-auto h-8 w-8 mb-2 text-red-500" />
+                <Gem className="mx-auto h-8 w-8 mb-2 icon-gradient" />
                 <h4 className="font-semibold">Extreme Compression</h4>
                 <p className="text-xs text-muted-foreground">Smallest size, lower quality</p>
               </div>

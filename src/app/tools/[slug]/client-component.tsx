@@ -187,7 +187,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
           <Card className="max-w-4xl w-full mx-auto bg-card/80 backdrop-blur-sm border-border/50">
             <CardHeader className="text-center">
               <motion.div className="inline-flex items-center justify-center p-4 bg-primary/10 rounded-full mb-4 mx-auto" whileHover={{ rotate: 360, scale: 1.1 }} transition={{ duration: 0.6 }}>
-                <Icon className="h-12 w-12 text-primary" />
+                <Icon className="h-12 w-12 icon-gradient" />
               </motion.div>
               <CardTitle className="text-3xl font-bold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">{tool.name}</CardTitle>
               <p className="text-muted-foreground mt-2 text-lg">{tool.description}</p>
@@ -201,7 +201,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
                   onClick={() => fileInputRef.current?.click()}
                   tabIndex={0}
                 >
-                  <UploadCloud className="mx-auto h-16 w-16 text-primary mb-4" />
+                  <UploadCloud className="mx-auto h-16 w-16 text-primary mb-4 icon-gradient" />
                   <p className="text-lg font-medium mb-2">Drag & drop files here, or click to select</p>
                   <p className="text-sm text-muted-foreground">Supported formats: {fileAccept.replaceAll('application/', '.')}</p>
                   <input ref={fileInputRef} type="file" className="hidden" onChange={handleFileChange} accept={fileAccept} multiple={showAddMore} />
@@ -213,7 +213,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
                     {files.map((file) => (
                       <li key={`${file.name}-${file.lastModified}`} className="flex items-center justify-between p-3 border rounded-lg bg-background/70">
                         <div className="flex items-center gap-3 overflow-hidden">
-                          <File className="h-6 w-6 text-primary flex-shrink-0" />
+                          <File className="h-6 w-6 icon-gradient flex-shrink-0" />
                           <div className="overflow-hidden">
                             <p className="text-sm font-medium truncate">{file.name}</p>
                             <p className="text-xs text-muted-foreground">({(file.size / 1024 / 1024).toFixed(2)} MB)</p>
@@ -229,7 +229,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
                   {showAddMore && (
                     <div className="mt-4 text-center">
                       <Button variant="outline" onClick={() => addMoreFilesInputRef.current?.click()}>
-                        <PlusCircle className="mr-2 h-4 w-4" />
+                        <PlusCircle className="mr-2 h-4 w-4 icon-gradient" />
                         Add More Files
                       </Button>
                       <input ref={addMoreFilesInputRef} type="file" className="hidden" onChange={(e) => handleFileChange(e, true)} accept={fileAccept} multiple />
@@ -250,9 +250,9 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
                   className="px-8 py-3 text-lg font-semibold"
                 >
                   <div className="flex items-center gap-2">
-                    <Zap className="h-5 w-5" />
+                    <Zap className="h-5 w-5 icon-gradient" />
                     {status === 'processing' ? 'Processing...' : tool.name}
-                    <Sparkles className="h-4 w-4" />
+                    <Sparkles className="h-4 w-4 icon-gradient" />
                   </div>
                 </AccessibleButton>
               </div>
@@ -278,7 +278,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
             {convertedImages.map((blob, index) => (
               <div key={index} className="border rounded-lg p-2">
                 <div className="aspect-w-1 aspect-h-1 bg-muted rounded mb-2 flex items-center justify-center">
-                  <ImageIcon className="h-8 w-8 text-muted-foreground" />
+                  <ImageIcon className="h-8 w-8 text-muted-foreground icon-gradient" />
                 </div>
                 <p className="text-xs font-medium text-center truncate">Page {index + 1}</p>
                 <Button
@@ -287,7 +287,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
                   className="w-full mt-2"
                   onClick={() => downloadProcessedFile(blob, `page-${index + 1}.${pdfImageFormat}`)}
                 >
-                  <Download className="h-3 w-3 mr-1" />
+                  <Download className="h-3 w-3 mr-1 icon-gradient" />
                   Download
                 </Button>
               </div>

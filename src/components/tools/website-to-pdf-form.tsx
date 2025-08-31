@@ -56,7 +56,7 @@ export function WebsiteToPdfForm() {
     <Card className="max-w-4xl w-full mx-auto">
       <CardHeader className="text-center">
         <motion.div className="inline-flex items-center justify-center p-4 bg-primary/10 rounded-full mb-4 mx-auto" whileHover={{ rotate: 360, scale: 1.1 }} transition={{ duration: 0.6 }}>
-          <Globe className="h-12 w-12 text-primary" />
+          <Globe className="h-12 w-12 icon-gradient" />
         </motion.div>
         <CardTitle className="text-3xl font-bold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
           Website to PDF
@@ -78,9 +78,9 @@ export function WebsiteToPdfForm() {
           <div className="text-center pt-4">
             <Button type="submit" size="lg" disabled={status === 'processing'}>
               <div className="flex items-center gap-2">
-                <Zap className="h-5 w-5" />
+                <Zap className="h-5 w-5 icon-gradient" />
                 {status === 'processing' ? 'Converting...' : 'Convert to PDF'}
-                <Sparkles className="h-4 w-4" />
+                <Sparkles className="h-4 w-4 icon-gradient" />
               </div>
             </Button>
           </div>

@@ -42,10 +42,10 @@ export function SplitPdfOptions({ options, setOptions, totalPages }: SplitPdfOpt
       <Tabs value={options.mode} onValueChange={(value) => setOptions({ ...options, mode: value as 'ranges' | 'extract' })} className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="ranges">
-            <SlidersHorizontal className="mr-2 h-4 w-4" /> Split by range
+            <SlidersHorizontal className="mr-2 h-4 w-4 icon-gradient" /> Split by range
           </TabsTrigger>
           <TabsTrigger value="extract">
-            <FileText className="mr-2 h-4 w-4" /> Extract pages
+            <FileText className="mr-2 h-4 w-4 icon-gradient" /> Extract pages
           </TabsTrigger>
         </TabsList>
         <TabsContent value="ranges">

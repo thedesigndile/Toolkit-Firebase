@@ -49,7 +49,7 @@ export function ProgressDisplay() {
 
   const fileName = files.length > 1 ? `${files.length} files` : files[0]?.name || 'your file';
   const isGradientActive = status === 'processing';
-  const gradientClass = 'bg-gradient-upload';
+  const gradientClass = 'bg-gradient-primary';
 
   const renderContent = () => {
     switch (status) {
@@ -68,7 +68,7 @@ export function ProgressDisplay() {
             <h3 className="text-2xl font-semibold">Success!</h3>
             <p className="text-muted-foreground mt-2 mb-6">Your file is ready to be downloaded.</p>
             <div className="flex justify-center gap-4">
-              <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" onClick={handleDownload}>
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground" onClick={handleDownload}>
                 <Download className="mr-2 h-5 w-5" strokeWidth={1.5} />
                 Download File
               </Button>
@@ -103,7 +103,7 @@ export function ProgressDisplay() {
           <div className="p-6 border rounded-lg bg-card shadow-lg hover:shadow-xl transition-shadow">
             <div className="flex items-center gap-4 mb-4">
               <div className="p-2 bg-muted rounded-md">
-                <Loader2 className="h-6 w-6 text-muted-foreground animate-spin" strokeWidth={1.5} />
+                <Loader2 className="h-6 w-6 text-muted-foreground animate-spin icon-gradient" strokeWidth={1.5} />
               </div>
               <div className="flex-1">
                 <p className="font-medium truncate">{fileName}</p>
