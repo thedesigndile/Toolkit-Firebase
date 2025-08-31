@@ -184,7 +184,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
         {status !== 'idle' ? (
           <ProgressDisplay />
         ) : (
-          <Card className="max-w-4xl w-full mx-auto">
+          <Card className="max-w-4xl w-full mx-auto bg-card/80 backdrop-blur-sm border-border/50">
             <CardHeader className="text-center">
               <motion.div className="inline-flex items-center justify-center p-4 bg-primary/10 rounded-full mb-4 mx-auto" whileHover={{ rotate: 360, scale: 1.1 }} transition={{ duration: 0.6 }}>
                 <Icon className="h-12 w-12 text-primary" />
@@ -195,7 +195,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
             <CardContent>
               {files.length === 0 ? (
                 <div
-                  className="border-2 border-dashed border-border rounded-xl p-12 text-center cursor-pointer hover:border-primary/50 transition-all duration-300"
+                  className="border-2 border-dashed border-border rounded-xl p-12 text-center cursor-pointer hover:border-primary/50 transition-all duration-300 bg-background/50"
                   onDragOver={(e) => e.preventDefault()}
                   onDrop={handleDrop}
                   onClick={() => fileInputRef.current?.click()}
@@ -211,7 +211,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
                   <h3 className="text-xl font-semibold mb-4 text-center">Your Files</h3>
                   <ul className="space-y-3">
                     {files.map((file) => (
-                      <li key={`${file.name}-${file.lastModified}`} className="flex items-center justify-between p-3 border rounded-lg bg-background">
+                      <li key={`${file.name}-${file.lastModified}`} className="flex items-center justify-between p-3 border rounded-lg bg-background/70">
                         <div className="flex items-center gap-3 overflow-hidden">
                           <File className="h-6 w-6 text-primary flex-shrink-0" />
                           <div className="overflow-hidden">
@@ -245,7 +245,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
                   onClick={handleProcessFiles}
                   disabled={files.length === 0 || status !== 'idle'}
                   loading={status === 'processing'}
-                  variant="default"
+                  variant="primary"
                   size="lg"
                   className="px-8 py-3 text-lg font-semibold"
                 >
@@ -323,7 +323,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-background pt-24">
+    <div className="flex min-h-screen flex-col bg-transparent pt-24">
       <main className="flex-1 relative z-10">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-6xl mx-auto">

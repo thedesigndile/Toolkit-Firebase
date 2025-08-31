@@ -119,7 +119,7 @@ export function Header() {
         animate="visible"
       >
         <motion.div
-          className="flex justify-start"
+          className="flex-shrink-0"
           variants={navItemVariants}
         >
           <Link href="/" aria-label="Go to homepage" className="flex items-center gap-2 group">
@@ -140,7 +140,7 @@ export function Header() {
         </motion.div>
         
         <motion.div
-          className="flex justify-center"
+          className="flex-grow flex justify-center"
           variants={navItemVariants}
         >
           <NavigationMenu>
@@ -215,7 +215,7 @@ export function Header() {
         </motion.div>
 
         <motion.div
-          className="flex justify-end items-center gap-1"
+          className="flex-shrink-0 flex items-center gap-1"
           variants={navItemVariants}
         >
           <motion.div
@@ -270,7 +270,7 @@ export function Header() {
               aria-controls="mobile-navigation"
               className="w-11 h-11 text-primary-foreground hover:text-primary-foreground/90 border border-primary-foreground/20"
           >
-              <Menu className="h-6 w-6" aria-hidden="true" />
+              <Menu className="h-6 w-6 icon-gradient" aria-hidden="true" />
           </Button>
         </motion.div>
         <motion.div
@@ -346,7 +346,7 @@ export function Header() {
                   aria-label="Close navigation menu"
                   className="w-11 h-11 border"
                 >
-                  <X className="h-6 w-6" aria-hidden="true" />
+                  <X className="h-6 w-6 icon-gradient" aria-hidden="true" />
                 </Button>
               </motion.div>
             </motion.div>
