@@ -34,16 +34,17 @@ const navItems = [
 ];
 
 const navLinks = [
+    { name: "All Tools", href: "/tools"},
     { name: "Pricing", href: "/pricing"},
     { name: "Contact", href: "/contact"},
 ]
 
 const ListItemLink = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a"> & { tool: Tool }
+  React.ElementRef<typeof Link>,
+  React.ComponentPropsWithoutRef<typeof Link> & { tool: Tool }
 >(({ className, tool, ...props }, ref) => {
   return (
-    <ListItem ref={ref} href={getToolUrl(tool.name)} tool={tool} {...props} />
+    <ListItem ref={ref as React.Ref<HTMLAnchorElement>} href={getToolUrl(tool.name)} tool={tool} {...props} />
   );
 });
 ListItemLink.displayName = "ListItemLink";
@@ -101,14 +102,14 @@ export function Header() {
     }
   };
 
-  const navButtonClasses = "font-semibold text-sm px-4 py-3 bg-transparent text-primary-foreground data-[state=open]:bg-primary/80 hover:bg-primary/90";
+  const navButtonClasses = "font-semibold text-sm px-3 py-2 bg-transparent text-primary-foreground data-[state=open]:bg-primary/80 hover:bg-primary/90";
 
 
   return (
     <>
       <motion.header
         className={cn(
-          "hidden md:flex items-center justify-between w-full max-w-6xl mx-auto p-3 rounded-2xl bg-primary"
+          "hidden md:flex items-center justify-between w-full max-w-6xl mx-auto p-2 rounded-2xl bg-primary"
         )}
         style={{
           boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)'
@@ -121,7 +122,7 @@ export function Header() {
           className="flex justify-start"
           variants={navItemVariants}
         >
-          <Link href="/" aria-label="Go to homepage" className="flex items-center gap-3 group">
+          <Link href="/" aria-label="Go to homepage" className="flex items-center gap-2 group">
             <motion.div
               whileHover={{ rotate: 360, scale: 1.1 }}
               transition={{ duration: 0.6 }}
@@ -129,7 +130,7 @@ export function Header() {
               <ModernLogo />
             </motion.div>
             <motion.span
-              className={cn(fontLogo.className, "font-bold text-3xl text-primary-foreground tracking-wider whitespace-nowrap")}
+              className={cn(fontLogo.className, "font-bold text-2xl text-primary-foreground tracking-wider whitespace-nowrap")}
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
@@ -144,7 +145,7 @@ export function Header() {
         >
           <NavigationMenu>
             <NavigationMenuList>
-              {navItems.map((item, index) => (
+              {navItems.map((item) => (
                   <motion.div
                     key={item.name}
                     variants={navItemVariants}
@@ -188,30 +189,33 @@ export function Header() {
                    </NavigationMenuItem>
                   </motion.div>
                ))}
-                <motion.div
-                  variants={navItemVariants}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <NavigationMenuItem>
-                     <NavigationMenuLink asChild className={cn(navigationMenuTriggerStyle(), navButtonClasses)}>
-                         <Link href="/tools">
-                           <motion.span
-                             whileHover={{ scale: 1.05 }}
-                             transition={{ type: "spring", stiffness: 400 }}
-                           >
-                             All Tools
-                           </motion.span>
-                         </Link>
-                     </NavigationMenuLink>
-                 </NavigationMenuItem>
-                </motion.div>
+                {navLinks.map((link) => (
+                  <motion.div
+                    key={link.name}
+                    variants={navItemVariants}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <NavigationMenuItem>
+                      <Link href={link.href} legacyBehavior passHref>
+                        <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), navButtonClasses)}>
+                            <motion.span
+                              whileHover={{ scale: 1.05 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              {link.name}
+                            </motion.span>
+                        </NavigationMenuLink>
+                      </Link>
+                    </NavigationMenuItem>
+                  </motion.div>
+                ))}
              </NavigationMenuList>
            </NavigationMenu>
         </motion.div>
 
         <motion.div
-          className="flex justify-end items-center gap-2"
+          className="flex justify-end items-center gap-1"
           variants={navItemVariants}
         >
           <motion.div
@@ -227,7 +231,7 @@ export function Header() {
           >
             <Button
               variant="outline"
-              className="text-primary-foreground border-primary-foreground/50 hover:bg-primary/90 hover:text-primary-foreground rounded-xl px-3 py-2 font-medium"
+              className="text-primary-foreground border-primary-foreground/50 hover:bg-primary/90 hover:text-primary-foreground rounded-xl px-2 py-2 font-medium"
             >
               Log In
             </Button>
@@ -238,7 +242,7 @@ export function Header() {
           >
             <Button
               variant="secondary"
-              className="rounded-xl px-4 py-2 font-semibold shadow-lg hover:shadow-xl"
+              className="rounded-xl px-3 py-2 font-semibold shadow-lg hover:shadow-xl"
             >
               Get Started
             </Button>
@@ -383,15 +387,6 @@ export function Header() {
                 <Separator className="my-4" />
 
                 <motion.div className="flex flex-col" variants={mobileMenuContainerVariants} initial="hidden" animate="visible">
-                    <motion.div variants={mobileMenuItemVariants}>
-                         <Link
-                            href="/tools"
-                            className="block p-4 text-lg font-semibold text-foreground hover:bg-accent/10 rounded-md transition-colors"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                            All Tools
-                        </Link>
-                    </motion.div>
                     {navLinks.map((link) => (
                         <motion.div key={link.name} variants={mobileMenuItemVariants}>
                              <Link
