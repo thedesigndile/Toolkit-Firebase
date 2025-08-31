@@ -505,7 +505,7 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
                   whileHover={{ rotate: 360, scale: 1.1 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <Icon className="h-8 w-8 text-accent group-hover:text-primary transition-colors duration-300" />
+                  <Icon className="h-8 w-8 icon-gradient" />
                 </motion.div>
               )}
               <div className="flex-1">

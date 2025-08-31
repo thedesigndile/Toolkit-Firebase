@@ -94,6 +94,13 @@
     @apply bg-gradient-primary bg-clip-text text-transparent;
   }
 
+  .icon-gradient {
+    @apply bg-gradient-to-r from-brand-blue to-brand-purple;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
   }

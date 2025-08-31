@@ -138,7 +138,7 @@ export function ToolsSection() {
                         <ScrollReveal key={category} animation="slideUp" className="space-y-8">
                             <ScrollReveal animation="fade" delay={200}>
                                 <h2 className="text-3xl font-bold flex items-center justify-center gap-3 text-center relative z-10">
-                                    <CategoryIcon className="h-8 w-8 text-primary" strokeWidth={1.5} />
+                                    <CategoryIcon className="h-8 w-8 icon-gradient" strokeWidth={1.5} />
                                     {category}
                                 </h2>
                             </ScrollReveal>
