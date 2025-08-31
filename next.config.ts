@@ -2,9 +2,7 @@ import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
   /* Performance Optimizations */
-  output: 'export',
-  distDir: 'out',
-  trailingSlash: true,
+  output: 'standalone',
 
   // Compression and optimization
   compress: true,

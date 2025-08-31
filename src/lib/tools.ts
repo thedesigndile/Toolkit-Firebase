@@ -40,46 +40,67 @@ export interface Tool {
 }
 
 export const tools: Tool[] = [
+  // Edit PDF
+  { name: 'Merge PDF', description: 'Combine multiple PDF files into one.', icon: MergePdfIcon, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'merge-pdf' },
+  { name: 'Split PDF', description: 'Extract pages from a PDF file.', icon: SplitPdfIcon, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'split-pdf' },
+  { name: 'Compress PDF', description: 'Reduce the file size of your PDF documents.', icon: CompressPdfIcon, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'compress-pdf' },
+  { name: 'Delete PDF Pages', description: 'Delete one or more pages from your PDF file.', icon: FileX, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'generic' },
+  { name: 'Rotate PDF', description: 'Rotate one or all pages in your PDF file.', icon: RotatePdfIcon, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'generic' },
+  { name: 'Reorder PDF Pages', description: 'Sort pages of your PDF file with drag & drop.', icon: Waypoints, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'generic' },
+  { name: 'Add PDF Pages', description: 'Insert page numbers into your PDF easily.', icon: ListOrdered, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'generic' },
+  { name: 'Extract Text from PDF', description: 'Extract selectable text from scanned PDFs.', icon: ScanText, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'generic' },
+
   // Convert PDF
   { name: 'PDF to Word', description: 'Convert your PDF to an editable Word document.', icon: PdfToWordIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'generic' },
-  { name: 'Word to PDF', description: 'Convert Microsoft Word documents to PDF.', icon: WordToPdfIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'generic' },
-  { name: 'PDF to JPG', description: 'Convert each PDF page into a JPG image.', icon: PdfToJpgIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'pdf-to-image' },
-  { name: 'Image to PDF', description: 'Convert JPG, PNG, and other images to a single PDF file.', icon: FileImage, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'image-to-pdf', isNew: true },
-  { name: 'Website to PDF', description: 'Convert any webpage into a PDF file.', icon: Globe, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'website-to-pdf', isStandalone: true, isNew: true },
-  { name: 'PDF to PowerPoint', description: 'Convert your PDF to a presentation.', icon: PdfToPowerpointIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'generic' },
   { name: 'PDF to Excel', description: 'Extract data from PDF tables to an Excel sheet.', icon: PdfToExcelIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'generic' },
-  { name: 'PowerPoint to PDF', description: 'Convert PowerPoint presentations to PDF.', icon: PowerpointToPdfIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'generic' },
+  { name: 'PDF to PowerPoint', description: 'Convert your PDF to a presentation.', icon: PdfToPowerpointIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'generic' },
+  { name: 'PDF to JPG', description: 'Convert each PDF page into a JPG image.', icon: PdfToJpgIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'pdf-to-image' },
+  { name: 'PDF to PNG', description: 'Convert PDF pages to PNG images.', icon: FileImage, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'pdf-to-image' },
+  { name: 'JPG to PDF', description: 'Convert JPG images to a single PDF file.', icon: FileImage, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'image-to-pdf' },
+  { name: 'Word to PDF', description: 'Convert Microsoft Word documents to PDF.', icon: WordToPdfIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'generic' },
   { name: 'Excel to PDF', description: 'Convert Excel spreadsheets to PDF.', icon: ExcelToPdfIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'generic' },
-  { name: 'HTML to PDF', description: 'Convert webpages to PDF documents.', icon: Code, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'generic' },
-  { name: 'PDF to PDF/A', description: 'Convert to the ISO-standardized PDF/A format.', icon: Archive, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'generic' },
+  { name: 'PPT to PDF', description: 'Convert PowerPoint presentations to PDF.', icon: PowerpointToPdfIcon, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'generic' },
+  { name: 'PDF to HTML', description: 'Convert PDFs to HTML format.', icon: Code, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'generic' },
 
-  // Organize PDF
-  { name: 'Merge PDF', description: 'Combine multiple PDF files into one.', icon: MergePdfIcon, category: 'Organize PDF', categoryIcon: Layers, processorType: 'merge-pdf' },
-  { name: 'Split PDF', description: 'Extract pages from a PDF file.', icon: SplitPdfIcon, category: 'Organize PDF', categoryIcon: Layers, processorType: 'split-pdf' },
-  { name: 'Remove Pages', description: 'Delete one or more pages from your PDF file.', icon: FileX, category: 'Organize PDF', categoryIcon: Layers, processorType: 'generic' },
-  { name: 'Extract Pages', description: 'Select and export specific pages from a PDF.', icon: ChevronsRight, category: 'Organize PDF', categoryIcon: Layers, processorType: 'generic' },
-  { name: 'Reorder Pages', description: 'Sort pages of your PDF file with drag & drop.', icon: Waypoints, category: 'Organize PDF', categoryIcon: Layers, processorType: 'generic' },
-  { name: 'Scan to PDF', description: 'Use your camera to scan documents into a PDF.', icon: FileScan, category: 'Organize PDF', categoryIcon: Layers, processorType: 'generic', isNew: true },
-  
-  // Edit PDF
-  { name: 'Rotate PDF', description: 'Rotate one or all pages in your PDF file.', icon: RotatePdfIcon, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'generic' },
-  { name: 'Add Page Numbers', description: 'Insert page numbers into your PDF easily.', icon: ListOrdered, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'generic' },
-  { name: 'Add Watermark', description: 'Stamp text or an image over your PDF.', icon: WatermarkIcon, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'generic' },
-  { name: 'Crop PDF', description: 'Trim the margins of your PDF pages.', icon: Crop, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'generic' },
-  { name: 'Draw/Annotate PDF', description: 'Draw, highlight, and add notes to a PDF.', icon: Paintbrush, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'generic' },
-  { name: 'Fill & Edit PDF Forms', description: 'Edit and fill out AcroForms and XFA forms.', icon: EditPdfIcon, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'generic' },
+  // Protect & Secure
+  { name: 'Password Protect PDF', description: 'Add a password and encrypt your PDF file.', icon: ShieldCheck, category: 'Protect & Secure', categoryIcon: Shield, processorType: 'generic' },
+  { name: 'Unlock PDF', description: 'Remove password protection from a PDF file.', icon: Lock, category: 'Protect & Secure', categoryIcon: Shield, processorType: 'generic' },
+  { name: 'Watermark PDF', description: 'Stamp text or an image over your PDF.', icon: WatermarkIcon, category: 'Protect & Secure', categoryIcon: Shield, processorType: 'generic' },
+  { name: 'Sign PDF', description: 'Create or apply your electronic signature to a PDF.', icon: SignPdfIcon, category: 'Protect & Secure', categoryIcon: Shield, processorType: 'generic' },
+  { name: 'Encrypt PDF', description: 'Add encryption to secure your PDF.', icon: ShieldCheck, category: 'Protect & Secure', categoryIcon: Shield, processorType: 'generic' },
+  { name: 'Redact PDF', description: 'Permanently black out sensitive information.', icon: FileLock, category: 'Protect & Secure', categoryIcon: Shield, processorType: 'generic' },
 
-  // Optimize PDF
-  { name: 'Compress PDF', description: 'Reduce the file size of your PDF documents.', icon: CompressPdfIcon, category: 'Optimize PDF', categoryIcon: Settings2, processorType: 'compress-pdf' },
-  { name: 'Repair PDF', description: 'Attempt to fix and recover data from a corrupted PDF.', icon: Settings2, category: 'Optimize PDF', categoryIcon: Settings2, processorType: 'generic' },
-  { name: 'OCR PDF', description: 'Extract selectable text from scanned PDFs.', icon: ScanText, category: 'Optimize PDF', categoryIcon: Settings2, processorType: 'generic' },
-  { name: 'Flatten PDF', description: 'Make PDF forms and annotations un-editable.', icon: FileSliders, category: 'Optimize PDF', categoryIcon: Settings2, processorType: 'generic' },
-  
-  // PDF Security
-  { name: 'Unlock PDF', description: 'Remove password protection from a PDF file.', icon: Lock, category: 'PDF Security', categoryIcon: Shield, processorType: 'generic' },
-  { name: 'Protect PDF', description: 'Add a password and encrypt your PDF file.', icon: ShieldCheck, category: 'PDF Security', categoryIcon: Shield, processorType: 'generic' },
-  { name: 'Sign PDF', description: 'Create or apply your electronic signature to a PDF.', icon: SignPdfIcon, category: 'PDF Security', categoryIcon: Shield, processorType: 'generic' },
-  { name: 'Redact PDF', description: 'Permanently black out sensitive information.', icon: FileLock, category: 'PDF Security', categoryIcon: Shield, processorType: 'generic' },
+  // View & Organize
+  { name: 'PDF Viewer', description: 'View and navigate PDF documents online.', icon: FileText, category: 'View & Organize', categoryIcon: Layers, processorType: 'generic' },
+  { name: 'Organize Pages', description: 'Sort and organize PDF pages.', icon: Waypoints, category: 'View & Organize', categoryIcon: Layers, processorType: 'generic' },
+  { name: 'Extract PDF Pages', description: 'Select and export specific pages from a PDF.', icon: ChevronsRight, category: 'View & Organize', categoryIcon: Layers, processorType: 'generic' },
+  { name: 'Annotate PDF', description: 'Draw, highlight, and add notes to a PDF.', icon: Paintbrush, category: 'View & Organize', categoryIcon: Layers, processorType: 'generic' },
+  { name: 'Bookmark PDF', description: 'Add bookmarks to navigate PDF sections.', icon: Bookmark, category: 'View & Organize', categoryIcon: Layers, processorType: 'generic' },
+  { name: 'Compare PDFs', description: 'Compare two PDF files for differences.', icon: FileDiff, category: 'View & Organize', categoryIcon: Layers, processorType: 'generic' },
+
+  // Image Tools
+  { name: 'Resize Image', description: 'Crop and resize your images.', icon: Crop, category: 'Image Tools', categoryIcon: Image, processorType: 'generic' },
+  { name: 'Crop Image', description: 'Trim the edges of your images.', icon: Crop, category: 'Image Tools', categoryIcon: Image, processorType: 'generic' },
+  { name: 'Convert Image', description: 'Convert images between PNG, JPG, WebP.', icon: ArrowRightLeft, category: 'Image Tools', categoryIcon: Image, processorType: 'generic' },
+  { name: 'Compress Image', description: 'Reduce image file sizes.', icon: Minimize2, category: 'Image Tools', categoryIcon: Image, processorType: 'generic' },
+  { name: 'Rotate Image', description: 'Rotate images by 90, 180, or 270 degrees.', icon: RotateCw, category: 'Image Tools', categoryIcon: Image, processorType: 'generic' },
+  { name: 'Flip Image', description: 'Flip images horizontally or vertically.', icon: RotateCw, category: 'Image Tools', categoryIcon: Image, processorType: 'generic' },
+  { name: 'Add Filters to Image', description: 'Apply filters and effects to images.', icon: ImagePlus, category: 'Image Tools', categoryIcon: Image, processorType: 'generic' },
+
+  // Other Tools
+  { name: 'Text to PDF', description: 'Convert text files to PDF.', icon: FileText, category: 'Other Tools', categoryIcon: Settings2, processorType: 'generic' },
+  { name: 'HTML to PDF', description: 'Convert HTML content to PDF.', icon: Code, category: 'Other Tools', categoryIcon: Settings2, processorType: 'generic' },
+  { name: 'Website to PDF', description: 'Convert any webpage into a PDF file.', icon: Globe, category: 'Other Tools', categoryIcon: Settings2, processorType: 'website-to-pdf', isStandalone: true },
+  { name: 'OCR (Image to Text)', description: 'Extract text from images using OCR.', icon: ScanText, category: 'Other Tools', categoryIcon: Settings2, processorType: 'generic' },
+  { name: 'PDF to Audio', description: 'Convert PDF text to audio.', icon: Speaker, category: 'Other Tools', categoryIcon: Settings2, processorType: 'generic' },
+  { name: 'Merge Images', description: 'Combine multiple images into one.', icon: Images, category: 'Other Tools', categoryIcon: Settings2, processorType: 'generic' },
+  { name: 'Split Images', description: 'Split a single image into multiple parts.', icon: Scissors, category: 'Other Tools', categoryIcon: Settings2, processorType: 'generic' },
+
+  // Advanced Features
+  { name: 'Batch Process PDFs', description: 'Process multiple PDFs at once.', icon: FileBox, category: 'Advanced Features', categoryIcon: Sparkles, processorType: 'generic' },
+  { name: 'API Integration', description: 'Integrate with external APIs.', icon: LinkIcon, category: 'Advanced Features', categoryIcon: Sparkles, processorType: 'generic' },
+  { name: 'Custom Templates', description: 'Create and use custom PDF templates.', icon: FileSliders, category: 'Advanced Features', categoryIcon: Sparkles, processorType: 'generic' },
+  { name: 'Collaboration Tools', description: 'Collaborate on PDF editing.', icon: Share2, category: 'Advanced Features', categoryIcon: Sparkles, processorType: 'generic' },
   
   // Image Tools
   { name: 'Image Converter', description: 'Convert images between PNG, JPG, WebP.', icon: ArrowRightLeft, category: 'Image Tools', categoryIcon: Image, processorType: 'generic' },
