@@ -92,8 +92,8 @@ export function ToolsSection() {
        <svg width="0" height="0" className="absolute">
          <defs>
            <linearGradient id="blue-purple-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-             <stop offset="0%" stopColor="#3b82f6" />
-             <stop offset="100%" stopColor="#8b5cf6" />
+             <stop offset="0%" stopColor="hsl(var(--brand-blue-raw))" />
+             <stop offset="100%" stopColor="hsl(var(--brand-purple-raw))" />
            </linearGradient>
          </defs>
        </svg>
@@ -125,7 +125,7 @@ export function ToolsSection() {
                     className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
                  >
                    {isLoading ? (
-                      Array.from({ length: 8 }, (_, i) => (
+                      Array.from({ length: 8 }).map((_, i) => (
                         <ToolCardSkeleton key={`skeleton-search-${i}`} />
                       ))
                     ) : (
@@ -142,14 +142,14 @@ export function ToolsSection() {
              ) : (
                  <div className="space-y-16">
                     {isLoading ? (
-                      Array.from({ length: 3 }, (_, categoryIndex) => (
+                      Array.from({ length: 3 }).map((_, categoryIndex) => (
                         <div key={`skeleton-category-${categoryIndex}`} className="space-y-8">
                             <div className="flex items-center justify-center gap-3">
                               <Skeleton className="h-7 w-7 bg-muted rounded animate-pulse" />
                               <Skeleton className="h-8 w-48 bg-muted rounded animate-pulse" />
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                              {Array.from({ length: 4 }, (_, i) => (
+                              {Array.from({ length: 4 }).map((_, i) => (
                                 <ToolCardSkeleton key={`skeleton-${categoryIndex}-${i}`} />
                               ))}
                             </div>
