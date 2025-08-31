@@ -69,7 +69,8 @@
     "styled-components": "^6.1.19",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.24.2"
+    "zod": "^3.24.2",
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.7",
@@ -77,6 +78,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/zxcvbn": "^4.4.4",
     "eslint": "^9.34.0",
     "eslint-config-next": "^15.5.2",
     "genkit-cli": "^1.14.1",

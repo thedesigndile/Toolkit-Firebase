@@ -2,23 +2,26 @@
 "use client";
 
 import { useState, useCallback, useEffect } from 'react';
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Copy, RefreshCw } from 'lucide-react';
+import { Copy, RefreshCw, KeyRound } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import zxcvbn from 'zxcvbn';
+import { cn } from '@/lib/utils';
 
 export function PasswordGenerator() {
   const [length, setLength] = useState(16);
   const [includeUppercase, setIncludeUppercase] = useState(true);
+  const [includeLowercase, setIncludeLowercase] = useState(true);
   const [includeNumbers, setIncludeNumbers] = useState(true);
   const [includeSymbols, setIncludeSymbols] = useState(true);
-  const [numberOfNumbers, setNumberOfNumbers] = useState(4);
-  const [numberOfSymbols, setNumberOfSymbols] = useState(2);
   const [generatedPassword, setGeneratedPassword] = useState('');
+  const [passwordStrength, setPasswordStrength] = useState(0);
+
   const { toast } = useToast();
 
   const generatePassword = useCallback(() => {
@@ -27,7 +30,13 @@ export function PasswordGenerator() {
     const numberChars = '0123456789';
     const symbolChars = '!@#$%^&*()_+~`|}{[]:;?><,./-=';
 
-    if (!includeUppercase && !includeNumbers && !includeSymbols) {
+    let charPool = '';
+    if (includeLowercase) charPool += lowercaseChars;
+    if (includeUppercase) charPool += uppercaseChars;
+    if (includeNumbers) charPool += numberChars;
+    if (includeSymbols) charPool += symbolChars;
+
+    if (!charPool) {
       toast({
         variant: 'destructive',
         title: 'Error',
@@ -37,59 +46,16 @@ export function PasswordGenerator() {
       return;
     }
     
-    const totalGuaranteedChars = (includeNumbers ? numberOfNumbers : 0) + (includeSymbols ? numberOfSymbols : 0);
-
-    if (totalGuaranteedChars > length) {
-      toast({
-        variant: 'destructive',
-        title: 'Error',
-        description: 'Number of digits and symbols cannot exceed password length.',
-      });
-      return;
+    let password = '';
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * charPool.length);
+        password += charPool[randomIndex];
     }
+    setGeneratedPassword(password);
+    const strengthResult = zxcvbn(password);
+    setPasswordStrength(strengthResult.score);
 
-
-    let passwordChars: string[] = [];
-    
-    // 1. Add guaranteed numbers
-    if (includeNumbers) {
-        for (let i = 0; i < numberOfNumbers; i++) {
-            const randomIndex = Math.floor(Math.random() * numberChars.length);
-            passwordChars.push(numberChars[randomIndex]);
-        }
-    }
-
-    // 2. Add guaranteed symbols
-    if (includeSymbols) {
-        for (let i = 0; i < numberOfSymbols; i++) {
-            const randomIndex = Math.floor(Math.random() * symbolChars.length);
-            passwordChars.push(symbolChars[randomIndex]);
-        }
-    }
-    
-    // 3. Build the pool for the remaining characters
-    let remainingCharPool = lowercaseChars;
-    if (includeUppercase) remainingCharPool += uppercaseChars;
-    if (includeNumbers) remainingCharPool += numberChars; // Also allow numbers in the rest of the pool
-    if (includeSymbols) remainingCharPool += symbolChars; // Also allow symbols in the rest of the pool
-
-
-    // 4. Fill the rest of the password length
-    const remainingLength = length - passwordChars.length;
-    for (let i = 0; i < remainingLength; i++) {
-        const randomIndex = Math.floor(Math.random() * remainingCharPool.length);
-        passwordChars.push(remainingCharPool[randomIndex]);
-    }
-
-    // 5. Shuffle the array to ensure random character placement
-    for (let i = passwordChars.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [passwordChars[i], passwordChars[j]] = [passwordChars[j], passwordChars[i]];
-    }
-
-    setGeneratedPassword(passwordChars.join(''));
-
-  }, [length, includeUppercase, includeNumbers, includeSymbols, numberOfNumbers, numberOfSymbols, toast]);
+  }, [length, includeUppercase, includeLowercase, includeNumbers, includeSymbols, toast]);
 
   const copyToClipboard = useCallback(() => {
     if (!generatedPassword) return;
@@ -104,9 +70,47 @@ export function PasswordGenerator() {
     generatePassword();
   }, [generatePassword]);
 
+  const getStrengthText = () => {
+    switch (passwordStrength) {
+      case 0:
+      case 1:
+        return 'Weak';
+      case 2:
+        return 'Medium';
+      case 3:
+      case 4:
+        return 'Strong';
+      default:
+        return '';
+    }
+  };
+
+  const strengthColorClass = () => {
+    switch (passwordStrength) {
+        case 0:
+        case 1:
+            return "bg-red-500";
+        case 2:
+            return "bg-yellow-500";
+        case 3:
+        case 4:
+            return "bg-green-500";
+        default:
+            return "bg-muted";
+    }
+  }
 
   return (
     <Card>
+      <CardHeader className="text-center">
+        <div className="inline-flex items-center justify-center p-4 bg-primary/10 rounded-full mb-4 mx-auto">
+            <KeyRound className="h-10 w-10 icon-gradient" />
+        </div>
+        <CardTitle className="text-2xl font-bold">
+            Generate a secure password
+        </CardTitle>
+        <p className="text-muted-foreground mt-1 text-md">Create strong and random passwords to keep your accounts secure.</p>
+      </CardHeader>
       <CardContent className="pt-6 space-y-6">
         <div className="relative">
           <Input
@@ -125,23 +129,19 @@ export function PasswordGenerator() {
           </div>
         </div>
         
-        <div className="space-y-4">
+        <div className="w-full h-2 bg-muted rounded-full overflow-hidden flex">
+            {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className={cn("h-full w-1/4 transition-colors", passwordStrength >= i + 1 ? strengthColorClass() : 'bg-muted')} />
+            ))}
+        </div>
+         <p className="text-sm text-center text-muted-foreground -mt-4">
+            Strength: <span className="font-semibold">{getStrengthText()}</span>
+        </p>
+        
+        <div className="space-y-4 pt-4">
             <div className='flex justify-between items-center'>
-                <Label htmlFor="length-input">Password Length</Label>
-                <Input
-                    id="length-input"
-                    type="number"
-                    min={8}
-                    max={64}
-                    value={length}
-                    onChange={(e) => {
-                        const val = parseInt(e.target.value, 10);
-                        if (!isNaN(val)) {
-                            setLength(Math.max(8, Math.min(64, val)));
-                        }
-                    }}
-                    className="w-20 text-center"
-                />
+                <Label htmlFor="length-slider">Password Length</Label>
+                <span className="font-semibold text-lg">{length}</span>
             </div>
             <Slider
                 id="length-slider"
@@ -158,56 +158,19 @@ export function PasswordGenerator() {
                 <Checkbox id="uppercase" checked={includeUppercase} onCheckedChange={(checked) => setIncludeUppercase(!!checked)} />
                 <Label htmlFor="uppercase">Include Uppercase (A-Z)</Label>
             </div>
-             <div className="flex items-center space-x-2">
-                <Checkbox id="lowercase" checked={true} disabled />
-                <Label htmlFor="lowercase" className="text-muted-foreground">Include Lowercase (a-z)</Label>
+            <div className="flex items-center space-x-2">
+                <Checkbox id="lowercase" checked={includeLowercase} onCheckedChange={(checked) => setIncludeLowercase(!!checked)} />
+                <Label htmlFor="lowercase">Include Lowercase (a-z)</Label>
             </div>
-        </div>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8 items-center">
             <div className="flex items-center space-x-2">
                 <Checkbox id="numbers" checked={includeNumbers} onCheckedChange={(checked) => setIncludeNumbers(!!checked)} />
                 <Label htmlFor="numbers">Include Numbers (0-9)</Label>
             </div>
-            {includeNumbers && (
-              <div className="flex items-center gap-2">
-                <Label htmlFor="numberOfNumbers" className="whitespace-nowrap flex-shrink-0">Number of digits</Label>
-                <Slider
-                    id="numberOfNumbers"
-                    min={0}
-                    max={length}
-                    step={1}
-                    value={[numberOfNumbers]}
-                    onValueChange={(value) => setNumberOfNumbers(value[0])}
-                    className="w-full"
-                />
-                <span className="w-8 text-center">{numberOfNumbers}</span>
-              </div>
-            )}
-        </div>
-
-         <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8 items-center">
             <div className="flex items-center space-x-2">
                 <Checkbox id="symbols" checked={includeSymbols} onCheckedChange={(checked) => setIncludeSymbols(!!checked)} />
                 <Label htmlFor="symbols">Include Symbols (!@#...)</Label>
             </div>
-            {includeSymbols && (
-              <div className="flex items-center gap-2">
-                <Label htmlFor="numberOfSymbols" className="whitespace-nowrap flex-shrink-0">Number of symbols</Label>
-                <Slider
-                    id="numberOfSymbols"
-                    min={0}
-                    max={length}
-                    step={1}
-                    value={[numberOfSymbols]}
-                    onValueChange={(value) => setNumberOfSymbols(value[0])}
-                    className="w-full"
-                />
-                <span className="w-8 text-center">{numberOfSymbols}</span>
-              </div>
-            )}
         </div>
-
 
         <div className="mt-4 text-center">
             <Button size="lg" onClick={generatePassword}>
