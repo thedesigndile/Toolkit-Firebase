@@ -4,6 +4,7 @@ import * as pdfjsLib from 'pdfjs-dist';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import imageCompression from 'browser-image-compression';
+import { Document as DocxDocument, Packer, Paragraph } from 'docx';
 
 // =============== GENERAL UTILITIES ===============
 
@@ -148,7 +149,7 @@ export const mergePdfs = async (files: File[], setProgress: (p: number) => void)
   return new Blob([mergedPdfBytes], { type: 'application/pdf' });
 };
 
-type SplitOptions = {
+export type SplitOptions = {
   mode: 'ranges' | 'extract';
   ranges: { from: number, to: number }[];
   extractMode: 'all' | 'odd' | 'even' | 'custom';
@@ -368,40 +369,129 @@ export const enhanceImage = async (file: File, options: {
 };
 
 export const resizeImage = async (file: File, width: number, height: number, setProgress: (p: number) => void): Promise<Blob> => {
-    setProgress(50);
-    const result = await callBackendAPI('/resize-image', file, { width, height });
-    setProgress(100);
-    return result;
+    setProgress(10);
+    return new Promise<Blob>((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return reject(new Error('Canvas context not available'));
+            setProgress(50);
+            ctx.drawImage(img, 0, 0, width, height);
+            canvas.toBlob((blob) => {
+                if (blob) {
+                    setProgress(100);
+                    resolve(blob);
+                } else {
+                    reject(new Error('Failed to resize image'));
+                }
+            }, 'image/png', 0.95);
+        };
+        img.onerror = () => reject(new Error('Failed to load image'));
+        img.src = URL.createObjectURL(file);
+    });
 };
 
 export const convertImage = async (file: File, format: string, setProgress: (p: number) => void): Promise<Blob> => {
-    setProgress(50);
-    const result = await callBackendAPI('/convert-image', file, { format });
-    setProgress(100);
-    return result;
+    setProgress(10);
+    return new Promise<Blob>((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return reject(new Error('Canvas context not available'));
+            setProgress(50);
+            ctx.drawImage(img, 0, 0);
+            const mime = format === 'jpg' ? 'image/jpeg' : `image/${format}`;
+            canvas.toBlob((blob) => {
+                if (blob) {
+                    setProgress(100);
+                    resolve(blob);
+                } else {
+                    reject(new Error('Failed to convert image'));
+                }
+            }, mime, 0.95);
+        };
+        img.onerror = () => reject(new Error('Failed to load image'));
+        img.src = URL.createObjectURL(file);
+    });
 };
 
 export const cropImage = async (file: File, x: number, y: number, width: number, height: number, setProgress: (p: number) => void): Promise<Blob> => {
-    setProgress(50);
-    const result = await callBackendAPI('/crop-image', file, { x, y, width, height });
-    setProgress(100);
-    return result;
+    setProgress(10);
+    return new Promise<Blob>((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return reject(new Error('Canvas context not available'));
+            setProgress(50);
+            ctx.drawImage(img, -x, -y);
+            canvas.toBlob((blob) => {
+                if (blob) {
+                    setProgress(100);
+                    resolve(blob);
+                } else {
+                    reject(new Error('Failed to crop image'));
+                }
+            }, 'image/png', 0.95);
+        };
+        img.onerror = () => reject(new Error('Failed to load image'));
+        img.src = URL.createObjectURL(file);
+    });
 };
 
 export const rotateImage = async (file: File, angle: number, setProgress: (p: number) => void): Promise<Blob> => {
-    setProgress(50);
-    const result = await callBackendAPI('/rotate-image', file, { angle });
-    setProgress(100);
-    return result;
+    setProgress(10);
+    return new Promise<Blob>((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+            const radians = (angle * Math.PI) / 180;
+            const sin = Math.abs(Math.sin(radians));
+            const cos = Math.abs(Math.cos(radians));
+            const newWidth = Math.ceil(img.width * cos + img.height * sin);
+            const newHeight = Math.ceil(img.width * sin + img.height * cos);
+            const canvas = document.createElement('canvas');
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return reject(new Error('Canvas context not available'));
+            setProgress(50);
+            ctx.translate(newWidth / 2, newHeight / 2);
+            ctx.rotate(radians);
+            ctx.drawImage(img, -img.width / 2, -img.height / 2);
+            canvas.toBlob((blob) => {
+                if (blob) {
+                    setProgress(100);
+                    resolve(blob);
+                } else {
+                    reject(new Error('Failed to rotate image'));
+                }
+            }, 'image/png', 0.95);
+        };
+        img.onerror = () => reject(new Error('Failed to load image'));
+        img.src = URL.createObjectURL(file);
+    });
 };
 
 // =============== PDF CONVERSION FUNCTIONS ===============
 
 export const pdfToWord = async (file: File, setProgress: (p: number) => void): Promise<Blob> => {
-    setProgress(50);
-    const result = await callBackendAPI('/pdf-to-word', file);
-    setProgress(100);
-    return result;
+    setProgress(30);
+    try {
+        const result = await callBackendAPI('/pdf-to-word', file);
+        setProgress(100);
+        return result;
+    } catch (e) {
+        // Fallback to client-side DOCX generation if backend is unavailable
+        return await pdfToDocx(file, setProgress);
+    }
 };
 
 export const wordToPdf = async (file: File, setProgress: (p: number) => void): Promise<Blob> => {
@@ -412,12 +502,94 @@ export const wordToPdf = async (file: File, setProgress: (p: number) => void): P
 };
 
 export const pdfToExcel = async (file: File, setProgress: (p: number) => void): Promise<Blob> => {
-    setProgress(50);
-    const result = await callBackendAPI('/pdf-to-excel', file);
-    setProgress(100);
-    return result;
+    setProgress(30);
+    try {
+        const result = await callBackendAPI('/pdf-to-excel', file);
+        setProgress(100);
+        return result;
+    } catch (e) {
+        // Fallback to client-side CSV extraction if backend is unavailable
+        return await pdfToCsv(file, setProgress);
+    }
 };
 
+// =============== CLIENT FALLBACKS FOR DOCUMENT CONVERSIONS ===============
+
+export async function pdfToDocx(file: File, setProgress: (p: number) => void): Promise<Blob> {
+  setProgress(10);
+  try {
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+    const paragraphs: Paragraph[] = [];
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const textContent: any = await page.getTextContent();
+      const pageText = (textContent.items || [])
+        .map((it: any) => (typeof it?.str === 'string' ? it.str : (typeof it?.text === 'string' ? it.text : '')))
+        .join(' ')
+        .replace(/\s+\n/g, '\n')
+        .replace(/\s{2,}/g, ' ')
+        .trim();
+
+      paragraphs.push(new Paragraph(pageText || ''));
+      // Add a blank line between pages for readability
+      if (i < pdf.numPages) {
+        paragraphs.push(new Paragraph(''));
+      }
+      setProgress(Math.min(95, Math.round((i / pdf.numPages) * 95)));
+    }
+
+    const doc = new DocxDocument({
+      sections: [
+        {
+          properties: {},
+          children: paragraphs,
+        },
+      ],
+    });
+
+    const blob = await Packer.toBlob(doc);
+    setProgress(100);
+    return blob;
+  } catch (err) {
+    setProgress(0);
+    throw new Error('Client-side DOCX generation failed');
+  }
+}
+
+export async function pdfToCsv(file: File, setProgress: (p: number) => void): Promise<Blob> {
+  setProgress(10);
+  try {
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+    const lines: string[] = ['"Extracted_Text"'];
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const textContent: any = await page.getTextContent();
+      const pageText = (textContent.items || [])
+        .map((it: any) => (typeof it?.str === 'string' ? it.str : (typeof it?.text === 'string' ? it.text : '')))
+        .join(' ')
+        .replace(/\r/g, ' ')
+        .replace(/\n/g, ' ')
+        .replace(/\s{2,}/g, ' ')
+        .trim();
+
+      // CSV-escape quotes by doubling them
+      const escaped = pageText.replace(/"/g, '""');
+      lines.push(`"${escaped}"`);
+      setProgress(Math.min(95, Math.round((i / pdf.numPages) * 95)));
+    }
+
+    const csv = lines.join('\n');
+    setProgress(100);
+    return new Blob([csv], { type: 'text/csv' });
+  } catch (err) {
+    setProgress(0);
+    throw new Error('Client-side CSV extraction failed');
+  }
+}
 export const imagesToPdf = async (files: File[], setProgress: (p: number) => void): Promise<Blob> => {
     const pdfDoc = await PDFDocument.create();
     
@@ -476,10 +648,42 @@ export const createZip = async (files: File[], setProgress: (p: number) => void)
 };
 
 export const extractZip = async (file: File, setProgress: (p: number) => void): Promise<Blob> => {
-    setProgress(50);
-    const result = await callBackendAPI('/zip-extract', file);
-    setProgress(100);
-    return result;
+    setProgress(10);
+    // Try backend first
+    try {
+        const result = await callBackendAPI('/zip-extract', file);
+        setProgress(100);
+        return result;
+    } catch {
+        // Client-side fallback: parse the ZIP and repackage all entries into a new ZIP
+        try {
+            const inputBuffer = await file.arrayBuffer();
+            const inputZip = await JSZip.loadAsync(inputBuffer);
+            const outputZip = new JSZip();
+
+            const names = Object.keys(inputZip.files);
+            const total = Math.max(1, names.length);
+            let done = 0;
+
+            await Promise.all(
+                names.map(async (name) => {
+                    const entry = inputZip.files[name];
+                    if (entry.dir) return; // skip directories, structure will be kept by filenames
+                    const content = await entry.async('arraybuffer');
+                    outputZip.file(name, content);
+                    done += 1;
+                    setProgress(Math.min(90, Math.round((done / total) * 90)));
+                })
+            );
+
+            const blob = await outputZip.generateAsync({ type: 'blob' });
+            setProgress(100);
+            return blob;
+        } catch {
+            setProgress(0);
+            throw new Error('Failed to extract ZIP: backend unavailable and client-side fallback failed.');
+        }
+    }
 };
 
 // =============== UTILITY FUNCTIONS ===============

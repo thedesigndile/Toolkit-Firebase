@@ -104,7 +104,7 @@ export function PasswordGenerator() {
     <Card>
       <CardHeader className="text-center">
         <div className="inline-flex items-center justify-center p-4 bg-primary/10 rounded-full mb-4 mx-auto">
-            <KeyRound className="h-10 w-10 icon-gradient" />
+            <KeyRound className="h-10 w-10 text-primary" />
         </div>
         <CardTitle className="text-2xl font-bold">
             Generate a secure password
@@ -121,10 +121,10 @@ export function PasswordGenerator() {
           />
           <div className="absolute top-1/2 right-2 -translate-y-1/2 flex gap-1">
             <Button variant="ghost" size="icon" onClick={generatePassword} title="Generate new password">
-              <RefreshCw className="h-5 w-5 icon-gradient" strokeWidth={1.5} />
+              <RefreshCw className="h-5 w-5 text-primary" strokeWidth={1.5} />
             </Button>
             <Button variant="ghost" size="icon" onClick={copyToClipboard} title="Copy to clipboard" disabled={!generatedPassword}>
-              <Copy className="h-5 w-5 icon-gradient" strokeWidth={1.5} />
+              <Copy className="h-5 w-5 text-primary" strokeWidth={1.5} />
             </Button>
           </div>
         </div>
@@ -174,7 +174,7 @@ export function PasswordGenerator() {
 
         <div className="mt-4 text-center">
             <Button size="lg" onClick={generatePassword}>
-                <RefreshCw className="mr-2 h-4 w-4 icon-gradient" strokeWidth={1.5} />
+                <RefreshCw className="mr-2 h-4 w-4" strokeWidth={1.5} />
                 Generate Password
             </Button>
         </div>

@@ -275,7 +275,7 @@ export function TextToSpeechComponent() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <FileText className="h-5 w-5 icon-gradient" />
+              <FileText className="h-5 w-5 text-primary" />
               Enter Text to Convert
             </CardTitle>
           </CardHeader>
@@ -309,7 +309,7 @@ export function TextToSpeechComponent() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Settings className="h-5 w-5 icon-gradient" />
+              <Settings className="h-5 w-5 text-primary" />
               Voice Settings
             </CardTitle>
           </CardHeader>
@@ -438,18 +438,18 @@ export function TextToSpeechComponent() {
                 ) : isPlaying ? (
                   isPaused ? (
                     <>
-                      <Play className="h-4 w-4 icon-gradient" />
+                      <Play className="h-4 w-4" />
                       Resume
                     </>
                   ) : (
                     <>
-                      <Pause className="h-4 w-4 icon-gradient" />
+                      <Pause className="h-4 w-4" />
                       Pause
                     </>
                   )
                 ) : (
                   <>
-                    <Play className="h-4 w-4 icon-gradient" />
+                    <Play className="h-4 w-4" />
                     Speak
                   </>
                 )}
@@ -462,7 +462,7 @@ export function TextToSpeechComponent() {
                 size="lg"
                 className="flex items-center gap-2"
               >
-                <Square className="h-4 w-4 icon-gradient" />
+                <Square className="h-4 w-4" />
                 Stop
               </Button>
 
@@ -472,7 +472,7 @@ export function TextToSpeechComponent() {
                 size="lg"
                 className="flex items-center gap-2"
               >
-                <RotateCcw className="h-4 w-4 icon-gradient" />
+                <RotateCcw className="h-4 w-4" />
                 Reset
               </Button>
 
@@ -483,7 +483,7 @@ export function TextToSpeechComponent() {
                 size="lg"
                 className="flex items-center gap-2"
               >
-                <Download className="h-4 w-4 icon-gradient" />
+                <Download className="h-4 w-4" />
                 Download
               </Button>
             </div>
@@ -500,7 +500,7 @@ export function TextToSpeechComponent() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Zap className="h-5 w-5 icon-gradient" />
+              <Zap className="h-5 w-5 text-primary" />
               Quick Examples
             </CardTitle>
           </CardHeader>
@@ -518,7 +518,7 @@ export function TextToSpeechComponent() {
                   className="text-left h-auto p-3 justify-start"
                   onClick={() => handleTextChange(example)}
                 >
-                  <Mic className="h-4 w-4 mr-2 flex-shrink-0 icon-gradient" />
+                  <Mic className="h-4 w-4 mr-2 flex-shrink-0 text-primary" />
                   <span className="text-sm">{example}</span>
                 </Button>
               ))}

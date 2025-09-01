@@ -15,6 +15,7 @@ import {
   convertText, countTextStats, markdownToHtml, htmlToMarkdown, base64Encode, base64Decode,
   urlEncode, urlDecode, enhanceImage
 } from '@/lib/tool-functions';
+import type { SplitOptions } from '@/lib/tool-functions';
 import { Footer } from '@/components/footer';
 import { useProgress } from '@/components/progress-provider';
 import { ProgressDisplay } from '@/components/progress-display';
@@ -55,7 +56,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
   const addMoreFilesInputRef = useRef<HTMLInputElement>(null);
 
   // Tool-specific options state
-  const [splitOptions, setSplitOptions] = useState({ mode: 'ranges', ranges: [{ from: 1, to: 1 }], extractMode: 'all', selectedPages: '' });
+  const [splitOptions, setSplitOptions] = useState<SplitOptions>({ mode: 'ranges', ranges: [{ from: 1, to: 1 }], extractMode: 'all', selectedPages: '' });
   const [compressLevel, setCompressLevel] = useState('recommended');
   const [pdfImageFormat, setPdfImageFormat] = useState<ImageFormat>('png');
   const [pdfImageQuality, setPdfImageQuality] = useState(90);
@@ -530,7 +531,7 @@ Paragraphs: ${stats.paragraphs}`;
                     onClick={() => fileInputRef.current?.click()}
                     tabIndex={0}
                   >
-                    <UploadCloud className="mx-auto h-12 w-12 sm:h-16 sm:w-16 text-primary mb-4 icon-gradient" />
+                    <UploadCloud className="mx-auto h-12 w-12 sm:h-16 sm:w-16 text-primary mb-4" />
                     <p className="text-base sm:text-lg font-medium mb-2">Drag & drop files here, or click to select</p>
                     <p className="text-xs sm:text-sm text-muted-foreground px-2">Supported formats: {fileAccept.replaceAll('application/', '.')}</p>
                     <input ref={fileInputRef} type="file" className="hidden" onChange={handleFileChange} accept={fileAccept} multiple={showAddMore} />
@@ -542,7 +543,7 @@ Paragraphs: ${stats.paragraphs}`;
                       {files.map((file) => (
                         <li key={`${file.name}-${file.lastModified}`} className="file-item flex items-center justify-between p-3 sm:p-4 border rounded-lg bg-background/70">
                           <div className="flex items-center gap-2 sm:gap-3 overflow-hidden min-w-0 flex-1">
-                            <File className="h-5 w-5 sm:h-6 sm:w-6 icon-gradient flex-shrink-0" />
+                            <File className="h-5 w-5 sm:h-6 sm:w-6 text-primary flex-shrink-0" />
                             <div className="overflow-hidden min-w-0 flex-1">
                               <p className="text-xs sm:text-sm font-medium truncate">{file.name}</p>
                               <p className="text-xs text-muted-foreground">({(file.size / 1024 / 1024).toFixed(2)} MB)</p>
@@ -558,7 +559,7 @@ Paragraphs: ${stats.paragraphs}`;
                     {showAddMore && (
                       <div className="mt-4 text-center">
                         <Button variant="outline" onClick={() => addMoreFilesInputRef.current?.click()} className="w-full sm:w-auto">
-                          <PlusCircle className="mr-2 h-4 w-4 icon-gradient" />
+                          <PlusCircle className="mr-2 h-4 w-4" />
                           Add More Files
                         </Button>
                         <input ref={addMoreFilesInputRef} type="file" className="hidden" onChange={(e) => handleFileChange(e, true)} accept={fileAccept} multiple />
@@ -574,7 +575,7 @@ Paragraphs: ${stats.paragraphs}`;
                     animate={{ opacity: 1, scale: 1 }}
                     className="inline-flex items-center justify-center p-4 bg-muted/50 rounded-full mb-4"
                   >
-                    <Icon className="h-8 w-8 icon-gradient" />
+                    <Icon className="h-8 w-8 text-primary" />
                   </motion.div>
                   <p className="text-muted-foreground text-sm sm:text-base">Configure your settings below and generate your result.</p>
                 </div>
@@ -586,20 +587,19 @@ Paragraphs: ${stats.paragraphs}`;
                 <AccessibleButton
                   onClick={handleProcessFiles}
                   disabled={needsFiles ? (files.length === 0 || status !== 'idle') : status !== 'idle'}
-                  loading={status === 'processing'}
+                  loading={false}
                   variant="primary"
                   size="lg"
                   className="w-full sm:w-auto px-6 sm:px-8 py-3 text-base sm:text-lg font-semibold tool-button-primary"
                 >
                   <div className="flex items-center justify-center gap-2">
-                    <Zap className="h-4 w-4 sm:h-5 sm:w-5 icon-gradient" />
+                    <Zap className="h-4 w-4 sm:h-5 sm:w-5" />
                     <span className="truncate">
-                      {status === 'processing' ? 'Processing...' :
-                       needsFiles ? tool.name :
+                      {needsFiles ? tool.name :
                        tool.name.includes('Generator') ? 'Generate' :
                        tool.name.includes('Counter') ? 'Analyze' : 'Process'}
                     </span>
-                    <Sparkles className="h-4 w-4 icon-gradient" />
+                    <Sparkles className="h-4 w-4" />
                   </div>
                 </AccessibleButton>
               </div>
@@ -623,7 +623,7 @@ Paragraphs: ${stats.paragraphs}`;
             {convertedImages.map((blob, index) => (
               <div key={index} className="border rounded-lg p-2">
                 <div className="aspect-w-1 aspect-h-1 bg-muted rounded mb-2 flex items-center justify-center">
-                  <ImageIcon className="h-8 w-8 text-muted-foreground icon-gradient" />
+                  <ImageIcon className="h-8 w-8 text-muted-foreground" />
                 </div>
                 <p className="text-xs font-medium text-center truncate">Page {index + 1}</p>
                 <Button
@@ -632,7 +632,7 @@ Paragraphs: ${stats.paragraphs}`;
                   className="w-full mt-2"
                   onClick={() => downloadProcessedFile(blob, `page-${index + 1}.${pdfImageFormat}`)}
                 >
-                  <Download className="h-3 w-3 mr-1 icon-gradient" />
+                  <Download className="h-3 w-3 mr-1" />
                   Download
                 </Button>
               </div>

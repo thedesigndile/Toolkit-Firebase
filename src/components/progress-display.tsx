@@ -264,7 +264,7 @@ export function ProgressDisplay() {
           <div className="p-6 border rounded-lg bg-card shadow-lg hover:shadow-xl transition-shadow">
             <div className="flex items-center gap-4 mb-4">
               <div className="p-2 bg-muted rounded-md">
-                <Loader2 className="h-6 w-6 text-muted-foreground animate-spin icon-gradient" strokeWidth={1.5} />
+                <Loader2 className="h-6 w-6 text-muted-foreground animate-spin" strokeWidth={1.5} />
               </div>
               <div className="flex-1">
                 <p className="font-medium truncate">{fileName}</p>

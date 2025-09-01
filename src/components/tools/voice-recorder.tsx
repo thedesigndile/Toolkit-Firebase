@@ -206,7 +206,7 @@ export function VoiceRecorderComponent() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Mic className="h-5 w-5 icon-gradient" />
+              <Mic className="h-5 w-5 text-primary" />
               Voice Recorder
             </CardTitle>
           </CardHeader>
@@ -309,7 +309,7 @@ export function VoiceRecorderComponent() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Volume2 className="h-5 w-5 icon-gradient" />
+                  <Volume2 className="h-5 w-5 text-primary" />
                   Recorded Audio
                 </CardTitle>
               </CardHeader>
@@ -364,7 +364,7 @@ export function VoiceRecorderComponent() {
                       size="lg"
                       className="flex items-center gap-2"
                     >
-                      {isPlaying ? <Pause className="h-5 w-5 icon-gradient" /> : <Play className="h-5 w-5 icon-gradient" />}
+                      {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
                       {isPlaying ? 'Pause' : 'Play'}
                     </Button>
                     <Button
@@ -373,7 +373,7 @@ export function VoiceRecorderComponent() {
                       size="lg"
                       className="flex items-center gap-2"
                     >
-                      <Download className="h-5 w-5 icon-gradient" />
+                      <Download className="h-5 w-5" />
                       Download
                     </Button>
                     <Button

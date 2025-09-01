@@ -39,14 +39,23 @@ const navLinks = [
     { name: "Contact", href: "/contact"},
 ]
 
-const ListItemLink = React.forwardRef<
-  React.ElementRef<typeof Link>,
-  React.ComponentPropsWithoutRef<typeof Link> & { tool: Tool }
->(({ className, tool, ...props }, ref) => {
-  return (
-    <ListItem ref={ref as React.Ref<HTMLAnchorElement>} href={getToolUrl(tool.name)} tool={tool} {...props} />
-  );
-});
+type ListItemLinkProps = {
+  className?: string;
+  tool: Tool;
+};
+
+const ListItemLink = React.forwardRef<HTMLAnchorElement, ListItemLinkProps>(
+  ({ className, tool }, ref) => {
+    return (
+      <ListItem
+        ref={ref}
+        href={getToolUrl(tool.name)}
+        tool={tool}
+        className={className}
+      />
+    );
+  }
+);
 ListItemLink.displayName = "ListItemLink";
 
 
@@ -471,14 +480,17 @@ export function Header() {
 }
 
 
-interface ListItemProps extends React.ComponentPropsWithoutRef<"a"> {
+interface ListItemProps {
   tool?: Tool;
   title?: string;
   isStatic?: boolean;
+  href?: string;
+  className?: string;
+  children?: React.ReactNode;
 }
 
 const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
-  ({ className, tool, title, children, isStatic, ...props }, ref) => {
+  ({ className, tool, title, children, isStatic, href }, ref) => {
     const Icon = tool?.icon;
 
     return (
@@ -486,6 +498,7 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
         <NavigationMenuLink asChild>
           <motion.a
             ref={ref}
+            href={href}
             className={cn(
               "group block select-none space-y-1 rounded-lg p-4 leading-none no-underline outline-none transition-all duration-300",
               "bg-popover hover:bg-accent/10 hover:text-accent-foreground border border-transparent hover:border-border",
@@ -496,7 +509,6 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
               boxShadow: "0 10px 30px rgba(0,0,0,0.1)"
             }}
             whileTap={{ scale: 0.98 }}
-            {...props}
           >
             <div className="flex items-start gap-4">
               {!isStatic && Icon && (

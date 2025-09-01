@@ -43,7 +43,8 @@ export const imageCompressionWorker = () => {
         self.postMessage({ success: false, error: 'Could not get canvas context' });
       }
     } catch (error) {
-      self.postMessage({ success: false, error: error.message });
+      const message = (error as any)?.message ?? 'Unknown error';
+      self.postMessage({ success: false, error: message });
     }
   };
 };
@@ -67,7 +68,8 @@ export const pdfProcessingWorker = () => {
           self.postMessage({ success: false, error: 'Unknown action' });
       }
     } catch (error) {
-      self.postMessage({ success: false, error: error.message });
+      const message = (error as any)?.message ?? 'Unknown error';
+      self.postMessage({ success: false, error: message });
     }
   };
 };
@@ -86,7 +88,8 @@ export const archiveWorker = () => {
         self.postMessage({ success: true, result: 'ZIP extracted' });
       }
     } catch (error) {
-      self.postMessage({ success: false, error: error.message });
+      const message = (error as any)?.message ?? 'Unknown error';
+      self.postMessage({ success: false, error: message });
     }
   };
 };
@@ -105,8 +108,8 @@ export const textProcessingWorker = () => {
             characters: text.length,
             charactersNoSpaces: text.replace(/\s/g, '').length,
             words: text.trim() ? text.trim().split(/\s+/).length : 0,
-            sentences: text.split(/[.!?]+/).filter(s => s.trim()).length,
-            paragraphs: text.split(/\n\s*\n/).filter(p => p.trim()).length,
+            sentences: text.split(/[.!?]+/).filter((s: string) => s.trim()).length,
+            paragraphs: text.split(/\n\s*\n/).filter((p: string) => p.trim()).length,
           };
           break;
         case 'convert-case':
@@ -150,7 +153,8 @@ export const textProcessingWorker = () => {
       
       self.postMessage({ success: true, result });
     } catch (error) {
-      self.postMessage({ success: false, error: error.message });
+      const message = (error as any)?.message ?? 'Unknown error';
+      self.postMessage({ success: false, error: message });
     }
   };
 };
@@ -184,7 +188,7 @@ export const useWorker = <T = any>(
     };
     
     worker.onerror = (error) => {
-      reject(error);
+      reject(error as any);
       worker.terminate();
     };
   });
