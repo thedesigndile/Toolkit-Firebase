@@ -94,27 +94,14 @@
   .text-gradient-primary {
     @apply bg-gradient-primary bg-clip-text text-transparent;
   }
-
-  .icon-gradient {
-    background: linear-gradient(135deg, hsl(var(--brand-blue-raw)) 0%, hsl(var(--brand-purple-raw)) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent;
-  }
   
-  .icon-gradient-container {
-    position: relative;
-    display: inline-block;
-  }
-
-  .icon-gradient-container svg {
+  .icon-gradient {
     stroke: url(#blue-purple-gradient);
     fill: transparent;
     transition: filter 0.2s ease;
   }
   
-  .icon-gradient-container:hover svg {
+  .icon-gradient:hover {
     filter: brightness(1.15);
   }
 

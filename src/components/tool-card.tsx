@@ -84,9 +84,7 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
                             transition: { duration: 0.2, ease: "easeOut" }
                           }}
                       >
-                          <div className="icon-gradient-container">
-                              <Icon className="h-10 w-10" />
-                          </div>
+                          <Icon className="h-10 w-10 icon-gradient" />
                       </motion.div>
                       <h3 className="text-lg font-semibold leading-tight text-foreground group-hover:text-primary transition-colors duration-300">
                         {tool.name}

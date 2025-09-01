@@ -154,8 +154,8 @@ export function ToolsSection() {
                         <ScrollReveal key={categoryName} animation="slideUp" className="space-y-8">
                             <ScrollReveal animation="fade" delay={200}>
                                 <div className="flex items-center justify-center gap-3 text-center relative z-10">
-                                    <div className="icon-gradient-container p-2">
-                                        <CategoryIcon className="h-6 w-6" strokeWidth={2} />
+                                    <div className="p-2 rounded-full bg-primary/10">
+                                        <CategoryIcon className="h-6 w-6 icon-gradient" strokeWidth={2} />
                                     </div>
                                     <h2 className="text-3xl font-bold">{categoryName}</h2>
                                     <button
@@ -163,11 +163,11 @@ export function ToolsSection() {
                                         className="ml-2 p-1 rounded-full hover:bg-muted transition-colors"
                                         aria-label={expandedCategories[categoryName] ? `Collapse ${categoryName}` : `Expand ${categoryName}`}
                                     >
-                                        <div className="icon-gradient-container p-1">
+                                        <div className="p-1 rounded-full bg-primary/10">
                                             {expandedCategories[categoryName] ? (
-                                                <ChevronDown className="h-5 w-5" />
+                                                <ChevronDown className="h-5 w-5 icon-gradient" />
                                             ) : (
-                                                <ChevronRight className="h-5 w-5" />
+                                                <ChevronRight className="h-5 w-5 icon-gradient" />
                                             )}
                                         </div>
                                     </button>
