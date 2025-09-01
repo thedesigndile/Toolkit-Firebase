@@ -155,7 +155,7 @@ export function ToolsSection() {
                             <ScrollReveal animation="fade" delay={200}>
                                 <div className="flex items-center justify-center gap-3 text-center relative z-10">
                                     <div className="p-2 rounded-full bg-primary/10">
-                                        <CategoryIcon className="h-6 w-6 icon-gradient" strokeWidth={2} />
+                                        <CategoryIcon className="h-6 w-6" stroke="url(#blue-purple-gradient)" fill="transparent" strokeWidth={2} />
                                     </div>
                                     <h2 className="text-3xl font-bold">{categoryName}</h2>
                                     <button
@@ -165,9 +165,9 @@ export function ToolsSection() {
                                     >
                                         <div className="p-1 rounded-full bg-primary/10">
                                             {expandedCategories[categoryName] ? (
-                                                <ChevronDown className="h-5 w-5 icon-gradient" />
+                                                <ChevronDown className="h-5 w-5" stroke="url(#blue-purple-gradient)" />
                                             ) : (
-                                                <ChevronRight className="h-5 w-5 icon-gradient" />
+                                                <ChevronRight className="h-5 w-5" stroke="url(#blue-purple-gradient)" />
                                             )}
                                         </div>
                                     </button>

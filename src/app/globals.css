@@ -94,16 +94,6 @@
   .text-gradient-primary {
     @apply bg-gradient-primary bg-clip-text text-transparent;
   }
-  
-  .icon-gradient {
-    stroke: url(#blue-purple-gradient);
-    fill: transparent;
-    transition: filter 0.2s ease;
-  }
-  
-  .icon-gradient:hover {
-    filter: brightness(1.15);
-  }
 
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
