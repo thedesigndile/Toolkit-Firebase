@@ -279,7 +279,7 @@ export function Header() {
               aria-controls="mobile-navigation"
               className="w-11 h-11 text-primary-foreground hover:text-primary-foreground/90 border border-primary-foreground/20"
           >
-              <Menu className="h-6 w-6 icon-gradient" aria-hidden="true" />
+              <Menu className="h-6 w-6" aria-hidden="true" />
           </Button>
         </motion.div>
         <motion.div
@@ -355,7 +355,7 @@ export function Header() {
                   aria-label="Close navigation menu"
                   className="w-11 h-11 border"
                 >
-                  <X className="h-6 w-6 icon-gradient" aria-hidden="true" />
+                  <X className="h-6 w-6" aria-hidden="true" />
                 </Button>
               </motion.div>
             </motion.div>
@@ -517,7 +517,7 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
                   whileHover={{ rotate: 360, scale: 1.1 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <Icon className="h-8 w-8 icon-gradient" />
+                  <Icon className="h-8 w-8" />
                 </motion.div>
               )}
               <div className="flex-1">
