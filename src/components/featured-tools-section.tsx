@@ -3,7 +3,6 @@
 
 import { useState, useEffect } from "react";
 import { tools, type Tool } from "@/lib/tools";
-import { ToolCard } from "./tool-card";
 import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Sparkles, TrendingUp } from "lucide-react";
@@ -51,7 +50,7 @@ export function FeaturedToolsSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           <StaggerContainer className="contents" staggerDelay={0.1}>
-            {featuredTools.map((tool, index) => (
+            {featuredTools.map((tool) => (
               <StaggerItem key={tool.name}>
                 <motion.div
                   whileHover={{ y: -5 }}
