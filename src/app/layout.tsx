@@ -2,22 +2,24 @@
 
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
-import { AccessibilityProvider, SkipToContent } from '@/components/accessibility-provider';
-import { PerformanceMonitor } from '@/components/performance-monitor';
-import { ServiceWorkerRegistration } from '@/components/service-worker-registration';
 import { Toaster } from '@/components/ui/toaster';
-import { Roboto } from 'next/font/google';
+import { Poppins, Roboto } from 'next/font/google';
 import { cn } from '@/lib/utils';
-import { Header } from '@/components/header';
-import { Footer } from '@/components/footer';
-import { FloatingActionButton } from '@/components/floating-action-button';
 import { AnimatePresence, motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
+import { SubHeader } from '@/components/sub-header';
+import { Footer } from '@/components/footer';
 
 const fontBody = Roboto({
   subsets: ['latin'],
   weight: ['400', '500', '700'],
   variable: '--font-body',
+});
+
+const fontHeading = Poppins({
+  subsets: ['latin'],
+  weight: ['600', '700'],
+  variable: '--font-heading',
 });
 
 export default function RootLayout({
@@ -33,13 +35,9 @@ export default function RootLayout({
         <meta name="description" content="Modern, professional toolkit for PDF editing, image conversion, and productivity tools - all in your browser" />
         <title>ToolKit - Modern PDF & Productivity Tools</title>
       </head>
-      <body className={cn("font-body antialiased", fontBody.variable)}>
-        <AccessibilityProvider>
+      <body className={cn("font-body antialiased", fontBody.variable, fontHeading.variable)}>
           <ThemeProvider>
-            <PerformanceMonitor />
-            <ServiceWorkerRegistration />
-            <SkipToContent />
-            <Header />
+            <SubHeader />
             <main id="main-content" role="main">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -54,10 +52,8 @@ export default function RootLayout({
               </AnimatePresence>
             </main>
             <Footer />
-            <FloatingActionButton />
             <Toaster />
           </ThemeProvider>
-        </AccessibilityProvider>
       </body>
     </html>
   );

@@ -1,6 +1,4 @@
 // @ts-nocheck
-
-
 import type {Config} from 'tailwindcss';
 const { fontFamily } = require('tailwindcss/defaultTheme');
 
@@ -21,40 +19,31 @@ export default {
     },
     extend: {
       borderRadius: {
-        '4xl': '2rem',
-        '3xl': '1.5rem',
-        '2xl': '1.25rem',
-        xl: '1rem', // 16px
-        lg: '0.75rem', // 12px
+        lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
       fontFamily: {
-        body: ['var(--font-body)', ...fontFamily.sans],
-        heading: ['Poppins', ...fontFamily.sans],
+        sans: ['var(--font-body)', ...fontFamily.sans],
+        heading: ['var(--font-heading)', ...fontFamily.sans],
       },
       colors: {
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
-        },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
-        },
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
-          light: '#667EEA',
-          dark: '#764BA2',
         },
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
-          light: '#F093FB',
-          dark: '#F5576C',
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
         },
         muted: {
           DEFAULT: 'hsl(var(--muted))',
@@ -64,23 +53,15 @@ export default {
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',
         },
-        destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))',
         },
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        'brand-blue': 'hsl(var(--brand-blue-raw))',
-        'brand-purple': 'hsl(var(--brand-purple-raw))',
-        'brand-pink': 'hsl(var(--brand-pink-raw))',
-        'soft-gray': 'hsl(var(--soft-gray))',
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
+        },
       },
-
-      backdropBlur: {
-        xs: '2px',
-      },
-
       keyframes: {
         'accordion-down': {
           from: {

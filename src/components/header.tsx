@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ModernLogo } from "./icons";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "./ui/button";
-import { Menu, X, Facebook, Instagram, Twitter, Search } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { tools, Tool } from "@/lib/tools";
@@ -23,10 +23,6 @@ const fontLogo = Rajdhani({
 const pdfTools = tools.filter(t => ['Edit PDF', 'Protect & Secure', 'View & Organize'].includes(t.category));
 const imageTools = tools.filter(t => t.category === 'Image Tools');
 const conversionTools = tools.filter(t => ['Convert PDF', 'Converters', 'Other Tools'].includes(t.category));
-const editingTools = tools.filter(t => t.category === 'Edit PDF');
-const videoTools = tools.filter(t => t.category === 'Video Tools');
-const audioTools = tools.filter(t => t.category === 'Audio Tools');
-const utilityTools = tools.filter(t => t.category === 'Utility Tools');
 
 const getToolUrl = (toolName: string) => `/tools/${toolName.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and')}`;
 
@@ -34,13 +30,10 @@ const navItems = [
     { name: "PDF Tools", subItems: pdfTools },
     { name: "Image Tools", subItems: imageTools },
     { name: "Conversion Tools", subItems: conversionTools },
-    { name: "Editing Tools", subItems: editingTools },
-    { name: "Video Tools", subItems: videoTools },
-    { name: "Audio Tools", subItems: audioTools },
-    { name: "Utility Tools", subItems: utilityTools },
 ];
 
 const navLinks = [
+    { name: "All Tools", href: "/tools"},
     { name: "Pricing", href: "/pricing"},
     { name: "Contact", href: "/contact"},
 ]
@@ -117,18 +110,15 @@ export function Header() {
     }
   };
 
-  const navButtonClasses = "font-semibold text-sm px-4 py-3 bg-transparent text-foreground data-[state=open]:bg-gradient-light data-[state=open]:text-foreground hover:bg-gradient-light hover:text-foreground rounded-xl transition-all duration-300 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-primary hover:after:w-full after:transition-all after:duration-300";
+  const navButtonClasses = "font-semibold text-sm px-4 py-3 bg-transparent text-foreground hover:bg-muted rounded-xl transition-all duration-300";
 
 
   return (
     <>
       <motion.header
         className={cn(
-          "hidden md:flex items-center justify-between w-full max-w-7xl mx-auto p-6 rounded-3xl bg-card/95 backdrop-blur-lg border border-border fixed top-4 left-1/2 -translate-x-1/2 z-50"
+          "hidden md:flex items-center justify-between w-full max-w-7xl mx-auto p-4 rounded-2xl bg-card/80 backdrop-blur-lg border border-border fixed top-4 left-1/2 -translate-x-1/2 z-50"
         )}
-        style={{
-          boxShadow: '0 20px 25px -5px rgba(59, 130, 246, 0.1), 0 10px 10px -5px rgba(139, 92, 246, 0.04)'
-        }}
         variants={headerVariants}
         initial="hidden"
         animate="visible"
@@ -145,7 +135,7 @@ export function Header() {
               <ModernLogo />
             </motion.div>
             <motion.span
-              className={cn(fontLogo.className, "font-bold text-2xl text-gradient-primary tracking-wider whitespace-nowrap")}
+              className={cn(fontLogo.className, "font-bold text-xl text-foreground tracking-wider whitespace-nowrap")}
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
@@ -169,17 +159,12 @@ export function Header() {
                   >
                     <NavigationMenuItem>
                        <NavigationMenuTrigger className={navButtonClasses}>
-                         <motion.span
-                           whileHover={{ scale: 1.05 }}
-                           transition={{ type: "spring", stiffness: 400 }}
-                         >
-                           {item.name}
-                         </motion.span>
+                         {item.name}
                        </NavigationMenuTrigger>
                        {item.subItems && (
                            <NavigationMenuContent>
                            <motion.ul
-                             className={cn("grid gap-4 p-8 bg-popover rounded-2xl border border-border shadow-xl grid-cols-4 w-auto")}
+                             className={cn("grid gap-3 p-4 bg-popover rounded-lg border border-border shadow-lg md:w-[500px] md:grid-cols-2 lg:w-[600px]")}
                              initial={{ opacity: 0, y: -10 }}
                              animate={{ opacity: 1, y: 0 }}
                              exit={{ opacity: 0, y: -10 }}
@@ -188,7 +173,7 @@ export function Header() {
                                {item.subItems.map((tool, toolIndex) => (
                                <motion.div
                                  key={tool.name}
-                                 initial={{ opacity: 0, x: -20 }}
+                                 initial={{ opacity: 0, x: -10 }}
                                  animate={{ opacity: 1, x: 0 }}
                                  transition={{ delay: toolIndex * 0.05 }}
                                >
@@ -213,12 +198,7 @@ export function Header() {
                     <NavigationMenuItem>
                       <Link href={link.href} legacyBehavior passHref>
                         <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), navButtonClasses)}>
-                            <motion.span
-                              whileHover={{ scale: 1.05 }}
-                              transition={{ type: "spring", stiffness: 400 }}
-                            >
-                              {link.name}
-                            </motion.span>
+                            {link.name}
                         </NavigationMenuLink>
                       </Link>
                     </NavigationMenuItem>
@@ -228,39 +208,19 @@ export function Header() {
            </NavigationMenu>
         </motion.div>
 
-        <motion.div className="flex items-center gap-4" variants={navItemVariants}>
-          <div className="relative group">
-            <motion.input 
-              type="text" 
-              placeholder="Search..." 
-              className="bg-transparent border-2 border-border rounded-full py-2 px-4 w-48 group-hover:w-64 focus:w-64 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm"
-              whileHover={{ boxShadow: "0 0 15px rgba(0, 123, 255, 0.2)" }}
-              whileFocus={{ boxShadow: "0 0 25px rgba(0, 123, 255, 0.4)" }}
-            />
-            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-              <Search className="h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
-            </div>
-          </div>
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <ThemeToggle />
-          </motion.div>
+        <motion.div className="flex items-center gap-2" variants={navItemVariants}>
+          <ThemeToggle />
+           <Button>Get Started</Button>
         </motion.div>
 
       </motion.header>
 
       {/* Mobile Header */}
       <motion.div
-        className="md:hidden flex justify-between items-center w-full px-6 py-4 bg-card/95 backdrop-blur-lg border-b border-border fixed top-0 left-0 right-0 z-50"
+        className="md:hidden flex justify-between items-center w-full px-4 py-3 bg-card/90 backdrop-blur-lg border-b border-border fixed top-0 left-0 right-0 z-50"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 100 }}
-        style={{
-          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-        }}
       >
         <motion.div
           className="flex-1 flex justify-start"
@@ -273,7 +233,6 @@ export function Header() {
               aria-label="Open navigation menu"
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-navigation"
-              className="w-11 h-11 text-foreground hover:text-foreground border border-border hover:border-primary hover:bg-gradient-light rounded-xl transition-all duration-300"
           >
               <Menu className="h-6 w-6" aria-hidden="true" />
           </Button>
@@ -283,27 +242,15 @@ export function Header() {
           whileHover={{ scale: 1.05 }}
         >
             <Link href="/" aria-label="Go to homepage" className="flex items-center gap-2">
-                <motion.div
-                  whileHover={{ rotate: 360 }}
-                  transition={{ duration: 0.6 }}
-                >
-                  <ModernLogo />
-                </motion.div>
-                <motion.span
-                  className={cn(fontLogo.className, "font-bold text-2xl text-gradient-primary tracking-wider whitespace-nowrap")}
-                  whileHover={{ scale: 1.05 }}
-                >
-                  TOOL KIT
-                </motion.span>
+                <ModernLogo />
+                <span className={cn(fontLogo.className, "font-bold text-xl text-foreground")}>TOOL KIT</span>
             </Link>
         </motion.div>
         <motion.div
           className="flex-1 flex justify-end"
           whileHover={{ scale: 1.1 }}
         >
-          <ThemeToggle
-            aria-label="Toggle theme"
-          />
+          <ThemeToggle />
         </motion.div>
       </motion.div>
 
@@ -313,7 +260,7 @@ export function Header() {
             initial={{ opacity: 0, x: "-100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "-100%" }}
-            transition={{ duration: 0.4, ease: "easeInOut", type: "spring", stiffness: 100 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
             className="md:hidden fixed inset-0 bg-background z-50 flex flex-col"
             role="dialog"
             aria-modal="true"
@@ -321,24 +268,14 @@ export function Header() {
             id="mobile-navigation"
           >
             <motion.div
-              className="flex justify-between items-center p-6 border-b border-border"
+              className="flex justify-between items-center p-4 border-b border-border"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
             >
-              <Link href="/" onClick={() => setIsMobileMenuOpen(false)} aria-label="Go to homepage" className="flex items-center gap-3">
-                <motion.div
-                  whileHover={{ rotate: 360 }}
-                  transition={{ duration: 0.6 }}
-                >
+              <Link href="/" onClick={() => setIsMobileMenuOpen(false)} aria-label="Go to homepage" className="flex items-center gap-2">
                   <ModernLogo />
-                </motion.div>
-                  <motion.span
-                    className={cn(fontLogo.className, "font-bold text-2xl bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent tracking-wider whitespace-nowrap")}
-                    whileHover={{ scale: 1.05 }}
-                  >
-                    TOOL KIT
-                  </motion.span>
+                  <span className={cn(fontLogo.className, "font-bold text-xl")}>TOOL KIT</span>
               </Link>
               <motion.div
                 whileHover={{ scale: 1.1, rotate: 90 }}
@@ -349,7 +286,6 @@ export function Header() {
                   size="icon"
                   onClick={() => setIsMobileMenuOpen(false)}
                   aria-label="Close navigation menu"
-                  className="w-11 h-11 border"
                 >
                   <X className="h-6 w-6" aria-hidden="true" />
                 </Button>
@@ -408,64 +344,16 @@ export function Header() {
             </motion.div>
 
             <motion.div
-              className="p-6 border-t border-border"
+              className="p-4 border-t border-border"
               variants={mobileMenuContainerVariants}
               initial="hidden"
               animate="visible"
             >
                <motion.div
-                 className="grid grid-cols-2 gap-3 mb-6"
+                 className="grid grid-cols-1 gap-3"
                  variants={mobileMenuItemVariants}
                >
-                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                     <Button
-                       variant="outline"
-                       size="lg"
-                       className="w-full"
-                       aria-label="Log in to your account"
-                     >
-                       Log In
-                     </Button>
-                   </motion.div>
-                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                     <Button
-                       size="lg"
-                       className="w-full"
-                       aria-label="Get started with our tools"
-                     >
-                       Get Started
-                     </Button>
-                   </motion.div>
-               </motion.div>
-
-               <motion.div
-                 className="flex justify-center gap-8"
-                 variants={mobileMenuItemVariants}
-               >
-                   <motion.div whileHover={{ scale: 1.2, rotate: 360 }} transition={{ duration: 0.3 }}>
-                     <Link
-                       href="#"
-                       className="text-muted-foreground p-3 rounded-full border"
-                     >
-                       <Twitter />
-                     </Link>
-                   </motion.div>
-                   <motion.div whileHover={{ scale: 1.2, rotate: 360 }} transition={{ duration: 0.3 }}>
-                     <Link
-                       href="#"
-                       className="text-muted-foreground p-3 rounded-full border"
-                     >
-                       <Facebook />
-                     </Link>
-                   </motion.div>
-                   <motion.div whileHover={{ scale: 1.2, rotate: 360 }} transition={{ duration: 0.3 }}>
-                     <Link
-                       href="#"
-                       className="text-muted-foreground p-3 rounded-full border"
-                     >
-                       <Instagram />
-                     </Link>
-                   </motion.div>
+                 <Button size="lg" className="w-full">Get Started</Button>
                </motion.div>
             </motion.div>
           </motion.div>
@@ -492,47 +380,24 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
     return (
       <li>
         <NavigationMenuLink asChild>
-          <motion.a
+          <a
             ref={ref}
             href={href}
             className={cn(
-              "group block select-none space-y-2 rounded-xl p-4 leading-none no-underline outline-none transition-all duration-300",
-              "bg-card hover:bg-gradient-light border border-transparent hover:border-primary hover:shadow-lg",
+              "group block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
               className
             )}
-            whileHover={{
-              scale: 1.02,
-              boxShadow: "0 10px 30px rgba(139, 92, 246, 0.15)"
-            }}
-            whileTap={{ scale: 0.98 }}
           >
-            <div className="flex flex-col items-center text-center">
-              {!isStatic && Icon && (
-                <motion.div
-                  className="p-3 rounded-xl bg-muted group-hover:bg-gradient-primary transition-all duration-300 mx-auto mb-3"
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Icon className="h-8 w-8 text-muted-foreground group-hover:text-white transition-colors duration-300" />
-                </motion.div>
-              )}
-              <div className="flex-1 text-center">
-                <motion.div
-                  className="text-sm font-bold leading-none text-foreground group-hover:text-foreground transition-colors duration-300 font-heading"
-                  whileHover={{ scale: 1.02 }}
-                >
-                  {title ?? tool?.name}
-                </motion.div>
-                <motion.p
-                  className="line-clamp-2 text-xs leading-snug text-muted-foreground mt-2 group-hover:text-muted-foreground"
-                  initial={{ opacity: 0.8 }}
-                  whileHover={{ opacity: 1 }}
-                >
-                  {children ?? tool?.description}
-                </motion.p>
+            <div className="flex items-center gap-2">
+              {Icon && <Icon className="h-5 w-5 text-primary group-hover:text-accent-foreground" />}
+              <div className="text-sm font-medium leading-none text-foreground group-hover:text-accent-foreground">
+                {title ?? tool?.name}
               </div>
             </div>
-          </motion.a>
+            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground group-hover:text-accent-foreground/80">
+              {children ?? tool?.description}
+            </p>
+          </a>
         </NavigationMenuLink>
       </li>
     );
