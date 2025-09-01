@@ -72,7 +72,7 @@ export function FeaturedToolsSection() {
                       <div className="flex flex-col items-center text-center space-y-4">
                         {/* Larger icon */}
                         <div className="p-4 bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl group-hover:scale-110 transition-transform duration-300">
-                           <tool.icon className="h-12 w-12 text-primary" />
+                           <tool.icon className="h-12 w-12 text-primary icon-gradient" />
                          </div>
 
                         {/* Tool name and description */}

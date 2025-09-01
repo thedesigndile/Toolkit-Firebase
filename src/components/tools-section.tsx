@@ -155,7 +155,7 @@ export function ToolsSection() {
                             <ScrollReveal animation="fade" delay={200}>
                                 <div className="flex items-center justify-center gap-3 text-center relative z-10">
                                     <div className="p-2 rounded-full bg-primary/10">
-                                        <CategoryIcon className="h-6 w-6 text-primary" />
+                                        <CategoryIcon className="h-6 w-6 text-primary icon-gradient" />
                                     </div>
                                     <h2 className="text-3xl font-bold">{categoryName}</h2>
                                     <button
