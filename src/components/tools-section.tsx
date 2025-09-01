@@ -45,31 +45,41 @@ export function ToolsSection() {
         </div>
       ) : (
         <div className="space-y-16">
-           {categorizedTools.map(([category, toolsInCategory]) => (
-            <motion.div
-              key={category}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-            >
-              <h2 className="text-2xl font-bold mb-6 text-foreground">{category}</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {toolsInCategory.map((tool, i) => (
-                   <Suspense key={tool.name} fallback={<Skeleton className="h-40 rounded-lg" />}>
-                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.5 }}
-                        transition={{ duration: 0.3, delay: i * 0.05 }}
-                     >
-                        <ToolCard tool={tool} index={i} />
-                     </motion.div>
-                   </Suspense>
-                ))}
-              </div>
-            </motion.div>
-          ))}
+           {categorizedTools.map(([category, toolsInCategory]) => {
+            const CategoryIcon = toolsInCategory[0]?.categoryIcon;
+            return (
+              <motion.div
+                key={category}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+              >
+                <div className="flex items-center gap-3 mb-6">
+                  {CategoryIcon && 
+                    <motion.div whileHover={{scale: 1.1, rotate: -5}}>
+                      <CategoryIcon className="h-7 w-7 text-primary" />
+                    </motion.div>
+                  }
+                  <h2 className="text-2xl font-bold text-foreground">{category}</h2>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                  {toolsInCategory.map((tool, i) => (
+                     <Suspense key={tool.name} fallback={<Skeleton className="h-40 rounded-lg" />}>
+                       <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true, amount: 0.5 }}
+                          transition={{ duration: 0.3, delay: i * 0.05 }}
+                       >
+                          <ToolCard tool={tool} index={i} />
+                       </motion.div>
+                     </Suspense>
+                  ))}
+                </div>
+              </motion.div>
+            )
+          })}
         </div>
        )}
     </div>

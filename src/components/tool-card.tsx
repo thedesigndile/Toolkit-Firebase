@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -42,16 +43,13 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
                     <div className="flex-grow flex flex-col items-center justify-center">
                       <motion.div
                           className="mb-4"
-                          whileHover={{ scale: 1.2, transition: { duration: 0.3 } }}
+                          whileHover={{ scale: 1.2, rotate: 5, transition: { duration: 0.3 } }}
                       >
-                          <Icon className="h-8 w-8 text-foreground group-hover:text-primary transition-colors duration-300" />
+                          <Icon className="h-8 w-8 text-primary transition-colors duration-300" />
                       </motion.div>
                       <h3 className="text-md font-bold leading-tight text-foreground">
                         {tool.name}
                       </h3>
-                      <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
-                        {tool.description}
-                      </p>
                     </div>
                     <Button variant="outline" size="sm" className="mt-4 border-primary text-primary hover:bg-primary hover:text-primary-foreground group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
                       Use Tool
