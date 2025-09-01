@@ -1,8 +1,8 @@
 
+@import './tool-styles.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import './tool-styles.css';
 
 @layer base {
   :root {

@@ -6,7 +6,7 @@ import { tools, type Tool } from "@/lib/tools";
 import { Input } from "./ui/input";
 import { ToolCard } from "./tool-card";
 import { ToolCardSkeleton, Skeleton } from "./ui/skeleton";
-import { Calculator, FileText, Image, Search, Video, Package, TerminalSquare, AudioWaveform, Pencil, Settings2, Shield, Layers, ArrowRightLeft, SigmaSquare, Rocket, ChevronDown, ChevronRight } from "lucide-react";
+import { Calculator, FileText, Image, Search, Video, Package, TerminalSquare, AudioWaveform, Pencil, Settings2, Shield, Layers, ArrowRightLeft, SigmaSquare, Rocket, ChevronDown, ChevronRight, GitCompareArrows } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
@@ -75,7 +75,7 @@ export function ToolsSection() {
         };
       }
       return null;
-    }).filter(Boolean) as ({ name: string; icon: LucideIcon; tools: Tool[] })[];
+    }).filter(Boolean) as ({ name: string; icon: any; tools: Tool[] })[];
   }, [filteredTools]);
 
   const isSearching = searchTerm.length > 0;
