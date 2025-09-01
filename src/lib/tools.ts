@@ -128,22 +128,22 @@ export const tools: Tool[] = [
 
   // Utility Tools
   { name: 'Password Generator', description: 'Create strong, secure passwords.', icon: KeyRound, category: 'Utility Tools', categoryIcon: TerminalSquare, processorType: 'standalone', isStandalone: true },
-  { name: 'QR Code Generator', description: 'Create your own QR codes.', icon: QrCode, category: 'Utility Tools', categoryIcon: TerminalSquare, processorType: 'generic' },
+  { name: 'QR Code Generator', description: 'Create your own QR codes.', icon: QrCode, category: 'Utility Tools', categoryIcon: TerminalSquare, processorType: 'standalone', isStandalone: true },
   { name: 'QR Code Scanner', description: 'Scan QR codes using your camera.', icon: Camera, category: 'Utility Tools', categoryIcon: TerminalSquare, processorType: 'generic' },
-  { name: 'Text Case Converter', description: 'Change text to uppercase, lowercase, title case.', icon: Type, category: 'Utility Tools', categoryIcon: TerminalSquare, processorType: 'generic' },
-  { name: 'Character & Word Counter', description: 'Count characters, words, sentences.', icon: Sigma, category: 'Utility Tools', categoryIcon: TerminalSquare, processorType: 'generic' },
+  { name: 'Text Case Converter', description: 'Change text to uppercase, lowercase, title case.', icon: Type, category: 'Utility Tools', categoryIcon: TerminalSquare, processorType: 'standalone', isStandalone: true },
+  { name: 'Character & Word Counter', description: 'Count characters, words, sentences.', icon: Sigma, category: 'Utility Tools', categoryIcon: TerminalSquare, processorType: 'standalone', isStandalone: true },
   { name: 'Regex Tester', description: 'Test your regular expressions in real-time.', icon: Regex, category: 'Utility Tools', categoryIcon: TerminalSquare, processorType: 'generic' },
   { name: 'Unit Converter', description: 'Convert between various units of measurement.', icon: Calculator, category: 'Utility Tools', categoryIcon: TerminalSquare, processorType: 'generic' },
   { name: 'Lorem Ipsum Generator', description: 'Generate placeholder text for your designs.', icon: FileText, category: 'Utility Tools', categoryIcon: TerminalSquare, processorType: 'generic' },
   { name: 'Stopwatch & Timer', description: 'Measure time or set a timer.', icon: Timer, category: 'Utility Tools', categoryIcon: TerminalSquare, processorType: 'standalone', isStandalone: true },
   { name: 'JSON Formatter & Validator', description: 'Beautify and validate your JSON data.', icon: FileJson, category: 'Utility Tools', categoryIcon: TerminalSquare, processorType: 'generic' },
   { name: 'Text Compare', description: 'Find the differences between two text files.', icon: FileDiff, category: 'Utility Tools', categoryIcon: TerminalSquare, processorType: 'generic' },
-  { name: 'Base64 Encoder/Decoder', description: 'Encode to or decode from Base64.', icon: Binary, category: 'Utility Tools', categoryIcon: TerminalSquare, processorType: 'generic' },
-  { name: 'URL Encoder/Decoder', description: 'Encode or decode URLs for safe transmission.', icon: LinkIcon, category: 'Utility Tools', categoryIcon: TerminalSquare, processorType: 'generic' },
+  { name: 'Base64 Encoder/Decoder', description: 'Encode to or decode from Base64.', icon: Binary, category: 'Utility Tools', categoryIcon: TerminalSquare, processorType: 'standalone', isStandalone: true },
+  { name: 'URL Encoder/Decoder', description: 'Encode or decode URLs for safe transmission.', icon: LinkIcon, category: 'Utility Tools', categoryIcon: TerminalSquare, processorType: 'standalone', isStandalone: true },
   { name: 'Notepad', description: 'A simple online notepad for quick notes.', icon: StickyNote, category: 'Utility Tools', categoryIcon: TerminalSquare, processorType: 'standalone', isStandalone: true, isNew: true },
 
   // Converters
-  { name: 'Markdown <-> HTML', description: 'Convert between Markdown and HTML.', icon: GitCompareArrows, category: 'Converters', categoryIcon: ArrowRightLeft, processorType: 'generic' },
+  { name: 'Markdown <-> HTML', description: 'Convert between Markdown and HTML.', icon: GitCompareArrows, category: 'Converters', categoryIcon: ArrowRightLeft, processorType: 'standalone', isStandalone: true },
   { name: 'CSV <-> JSON', description: 'Convert between CSV and JSON formats.', icon: GitCompareArrows, category: 'Converters', categoryIcon: ArrowRightLeft, processorType: 'generic' },
   { name: 'YAML <-> JSON', description: 'Convert between YAML and JSON formats.', icon: UnfoldVertical, category: 'Converters', categoryIcon: ArrowRightLeft, processorType: 'generic' },
 

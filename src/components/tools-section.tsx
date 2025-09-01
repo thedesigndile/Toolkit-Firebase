@@ -14,13 +14,16 @@ import { ScrollReveal, StaggerContainer, StaggerItem } from "./scroll-reveal";
 
 
 const CATEGORIES = [
-    { name: "All", icon: null },
     { name: "Edit PDF", icon: Pencil },
     { name: "Convert PDF", icon: ArrowRightLeft },
     { name: "Protect & Secure", icon: Shield },
     { name: "View & Organize", icon: Layers },
     { name: "Image Tools", icon: Image },
-    { name: "Other Tools", icon: Settings2 },
+    { name: "Video Tools", icon: Video },
+    { name: "Audio Tools", icon: AudioWaveform },
+    { name: "Utility Tools", icon: TerminalSquare },
+    { name: "Converters", icon: GitCompareArrows },
+    { name: "Archive Tools", icon: Package },
     { name: "Advanced Features", icon: Rocket },
 ];
 
@@ -34,7 +37,11 @@ export function ToolsSection() {
       "Protect & Secure": true,
       "View & Organize": true,
       "Image Tools": true,
-      "Other Tools": true,
+      "Video Tools": true,
+      "Audio Tools": true,
+      "Utility Tools": true,
+      "Converters": true,
+      "Archive Tools": true,
       "Advanced Features": true,
    });
 
@@ -59,29 +66,16 @@ export function ToolsSection() {
   }, []);
 
   const categorizedTools = useMemo(() => {
-    const grouped = filteredTools.reduce((acc, tool) => {
-      const category = tool.category;
-      if (!acc[category]) {
-        acc[category] = {
-          categoryIcon: tool.categoryIcon,
-          tools: []
+    return CATEGORIES.map(categoryInfo => {
+      const categoryTools = filteredTools.filter(tool => tool.category === categoryInfo.name);
+      if (categoryTools.length > 0) {
+        return {
+          ...categoryInfo,
+          tools: categoryTools
         };
       }
-      acc[category].tools.push(tool);
-      return acc;
-    }, {} as Record<string, { categoryIcon: any; tools: Tool[] }>);
-
-    return CATEGORIES
-      .map(cat => cat.name)
-      .slice(1) // Skip "All"
-      .map(category => {
-        if (grouped[category]) {
-          return [category, grouped[category]];
-        }
-        return null;
-      })
-      .filter(Boolean) as [string, { categoryIcon: any; tools: Tool[] }][];
-
+      return null;
+    }).filter(Boolean) as ({ name: string; icon: LucideIcon; tools: Tool[] })[];
   }, [filteredTools]);
 
   const isSearching = searchTerm.length > 0;
@@ -145,8 +139,8 @@ export function ToolsSection() {
                       Array.from({ length: 3 }).map((_, categoryIndex) => (
                         <div key={`skeleton-category-${categoryIndex}`} className="space-y-8">
                             <div className="flex items-center justify-center gap-3">
-                              <Skeleton className="h-7 w-7 bg-muted rounded animate-pulse" />
-                              <Skeleton className="h-8 w-48 bg-muted rounded animate-pulse" />
+                              <Skeleton className="h-7 w-7 rounded-full" />
+                              <Skeleton className="h-8 w-48 bg-muted rounded" />
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                               {Array.from({ length: 4 }).map((_, i) => (
@@ -156,21 +150,21 @@ export function ToolsSection() {
                         </div>
                       ))
                     ) : (
-                      categorizedTools.map(([category, { categoryIcon: CategoryIcon, tools: categoryTools }]) => (
-                        <ScrollReveal key={category} animation="slideUp" className="space-y-8">
+                      categorizedTools.map(({ name: categoryName, icon: CategoryIcon, tools: categoryTools }) => (
+                        <ScrollReveal key={categoryName} animation="slideUp" className="space-y-8">
                             <ScrollReveal animation="fade" delay={200}>
                                 <div className="flex items-center justify-center gap-3 text-center relative z-10">
-                                    <div className="icon-gradient-container">
-                                        <CategoryIcon className="h-8 w-8" strokeWidth={1.5} />
+                                    <div className="icon-gradient-container p-2">
+                                        <CategoryIcon className="h-6 w-6" strokeWidth={2} />
                                     </div>
-                                    <h2 className="text-3xl font-bold">{category}</h2>
+                                    <h2 className="text-3xl font-bold">{categoryName}</h2>
                                     <button
-                                        onClick={() => toggleCategory(category)}
+                                        onClick={() => toggleCategory(categoryName)}
                                         className="ml-2 p-1 rounded-full hover:bg-muted transition-colors"
-                                        aria-label={expandedCategories[category] ? `Collapse ${category}` : `Expand ${category}`}
+                                        aria-label={expandedCategories[categoryName] ? `Collapse ${categoryName}` : `Expand ${categoryName}`}
                                     >
-                                        <div className="icon-gradient-container">
-                                            {expandedCategories[category] ? (
+                                        <div className="icon-gradient-container p-1">
+                                            {expandedCategories[categoryName] ? (
                                                 <ChevronDown className="h-5 w-5" />
                                             ) : (
                                                 <ChevronRight className="h-5 w-5" />
@@ -179,7 +173,7 @@ export function ToolsSection() {
                                     </button>
                                 </div>
                             </ScrollReveal>
-                            {expandedCategories[category] && (
+                            {expandedCategories[categoryName] && (
                                 <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 relative z-10" staggerDelay={0.05}>
                                     {categoryTools.map((tool, i) => (
                                         <StaggerItem key={tool.name}>

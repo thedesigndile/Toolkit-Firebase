@@ -19,6 +19,15 @@ interface ProgressContextType {
   error: string | null;
   setError: React.Dispatch<React.SetStateAction<string | null>>;
   resetState: () => void;
+  // Enhanced tracking
+  currentStep: string;
+  setCurrentStep: React.Dispatch<React.SetStateAction<string>>;
+  estimatedTime: number;
+  setEstimatedTime: React.Dispatch<React.SetStateAction<number>>;
+  processingStartTime: number | null;
+  setProcessingStartTime: React.Dispatch<React.SetStateAction<number | null>>;
+  showAdvancedFeedback: boolean;
+  setShowAdvancedFeedback: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ProgressContext = createContext<ProgressContextType | undefined>(undefined);
@@ -30,7 +39,12 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   const [processedFileName, setProcessedFileName] = useState<string>('download');
   const [files, setFiles] = useState<File[]>([]);
   const [error, setError] = useState<string | null>(null);
-
+  
+  // Enhanced tracking
+  const [currentStep, setCurrentStep] = useState('');
+  const [estimatedTime, setEstimatedTime] = useState(0);
+  const [processingStartTime, setProcessingStartTime] = useState<number | null>(null);
+  const [showAdvancedFeedback, setShowAdvancedFeedback] = useState(true);
 
   const resetState = useCallback(() => {
     // Revoke the old URL before setting a new one or clearing.
@@ -40,21 +54,28 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     
     // Reset all state values to their initial state.
     setStatus('idle');
-    setFiles([]); // This was the critical missing piece.
+    setFiles([]);
     setProgress(0);
     setError(null);
     setProcessedUrl(null);
     setProcessedFileName('download');
+    setCurrentStep('');
+    setEstimatedTime(0);
+    setProcessingStartTime(null);
   }, [processedUrl]);
 
-  const value = { 
-    progress, setProgress, 
-    status, setStatus, 
+  const value = {
+    progress, setProgress,
+    status, setStatus,
     processedUrl, setProcessedUrl,
     processedFileName, setProcessedFileName,
     files, setFiles,
     error, setError,
-    resetState 
+    resetState,
+    currentStep, setCurrentStep,
+    estimatedTime, setEstimatedTime,
+    processingStartTime, setProcessingStartTime,
+    showAdvancedFeedback, setShowAdvancedFeedback
   };
 
   return (

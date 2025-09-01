@@ -2,6 +2,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import './tool-styles.css';
 
 @layer base {
   :root {
@@ -95,12 +96,13 @@
   }
 
   .icon-gradient {
-    @apply bg-gradient-to-r from-brand-blue to-brand-purple;
+    background: linear-gradient(135deg, hsl(var(--brand-blue-raw)) 0%, hsl(var(--brand-purple-raw)) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
     color: transparent;
   }
-
+  
   .icon-gradient-container {
     position: relative;
     display: inline-block;
@@ -111,7 +113,7 @@
     fill: transparent;
     transition: filter 0.2s ease;
   }
-
+  
   .icon-gradient-container:hover svg {
     filter: brightness(1.15);
   }

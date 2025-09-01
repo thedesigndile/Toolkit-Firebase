@@ -2,10 +2,13 @@
 "use client";
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { File, CheckCircle, Download, RotateCcw, AlertTriangle, Loader2 } from 'lucide-react';
+import { File, CheckCircle, Download, RotateCcw, AlertTriangle, Loader2, Copy, Share2, Info } from 'lucide-react';
 import { Button } from './ui/button';
+import { Badge } from './ui/badge';
 import { cn } from '@/lib/utils';
 import { useProgress } from './progress-provider';
+import { useToast } from '@/hooks/use-toast';
+import { AdvancedLoading } from './advanced-loading';
 
 const cardVariants = {
   initial: { opacity: 0, y: 20, scale: 0.95 },
@@ -14,15 +17,21 @@ const cardVariants = {
 };
 
 export function ProgressDisplay() {
-  const { 
-    progress, 
-    status, 
-    processedUrl, 
-    processedFileName, 
-    files, 
+  const {
+    progress,
+    status,
+    processedUrl,
+    processedFileName,
+    files,
     error,
-    resetState 
+    resetState,
+    currentStep,
+    estimatedTime,
+    processingStartTime,
+    showAdvancedFeedback
   } = useProgress();
+
+  const { toast } = useToast();
 
   const handleDownload = () => {
     if (!processedUrl || !processedFileName) return;
@@ -32,6 +41,58 @@ export function ProgressDisplay() {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+    
+    // Show success feedback
+    toast({
+      title: "Download Started",
+      description: `${processedFileName} is being downloaded.`,
+    });
+  };
+
+  const copyDownloadLink = () => {
+    if (processedUrl) {
+      navigator.clipboard.writeText(processedUrl).then(() => {
+        toast({
+          title: "Link Copied",
+          description: "Download link copied to clipboard.",
+        });
+      });
+    }
+  };
+
+  const shareFile = () => {
+    if (navigator.share && processedUrl) {
+      navigator.share({
+        title: processedFileName,
+        url: processedUrl,
+      }).catch(() => {
+        // Fallback to copy link
+        copyDownloadLink();
+      });
+    } else {
+      copyDownloadLink();
+    }
+  };
+
+  const getFileInfo = () => {
+    if (files.length === 0) return null;
+    return {
+      fileName: files.length > 1 ? `${files.length} files` : files[0]?.name,
+      fileSize: files.reduce((total, file) => total + file.size, 0),
+    };
+  };
+
+  const getProcessingSteps = () => {
+    if (files.length === 0) return [];
+    
+    const fileType = files[0]?.name.split('.').pop()?.toLowerCase();
+    if (fileType === 'pdf') {
+      return ['Loading PDF', 'Analyzing document', 'Processing pages', 'Optimizing output', 'Finalizing'];
+    }
+    if (['jpg', 'jpeg', 'png', 'webp'].includes(fileType || '')) {
+      return ['Loading image', 'Analyzing pixels', 'Applying transformations', 'Optimizing quality', 'Finalizing'];
+    }
+    return ['Preparing file', 'Processing data', 'Optimizing output', 'Finalizing'];
   };
   
   const getStatusText = () => {
@@ -48,6 +109,25 @@ export function ProgressDisplay() {
         return 'Ready';
     }
   };
+
+  // Use advanced loading if enabled
+  if (showAdvancedFeedback) {
+    const fileInfo = getFileInfo();
+    return (
+      <AdvancedLoading
+        status={status}
+        progress={progress}
+        currentStep={currentStep}
+        estimatedTime={estimatedTime}
+        fileName={fileInfo?.fileName}
+        fileSize={fileInfo?.fileSize}
+        error={error || undefined}
+        onRetry={() => resetState()}
+        onReset={() => resetState()}
+        processingSteps={getProcessingSteps()}
+      />
+    );
+  }
 
   const fileName = files.length > 1 ? `${files.length} files` : files[0]?.name || 'your file';
   const isGradientActive = status === 'processing';
@@ -111,14 +191,31 @@ export function ProgressDisplay() {
             </motion.div>
             <h3 className="text-2xl font-semibold">Success!</h3>
             <p className="text-muted-foreground mt-2 mb-6">Your file is ready to be downloaded.</p>
-            <div className="flex justify-center gap-4">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground" onClick={handleDownload}>
-                <Download className="mr-2 h-5 w-5" strokeWidth={1.5} />
-                Download File
-              </Button>
-              <Button size="lg" variant="outline" onClick={resetState}>
-                <RotateCcw className="mr-2 h-5 w-5" strokeWidth={1.5} />
-                Process Another
+            
+            {/* Enhanced download section */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                <File className="h-4 w-4" />
+                <span>{processedFileName}</span>
+                <Badge variant="outline" className="text-xs">
+                  Ready
+                </Badge>
+              </div>
+              
+              <div className="flex justify-center gap-3">
+                <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground" onClick={handleDownload}>
+                  <Download className="mr-2 h-5 w-5" strokeWidth={1.5} />
+                  Download File
+                </Button>
+                <Button size="lg" variant="outline" onClick={shareFile}>
+                  <Share2 className="mr-2 h-5 w-5" strokeWidth={1.5} />
+                  Share
+                </Button>
+              </div>
+              
+              <Button size="sm" variant="ghost" onClick={resetState}>
+                <RotateCcw className="mr-2 h-4 w-4" strokeWidth={1.5} />
+                Process Another File
               </Button>
             </div>
           </div>
@@ -134,10 +231,30 @@ export function ProgressDisplay() {
             </div>
             <h3 className="text-2xl font-semibold">Processing Failed</h3>
             <p className="text-muted-foreground mt-2 mb-6 max-w-sm mx-auto">{error}</p>
-             <Button variant="outline" onClick={resetState}>
-                <RotateCcw className="mr-2 h-4 w-4" strokeWidth={1.5} />
-                Try Again
-            </Button>
+            
+            {/* Enhanced error actions */}
+            <div className="space-y-3">
+              <div className="flex justify-center gap-3">
+                <Button variant="outline" onClick={resetState}>
+                  <RotateCcw className="mr-2 h-4 w-4" strokeWidth={1.5} />
+                  Try Again
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => {
+                  toast({
+                    title: "Error Details",
+                    description: error || "Unknown error occurred",
+                    variant: "destructive",
+                  });
+                }}>
+                  <Info className="mr-2 h-4 w-4" strokeWidth={1.5} />
+                  Show Details
+                </Button>
+              </div>
+              
+              <p className="text-xs text-muted-foreground">
+                If the problem persists, try with a different file or smaller file size.
+              </p>
+            </div>
           </div>
         )
 
@@ -152,7 +269,16 @@ export function ProgressDisplay() {
               <div className="flex-1">
                 <p className="font-medium truncate">{fileName}</p>
                 <p className="text-sm text-muted-foreground">{getStatusText()}</p>
+                {currentStep && (
+                  <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">{currentStep}</p>
+                )}
               </div>
+              {estimatedTime > 0 && (
+                <div className="text-right">
+                  <p className="text-xs text-muted-foreground">Est. time</p>
+                  <p className="text-sm font-medium">{Math.ceil(estimatedTime / 1000)}s</p>
+                </div>
+              )}
             </div>
             
             <div className="w-full bg-muted rounded-full h-4 overflow-hidden relative">
@@ -163,6 +289,20 @@ export function ProgressDisplay() {
                 animate={{ width: `${progress}%` }}
                 transition={{ duration: 0.5, ease: 'easeInOut' }}
               />
+            </div>
+            
+            {/* Progress percentage */}
+            <div className="flex justify-between items-center mt-2">
+              <span className="text-xs text-muted-foreground">{Math.round(progress)}% complete</span>
+              {status === 'processing' && (
+                <motion.span
+                  animate={{ opacity: [1, 0.5, 1] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                  className="text-xs text-primary font-medium"
+                >
+                  Processing...
+                </motion.span>
+              )}
             </div>
           </div>
         );

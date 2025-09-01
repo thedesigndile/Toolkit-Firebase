@@ -1,0 +1,351 @@
+/* Tool-specific styles for consistent UI/UX */
+
+/* Icon gradient styles */
+.icon-gradient {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.icon-gradient-container {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  padding: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-gradient-container svg {
+  color: white;
+}
+
+/* Gradient backgrounds */
+.bg-gradient-primary {
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+}
+
+.bg-gradient-secondary {
+  background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
+}
+
+.bg-gradient-accent {
+  background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+}
+
+/* Tool card styling */
+.tool-card {
+  @apply bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700;
+  @apply hover:shadow-xl transition-all duration-300;
+  @apply backdrop-blur-sm bg-opacity-80 dark:bg-opacity-80;
+}
+
+.tool-card-header {
+  @apply p-6 text-center border-b border-gray-200 dark:border-gray-700;
+}
+
+.tool-card-content {
+  @apply p-6;
+}
+
+/* Form elements consistency */
+.tool-input {
+  @apply w-full px-4 py-3 border border-gray-300 dark:border-gray-600;
+  @apply rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+  @apply bg-white dark:bg-gray-800 text-gray-900 dark:text-white;
+  @apply transition-all duration-200;
+}
+
+.tool-textarea {
+  @apply tool-input resize-none min-h-[120px];
+}
+
+.tool-button {
+  @apply px-6 py-3 rounded-lg font-semibold transition-all duration-200;
+  @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+.tool-button-primary {
+  @apply tool-button bg-gradient-primary text-white;
+  @apply hover:shadow-lg hover:scale-105;
+  @apply focus:ring-blue-500;
+}
+
+.tool-button-secondary {
+  @apply tool-button bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white;
+  @apply hover:bg-gray-300 dark:hover:bg-gray-600;
+  @apply focus:ring-gray-500;
+}
+
+.tool-button-outline {
+  @apply tool-button border-2 border-gray-300 dark:border-gray-600;
+  @apply text-gray-700 dark:text-gray-300 bg-transparent;
+  @apply hover:bg-gray-50 dark:hover:bg-gray-800;
+  @apply focus:ring-gray-500;
+}
+
+/* Slider styles */
+.tool-slider {
+  @apply w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer;
+}
+
+.tool-slider::-webkit-slider-thumb {
+  @apply appearance-none w-5 h-5 bg-gradient-primary rounded-full cursor-pointer;
+  @apply shadow-lg hover:shadow-xl transition-shadow;
+}
+
+.tool-slider::-moz-range-thumb {
+  @apply w-5 h-5 bg-gradient-primary rounded-full cursor-pointer border-0;
+  @apply shadow-lg hover:shadow-xl transition-shadow;
+}
+
+/* Upload zone styling */
+.upload-zone {
+  @apply border-2 border-dashed border-gray-300 dark:border-gray-600;
+  @apply rounded-xl p-8 md:p-12 text-center cursor-pointer;
+  @apply hover:border-blue-400 dark:hover:border-blue-500;
+  @apply transition-all duration-300;
+  @apply bg-gray-50 dark:bg-gray-800/50;
+}
+
+.upload-zone:hover {
+  @apply bg-blue-50 dark:bg-blue-900/20;
+  @apply transform scale-[1.02];
+}
+
+.upload-zone.drag-over {
+  @apply border-blue-500 bg-blue-100 dark:bg-blue-900/30;
+  @apply transform scale-[1.02];
+}
+
+/* File list styling */
+.file-item {
+  @apply flex items-center justify-between p-4;
+  @apply border border-gray-200 dark:border-gray-700 rounded-lg;
+  @apply bg-white dark:bg-gray-800/70 backdrop-blur-sm;
+  @apply hover:shadow-md transition-all duration-200;
+}
+
+/* Progress bar styling */
+.progress-bar {
+  @apply w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3;
+  @apply overflow-hidden shadow-inner;
+}
+
+.progress-fill {
+  @apply h-full bg-gradient-primary transition-all duration-300 ease-out;
+  @apply shadow-sm;
+}
+
+/* Options panel styling */
+.options-panel {
+  @apply mt-6 p-6 bg-gray-50 dark:bg-gray-800/50 rounded-xl;
+  @apply border border-gray-200 dark:border-gray-700;
+}
+
+.options-title {
+  @apply text-lg font-semibold text-center mb-6;
+  @apply text-gray-900 dark:text-white;
+}
+
+.option-group {
+  @apply space-y-4;
+}
+
+.option-label {
+  @apply block text-sm font-medium mb-2;
+  @apply text-gray-700 dark:text-gray-300;
+}
+
+/* Checkbox and radio styling */
+.tool-checkbox {
+  @apply w-4 h-4 text-blue-600 bg-gray-100 dark:bg-gray-800;
+  @apply border-gray-300 dark:border-gray-600 rounded;
+  @apply focus:ring-blue-500 dark:focus:ring-blue-600;
+}
+
+.tool-radio {
+  @apply w-4 h-4 text-blue-600 bg-gray-100 dark:bg-gray-800;
+  @apply border-gray-300 dark:border-gray-600;
+  @apply focus:ring-blue-500 dark:focus:ring-blue-600;
+}
+
+/* Select dropdown styling */
+.tool-select {
+  @apply tool-input pr-10;
+  @apply bg-white dark:bg-gray-800;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%236b7280' d='m2 0-2 2h4zm0 5 2-2h-4z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+}
+
+/* Statistics display */
+.stats-grid {
+  @apply grid grid-cols-2 md:grid-cols-3 gap-4 p-4;
+  @apply bg-gray-50 dark:bg-gray-800/50 rounded-lg;
+}
+
+.stat-item {
+  @apply text-center;
+}
+
+.stat-value {
+  @apply text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400;
+}
+
+.stat-label {
+  @apply text-xs text-gray-600 dark:text-gray-400 capitalize;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .tool-card {
+    @apply mx-2 my-4;
+  }
+  
+  .tool-card-header {
+    @apply p-4;
+  }
+  
+  .tool-card-content {
+    @apply p-4;
+  }
+  
+  .upload-zone {
+    @apply p-6;
+  }
+  
+  .tool-button {
+    @apply px-4 py-2 text-sm;
+  }
+  
+  .options-panel {
+    @apply p-4;
+  }
+  
+  .file-item {
+    @apply p-3 text-sm;
+  }
+}
+
+/* Tablet responsiveness */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .tool-card {
+    @apply max-w-2xl;
+  }
+  
+  .stats-grid {
+    @apply grid-cols-2;
+  }
+}
+
+/* Loading states */
+.loading-spinner {
+  @apply inline-block w-6 h-6 border-2 border-gray-300;
+  @apply border-t-blue-600 rounded-full animate-spin;
+}
+
+.loading-overlay {
+  @apply absolute inset-0 bg-white dark:bg-gray-900;
+  @apply bg-opacity-75 dark:bg-opacity-75;
+  @apply flex items-center justify-center;
+  @apply backdrop-blur-sm z-10;
+}
+
+/* Animation classes */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.slide-up {
+  animation: slideUp 0.4s ease-out;
+}
+
+.scale-in {
+  animation: scaleIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Error and success states */
+.error-state {
+  @apply border-red-300 dark:border-red-600 bg-red-50 dark:bg-red-900/20;
+}
+
+.success-state {
+  @apply border-green-300 dark:border-green-600 bg-green-50 dark:bg-green-900/20;
+}
+
+.warning-state {
+  @apply border-yellow-300 dark:border-yellow-600 bg-yellow-50 dark:bg-yellow-900/20;
+}
+
+/* Accessibility improvements */
+.sr-only {
+  @apply absolute w-px h-px p-0 -m-px overflow-hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .tool-button-primary {
+    @apply bg-black text-white border-2 border-white;
+  }
+  
+  .tool-input {
+    @apply border-2 border-black dark:border-white;
+  }
+  
+  .icon-gradient {
+    @apply text-black dark:text-white;
+    -webkit-text-fill-color: currentColor;
+  }
+}
+
+/* Focus indicators */
+.tool-input:focus,
+.tool-select:focus,
+.tool-textarea:focus {
+  @apply ring-2 ring-blue-500 ring-offset-2;
+  @apply dark:ring-offset-gray-900;
+}
+
+/* Print styles */
+@media print {
+  .tool-card {
+    @apply shadow-none border border-gray-300;
+  }
+  
+  .tool-button {
+    @apply hidden;
+  }
+}
