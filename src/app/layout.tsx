@@ -3,22 +3,21 @@
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
-import { Poppins, Roboto } from 'next/font/google';
+import { Inter, Roboto } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
-import { SubHeader } from '@/components/sub-header';
+import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 
-const fontBody = Roboto({
+const fontBody = Inter({
   subsets: ['latin'],
-  weight: ['400', '500', '700'],
   variable: '--font-body',
 });
 
-const fontHeading = Poppins({
+const fontHeading = Roboto({
   subsets: ['latin'],
-  weight: ['600', '700'],
+  weight: ['700'],
   variable: '--font-heading',
 });
 
@@ -33,11 +32,11 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="Modern, professional toolkit for PDF editing, image conversion, and productivity tools - all in your browser" />
-        <title>ToolKit - Modern PDF & Productivity Tools</title>
+        <title>ToolBox - Modern PDF & Productivity Tools</title>
       </head>
-      <body className={cn("font-body antialiased", fontBody.variable, fontHeading.variable)}>
+      <body className={cn("font-sans antialiased", fontBody.variable, fontHeading.variable)}>
           <ThemeProvider>
-            <SubHeader />
+            <Header />
             <main id="main-content" role="main">
               <AnimatePresence mode="wait">
                 <motion.div

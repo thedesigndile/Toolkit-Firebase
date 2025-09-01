@@ -11,24 +11,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { Button } from "./ui/button";
 
 interface ToolCardProps {
   tool: Tool;
   index: number;
 }
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.05,
-      duration: 0.3,
-      ease: "easeOut",
-    },
-  }),
-};
 
 const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) {
   const Icon = tool.icon;
@@ -36,10 +24,9 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
 
   return (
     <motion.div
-      variants={cardVariants}
-      initial="hidden"
-      animate="visible"
-      custom={index}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.05, duration: 0.3, ease: "easeOut" }}
       className="w-full h-full"
     >
       <TooltipProvider>
@@ -50,20 +37,25 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
               className="block group relative h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg"
               aria-label={`Open ${tool.name} tool`}
             >
-               <Card className="h-full transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 overflow-hidden bg-card border border-border hover:border-accent rounded-lg">
-                  <CardContent className="flex flex-col h-full p-6 text-center justify-center items-center relative">
-                    <motion.div
-                        className="mb-4 p-3 rounded-full transition-all duration-300"
-                        whileHover={{
-                          scale: 1.05,
-                          transition: { duration: 0.2, ease: "easeOut" }
-                        }}
-                    >
-                        <Icon className="h-8 w-8 text-gray-700 group-hover:text-accent transition-colors duration-200" />
-                    </motion.div>
-                    <h3 className="text-md font-semibold leading-tight text-foreground group-hover:text-accent transition-colors duration-300">
-                      {tool.name}
-                    </h3>
+               <Card className="h-full transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 overflow-hidden bg-card border border-border hover:border-primary/50 rounded-lg">
+                  <CardContent className="flex flex-col h-full p-6 text-center justify-between items-center relative">
+                    <div className="flex-grow flex flex-col items-center justify-center">
+                      <motion.div
+                          className="mb-4"
+                          whileHover={{ scale: 1.2, transition: { duration: 0.3 } }}
+                      >
+                          <Icon className="h-8 w-8 text-foreground group-hover:text-primary transition-colors duration-300" />
+                      </motion.div>
+                      <h3 className="text-md font-bold leading-tight text-foreground">
+                        {tool.name}
+                      </h3>
+                      <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
+                        {tool.description}
+                      </p>
+                    </div>
+                    <Button variant="outline" size="sm" className="mt-4 border-primary text-primary hover:bg-primary hover:text-primary-foreground group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
+                      Use Tool
+                    </Button>
                   </CardContent>
                </Card>
             </Link>
