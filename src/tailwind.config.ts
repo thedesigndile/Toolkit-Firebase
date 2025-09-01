@@ -1,8 +1,5 @@
 // @ts-nocheck
-
-
 import type {Config} from 'tailwindcss';
-const { fontFamily } = require('tailwindcss/defaultTheme');
 
 export default {
   darkMode: ['class'],
@@ -12,96 +9,44 @@ export default {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
     extend: {
-      borderRadius: {
-        '4xl': '2rem',
-        '3xl': '1.5rem',
-        '2xl': '1.25rem',
-        xl: '1rem', // 16px
-        lg: '0.75rem', // 12px
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
-      },
-      fontFamily: {
-        body: ['var(--font-body)', ...fontFamily.sans],
-      },
       colors: {
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
-        },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
-        },
+        border: "hsl(var(--border))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--text-primary))",
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
-          light: '#667EEA',
-          dark: '#764BA2',
+          DEFAULT: "hsl(var(--primary))",
+          hover: "hsl(var(--primary-hover))",
         },
         secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
-          light: '#F093FB',
-          dark: '#F5576C',
+          start: "hsl(var(--secondary-start))",
+          end: "hsl(var(--secondary-end))",
         },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
-        },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
-        },
-        destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
-        },
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        'brand-blue': 'hsl(var(--brand-blue-raw))',
-        'brand-purple': 'hsl(var(--brand-purple-raw))',
-        'brand-pink': 'hsl(var(--brand-pink-raw))',
-        'soft-gray': 'hsl(var(--soft-gray))',
+        surface: "hsl(var(--surface))",
+        'text-primary': "hsl(var(--text-primary))",
+        'text-secondary': "hsl(var(--text-secondary))",
       },
-
-      backdropBlur: {
-        xs: '2px',
+      boxShadow: {
+        'depth-1': 'var(--depth-1)',
+        'depth-2': 'var(--depth-2)',
+        'depth-3': 'var(--depth-3)',
+        'depth-glow': 'var(--depth-glow)',
       },
-
-      keyframes: {
-        'accordion-down': {
-          from: {
-            height: '0',
-          },
-          to: {
-            height: 'var(--radix-accordion-content-height)',
-          },
-        },
-        'accordion-up': {
-          from: {
-            height: 'var(--radix-accordion-content-height)',
-          },
-          to: {
-            height: '0',
-          },
-        },
+      fontFamily: {
+        sans: ['SF Pro Display', 'Inter var', 'system-ui', '-apple-system', 'sans-serif'],
+      },
+      transitionTimingFunction: {
+        'spring': 'var(--spring-curve)',
       },
       animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
+        'breathe': 'breathe 2s ease-in-out infinite',
       },
+      keyframes: {
+        'breathe': {
+          '0%, 100%': { opacity: '0', transform: 'scale(1)' },
+          '50%': { opacity: '1', transform: 'scale(1.005)' },
+        }
+      }
     },
   },
   plugins: [

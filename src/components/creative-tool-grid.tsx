@@ -17,7 +17,7 @@ const bottomCategories = [
 
 export function CreativeToolGrid() {
   return (
-    <div className="bg-blue-50">
+    <div className="relative">
       <div className="max-w-7xl mx-auto px-6 py-16">
         {/* Top Section */}
         {topCategories.map((categoryName, categoryIndex) => {
@@ -30,48 +30,48 @@ export function CreativeToolGrid() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
+              transition={{ duration: 0.48, delay: categoryIndex * 0.1, ease: [0.22, 0.61, 0.36, 1] }}
               className="mb-16"
             >
               <motion.h2 
-                className="text-4xl font-bold mb-12 text-center relative"
-                initial={{ opacity: 0, y: 20 }}
+                className="heading-2 mb-12 text-center relative"
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.48, ease: [0.22, 0.61, 0.36, 1] }}
               >
-                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                <span className="text-gradient">
                   {categoryName}
                 </span>
                 <motion.div 
-                  className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
+                  className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
                   initial={{ scaleX: 0 }}
                   whileInView={{ scaleX: 1 }}
-                  transition={{ delay: 0.3, duration: 0.8 }}
+                  transition={{ delay: 0.2, duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
                 />
               </motion.h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {categoryTools.map((tool, toolIndex) => {
+                {categoryTools.slice(0,4).map((tool, toolIndex) => {
                   const Icon = tool.icon;
                   return (
                     <motion.div
                       key={tool.name}
-                      initial={{ opacity: 0, y: 20 }}
+                      initial={{ opacity: 0, y: 16 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: toolIndex * 0.05 }}
-                      className="bg-white rounded-xl p-6 border border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all duration-300 cursor-pointer group"
-                      whileHover={{ y: -4, scale: 1.02 }}
+                      transition={{ duration: 0.32, delay: toolIndex * 0.03, ease: [0.22, 0.61, 0.36, 1] }}
+                      className="card-luxury cursor-pointer group"
+                      whileHover={{ y: -3, scale: 1.015 }}
                     >
-                      <div className="w-12 h-12 mx-auto mb-4 text-blue-600 group-hover:text-blue-700 transition-colors">
-                        <Icon className="w-full h-full" />
+                      <div className="tool-icon mx-auto mb-4">
+                        <Icon className="w-6 h-6" />
                       </div>
                       
-                      <h3 className="text-lg font-semibold text-gray-800 mb-2 text-center">
+                      <h3 className="heading-3 mb-2 text-center" style={{ fontSize: '1.125rem' }}>
                         {tool.name}
                       </h3>
                       
-                      <p className="text-gray-600 text-sm text-center leading-relaxed">
+                      <p className="text-sm text-center leading-relaxed" style={{ color: 'hsl(var(--text-secondary))' }}>
                         {tool.description}
                       </p>
                     </motion.div>
@@ -94,47 +94,45 @@ export function CreativeToolGrid() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
+                transition={{ duration: 0.48, delay: categoryIndex * 0.1, ease: [0.22, 0.61, 0.36, 1] }}
                 className="mb-16"
               >
-                <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+                <h2 className="heading-2 mb-8 text-center text-gradient">
                   {categoryName}
                 </h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {categoryTools.map((tool, toolIndex) => {
+                  {categoryTools.slice(0,4).map((tool, toolIndex) => {
                     const Icon = tool.icon;
                     return (
                       <motion.div
                         key={tool.name}
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 16 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.4, delay: toolIndex * 0.05 }}
-                        className="bg-white rounded-2xl p-8 border border-gray-200 hover:border-transparent hover:shadow-2xl transition-all duration-500 cursor-pointer group relative overflow-hidden"
-                        whileHover={{ 
-                          y: -8, 
-                          scale: 1.03,
-                          boxShadow: "0 25px 50px -12px rgba(59, 130, 246, 0.25), 0 0 30px rgba(139, 92, 246, 0.3)"
-                        }}
+                        transition={{ duration: 0.32, delay: toolIndex * 0.03, ease: [0.22, 0.61, 0.36, 1] }}
+                        className="card-luxury cursor-pointer group"
+                        whileHover={{ y: -4, scale: 1.02 }}
                       >
                         <motion.div 
-                          className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl flex items-center justify-center group-hover:from-blue-500 group-hover:to-purple-500 transition-all duration-300 shadow-md group-hover:shadow-xl"
-                          whileHover={{ rotate: 5, scale: 1.1 }}
+                          className="tool-icon mx-auto mb-4"
+                          whileHover={{ rotate: 3, scale: 1.05 }}
+                          transition={{ duration: 0.32, ease: [0.22, 0.61, 0.36, 1] }}
                         >
-                          <Icon className="w-8 h-8 text-blue-600 group-hover:text-white transition-colors duration-300" />
+                          <Icon className="w-8 h-8" />
                         </motion.div>
                         
-                        <h3 className="text-xl font-bold text-gray-800 mb-3 text-center group-hover:text-blue-600 transition-colors duration-300">
+                        <h3 className="heading-3 mb-3 text-center relative z-10">
                           {tool.name}
                         </h3>
                         
-                        <p className="text-gray-600 text-sm text-center leading-relaxed mb-4">
+                        <p className="text-sm text-center leading-relaxed mb-4 relative z-10" style={{ color: 'hsl(var(--text-secondary))' }}>
                           {tool.description}
                         </p>
                         
                         <motion.div 
-                          className="w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          className="w-full h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full opacity-0 group-hover:opacity-100"
+                          style={{ transition: 'all var(--spring-curve) var(--micro-duration)'}}
                           initial={{ scaleX: 0 }}
                           whileHover={{ scaleX: 1 }}
                         />

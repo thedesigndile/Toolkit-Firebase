@@ -2,91 +2,52 @@
 
 import { motion } from "framer-motion";
 
-export function MinimalistHero() {
+export function CreativeHero() {
   return (
-    <section className="relative py-24 text-center overflow-hidden">
-      {/* Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800" />
-      <div className="absolute inset-0 bg-black/20" />
-      
-      {/* Animated Background Pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 left-20 w-64 h-64 bg-white rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-20 w-80 h-80 bg-white rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-      </div>
-      
-      <div className="relative max-w-5xl mx-auto px-6 text-white">
-        <motion.h1 
-          className="text-6xl md:text-7xl font-bold mb-6 leading-tight"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          All-in-One PDF & File Tools
-          <br />
-          <span className="text-4xl md:text-5xl font-normal text-white/90">
-            Fast, Simple, Powerful
-          </span>
-        </motion.h1>
-        
-        <motion.p 
-          className="text-xl md:text-2xl text-white/80 mb-10 leading-relaxed max-w-3xl mx-auto"
+    <section className="relative overflow-hidden py-20">
+      <div className="max-w-7xl mx-auto px-6 text-center">
+        <motion.h1
+          className="heading-1 mb-6 text-gradient"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
         >
-          Convert, edit, and manage your files with ease. 
-          Professional tools trusted by millions worldwide.
+          Professional File Tools
+        </motion.h1>
+        
+        <motion.p
+          className="text-xl mb-8 max-w-2xl mx-auto"
+          style={{ color: 'hsl(var(--text-secondary))' }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 0.61, 0.36, 1] }}
+        >
+          Enterprise-grade PDF and document processing tools designed for professionals who demand precision and reliability.
         </motion.p>
         
         <motion.div
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 0.61, 0.36, 1] }}
         >
-          <motion.button 
-            className="bg-white text-blue-600 px-10 py-4 rounded-xl font-bold text-lg hover:bg-blue-50 transition-all duration-300 shadow-xl"
-            whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(255,255,255,0.3)" }}
-            whileTap={{ scale: 0.95 }}
+          <motion.button
+            className="btn-luxury focus-luxury"
+            whileHover={{ scale: 1.02, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ duration: 0.18, ease: [0.22, 0.61, 0.36, 1] }}
           >
-            Start Using Tools
+            Start Processing
           </motion.button>
           
-          <motion.button 
-            className="border-2 border-white/30 text-white px-10 py-4 rounded-xl font-semibold text-lg hover:bg-white/10 transition-all duration-300"
-            whileHover={{ scale: 1.05, borderColor: "rgba(255,255,255,0.6)" }}
-            whileTap={{ scale: 0.95 }}
+          <motion.button
+            className="nav-item px-6 py-3 rounded-lg border border-gray-200 surface-glass"
+            whileHover={{ scale: 1.02, y: -1 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ duration: 0.18, ease: [0.22, 0.61, 0.36, 1] }}
           >
             Learn More
           </motion.button>
-        </motion.div>
-        
-        {/* Stats */}
-        <motion.div 
-          className="grid grid-cols-3 gap-8 mt-16 max-w-2xl mx-auto"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
-          {[
-            { number: "10M+", label: "Files Processed" },
-            { number: "50+", label: "Tools Available" },
-            { number: "99.9%", label: "Uptime" }
-          ].map((stat) => (
-            <motion.div
-              key={stat.label}
-              className="text-center"
-              whileHover={{ scale: 1.05 }}
-            >
-              <div className="text-3xl md:text-4xl font-bold mb-2">
-                {stat.number}
-              </div>
-              <div className="text-white/70 font-medium">
-                {stat.label}
-              </div>
-            </motion.div>
-          ))}
         </motion.div>
       </div>
     </section>

@@ -69,22 +69,21 @@ export function FuturisticHeader() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-md border-b border-blue-100 page-enter">
+    <header className="nav-luxury">
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group hover-glow-intense">
+          <Link href="/" className="flex items-center gap-3 group">
             <motion.div
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              transition={{ duration: 0.3 }}
-              className="float-gentle"
+              whileHover={{ scale: 1.05, rotate: 2 }}
+              transition={{ duration: 0.32, ease: [0.22, 0.61, 0.36, 1] }}
             >
               <ModernLogo />
             </motion.div>
             <motion.span 
-              className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent hover-bounce text-shimmer"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 300 }}
+              className="text-2xl font-bold text-gradient"
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.32, ease: [0.22, 0.61, 0.36, 1] }}
             >
               TOOLKIT
             </motion.span>
@@ -102,12 +101,12 @@ export function FuturisticHeader() {
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
                   <motion.button 
-                    className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-300 group nav-item hover-tilt"
+                    className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-300 group nav-item"
                     whileHover={{ scale: 1.02, y: -2 }}
                   >
-                    <Icon className="h-4 w-4 text-blue-600 float-gentle" />
+                    <Icon className="h-4 w-4 text-blue-600" />
                     <span className="font-medium">{category.name}</span>
-                    <ChevronDown className="h-4 w-4 transition-transform duration-300 group-hover:rotate-180 hover-bounce" />
+                    <ChevronDown className="h-4 w-4 transition-transform duration-300 group-hover:rotate-180" />
                   </motion.button>
 
                   <AnimatePresence>
@@ -117,13 +116,13 @@ export function FuturisticHeader() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-blue-100 p-6 backdrop-blur-sm"
+                        className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-blue-100 p-6"
                       >
                         <div className="grid grid-cols-2 gap-3">
                           {category.tools.map((tool) => (
                             <motion.div
                               key={tool.name}
-                              whileHover={{ scale: 1.02, y: -2 }}
+                              whileHover={{ scale: 1.02, x: 2 }}
                               className="group"
                             >
                               <Link
@@ -148,9 +147,10 @@ export function FuturisticHeader() {
 
           {/* CTA Button */}
           <motion.button
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition-all duration-300 btn-magnetic btn-ripple-effect hover-glow-intense"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
+            className="btn-luxury focus-luxury"
+            whileHover={{ scale: 1.02, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ duration: 0.18, ease: [0.22, 0.61, 0.36, 1] }}
           >
             Get Started
           </motion.button>
