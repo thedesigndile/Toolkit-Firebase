@@ -31,6 +31,7 @@ export default {
       },
       fontFamily: {
         body: ['var(--font-body)', ...fontFamily.sans],
+        heading: ['Poppins', ...fontFamily.sans],
       },
       colors: {
         background: 'hsl(var(--background))',

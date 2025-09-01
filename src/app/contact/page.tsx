@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,7 +11,7 @@ export default function ContactPage() {
           <div className="max-w-2xl mx-auto text-center">
             <h1 className="text-4xl font-semibold">Contact Us</h1>
             <p className="text-muted-foreground mt-2 text-lg">
-              Have questions? We'd love to hear from you.
+              Have questions? We&apos;d love to hear from you.
             </p>
           </div>
           <form className="max-w-2xl mx-auto mt-8 space-y-4">

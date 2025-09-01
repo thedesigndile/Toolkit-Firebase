@@ -1,8 +1,7 @@
-
 "use client";
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { File, CheckCircle, Download, RotateCcw, AlertTriangle, Loader2, Copy, Share2, Info } from 'lucide-react';
+import { File, CheckCircle, Download, RotateCcw, AlertTriangle, Loader2, Share2, Info } from 'lucide-react';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { cn } from '@/lib/utils';
@@ -27,7 +26,6 @@ export function ProgressDisplay() {
     resetState,
     currentStep,
     estimatedTime,
-    processingStartTime,
     showAdvancedFeedback
   } = useProgress();
 
@@ -324,5 +322,3 @@ export function ProgressDisplay() {
     </AnimatePresence>
   );
 }
-
-    

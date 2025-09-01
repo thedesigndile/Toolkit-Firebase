@@ -1,18 +1,22 @@
+"use client";
 
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { AccessibilityProvider, SkipToContent } from '@/components/accessibility-provider';
-import { PerformanceMonitor, usePerformanceOptimization } from '@/components/performance-monitor';
+import { PerformanceMonitor } from '@/components/performance-monitor';
 import { ServiceWorkerRegistration } from '@/components/service-worker-registration';
 import { Toaster } from '@/components/ui/toaster';
-import { Poppins } from 'next/font/google';
+import { Roboto } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import { Header } from '@/components/header';
-import { ClientHeader } from '@/components/client-header';
+import { Footer } from '@/components/footer';
+import { FloatingActionButton } from '@/components/floating-action-button';
+import { AnimatePresence, motion } from 'framer-motion';
+import { usePathname } from 'next/navigation';
 
-const fontBody = Poppins({
+const fontBody = Roboto({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
+  weight: ['400', '500', '700'],
   variable: '--font-body',
 });
 
@@ -21,12 +25,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="Advanced offline toolkit with cutting-edge UI design" />
-        <title>Offline Toolkit - Advanced PDF and Document Tools</title>
+        <meta name="description" content="Modern, professional toolkit for PDF editing, image conversion, and productivity tools - all in your browser" />
+        <title>ToolKit - Modern PDF & Productivity Tools</title>
       </head>
       <body className={cn("font-body antialiased", fontBody.variable)}>
         <AccessibilityProvider>
@@ -34,12 +39,22 @@ export default function RootLayout({
             <PerformanceMonitor />
             <ServiceWorkerRegistration />
             <SkipToContent />
-            <div className="fixed top-4 left-0 right-0 z-50 flex justify-center">
-              <ClientHeader />
-            </div>
+            <Header />
             <main id="main-content" role="main">
-              {children}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={pathname}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {children}
+                </motion.div>
+              </AnimatePresence>
             </main>
+            <Footer />
+            <FloatingActionButton />
             <Toaster />
           </ThemeProvider>
         </AccessibilityProvider>

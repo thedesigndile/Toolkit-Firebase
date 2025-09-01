@@ -1,4 +1,3 @@
-
 "use client";
 
 import { motion } from "framer-motion";
@@ -80,14 +79,12 @@ interface StaggerContainerProps {
   children: ReactNode;
   className?: string;
   staggerDelay?: number;
-  childAnimation?: "fade" | "slideUp" | "slideLeft" | "slideRight" | "scale" | "rotate";
 }
 
 export function StaggerContainer({
   children,
   className,
   staggerDelay = 0.1,
-  childAnimation = "slideUp",
 }: StaggerContainerProps) {
   const { elementRef, isVisible } = useScrollAnimation({
     threshold: 0.1,

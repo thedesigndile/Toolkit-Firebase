@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { Loader2, AlertCircle, CheckCircle, Clock, FileText, Image, Settings, Zap } from 'lucide-react';
+import { Loader2, AlertCircle, CheckCircle, Clock, FileText, Settings, Zap } from 'lucide-react';
 import { Card, CardContent } from './ui/card';
 import { Button } from './ui/button';
 import { Progress } from './ui/progress';
@@ -46,21 +46,6 @@ export function AdvancedLoading({
         return <AlertCircle className="h-8 w-8 text-red-500" />;
       default:
         return <Settings className="h-8 w-8 text-gray-500" />;
-    }
-  };
-
-  const getStatusColor = () => {
-    switch (status) {
-      case 'uploading':
-        return 'from-blue-500 to-blue-600';
-      case 'processing':
-        return 'from-purple-500 to-purple-600';
-      case 'complete':
-        return 'from-green-500 to-green-600';
-      case 'error':
-        return 'from-red-500 to-red-600';
-      default:
-        return 'from-gray-500 to-gray-600';
     }
   };
 

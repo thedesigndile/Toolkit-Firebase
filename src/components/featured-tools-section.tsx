@@ -1,7 +1,7 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { tools, type Tool } from "@/lib/tools";
 import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
@@ -107,18 +107,18 @@ export function FeaturedToolsSection() {
             Ready to boost your productivity? Try these essential tools today.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
+            <Link
               href="/tools"
               className="inline-flex items-center justify-center px-6 py-3 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-all duration-200 shadow-lg hover:shadow-xl"
             >
               Explore All Tools
-            </a>
-            <a
+            </Link>
+            <Link
               href="/pricing"
               className="inline-flex items-center justify-center px-6 py-3 border border-border text-primary font-medium rounded-lg hover:bg-primary/10 transition-all duration-200"
             >
               View Pricing
-            </a>
+            </Link>
           </div>
         </ScrollReveal>
       </div>

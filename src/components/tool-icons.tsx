@@ -2,10 +2,8 @@ import { cn } from "@/lib/utils";
 import { Link2 } from "lucide-react";
 import React from "react";
 
-interface IconProps extends React.SVGProps<SVGSVGElement> {}
-
-const createIcon = (path: React.ReactNode): React.FC<IconProps> => {
-  const IconComponent: React.FC<IconProps> = ({ className, ...props }) => (
+const createIcon = (path: React.ReactNode): React.FC<React.SVGProps<SVGSVGElement>> => {
+  const IconComponent: React.FC<React.SVGProps<SVGSVGElement>> = ({ className, ...props }) => (
     <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={cn(className)}>
       {path}
     </svg>
@@ -121,7 +119,7 @@ export const RotatePdfIcon = createIcon(
 );
 
 
-export const LinkIcon: React.FC<IconProps> = ({ className, ...props }) => (
+export const LinkIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({ className, ...props }) => (
     <div className={cn("relative w-12 h-12 flex items-center justify-center text-muted-foreground", className)}>
         <Link2 {...props} width="48" height="48" />
     </div>

@@ -7,18 +7,17 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import { Eye, Copy, Download, RefreshCw, Info } from "lucide-react";
+import { Copy, RefreshCw } from "lucide-react";
 
 interface UtilityOptionsProps {
   tool: string;
-  options: any;
-  setOptions: (options: any) => void;
+  options: Record<string, any>;
+  setOptions: (options: Record<string, any>) => void;
   textInput?: string;
   setTextInput?: (text: string) => void;
-  result?: any;
+  result?: string | number | object | null;
 }
 
 export function UtilityOptions({ tool, options, setOptions, textInput, setTextInput, result }: UtilityOptionsProps) {
@@ -83,11 +82,11 @@ export function UtilityOptions({ tool, options, setOptions, textInput, setTextIn
         <div className="space-y-3">
           <Label className="text-sm font-medium">Generated Password</Label>
           <div className="flex items-center space-x-2">
-            <Input value={result} readOnly className="font-mono" />
+            <Input value={result as string} readOnly className="font-mono" />
             <Button
               size="icon"
               variant="outline"
-              onClick={() => copyToClipboard(result)}
+              onClick={() => copyToClipboard(result as string)}
               title="Copy to clipboard"
             >
               <Copy className="h-4 w-4" />
@@ -225,14 +224,14 @@ export function UtilityOptions({ tool, options, setOptions, textInput, setTextIn
             <Button
               size="sm"
               variant="outline"
-              onClick={() => copyToClipboard(result)}
+              onClick={() => copyToClipboard(result as string)}
             >
               <Copy className="h-3 w-3 mr-1" />
               Copy
             </Button>
           </div>
           <Textarea
-            value={result}
+            value={result as string}
             readOnly
             className="min-h-[120px] resize-none bg-muted"
           />
@@ -256,9 +255,9 @@ export function UtilityOptions({ tool, options, setOptions, textInput, setTextIn
 
       {textInput && (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-4 bg-muted rounded-lg">
-          {result && Object.entries(result).map(([key, value]) => (
+          {result && Object.entries(result as Record<string, number>).map(([key, value]) => (
             <div key={key} className="text-center">
-              <div className="text-2xl font-bold text-primary">{value as number}</div>
+              <div className="text-2xl font-bold text-primary">{value}</div>
               <div className="text-xs text-muted-foreground capitalize">
                 {key.replace(/([A-Z])/g, ' $1').trim()}
               </div>
@@ -333,14 +332,14 @@ export function UtilityOptions({ tool, options, setOptions, textInput, setTextIn
             <Button
               size="sm"
               variant="outline"
-              onClick={() => copyToClipboard(result)}
+              onClick={() => copyToClipboard(result as string)}
             >
               <Copy className="h-3 w-3 mr-1" />
               Copy
             </Button>
           </div>
           <Textarea
-            value={result}
+            value={result as string}
             readOnly
             className="min-h-[120px] resize-none bg-muted font-mono text-sm"
           />

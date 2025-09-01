@@ -1,14 +1,12 @@
-
 "use client";
 
 import { useState, useRef, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle }@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import {
   Mic,
-  MicOff,
   Play,
   Pause,
   Square,
@@ -105,7 +103,7 @@ export function VoiceRecorderComponent() {
         variant: "destructive",
       });
     }
-  }, [toast, announceToScreenReader]);
+  }, [toast, announceToScreenReader, recordingTime]);
 
   const pauseRecording = useCallback(() => {
     if (mediaRecorderRef.current && isRecording) {
@@ -188,7 +186,7 @@ export function VoiceRecorderComponent() {
           <div className="text-6xl mb-4">🎤</div>
           <h3 className="text-lg font-semibold mb-2">Voice Recording Not Supported</h3>
           <p className="text-muted-foreground">
-            Your browser doesn't support voice recording. Please try using a modern browser like Chrome, Firefox, or Safari.
+            Your browser doesn&apos;t support voice recording. Please try using a modern browser like Chrome, Firefox, or Safari.
           </p>
         </CardContent>
       </Card>
@@ -404,10 +402,10 @@ export function VoiceRecorderComponent() {
             <div className="space-y-3 text-sm text-muted-foreground">
               <h4 className="font-semibold text-foreground">How to use:</h4>
               <ul className="space-y-1 ml-4">
-                <li>• Click "Start Recording" to begin recording audio</li>
-                <li>• Click "Pause" to temporarily stop recording</li>
-                <li>• Click "Stop" when you're finished recording</li>
-                <li>• Use "Play" to preview your recording</li>
+                <li>• Click &quot;Start Recording&quot; to begin recording audio</li>
+                <li>• Click &quot;Pause&quot; to temporarily stop recording</li>
+                <li>• Click &quot;Stop&quot; when you&apos;re finished recording</li>
+                <li>• Use &quot;Play&quot; to preview your recording</li>
                 <li>• Download your recording or delete it if needed</li>
               </ul>
               <p className="text-xs mt-3">

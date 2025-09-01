@@ -1,0 +1,73 @@
+"use client";
+
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { useRef } from "react";
+import { ParticleBackground } from "./particle-background";
+
+export function HomepageHero() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+
+  return (
+    <div ref={ref} className="relative isolate overflow-hidden bg-background pt-14">
+      <ParticleBackground />
+      <motion.div
+        className="absolute inset-0 -z-10 bg-[radial-gradient(45rem_45rem_at_top,rgba(0,123,255,0.15),white_100%)] dark:bg-[radial-gradient(45rem_45rem_at_top,rgba(0,123,255,0.15),#0f172a_100%)]"
+        style={{ y }}
+      />
+      <div className="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-32 lg:flex lg:px-8 lg:py-40">
+        <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:flex-shrink-0 lg:pt-8">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="mt-10 text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
+              All-in-One PDF & File Tools
+            </h1>
+            <p className="mt-6 text-lg leading-8 text-muted-foreground">
+              Convert, edit, and manage your files with ease. Professional tools trusted by millions worldwide.
+            </p>
+            <div className="mt-10 flex items-center gap-x-6">
+              <Link href="/tools">
+                <Button size="lg" className="bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/50">
+                  Explore Tools
+                </Button>
+              </Link>
+              <Link href="/pricing">
+                <Button size="lg" variant="ghost">
+                  View pricing <span aria-hidden="true">→</span>
+                </Button>
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+        <motion.div 
+          className="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mt-0 lg:mr-0 lg:max-w-none lg:flex-none xl:ml-32"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <div className="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none">
+            <div className="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
+              <img
+                data-ai-hint="app screenshot"
+                src="https://picsum.photos/1216/721"
+                alt="App screenshot"
+                width={2432}
+                height={1442}
+                className="w-[76rem] rounded-md shadow-2xl ring-1 ring-gray-900/10"
+              />
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}

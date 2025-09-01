@@ -38,7 +38,7 @@ export function PerformanceMonitor() {
         setMetrics(prev => ({ ...prev, fcp: lastEntry.startTime }));
       });
       fcpObserver.observe({ entryTypes: ['paint'] });
-    } catch (e) {
+    } catch {
       console.warn('FCP observation not supported');
     }
 
@@ -50,7 +50,7 @@ export function PerformanceMonitor() {
         setMetrics(prev => ({ ...prev, lcp: lastEntry.startTime }));
       });
       lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
-    } catch (e) {
+    } catch {
       console.warn('LCP observation not supported');
     }
 
@@ -69,7 +69,7 @@ export function PerformanceMonitor() {
         setMetrics(prev => ({ ...prev, cls: clsValue }));
       });
       clsObserver.observe({ entryTypes: ['layout-shift'] });
-    } catch (e) {
+    } catch {
       console.warn('CLS observation not supported');
     }
 
@@ -82,7 +82,7 @@ export function PerformanceMonitor() {
         });
       });
       fidObserver.observe({ entryTypes: ['first-input'] });
-    } catch (e) {
+    } catch {
       console.warn('FID observation not supported');
     }
 
@@ -169,7 +169,7 @@ export function usePerformanceOptimization() {
 }
 
 // Lazy loading wrapper component
-import { Suspense, lazy } from 'react';
+import { Suspense } from 'react';
 
 const LoadingFallback = () => (
   <div className="flex items-center justify-center p-8">

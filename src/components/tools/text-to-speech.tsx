@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from 'react';
@@ -15,8 +14,6 @@ import {
   Pause,
   Square,
   Download,
-  Volume2,
-  VolumeX,
   RotateCcw,
   FileText,
   Mic,
@@ -139,7 +136,7 @@ export function TextToSpeechComponent() {
       utterance.volume = volume[0];
 
       // Progress tracking
-      let startTime = Date.now();
+      const startTime = Date.now();
       const totalDuration = estimatedTime * 1000;
 
       utterance.onstart = () => {
@@ -206,7 +203,7 @@ export function TextToSpeechComponent() {
         variant: "destructive",
       });
     }
-  }, [text, selectedVoice, voices, rate, pitch, volume, estimatedTime, toast, announceToScreenReader]);
+  }, [text, selectedVoice, voices, rate, pitch, volume, estimatedTime, toast, announceToScreenReader, isPlaying, isPaused]);
 
   const pause = useCallback(() => {
     if (speechSynthesisRef.current) {
@@ -425,7 +422,7 @@ export function TextToSpeechComponent() {
           <CardContent className="pt-6">
             <div className="flex flex-wrap gap-3 justify-center">
               <Button
-                onClick={isPlaying ? (isPaused ? resume : pause) : speak}
+                onClick={isPlaying ? (isPaused ? resume : speak) : speak}
                 disabled={!text.trim() || isLoading}
                 size="lg"
                 className="flex items-center gap-2"

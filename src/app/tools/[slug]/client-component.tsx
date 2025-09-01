@@ -31,25 +31,26 @@ import { motion } from 'framer-motion';
 import { useAccessibility, AccessibleButton } from '@/components/accessibility-provider';
 
 type ImageFormat = "png" | "jpeg" | "webp";
+type ToolResult = string | { [key: string]: number | string } | null;
+
 
 export function ToolPageClient({ params }: { params: { slug: string } }): JSX.Element | null {
-  const { announceToScreenReader, highContrast } = useAccessibility();
+  const { announceToScreenReader } = useAccessibility();
 
   const tool: Tool | undefined = useMemo(() => {
     return tools.find(t => t.name.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and') === params.slug);
   }, [params.slug]);
 
   const {
-    progress, setProgress,
+    setProgress,
     status, setStatus,
     files, setFiles,
-    error, setError,
+    setError,
     processedUrl, setProcessedUrl,
-    processedFileName, setProcessedFileName,
-    resetState,
-    currentStep, setCurrentStep,
-    estimatedTime, setEstimatedTime,
-    processingStartTime, setProcessingStartTime,
+    setProcessedFileName,
+    setCurrentStep,
+    setEstimatedTime,
+    setProcessingStartTime,
   } = useProgress();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -58,7 +59,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
   // Tool-specific options state
   const [splitOptions, setSplitOptions] = useState<SplitOptions>({ mode: 'ranges', ranges: [{ from: 1, to: 1 }], extractMode: 'all', selectedPages: '' });
   const [compressLevel, setCompressLevel] = useState('recommended');
-  const [pdfImageFormat, setPdfImageFormat] = useState<ImageFormat>('png');
+  const [pdfImageFormat] = useState<ImageFormat>('png');
   const [pdfImageQuality, setPdfImageQuality] = useState(90);
   const [convertedImages, setConvertedImages] = useState<Blob[]>([]);
   
@@ -107,19 +108,13 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
   
   // Text input for utility tools
   const [textInput, setTextInput] = useState('');
-  const [toolResult, setToolResult] = useState<any>(null);
+  const [toolResult, setToolResult] = useState<ToolResult>(null);
 
   const { toast } = useToast();
   const fileAccept = useMemo(() => tool ? getFileAccept(tool.category, tool.name) : '*/*', [tool]);
 
-  if (!tool) {
-    notFound();
-    return null;
-  }
-
-  const Icon = tool.icon;
-
   const validateAndSetFiles = useCallback((newFiles: File[], isAddingMore: boolean = false) => {
+    if (!tool) return;
     setStatus('uploading');
     setProgress(0);
 
@@ -140,7 +135,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
       }
       setStatus('idle');
     }, 1500); // 1.5 second delay for animation
-  }, [tool.category, setFiles, toast, announceToScreenReader, setStatus, setProgress]);
+  }, [tool, setFiles, toast, announceToScreenReader, setStatus, setProgress]);
 
 
   const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, isAddingMore: boolean = false) => {
@@ -164,12 +159,13 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
   const downloadProcessedFile = useCallback((blob: Blob, filename: string) => {
     try {
       downloadBlob(blob, filename);
-    } catch (error) {
-      toast({ variant: "destructive", title: "Download Failed", description: "Failed to download the file. Please try again." });
+    } catch (err) {
+      const error = err as Error
+      toast({ variant: "destructive", title: "Download Failed", description: error.message || "Failed to download the file. Please try again." });
     }
   }, [toast]);
 
-  const handleProcessFiles = async () => {
+  const handleProcessFiles = useCallback(async () => {
     if (!tool) return;
   
     // Check if files are needed for this tool
@@ -324,7 +320,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
           if (!textInput.trim()) {
             throw new Error('Please enter text to convert');
           }
-          const convertedText = convertText(textInput, utilityOptions.operation as any);
+          const convertedText = convertText(textInput, utilityOptions.operation as 'uppercase' | 'lowercase' | 'capitalize' | 'sentencecase' | 'inversecase');
           setToolResult(convertedText);
           const textBlob = new Blob([convertedText], { type: 'text/plain' });
           resultBlob = textBlob;
@@ -385,20 +381,20 @@ Paragraphs: ${stats.paragraphs}`;
           if (!textInput.trim()) {
             throw new Error('Please enter URL to encode/decode');
           }
-          let processedUrl: string;
+          let processedUrlText: string;
           if (utilityOptions.mode === 'encode') {
-            processedUrl = urlEncode(textInput);
+            processedUrlText = urlEncode(textInput);
             resultFilename = 'encoded-url.txt';
           } else {
             try {
-              processedUrl = urlDecode(textInput);
+              processedUrlText = urlDecode(textInput);
               resultFilename = 'decoded-url.txt';
             } catch {
               throw new Error('Invalid URL encoding');
             }
           }
-          setToolResult(processedUrl);
-          const urlBlob = new Blob([processedUrl], { type: 'text/plain' });
+          setToolResult(processedUrlText);
+          const urlBlob = new Blob([processedUrlText], { type: 'text/plain' });
           resultBlob = urlBlob;
           setProgress(100);
           break;
@@ -419,13 +415,21 @@ Paragraphs: ${stats.paragraphs}`;
   
       toast({ title: "Success!", description: `${tool.name} completed successfully!` });
   
-    } catch (e: any) {
-      setError(e.message || "An unknown error occurred.");
+    } catch (e: unknown) {
+      const error = e as Error;
+      setError(error.message || "An unknown error occurred.");
       setStatus('error');
       setProgress(0);
-      toast({ variant: "destructive", title: "Processing Failed", description: e.message });
+      toast({ variant: "destructive", title: "Processing Failed", description: error.message });
     }
-  };
+  },[tool, files, setStatus, setProgress, setError, setProcessedUrl, setProcessedFileName, setCurrentStep, setEstimatedTime, setProcessingStartTime, splitOptions, compressLevel, pdfImageQuality, imageOptions, utilityOptions, textInput, toast]);
+
+  if (!tool) {
+    notFound();
+    return null;
+  }
+
+  const Icon = tool.icon;
 
   const renderToolOptions = () => {
     if (status !== 'idle' || !tool) return null;
@@ -587,7 +591,7 @@ Paragraphs: ${stats.paragraphs}`;
                 <AccessibleButton
                   onClick={handleProcessFiles}
                   disabled={needsFiles ? (files.length === 0 || status !== 'idle') : status !== 'idle'}
-                  loading={false}
+                  loading={status === 'processing'}
                   variant="primary"
                   size="lg"
                   className="w-full sm:w-auto px-6 sm:px-8 py-3 text-base sm:text-lg font-semibold tool-button-primary"

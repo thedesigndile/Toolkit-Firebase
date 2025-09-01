@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -6,7 +5,7 @@ import Link from "next/link";
 import { ModernLogo } from "./icons";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "./ui/button";
-import { Menu, X, Facebook, Instagram, Twitter } from "lucide-react";
+import { Menu, X, Facebook, Instagram, Twitter, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { tools, Tool } from "@/lib/tools";
@@ -21,20 +20,27 @@ const fontLogo = Rajdhani({
   weight: ['700'],
 });
 
-const pdfConvertTools = tools.filter(t => t.category === 'Convert PDF');
+const pdfTools = tools.filter(t => ['Edit PDF', 'Protect & Secure', 'View & Organize'].includes(t.category));
 const imageTools = tools.filter(t => t.category === 'Image Tools');
-const organizePdfTools = tools.filter(t => t.category === 'Organize PDF');
+const conversionTools = tools.filter(t => ['Convert PDF', 'Converters', 'Other Tools'].includes(t.category));
+const editingTools = tools.filter(t => t.category === 'Edit PDF');
+const videoTools = tools.filter(t => t.category === 'Video Tools');
+const audioTools = tools.filter(t => t.category === 'Audio Tools');
+const utilityTools = tools.filter(t => t.category === 'Utility Tools');
 
 const getToolUrl = (toolName: string) => `/tools/${toolName.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and')}`;
 
 const navItems = [
-    { name: "Convert PDF", subItems: pdfConvertTools },
-    { name: "Organize PDF", subItems: organizePdfTools },
+    { name: "PDF Tools", subItems: pdfTools },
     { name: "Image Tools", subItems: imageTools },
+    { name: "Conversion Tools", subItems: conversionTools },
+    { name: "Editing Tools", subItems: editingTools },
+    { name: "Video Tools", subItems: videoTools },
+    { name: "Audio Tools", subItems: audioTools },
+    { name: "Utility Tools", subItems: utilityTools },
 ];
 
 const navLinks = [
-    { name: "All Tools", href: "/tools"},
     { name: "Pricing", href: "/pricing"},
     { name: "Contact", href: "/contact"},
 ]
@@ -111,17 +117,17 @@ export function Header() {
     }
   };
 
-  const navButtonClasses = "font-semibold text-sm px-3 py-2 bg-transparent text-primary-foreground data-[state=open]:bg-primary/80 hover:bg-primary/90";
+  const navButtonClasses = "font-semibold text-sm px-4 py-3 bg-transparent text-foreground data-[state=open]:bg-gradient-light data-[state=open]:text-foreground hover:bg-gradient-light hover:text-foreground rounded-xl transition-all duration-300 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-primary hover:after:w-full after:transition-all after:duration-300";
 
 
   return (
     <>
       <motion.header
         className={cn(
-          "hidden md:flex items-center justify-between w-full max-w-6xl mx-auto p-2 rounded-2xl bg-primary"
+          "hidden md:flex items-center justify-between w-full max-w-7xl mx-auto p-6 rounded-3xl bg-card/95 backdrop-blur-lg border border-border fixed top-4 left-1/2 -translate-x-1/2 z-50"
         )}
         style={{
-          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)'
+          boxShadow: '0 20px 25px -5px rgba(59, 130, 246, 0.1), 0 10px 10px -5px rgba(139, 92, 246, 0.04)'
         }}
         variants={headerVariants}
         initial="hidden"
@@ -139,7 +145,7 @@ export function Header() {
               <ModernLogo />
             </motion.div>
             <motion.span
-              className={cn(fontLogo.className, "font-bold text-2xl text-primary-foreground tracking-wider whitespace-nowrap")}
+              className={cn(fontLogo.className, "font-bold text-2xl text-gradient-primary tracking-wider whitespace-nowrap")}
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
@@ -173,19 +179,18 @@ export function Header() {
                        {item.subItems && (
                            <NavigationMenuContent>
                            <motion.ul
-                             className={cn("grid gap-4 p-6 bg-popover rounded-xl border border-border", {
-                                 "w-[400px] md:w-[500px] md:grid-cols-2 lg:w-[600px]": true
-                             })}
-                             initial={{ opacity: 0, y: 20 }}
+                             className={cn("grid gap-4 p-8 bg-popover rounded-2xl border border-border shadow-xl grid-cols-4 w-auto")}
+                             initial={{ opacity: 0, y: -10 }}
                              animate={{ opacity: 1, y: 0 }}
-                             transition={{ duration: 0.3 }}
+                             exit={{ opacity: 0, y: -10 }}
+                             transition={{ duration: 0.2, ease: "easeOut" }}
                            >
                                {item.subItems.map((tool, toolIndex) => (
                                <motion.div
                                  key={tool.name}
                                  initial={{ opacity: 0, x: -20 }}
                                  animate={{ opacity: 1, x: 0 }}
-                                 transition={{ delay: toolIndex * 0.1 }}
+                                 transition={{ delay: toolIndex * 0.05 }}
                                >
                                  <ListItemLink
                                      tool={tool}
@@ -223,10 +228,19 @@ export function Header() {
            </NavigationMenu>
         </motion.div>
 
-        <motion.div
-          className="flex-shrink-0 flex items-center gap-1"
-          variants={navItemVariants}
-        >
+        <motion.div className="flex items-center gap-4" variants={navItemVariants}>
+          <div className="relative group">
+            <motion.input 
+              type="text" 
+              placeholder="Search..." 
+              className="bg-transparent border-2 border-border rounded-full py-2 px-4 w-48 group-hover:w-64 focus:w-64 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm"
+              whileHover={{ boxShadow: "0 0 15px rgba(0, 123, 255, 0.2)" }}
+              whileFocus={{ boxShadow: "0 0 25px rgba(0, 123, 255, 0.4)" }}
+            />
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <Search className="h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
+            </div>
+          </div>
           <motion.div
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -234,37 +248,19 @@ export function Header() {
           >
             <ThemeToggle />
           </motion.div>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Button
-              variant="outline"
-              className="text-primary-foreground border-primary-foreground/50 hover:bg-primary/90 hover:text-primary-foreground rounded-xl px-2 py-2 font-medium"
-            >
-              Log In
-            </Button>
-          </motion.div>
-          <motion.div
-            whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(0,0,0,0.2)" }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Button
-              variant="secondary"
-              className="rounded-xl px-3 py-2 font-semibold shadow-lg hover:shadow-xl"
-            >
-              Get Started
-            </Button>
-          </motion.div>
         </motion.div>
+
       </motion.header>
 
       {/* Mobile Header */}
       <motion.div
-        className="md:hidden flex justify-between items-center w-full px-4 py-3 bg-primary"
+        className="md:hidden flex justify-between items-center w-full px-6 py-4 bg-card/95 backdrop-blur-lg border-b border-border fixed top-0 left-0 right-0 z-50"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 100 }}
+        style={{
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+        }}
       >
         <motion.div
           className="flex-1 flex justify-start"
@@ -277,7 +273,7 @@ export function Header() {
               aria-label="Open navigation menu"
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-navigation"
-              className="w-11 h-11 text-primary-foreground hover:text-primary-foreground/90 border border-primary-foreground/20"
+              className="w-11 h-11 text-foreground hover:text-foreground border border-border hover:border-primary hover:bg-gradient-light rounded-xl transition-all duration-300"
           >
               <Menu className="h-6 w-6" aria-hidden="true" />
           </Button>
@@ -294,7 +290,7 @@ export function Header() {
                   <ModernLogo />
                 </motion.div>
                 <motion.span
-                  className={cn(fontLogo.className, "font-bold text-2xl text-primary-foreground tracking-wider whitespace-nowrap")}
+                  className={cn(fontLogo.className, "font-bold text-2xl text-gradient-primary tracking-wider whitespace-nowrap")}
                   whileHover={{ scale: 1.05 }}
                 >
                   TOOL KIT
@@ -376,7 +372,7 @@ export function Header() {
                           </AccordionTrigger>
                           <AccordionContent>
                             <div className="flex flex-col gap-1 pl-4">
-                              {item.subItems?.map(tool => (
+                              {item.subItems && item.subItems.map(tool => (
                                 <Link
                                   key={tool.name}
                                   href={getToolUrl(tool.name)}
@@ -500,35 +496,35 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
             ref={ref}
             href={href}
             className={cn(
-              "group block select-none space-y-1 rounded-lg p-4 leading-none no-underline outline-none transition-all duration-300",
-              "bg-popover hover:bg-accent/10 hover:text-accent-foreground border border-transparent hover:border-border",
+              "group block select-none space-y-2 rounded-xl p-4 leading-none no-underline outline-none transition-all duration-300",
+              "bg-card hover:bg-gradient-light border border-transparent hover:border-primary hover:shadow-lg",
               className
             )}
             whileHover={{
               scale: 1.02,
-              boxShadow: "0 10px 30px rgba(0,0,0,0.1)"
+              boxShadow: "0 10px 30px rgba(139, 92, 246, 0.15)"
             }}
             whileTap={{ scale: 0.98 }}
           >
-            <div className="flex items-start gap-4">
+            <div className="flex flex-col items-center text-center">
               {!isStatic && Icon && (
                 <motion.div
-                  className="p-2 rounded-lg bg-background border"
-                  whileHover={{ rotate: 360, scale: 1.1 }}
-                  transition={{ duration: 0.5 }}
+                  className="p-3 rounded-xl bg-muted group-hover:bg-gradient-primary transition-all duration-300 mx-auto mb-3"
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <Icon className="h-8 w-8" />
+                  <Icon className="h-8 w-8 text-muted-foreground group-hover:text-white transition-colors duration-300" />
                 </motion.div>
               )}
-              <div className="flex-1">
+              <div className="flex-1 text-center">
                 <motion.div
-                  className="text-sm font-semibold leading-none group-hover:font-bold text-foreground"
+                  className="text-sm font-bold leading-none text-foreground group-hover:text-foreground transition-colors duration-300 font-heading"
                   whileHover={{ scale: 1.02 }}
                 >
                   {title ?? tool?.name}
                 </motion.div>
                 <motion.p
-                  className="line-clamp-2 text-sm leading-snug text-muted-foreground mt-2 group-hover:text-foreground/80"
+                  className="line-clamp-2 text-xs leading-snug text-muted-foreground mt-2 group-hover:text-muted-foreground"
                   initial={{ opacity: 0.8 }}
                   whileHover={{ opacity: 1 }}
                 >

@@ -1,0 +1,257 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { ModernLogo } from "./icons";
+import { AnimatePresence, motion } from "framer-motion";
+import { Button } from "./ui/button";
+import { Menu, X } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { ThemeToggle } from "./theme-toggle";
+
+const navItems = [
+  { name: "Home", href: "/" },
+  { name: "Tools", href: "/tools" },
+  { name: "Features", href: "/features" },
+  { name: "Pricing", href: "/pricing" },
+  { name: "Contact", href: "/contact" },
+];
+
+export function ModernHeader() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const headerVariants = {
+    initial: { y: -100, opacity: 0 },
+    animate: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 20,
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    initial: { opacity: 0, y: -20 },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 120, damping: 15 }
+    }
+  };
+
+  return (
+    <>
+      <motion.header
+        className={cn(
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+          isScrolled 
+            ? "nav-gradient shadow-gradient border-b border-white/10" 
+            : "glass-gradient"
+        )}
+        variants={headerVariants}
+        initial="initial"
+        animate="animate"
+      >
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <motion.div variants={itemVariants}>
+              <Link href="/" className="flex items-center gap-3 group">
+                <motion.div
+                  whileHover={{ rotate: 360, scale: 1.1 }}
+                  transition={{ duration: 0.6 }}
+                  className="relative"
+                >
+                  <ModernLogo />
+                  <div className="absolute inset-0 bg-gradient-primary rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+                </motion.div>
+                <motion.span
+                  className={cn(
+                    "font-bold text-2xl tracking-wider",
+                    isScrolled ? "text-white" : "text-gradient-animated"
+                  )}
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  TOOLKIT
+                </motion.span>
+              </Link>
+            </motion.div>
+
+            {/* Desktop Navigation */}
+            <motion.nav 
+              className="hidden md:flex items-center gap-8"
+              variants={itemVariants}
+            >
+              {navItems.map((item) => (
+                <motion.div
+                  key={item.name}
+                  variants={itemVariants}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Link
+                    href={item.href}
+                    className={cn(
+                      "relative px-4 py-2 text-sm font-medium transition-all duration-300 group rounded-lg",
+                      isScrolled 
+                        ? "text-white/90 hover:text-white hover:bg-white/10" 
+                        : "text-foreground hover:text-primary hover:bg-gradient-light"
+                    )}
+                  >
+                    {item.name}
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300" />
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.nav>
+
+            {/* Desktop Actions */}
+            <motion.div 
+              className="hidden md:flex items-center gap-4"
+              variants={itemVariants}
+            >
+              <ThemeToggle />
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "btn-ripple hover-scale",
+                    isScrolled 
+                      ? "border-white/20 text-white hover:bg-white/10 hover:border-white/40" 
+                      : "border-border hover:border-primary hover:bg-gradient-light"
+                  )}
+                >
+                  Sign In
+                </Button>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="energy-pulse"
+              >
+                <Button className="btn-ripple bg-gradient-primary hover:bg-gradient-hover text-white shadow-gradient hover:shadow-glow">
+                  Get Started
+                </Button>
+              </motion.div>
+            </motion.div>
+
+            {/* Mobile Menu Button */}
+            <motion.div 
+              className="md:hidden flex items-center gap-2"
+              variants={itemVariants}
+            >
+              <ThemeToggle />
+              <motion.button
+                onClick={() => setIsMobileMenuOpen(true)}
+                className="p-2 rounded-xl border border-border hover:border-primary hover:bg-muted transition-all duration-300"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Menu className="h-6 w-6" />
+              </motion.button>
+            </motion.div>
+          </div>
+        </div>
+      </motion.header>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+            className="fixed inset-0 z-50 md:hidden"
+          >
+            <div className="nav-gradient h-full flex flex-col">
+              {/* Mobile Header */}
+              <div className="flex items-center justify-between p-6 border-b border-border">
+                <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
+                  <div className="flex items-center gap-3">
+                    <ModernLogo />
+                    <span className="font-bold text-xl text-white">TOOLKIT</span>
+                  </div>
+                </Link>
+                <motion.button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="p-2 rounded-xl border border-border hover:border-primary"
+                  whileHover={{ scale: 1.1, rotate: 90 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <X className="h-6 w-6" />
+                </motion.button>
+              </div>
+
+              {/* Mobile Navigation */}
+              <div className="flex-1 p-6">
+                <motion.nav
+                  className="space-y-4"
+                  initial="initial"
+                  animate="animate"
+                  variants={{
+                    animate: { transition: { staggerChildren: 0.1 } }
+                  }}
+                >
+                  {navItems.map((item) => (
+                    <motion.div
+                      key={item.name}
+                      variants={{
+                        initial: { opacity: 0, x: -20 },
+                        animate: { opacity: 1, x: 0 }
+                      }}
+                    >
+                      <Link
+                        href={item.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="block p-4 rounded-xl text-lg font-medium text-white/90 hover:bg-white/10 hover:text-white transition-all duration-300"
+                      >
+                        {item.name}
+                      </Link>
+                    </motion.div>
+                  ))}
+                </motion.nav>
+              </div>
+
+              {/* Mobile Actions */}
+              <div className="p-6 border-t border-border">
+                <div className="space-y-4">
+                  <Button
+                    variant="outline"
+                    className="w-full btn-ripple border-white/20 text-white hover:bg-white/10"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Sign In
+                  </Button>
+                  <Button
+                    className="w-full btn-ripple bg-white/20 hover:bg-white/30 text-white shadow-glow"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Get Started
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}

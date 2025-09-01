@@ -1,14 +1,11 @@
-
 "use client";
 
-import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plus, Trash2, SlidersHorizontal, FileText } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 interface SplitPdfOptionsProps {
   options: {
@@ -18,10 +15,9 @@ interface SplitPdfOptionsProps {
     selectedPages: string;
   };
   setOptions: (options: SplitPdfOptionsProps['options']) => void;
-  totalPages: number;
 }
 
-export function SplitPdfOptions({ options, setOptions, totalPages }: SplitPdfOptionsProps) {
+export function SplitPdfOptions({ options, setOptions }: SplitPdfOptionsProps) {
   const handleRangeChange = (index: number, field: 'from' | 'to', value: string) => {
     const newRanges = [...options.ranges];
     newRanges[index] = { ...newRanges[index], [field]: parseInt(value, 10) || 1 };
