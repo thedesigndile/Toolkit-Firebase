@@ -1,4 +1,3 @@
-
 "use client";
 
 import { cn } from "@/lib/utils";
@@ -16,7 +15,6 @@ export function ParticleBackground() {
           "dark:bg-[radial-gradient(circle_at_50%_0,hsl(var(--primary)/0.15),transparent_60%)]"
         )}
       />
-      <div className="absolute inset-0 bg-dot-pattern opacity-40 dark:opacity-20" />
       <motion.div
         className="absolute bottom-0 left-0 h-1/2 w-full bg-gradient-to-t from-background to-transparent"
         initial={{ opacity: 0 }}
