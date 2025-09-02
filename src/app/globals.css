@@ -14,24 +14,24 @@
     --popover-foreground: 215 28% 17%;
 
     --primary: 207 82% 51%; /* #1E88E5 */
+    --primary-foreground: 210 40% 98%;
     --primary-dark: 207 77% 42%; /* #166CBF */
-    --primary-light: 210 82% 95%; /* #E3F2FD */
-    --primary-foreground: 0 0% 100%;
+    --primary-light: 215 91% 65%; /* #60A5FA */
 
-    --secondary: 174 79% 40%; /* #14B8A6 */
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 215 28% 17%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 215 20% 90%;
-    --muted-foreground: 215 14% 47%;
+    --muted: 215 20% 90%; /* #E2E8F0 */
+    --muted-foreground: 215 14% 47%; /* #64748B */
     
-    --accent: 207 82% 51%; /* Re-using primary blue for accents */
-    --accent-foreground: 0 0% 100%;
+    --accent: 174 79% 40%; /* #14B8A6 */
+    --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 215 20% 90%;
-    --input: 214 32% 91%;
+    --border: 215 20% 90%; /* #E2E8F0 */
+    --input: 215 20% 90%;
     --ring: 207 82% 51%;
 
     --radius: 0.75rem;
@@ -51,30 +51,32 @@
     --background: 222 47% 11%;
     --foreground: 210 40% 98%;
 
-    --card: 222 47% 15%;
+    --card: 224 71% 4%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222 47% 11%;
+    --popover: 224 71% 4%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 207 82% 51%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 215 91% 65%; /* #60A5FA */
+    --primary-foreground: 210 40% 98%;
+    --primary-dark: 217 91% 60%; /* #3B82F6 */
+    --primary-light: 215 91% 75%;
 
-    --secondary: 174 79% 40%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 215 28% 17%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 222 47% 15%;
-    --muted-foreground: 215 14% 47%;
+    --muted: 215 28% 17%;
+    --muted-foreground: 215 16% 47%;
     
-    --accent: 207 82% 51%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 174 79% 40%;
+    --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 222 47% 22%;
-    --input: 222 47% 22%;
-    --ring: 207 82% 51%;
+    --border: 215 28% 17%;
+    --input: 215 28% 17%;
+    --ring: 217 91% 60%;
   }
 }
 
@@ -104,34 +106,29 @@
   /* Custom button styles for a more tactile feel */
   .btn-primary {
     @apply bg-primary text-primary-foreground shadow-md transition-all duration-200 ease-out;
-    @apply hover:bg-primary-dark hover:-translate-y-0.5 hover:shadow-lg;
-    @apply active:bg-primary-dark active:translate-y-0 active:shadow-md;
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
-  }
-
-  .btn-secondary {
-    @apply bg-secondary text-secondary-foreground shadow-md transition-all duration-200 ease-out;
-    @apply hover:bg-teal-600 hover:-translate-y-0.5 hover:shadow-lg;
-    @apply active:bg-teal-700 active:translate-y-0 active:shadow-md;
+    @apply hover:bg-primary/90 hover:-translate-y-0.5 hover:shadow-lg;
+    @apply active:bg-primary/90 active:translate-y-0 active:shadow-md;
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
   }
   
-  /* Custom card with subtle hover effect */
+  /* Custom card with layered hover effects */
   .tool-card-interactive {
-    @apply bg-card rounded-xl border transition-all duration-250 ease-out;
-    @apply hover:shadow-xl hover:-translate-y-1 hover:border-primary/50;
+    @apply bg-card rounded-xl border transition-all duration-300 ease-out;
+    @apply hover:shadow-xl hover:-translate-y-1 hover:border-primary/30;
+    @apply hover:bg-blue-500/5; /* Tint effect */
+  }
+
+  .tool-card-interactive .tool-icon-primary {
+    @apply text-muted-foreground transition-colors duration-300;
+  }
+
+  .tool-card-interactive:hover .tool-icon-primary {
+    @apply text-primary;
   }
 
   /* Custom pulse animation for CTA buttons */
   .pulse-animation {
     animation: pulse-subtle 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
-  }
-
-  @keyframes pulse-subtle {
-    50% {
-      transform: scale(1.03);
-      box-shadow: 0 0 0 8px hsl(var(--primary) / 0.2);
-    }
   }
 
   /* Custom underline for nav links */

@@ -53,14 +53,17 @@ export function ToolsSection() {
                 viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
               >
-                <div className="flex items-center gap-3 mb-6">
+                <motion.div 
+                  className="flex items-center gap-3 mb-6"
+                  whileHover={{x: 2}}
+                >
                   {CategoryIcon && 
                     <motion.div whileHover={{scale: 1.1, rotate: -5}}>
                       <CategoryIcon className="h-7 w-7 text-primary" />
                     </motion.div>
                   }
                   <h2 className="text-2xl font-bold text-foreground">{category}</h2>
-                </div>
+                </motion.div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                   {toolsInCategory.map((tool, i) => (
                      <Suspense key={tool.name} fallback={<Skeleton className="h-40 rounded-xl" />}>
