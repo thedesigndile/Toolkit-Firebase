@@ -85,7 +85,7 @@
   }
   .tool-card-interactive:hover {
     transform: translateY(-10px);
-    box-shadow: 0 10px 20px -5px hsl(var(--primary) / 0.1), 0 4px 6px -2px hsl(var(--primary) / 0.05);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
     border-color: hsl(var(--primary) / 0.5);
   }
   

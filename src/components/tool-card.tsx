@@ -54,7 +54,7 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
                         whileHover={{ scale: 1.2, rotate: -5 }}
                         transition={{ type: "spring", stiffness: 300, damping: 15 }}
                       >
-                          <Icon className="h-7 w-7 text-primary transition-colors group-hover:text-blue-500" />
+                          <Icon className="h-7 w-7 text-primary transition-colors group-hover:text-blue-500 icon-gradient" />
                       </motion.div>
                       <h3 className="text-md font-semibold leading-tight text-foreground group-hover:text-primary transition-colors">
                         {tool.name}
