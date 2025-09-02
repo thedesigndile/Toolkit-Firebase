@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -12,7 +11,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { Button } from "./ui/button";
 
 interface ToolCardProps {
   tool: Tool;
@@ -25,35 +23,26 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.05, duration: 0.3, ease: "easeOut" }}
       className="w-full h-full"
+      whileHover={{ y: -5, scale: 1.03 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
     >
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
             <Link
               href={`/tools/${slug}`}
-              className="block group relative h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg"
+              className="block group relative h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-xl"
               aria-label={`Open ${tool.name} tool`}
             >
-               <Card className="h-full transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 overflow-hidden bg-card border border-border hover:border-primary/50 rounded-lg">
-                  <CardContent className="flex flex-col h-full p-6 text-center justify-between items-center relative">
-                    <div className="flex-grow flex flex-col items-center justify-center">
-                      <motion.div
-                          className="mb-4"
-                          whileHover={{ scale: 1.2, rotate: 5, transition: { duration: 0.3 } }}
-                      >
-                          <Icon className="h-8 w-8 text-primary transition-colors duration-300" />
-                      </motion.div>
-                      <h3 className="text-md font-bold leading-tight text-foreground">
+               <Card className="h-full transition-all duration-250 ease-out bg-card rounded-xl border group-hover:border-primary/30 group-hover:shadow-large">
+                  <CardContent className="flex flex-col h-full p-5 items-center justify-center text-center">
+                      <div className="mb-4 p-3 bg-accent rounded-lg transition-colors duration-250 group-hover:bg-primary/10">
+                          <Icon className="h-7 w-7 text-primary transition-transform duration-250 group-hover:scale-110" />
+                      </div>
+                      <h3 className="text-md font-semibold leading-tight text-foreground">
                         {tool.name}
                       </h3>
-                    </div>
-                    <Button variant="outline" size="sm" className="mt-4 border-primary text-primary hover:bg-primary hover:text-primary-foreground group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
-                      Use Tool
-                    </Button>
                   </CardContent>
                </Card>
             </Link>

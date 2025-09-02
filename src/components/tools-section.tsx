@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useMemo, useEffect, Suspense } from "react";
@@ -8,14 +7,13 @@ import { Skeleton } from "./ui/skeleton";
 import { motion } from "framer-motion";
 
 export function ToolsSection() {
-   const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Simulate initial loading
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 500);
+    const timer = setTimeout(() => setIsLoading(false), 250); // Faster load simulation
     return () => clearTimeout(timer);
   }, []);
-
 
   const categorizedTools = useMemo(() => {
     const categories: { [key: string]: typeof tools } = {};
@@ -25,34 +23,35 @@ export function ToolsSection() {
       }
       categories[tool.category].push(tool);
     });
-    return Object.entries(categories);
+    // Sort categories alphabetically
+    return Object.entries(categories).sort((a, b) => a[0].localeCompare(b[0]));
   }, []);
 
   return (
     <div className="container mx-auto px-4 py-16">
       {isLoading ? (
         <div className="space-y-12">
-            {Array.from({ length: 3 }).map((_, categoryIndex) => (
-              <div key={`skeleton-category-${categoryIndex}`}>
-                  <Skeleton className="h-8 w-48 mb-6 bg-muted" />
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {Array.from({ length: 4 }).map((_, i) => (
-                      <Skeleton key={`skeleton-${categoryIndex}-${i}`} className="h-40 rounded-lg bg-muted" />
-                    ))}
-                  </div>
+          {Array.from({ length: 4 }).map((_, categoryIndex) => (
+            <div key={`skeleton-category-${categoryIndex}`}>
+              <Skeleton className="h-8 w-48 mb-6 bg-muted" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <Skeleton key={`skeleton-${categoryIndex}-${i}`} className="h-32 rounded-xl bg-muted" />
+                ))}
               </div>
-            ))}
+            </div>
+          ))}
         </div>
       ) : (
         <div className="space-y-16">
-           {categorizedTools.map(([category, toolsInCategory]) => {
+          {categorizedTools.map(([category, toolsInCategory]) => {
             const CategoryIcon = toolsInCategory[0]?.categoryIcon;
             return (
-              <motion.div
+              <motion.section
                 key={category}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
+                viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
               >
                 <div className="flex items-center gap-3 mb-6">
@@ -65,7 +64,7 @@ export function ToolsSection() {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                   {toolsInCategory.map((tool, i) => (
-                     <Suspense key={tool.name} fallback={<Skeleton className="h-40 rounded-lg" />}>
+                     <Suspense key={tool.name} fallback={<Skeleton className="h-32 rounded-xl" />}>
                        <motion.div
                           initial={{ opacity: 0, y: 20 }}
                           whileInView={{ opacity: 1, y: 0 }}
@@ -77,11 +76,11 @@ export function ToolsSection() {
                      </Suspense>
                   ))}
                 </div>
-              </motion.div>
+              </motion.section>
             )
           })}
         </div>
-       )}
+      )}
     </div>
   );
 }

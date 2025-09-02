@@ -1,58 +1,39 @@
-"use client";
-
 import './globals.css';
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
-import { Inter, Roboto } from 'next/font/google';
-import { cn } from '@/lib/utils';
-import { AnimatePresence, motion } from 'framer-motion';
-import { usePathname } from 'next/navigation';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
+import { cn } from '@/lib/utils';
+import { AccessibilityProvider, SkipToContent } from '@/components/accessibility-provider';
 
-const fontBody = Inter({
-  subsets: ['latin'],
-  variable: '--font-body',
-});
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
-const fontHeading = Roboto({
-  subsets: ['latin'],
-  weight: ['700'],
-  variable: '--font-heading',
-});
+export const metadata: Metadata = {
+  title: 'Offline Toolkit - Your Go-To for Productivity',
+  description: 'A comprehensive suite of offline-first tools for document and media processing.',
+};
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-  const pathname = usePathname();
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="Modern, professional toolkit for PDF editing, image conversion, and productivity tools - all in your browser" />
-        <title>ToolBox - Modern PDF & Productivity Tools</title>
-      </head>
-      <body className={cn("font-sans antialiased", fontBody.variable, fontHeading.variable)}>
+      <body className={cn('min-h-screen bg-background font-sans antialiased', inter.variable)}>
+        <AccessibilityProvider>
           <ThemeProvider>
+            <SkipToContent />
             <Header />
             <main id="main-content" role="main">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={pathname}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {children}
-                </motion.div>
-              </AnimatePresence>
+              {children}
             </main>
             <Footer />
             <Toaster />
           </ThemeProvider>
+        </AccessibilityProvider>
       </body>
     </html>
   );

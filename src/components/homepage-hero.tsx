@@ -1,49 +1,48 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useRef } from "react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { ParticleBackground } from "./particle-background";
 
 export function HomepageHero() {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-
   return (
-    <div ref={ref} className="relative isolate overflow-hidden bg-background pt-32 sm:pt-40 lg:pt-48">
+    <section className="relative py-20 md:py-32 lg:py-40 text-center overflow-hidden">
       <ParticleBackground />
-      <motion.div
-        className="absolute inset-0 -z-10 bg-[radial-gradient(45rem_45rem_at_top,hsl(var(--primary)/0.15),transparent_60%)]"
-        style={{ y }}
-      />
-      <div className="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-32 lg:px-8 lg:py-20">
-        <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-3xl lg:flex-shrink-0 text-center">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+      <div className="container relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <motion.div
+            className="inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-medium text-primary mb-4"
+            whileHover={{ scale: 1.05 }}
           >
-            <h1 className="mt-10 text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
-              Transform Your Files with Ease
-            </h1>
-            <p className="mt-6 text-lg leading-8 text-muted-foreground">
-              Access 20+ powerful tools for PDF, images, and more, powered by Gemini.
-            </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <Link href="/tools">
-                <Button size="lg" className="btn-pulse bg-primary text-primary-foreground hover:bg-primary/90">
-                  Explore Tools
-                </Button>
-              </Link>
-            </div>
+            <Sparkles className="h-4 w-4" />
+            <span>AI-Powered Productivity</span>
           </motion.div>
-        </div>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tighter text-foreground">
+            Every Offline Tool, Right Here.
+          </h1>
+          <p className="mt-6 max-w-2xl mx-auto text-lg text-muted-foreground">
+            Boost your productivity with a powerful suite of free, offline-first tools for PDF editing, image conversion, and much more—all in your browser.
+          </p>
+          <div className="mt-10 flex items-center justify-center gap-4">
+            <Button asChild size="lg" className="btn-primary pulse-animation">
+              <Link href="/tools">
+                Explore All Tools <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+              <Link href="/contact">
+                Contact Sales
+              </Link>
+            </Button>
+          </div>
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 }
