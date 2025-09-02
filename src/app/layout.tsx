@@ -6,7 +6,6 @@ import { Toaster } from '@/components/ui/toaster';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { cn } from '@/lib/utils';
-import { AccessibilityProvider, SkipToContent } from '@/components/accessibility-provider';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
@@ -23,17 +22,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn('min-h-screen bg-background font-sans antialiased', inter.variable)}>
-        <AccessibilityProvider>
-          <ThemeProvider>
-            <SkipToContent />
-            <Header />
-            <main id="main-content" role="main">
-              {children}
-            </main>
-            <Footer />
-            <Toaster />
-          </ThemeProvider>
-        </AccessibilityProvider>
+        <ThemeProvider>
+          <Header />
+          <main id="main-content" role="main">
+            {children}
+          </main>
+          <Footer />
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

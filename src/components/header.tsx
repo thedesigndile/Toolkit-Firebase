@@ -5,7 +5,7 @@ import Link from "next/link";
 import { DileToolLogo } from "./icons";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "./ui/button";
-import { Menu, X, Search } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "./theme-toggle";
 
@@ -43,9 +43,6 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
-             <Button variant="ghost" size="icon" className="hidden md:inline-flex">
-                <Search className="h-5 w-5" />
-             </Button>
             <ThemeToggle />
             <div className="md:hidden">
               <Button
