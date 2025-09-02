@@ -67,14 +67,9 @@ export function ToolsSection() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                   {toolsInCategory.map((tool, i) => (
                      <Suspense key={tool.name} fallback={<Skeleton className="h-40 rounded-xl" />}>
-                       <motion.div
-                          initial={{ opacity: 0, y: 20 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true, amount: 0.5 }}
-                          transition={{ duration: 0.3, delay: i * 0.05 }}
-                       >
+                       <div className="tool-card">
                           <ToolCard tool={tool} index={i} />
-                       </motion.div>
+                       </div>
                      </Suspense>
                   ))}
                 </div>

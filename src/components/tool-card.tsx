@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { type Tool } from "@/lib/tools";
 import { motion } from "framer-motion";
-import { memo, useMemo } from "react";
+import { memo, useMemo, useState } from "react";
 import {
   Tooltip,
   TooltipContent,
@@ -20,6 +20,7 @@ interface ToolCardProps {
 const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) {
   const Icon = tool.icon;
   const slug = useMemo(() => tool.name.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and'), [tool.name]);
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <motion.div
@@ -27,6 +28,8 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.05 }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
     >
       <TooltipProvider>
         <Tooltip>
@@ -36,14 +39,22 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
               className="block group relative h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-2xl"
               aria-label={`Open ${tool.name} tool`}
             >
-               <Card className="h-full tool-card">
-                  <CardContent className="flex flex-col h-full p-5 items-center justify-center text-center tool-card-content">
+               <Card className="h-full tool-card-interactive">
+                  <motion.div
+                    className="absolute inset-0 opacity-0"
+                    style={{
+                      background: 'linear-gradient(135deg, hsl(var(--primary) / 0.15) 0%, hsl(260 80% 60% / 0.15) 100%)',
+                    }}
+                    animate={{ opacity: isHovered ? 1 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                  <CardContent className="flex flex-col h-full p-5 items-center justify-center text-center relative z-10">
                       <motion.div 
                         className="mb-4 p-3 bg-primary/5 rounded-lg transition-colors duration-300 group-hover:bg-primary/10"
-                        whileHover={{ scale: 1.15, rotate: -5 }}
+                        whileHover={{ scale: 1.2, rotate: -5 }}
                         transition={{ type: "spring", stiffness: 300, damping: 15 }}
                       >
-                          <Icon className="h-7 w-7 text-gradient" />
+                          <Icon className="h-7 w-7 text-primary transition-colors group-hover:text-blue-500" />
                       </motion.div>
                       <h3 className="text-md font-semibold leading-tight text-foreground group-hover:text-primary transition-colors">
                         {tool.name}
