@@ -27,7 +27,7 @@ export function HomepageHero() {
             Transform Your Files with Ease
           </h1>
           <p className="mt-6 max-w-2xl mx-auto text-lg text-muted-foreground">
-            Access 20+ powerful tools for PDF, images, and more, powered by Gemini.
+            Access 20+ powerful tools for PDF, images, and more, all available for offline use.
           </p>
           <div className="mt-10 flex items-center justify-center gap-4">
             <Button asChild size="lg" className="btn-primary pulse-animation">

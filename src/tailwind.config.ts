@@ -18,8 +18,14 @@ export default {
       },
     },
     extend: {
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
+      },
       fontFamily: {
-        sans: ['var(--font-inter)', ...fontFamily.sans],
+        sans: ['var(--font-body)', ...fontFamily.sans],
+        heading: ['var(--font-heading)', ...fontFamily.sans],
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -58,36 +64,34 @@ export default {
           foreground: 'hsl(var(--card-foreground))',
         },
       },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 4px)",
-        sm: "calc(var(--radius) - 8px)",
-      },
       keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
+        'accordion-down': {
+          from: {
+            height: '0',
+          },
+          to: {
+            height: 'var(--radix-accordion-content-height)',
+          },
         },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
+        'accordion-up': {
+          from: {
+            height: 'var(--radix-accordion-content-height)',
+          },
+          to: {
+            height: '0',
+          },
         },
-        "pulse-subtle": {
-          "50%": {
-            transform: "scale(1.03)",
-            boxShadow: "0 0 0 8px hsl(var(--primary) / 0.2)"
+        'pulse-subtle': {
+          '50%': {
+            transform: 'scale(1.03)',
+            boxShadow: '0 0 0 8px hsl(var(--primary) / 0.2)',
           }
         },
-        "underline-slide": {
-          "0%": { transform: "scaleX(0)", transformOrigin: "left" },
-          "100%": { transform: "scaleX(1)", transformOrigin: "left" },
-        }
       },
       animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-        "pulse-subtle": "pulse-subtle 2s infinite cubic-bezier(0.4, 0, 0.6, 1)",
-        "underline-slide": "underline-slide 0.3s ease-out forwards",
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
+        'pulse-subtle': 'pulse-subtle 2s infinite cubic-bezier(0.4, 0, 0.6, 1)',
       },
       boxShadow: {
         'subtle': '0 1px 3px 0 rgb(0 0 0 / 0.05), 0 1px 2px -1px rgb(0 0 0 / 0.05)',

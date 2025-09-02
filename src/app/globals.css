@@ -4,11 +4,10 @@
 
 @layer base {
   :root {
-    /* Color Palette */
     --background: 210 40% 98%; /* #F8FAFC */
     --foreground: 215 28% 17%; /* #1E293B */
 
-    --card: 0 0% 100%; /* #FFFFFF */
+    --card: 0 0% 100%;
     --card-foreground: 215 28% 17%;
 
     --popover: 0 0% 100%;
@@ -21,21 +20,21 @@
 
     --secondary: 174 79% 40%; /* #14B8A6 */
     --secondary-foreground: 0 0% 100%;
+
+    --muted: 215 20% 90%;
+    --muted-foreground: 215 14% 47%;
     
-    --muted: 215 20% 90%; /* #E2E8F0 */
-    --muted-foreground: 215 14% 47%; /* #64748B */
-    
-    --accent: 210 40% 96.1%; /* #F1F5F9 */
-    --accent-foreground: 215 28% 17%;
+    --accent: 207 82% 51%; /* Re-using primary blue for accents */
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 215 20% 90%; /* #E2E8F0 */
+    --border: 215 20% 90%;
     --input: 214 32% 91%;
     --ring: 207 82% 51%;
 
-    --radius: 0.75rem; /* Larger radius for a softer look */
+    --radius: 0.75rem;
 
     /* Typography */
     --font-body: 'Inter', sans-serif;
@@ -49,10 +48,10 @@
   }
 
   .dark {
-    --background: 222 47% 11%; /* #111827 */
+    --background: 222 47% 11%;
     --foreground: 210 40% 98%;
 
-    --card: 222 47% 15%; /* #1F2937 */
+    --card: 222 47% 15%;
     --card-foreground: 210 40% 98%;
 
     --popover: 222 47% 11%;
@@ -67,13 +66,13 @@
     --muted: 222 47% 15%;
     --muted-foreground: 215 14% 47%;
     
-    --accent: 222 47% 15%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 207 82% 51%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 222 47% 22%; /* #293548 */
+    --border: 222 47% 22%;
     --input: 222 47% 22%;
     --ring: 207 82% 51%;
   }
@@ -123,7 +122,7 @@
     @apply hover:shadow-xl hover:-translate-y-1 hover:border-primary/50;
   }
 
-  /* Custom pulse animation */
+  /* Custom pulse animation for CTA buttons */
   .pulse-animation {
     animation: pulse-subtle 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
   }
@@ -135,6 +134,7 @@
     }
   }
 
+  /* Custom underline for nav links */
   .underline-slide {
     position: relative;
     text-decoration: none;
@@ -156,5 +156,12 @@
   .underline-slide:hover::after {
     transform: scaleX(1);
     transform-origin: bottom left;
+  }
+
+  .icon-gradient {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }

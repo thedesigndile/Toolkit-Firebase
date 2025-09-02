@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -70,10 +69,9 @@ export function Header() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="relative text-sm font-semibold uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary group"
+                className="relative text-sm font-semibold uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary group underline-slide"
               >
                 {link.name}
-                <span className="absolute bottom-[-4px] left-0 h-0.5 bg-primary w-0 group-hover:w-full transition-all duration-300"></span>
               </Link>
             ))}
           </div>
