@@ -30,11 +30,16 @@ export function HomepageHero() {
             Access 20+ powerful tools for PDF, images, and more, all available for offline use.
           </p>
           <div className="mt-10 flex items-center justify-center gap-4">
-            <Button asChild size="lg" className="btn-primary pulse-animation">
-              <Link href="/tools">
-                Explore Tools <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button asChild size="lg" className="btn-primary pulse-animation">
+                <Link href="/tools">
+                  Explore Tools <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
+            </motion.div>
           </div>
         </motion.div>
       </div>

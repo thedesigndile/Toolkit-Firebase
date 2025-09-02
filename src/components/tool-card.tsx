@@ -24,8 +24,8 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
   return (
     <motion.div
       className="w-full h-full"
-      whileHover={{ y: -4, scale: 1.02 }}
-      transition={{ duration: 0.2, ease: "easeOut" }}
+      whileHover={{ y: -10 }}
+      transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
     >
       <TooltipProvider>
         <Tooltip>

@@ -65,13 +65,18 @@ export function Newsletter() {
                 className="flex-1 h-12 text-base rounded-full border-2 border-border focus:border-primary/30 transition-all duration-300"
                 aria-label="Email for newsletter"
                 />
-                <Button
-                  type="submit"
-                  size="lg"
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                Subscribe
-            </Button>
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className="btn-primary rounded-full px-8 shadow-large hover:shadow-xl w-full sm:w-auto"
+                  >
+                    Subscribe
+                  </Button>
+                </motion.div>
             </motion.form>
 
             <motion.div

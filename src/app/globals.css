@@ -13,10 +13,10 @@
     --popover: 0 0% 100%;
     --popover-foreground: 215 28% 17%;
 
-    --primary: 207 82% 51%; /* #1E88E5 */
+    --primary: 210 100% 56%; /* #1E90FF */
     --primary-foreground: 210 40% 98%;
-    --primary-dark: 207 77% 42%; /* #166CBF */
-    --primary-light: 215 91% 65%; /* #60A5FA */
+    --primary-dark: 210 100% 37%; /* #005BBB */
+    --primary-light: 210 100% 60%; /* #3399FF */
 
     --secondary: 215 28% 17%;
     --secondary-foreground: 210 40% 98%;
@@ -24,15 +24,15 @@
     --muted: 215 20% 90%; /* #E2E8F0 */
     --muted-foreground: 215 14% 47%; /* #64748B */
     
-    --accent: 174 79% 40%; /* #14B8A6 */
-    --accent-foreground: 210 40% 98%;
+    --accent: 210 100% 60%; /* #3399FF */
+    --accent-foreground: 215 28% 17%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 215 20% 90%; /* #E2E8F0 */
     --input: 215 20% 90%;
-    --ring: 207 82% 51%;
+    --ring: 210 100% 56%;
 
     --radius: 0.75rem;
 
@@ -57,10 +57,10 @@
     --popover: 224 71% 4%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 215 91% 65%; /* #60A5FA */
-    --primary-foreground: 210 40% 98%;
-    --primary-dark: 217 91% 60%; /* #3B82F6 */
-    --primary-light: 215 91% 75%;
+    --primary: 210 100% 60%; /* #3399FF */
+    --primary-foreground: 222 47% 11%;
+    --primary-dark: 210 100% 56%; /* #1E90FF */
+    --primary-light: 210 100% 70%;
 
     --secondary: 215 28% 17%;
     --secondary-foreground: 210 40% 98%;
@@ -68,7 +68,7 @@
     --muted: 215 28% 17%;
     --muted-foreground: 215 16% 47%;
     
-    --accent: 174 79% 40%;
+    --accent: 210 100% 56%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 63% 31%;
@@ -76,7 +76,7 @@
 
     --border: 215 28% 17%;
     --input: 215 28% 17%;
-    --ring: 217 91% 60%;
+    --ring: 210 100% 56%;
   }
 }
 
@@ -105,17 +105,22 @@
 @layer components {
   /* Custom button styles for a more tactile feel */
   .btn-primary {
-    @apply bg-primary text-primary-foreground shadow-md transition-all duration-200 ease-out;
-    @apply hover:bg-primary/90 hover:-translate-y-0.5 hover:shadow-lg;
-    @apply active:bg-primary/90 active:translate-y-0 active:shadow-md;
+    @apply bg-primary text-primary-foreground shadow-md transition-all duration-200 ease-in-out;
+    @apply hover:bg-primary-dark hover:-translate-y-0.5;
+    @apply active:bg-primary-dark active:translate-y-0 active:shadow-md;
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+  }
+  .btn-primary:hover {
+    box-shadow: var(--tw-shadow-large);
   }
   
   /* Custom card with layered hover effects */
   .tool-card-interactive {
     @apply bg-card rounded-xl border transition-all duration-300 ease-out;
-    @apply hover:shadow-xl hover:-translate-y-1 hover:border-transparent;
-    @apply relative;
+    @apply hover:-translate-y-1 hover:border-primary/20;
+  }
+  .tool-card-interactive:hover {
+    box-shadow: var(--tw-shadow-large);
   }
 
   .tool-card-interactive:hover::before {
@@ -150,7 +155,7 @@
     background-color: hsl(var(--primary));
     transform: scaleX(0);
     transform-origin: bottom left;
-    transition: transform 0.25s ease-out;
+    transition: transform 250ms ease-in-out;
   }
 
   .underline-slide:hover::after {
@@ -178,4 +183,15 @@
   0% { transform: translateY(0px); }
   50% { transform: translateY(-20px); }
   100% { transform: translateY(0px); }
+}
+
+@media (prefers-reduced-motion) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
