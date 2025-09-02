@@ -46,6 +46,8 @@ export function ToolsSection() {
         <div className="space-y-16">
           {categorizedTools.map(([category, toolsInCategory]) => {
             const CategoryIcon = toolsInCategory[0]?.categoryIcon;
+            const categoryDescription = toolsInCategory[0]?.description;
+
             return (
               <motion.section
                 key={category}
@@ -55,15 +57,16 @@ export function ToolsSection() {
                 transition={{ duration: 0.5, ease: "easeOut" }}
               >
                 <motion.div 
-                  className="flex items-center gap-3 mb-6"
+                  className="mb-6 text-center"
                   whileHover={{x: 2}}
                 >
                   {CategoryIcon && 
-                    <motion.div whileHover={{scale: 1.1, rotate: -5}}>
+                    <motion.div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-full mb-4" whileHover={{scale: 1.1, rotate: -5}}>
                       <CategoryIcon className="h-7 w-7 text-primary" />
                     </motion.div>
                   }
-                  <h2 className="text-2xl font-bold text-foreground">{category}</h2>
+                  <h2 className="text-3xl font-bold text-foreground">{category}</h2>
+                  {categoryDescription && <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">{categoryDescription}</p>}
                 </motion.div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                   {toolsInCategory.map((tool, i) => (
