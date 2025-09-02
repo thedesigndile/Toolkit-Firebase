@@ -70,9 +70,10 @@ export function Header() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-sm font-semibold uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary"
+                className="relative text-sm font-semibold uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary group"
               >
                 {link.name}
+                <span className="absolute bottom-[-4px] left-0 h-0.5 bg-primary w-0 group-hover:w-full transition-all duration-300"></span>
               </Link>
             ))}
           </div>
