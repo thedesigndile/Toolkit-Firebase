@@ -8,7 +8,7 @@ import { ParticleBackground } from "./particle-background";
 
 export function HomepageHero() {
   return (
-    <section className="relative pt-24 md:pt-32 lg:pt-40 pb-20 md:pb-32 lg:pb-40 text-center overflow-hidden">
+    <section className="relative pt-16 md:pt-24 lg:pt-32 pb-10 md:pb-16 lg:pb-20 text-center overflow-hidden">
       <div className="absolute inset-0 z-0">
         <ParticleBackground />
       </div>
