@@ -15,6 +15,8 @@
     --popover-foreground: 215 28% 17%;
 
     --primary: 207 82% 51%; /* #1E88E5 */
+    --primary-dark: 207 77% 42%; /* #166CBF */
+    --primary-light: 210 82% 95%; /* #E3F2FD */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 174 79% 40%; /* #14B8A6 */
@@ -86,8 +88,8 @@
   /* Custom button styles for a more tactile feel */
   .btn-primary {
     @apply bg-primary text-primary-foreground shadow-md transition-all duration-200 ease-out;
-    @apply hover:bg-blue-600 hover:-translate-y-0.5 hover:shadow-lg;
-    @apply active:bg-blue-700 active:translate-y-0 active:shadow-md;
+    @apply hover:bg-primary-dark hover:-translate-y-0.5 hover:shadow-lg;
+    @apply active:bg-primary-dark active:translate-y-0 active:shadow-md;
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
   }
 
@@ -112,7 +114,7 @@
   @keyframes pulse-subtle {
     50% {
       transform: scale(1.03);
-      box-shadow: 0 0 0 8px hsl(var(--primary) / 0%);
+      box-shadow: 0 0 0 8px hsl(var(--primary) / 0.2);
     }
   }
 }

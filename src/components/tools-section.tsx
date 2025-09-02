@@ -11,7 +11,7 @@ export function ToolsSection() {
 
   // Simulate initial loading
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 250); // Faster load simulation
+    const timer = setTimeout(() => setIsLoading(false), 250);
     return () => clearTimeout(timer);
   }, []);
 
@@ -23,7 +23,6 @@ export function ToolsSection() {
       }
       categories[tool.category].push(tool);
     });
-    // Sort categories alphabetically
     return Object.entries(categories).sort((a, b) => a[0].localeCompare(b[0]));
   }, []);
 
@@ -36,7 +35,7 @@ export function ToolsSection() {
               <Skeleton className="h-8 w-48 mb-6 bg-muted" />
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {Array.from({ length: 4 }).map((_, i) => (
-                  <Skeleton key={`skeleton-${categoryIndex}-${i}`} className="h-32 rounded-xl bg-muted" />
+                  <Skeleton key={`skeleton-${categoryIndex}-${i}`} className="h-40 rounded-xl bg-muted" />
                 ))}
               </div>
             </div>
@@ -64,7 +63,7 @@ export function ToolsSection() {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                   {toolsInCategory.map((tool, i) => (
-                     <Suspense key={tool.name} fallback={<Skeleton className="h-32 rounded-xl" />}>
+                     <Suspense key={tool.name} fallback={<Skeleton className="h-40 rounded-xl" />}>
                        <motion.div
                           initial={{ opacity: 0, y: 20 }}
                           whileInView={{ opacity: 1, y: 0 }}

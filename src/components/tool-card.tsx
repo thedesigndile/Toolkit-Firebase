@@ -24,7 +24,7 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
   return (
     <motion.div
       className="w-full h-full"
-      whileHover={{ y: -5, scale: 1.03 }}
+      whileHover={{ y: -5, scale: 1.02 }}
       transition={{ duration: 0.25, ease: "easeOut" }}
     >
       <TooltipProvider>
@@ -35,19 +35,26 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
               className="block group relative h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-xl"
               aria-label={`Open ${tool.name} tool`}
             >
-               <Card className="h-full transition-all duration-250 ease-out bg-card rounded-xl border group-hover:border-primary/30 group-hover:shadow-large">
+               <Card className="h-full transition-all duration-250 ease-out bg-card rounded-xl border group-hover:border-primary/30 group-hover:shadow-large hover:bg-primary-light">
                   <CardContent className="flex flex-col h-full p-5 items-center justify-center text-center">
-                      <div className="mb-4 p-3 bg-accent rounded-lg transition-colors duration-250 group-hover:bg-primary/10">
-                          <Icon className="h-7 w-7 text-primary transition-transform duration-250 group-hover:scale-110" />
-                      </div>
+                      <motion.div 
+                        className="mb-4 p-3 bg-primary/10 rounded-lg transition-colors duration-250 group-hover:bg-white"
+                        whileHover={{ scale: 1.2, rotate: 5 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                      >
+                          <Icon className="h-7 w-7 text-primary transition-colors duration-250 group-hover:text-primary-dark" />
+                      </motion.div>
                       <h3 className="text-md font-semibold leading-tight text-foreground">
                         {tool.name}
                       </h3>
+                      <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                        {tool.description}
+                      </p>
                   </CardContent>
                </Card>
             </Link>
           </TooltipTrigger>
-          <TooltipContent>
+          <TooltipContent side="top" align="center">
             <p>{tool.description}</p>
           </TooltipContent>
         </Tooltip>
