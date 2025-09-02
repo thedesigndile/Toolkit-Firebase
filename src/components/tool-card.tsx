@@ -35,14 +35,14 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
               className="block group relative h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-xl"
               aria-label={`Open ${tool.name} tool`}
             >
-               <Card className="h-full transition-all duration-250 ease-out bg-card rounded-xl border group-hover:border-primary/30 group-hover:shadow-large tool-card-interactive">
+               <Card className="h-full transition-all duration-300 ease-out bg-card rounded-xl border group-hover:border-primary/30 group-hover:shadow-large tool-card-interactive">
                   <CardContent className="flex flex-col h-full p-5 items-center justify-center text-center">
                       <motion.div 
-                        className="mb-4 p-3 bg-primary/5 rounded-lg transition-colors duration-250 group-hover:bg-primary/10"
+                        className="mb-4 p-3 bg-primary/5 rounded-lg transition-colors duration-300 group-hover:bg-primary/10"
                         whileHover={{ scale: 1.2, rotate: 5 }}
                         transition={{ type: "spring", stiffness: 300 }}
                       >
-                          <Icon className="h-7 w-7 tool-icon-primary" />
+                          <Icon className="h-7 w-7 icon-gradient" />
                       </motion.div>
                       <h3 className="text-md font-semibold leading-tight text-foreground">
                         {tool.name}
