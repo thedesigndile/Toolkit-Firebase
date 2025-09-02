@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { type Tool } from "@/lib/tools";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { memo, useMemo, useState } from "react";
 import {
   Tooltip,
@@ -28,11 +28,11 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.05 }}
+      whileHover={{ y: -8, scale: 1.03 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      whileHover={{ y: -10, scale: 1.03 }}
     >
-      <TooltipProvider>
+      <TooltipProvider delayDuration={200}>
         <Tooltip>
           <TooltipTrigger asChild>
             <Link
@@ -40,39 +40,48 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
               className="block group relative h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-2xl"
               aria-label={`Open ${tool.name} tool`}
             >
-               <Card className="h-full tool-card-interactive shadow-lg hover:shadow-xl">
-                  <motion.div
-                    className="absolute inset-0 opacity-0 rounded-2xl"
-                    style={{
-                      background: 'linear-gradient(135deg, hsl(var(--primary) / 0.15) 0%, hsl(260 80% 60% / 0.15) 100%)',
-                    }}
-                    animate={{ opacity: isHovered ? 1 : 0 }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
-                  />
-                   <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{
-                      boxShadow: 'inset 0 0 1.5rem 0 hsl(var(--primary) / 0.2), 0 0 1.5rem 0 hsl(var(--primary) / 0.1)'
-                   }} />
+               <Card className="h-full tool-card-interactive shadow-md hover:shadow-lg">
                   <CardContent className="flex flex-col h-full p-5 items-center justify-center text-center relative z-10">
                       <motion.div 
                         className="mb-4 p-3 bg-primary/5 rounded-lg transition-colors duration-300 group-hover:bg-primary/10"
-                        whileHover={{ scale: 1.2, rotate: -5 }}
+                        whileHover={{ scale: 1.15, rotate: -5 }}
                         transition={{ type: "spring", stiffness: 300, damping: 15 }}
                       >
-                          <Icon className="h-7 w-7 text-primary transition-colors group-hover:text-blue-500 icon-gradient" />
+                          <Icon className="h-7 w-7 text-primary transition-colors duration-300" />
                       </motion.div>
                       <h3 className="text-md font-semibold leading-tight text-foreground group-hover:text-primary transition-colors">
                         {tool.name}
                       </h3>
-                      <p className="text-xs text-muted-foreground mt-1 line-clamp-2 max-w-prose">
-                        {tool.description}
-                      </p>
                   </CardContent>
                </Card>
             </Link>
           </TooltipTrigger>
-          <TooltipContent side="top" align="center">
-            <p>{tool.description}</p>
-          </TooltipContent>
+          <AnimatePresence>
+          {isHovered && (
+            <TooltipContent
+              side="bottom"
+              align="center"
+              className="bg-[hsl(var(--tooltip-bg))] text-[hsl(var(--tooltip-fg))] border-none shadow-xl transition-colors duration-300"
+              style={{
+                backgroundColor: 'hsl(var(--tooltip-bg))',
+              }}
+              // This is a workaround for Framer Motion to animate custom properties
+              asChild
+            >
+              <motion.div
+                initial={{ opacity: 0, y: 10, '--bg-color-from': 'hsl(var(--tooltip-bg))', '--bg-color-to': 'hsl(var(--tooltip-bg))' } as any}
+                animate={{ opacity: 1, y: 0, '--bg-color-to': 'hsl(var(--tooltip-hover-bg))' } as any}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                style={{
+                  background: 'linear-gradient(var(--bg-color-from), var(--bg-color-to))',
+                }}
+              >
+                <p>{tool.description}</p>
+              </motion.div>
+            </TooltipContent>
+          )}
+          </AnimatePresence>
         </Tooltip>
       </TooltipProvider>
     </motion.div>
