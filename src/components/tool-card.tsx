@@ -30,6 +30,7 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
       transition={{ duration: 0.5, delay: index * 0.05 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
+      whileHover={{ y: -10, scale: 1.03 }}
     >
       <TooltipProvider>
         <Tooltip>
@@ -39,15 +40,18 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
               className="block group relative h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-2xl"
               aria-label={`Open ${tool.name} tool`}
             >
-               <Card className="h-full tool-card-interactive">
+               <Card className="h-full tool-card-interactive shadow-lg hover:shadow-xl">
                   <motion.div
-                    className="absolute inset-0 opacity-0"
+                    className="absolute inset-0 opacity-0 rounded-2xl"
                     style={{
                       background: 'linear-gradient(135deg, hsl(var(--primary) / 0.15) 0%, hsl(260 80% 60% / 0.15) 100%)',
                     }}
                     animate={{ opacity: isHovered ? 1 : 0 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
                   />
+                   <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{
+                      boxShadow: 'inset 0 0 1.5rem 0 hsl(var(--primary) / 0.2), 0 0 1.5rem 0 hsl(var(--primary) / 0.1)'
+                   }} />
                   <CardContent className="flex flex-col h-full p-5 items-center justify-center text-center relative z-10">
                       <motion.div 
                         className="mb-4 p-3 bg-primary/5 rounded-lg transition-colors duration-300 group-hover:bg-primary/10"

@@ -67,7 +67,7 @@ export function ToolsSection() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                   {toolsInCategory.map((tool, i) => (
                      <Suspense key={tool.name} fallback={<Skeleton className="h-40 rounded-xl" />}>
-                       <div className="tool-card">
+                       <div className="group tool-card">
                           <ToolCard tool={tool} index={i} />
                        </div>
                      </Suspense>
