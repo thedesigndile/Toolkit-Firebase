@@ -29,7 +29,6 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.05 }}
-      whileHover={{ y: -10, scale: 1.03 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
@@ -41,39 +40,60 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
               className="block group relative h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-2xl"
               aria-label={`Open ${tool.name} tool`}
             >
-               <Card className="h-full tool-card-interactive shadow-lg hover:shadow-xl">
-                  <CardContent className="flex flex-col h-full p-5 items-center justify-center text-center relative z-10">
-                      <motion.div 
-                        className="mb-4 p-3 bg-primary/5 rounded-full transition-colors duration-300 group-hover:bg-primary/10"
-                        whileHover={{ scale: 1.15, rotate: -5 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                      >
-                          <Icon className="h-7 w-7 text-primary transition-colors duration-300 group-hover:icon-gradient" />
-                      </motion.div>
-                      <h3 className="text-md font-semibold leading-tight text-foreground group-hover:text-primary transition-colors">
-                        {tool.name}
-                      </h3>
-                  </CardContent>
-               </Card>
+               <motion.div
+                whileHover={{ y: -6 }}
+                transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+               >
+                <Card className="h-full relative overflow-hidden bg-card rounded-2xl border shadow-md hover:shadow-premium-hover transition-shadow duration-300 ease-premium">
+                    {/* Animated Gradient Overlay */}
+                    <AnimatePresence>
+                      {isHovered && (
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 opacity-0"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.3, ease: "easeOut" }}
+                        />
+                      )}
+                    </AnimatePresence>
+
+                    <CardContent className="relative flex flex-col h-full p-5 items-center justify-center text-center z-10">
+                        <motion.div 
+                          className="mb-4 p-3 bg-primary/5 rounded-full transition-colors duration-300 group-hover:bg-white/10"
+                          animate={isHovered ? { scale: 1.1, rotate: -5 } : { scale: 1, rotate: 0 }}
+                          transition={{ type: "spring", stiffness: 300, damping: 15, delay: 0.05 }}
+                        >
+                            <Icon className="h-7 w-7 text-primary transition-colors duration-300 group-hover:text-white" />
+                        </motion.div>
+                        <h3 className="text-md font-semibold leading-tight text-foreground group-hover:text-white transition-colors duration-300">
+                          {tool.name}
+                        </h3>
+                    </CardContent>
+                    
+                    {/* Animated Underline */}
+                    <div className="premium-tool-card-underline" />
+                </Card>
+               </motion.div>
             </Link>
           </TooltipTrigger>
           <AnimatePresence>
-          {isHovered && (
-            <TooltipContent
-              side="bottom"
-              align="center"
-              className="bg-[hsl(var(--tooltip-bg))] text-[hsl(var(--tooltip-fg))] border-none shadow-xl transition-colors duration-300"
-            >
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ duration: 0.25, ease: "easeOut" }}
+            {isHovered && (
+              <TooltipContent
+                side="bottom"
+                align="center"
+                className="bg-[hsl(var(--tooltip-bg))] text-[hsl(var(--tooltip-fg))] border-none shadow-xl transition-colors duration-300"
               >
-                {tool.description}
-              </motion.p>
-            </TooltipContent>
-          )}
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                >
+                  {tool.description}
+                </motion.p>
+              </TooltipContent>
+            )}
           </AnimatePresence>
         </Tooltip>
       </TooltipProvider>

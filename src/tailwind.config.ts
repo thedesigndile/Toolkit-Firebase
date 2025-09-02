@@ -20,6 +20,7 @@ export default {
     extend: {
       boxShadow: {
         'xl': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+        'premium-hover': '0 8px 20px rgba(0,0,0,0.12)',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -65,6 +66,9 @@ export default {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+      },
+      transitionTimingFunction: {
+        'premium': 'cubic-bezier(0.4, 0, 0.2, 1)',
       },
       keyframes: {
         'accordion-down': {
