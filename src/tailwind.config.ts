@@ -20,8 +20,9 @@ export default {
     extend: {
       borderRadius: {
         lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
+        md: 'calc(var(--radius) - 4px)', /* 12px */
+        sm: 'calc(var(--radius) - 8px)', /* 8px */
+        '2xl': 'calc(var(--radius) + 4px)', /* 20px */
       },
       fontFamily: {
         sans: ['var(--font-body)', ...fontFamily.sans],
@@ -36,6 +37,8 @@ export default {
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
+          dark: 'hsl(var(--primary-dark))',
+          light: 'hsl(var(--primary-light))',
         },
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
@@ -79,24 +82,24 @@ export default {
             height: '0',
           },
         },
-        'pulse-subtle': {
+        'border-glow-pulse': {
           '50%': {
-            transform: 'scale(1.03)',
-            boxShadow: '0 0 0 8px hsl(var(--primary) / 0.2)',
-          }
+            opacity: '0.5',
+            transform: 'scale(1.05)',
+          },
         },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        'pulse-subtle': 'pulse-subtle 2s infinite cubic-bezier(0.4, 0, 0.6, 1)',
+        'border-glow-pulse': 'border-glow-pulse 3s infinite ease-in-out',
       },
       boxShadow: {
-        'subtle': '0 1px 3px 0 rgb(0 0 0 / 0.05), 0 1px 2px -1px rgb(0 0 0 / 0.05)',
-        'medium': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-        'large': '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+        'sm': '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+        'md': '0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05)',
+        'lg': '0 8px 16px -4px rgb(0 0 0 / 0.05)',
         'xl': '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
-        'glow': '0 0 20px hsl(var(--primary) / 0.3)',
+        'glow': '0 0 16px hsl(var(--primary) / 0.2)',
       }
     },
   },

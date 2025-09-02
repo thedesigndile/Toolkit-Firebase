@@ -4,10 +4,10 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%; /* #F8FAFC */
+    --background: 210 100% 97%; /* #eaf6ff */
     --foreground: 215 28% 17%; /* #1E293B */
 
-    --card: 0 0% 100%;
+    --card: 220 33% 97%;
     --card-foreground: 215 28% 17%;
 
     --popover: 0 0% 100%;
@@ -15,10 +15,10 @@
 
     --primary: 210 100% 56%; /* #1E90FF */
     --primary-foreground: 210 40% 98%;
-    --primary-dark: 210 100% 37%; /* #005BBB */
+    --primary-dark: 216 98% 34%; /* #005BBB */
     --primary-light: 210 100% 60%; /* #3399FF */
 
-    --secondary: 215 28% 17%;
+    --secondary: 216 98% 34%;
     --secondary-foreground: 210 40% 98%;
 
     --muted: 215 20% 90%; /* #E2E8F0 */
@@ -34,16 +34,16 @@
     --input: 215 20% 90%;
     --ring: 210 100% 56%;
 
-    --radius: 0.75rem;
+    --radius: 1rem; /* 16px */
 
     /* Typography */
-    --font-body: 'Inter', sans-serif;
-    --font-heading: 'Poppins', sans-serif;
-    --scale-h1: 2.5rem;
-    --scale-h2: 2rem;
-    --scale-h3: 1.5rem;
-    --scale-h4: 1.25rem;
-    --base-line-height: 1.5;
+    --font-body: 'Open Sans', sans-serif;
+    --font-heading: 'Open Sans', sans-serif;
+    --scale-h1: 3rem; /* 48px */
+    --scale-h2: 2.25rem; /* 36px */
+    --scale-h3: 1.875rem; /* 30px */
+    --scale-h4: 1.5rem; /* 24px */
+    --base-line-height: 1.5; /* 24px for 16px font */
     --heading-line-height: 1.2;
   }
 
@@ -51,7 +51,7 @@
     --background: 222 47% 11%;
     --foreground: 210 40% 98%;
 
-    --card: 224 71% 4%;
+    --card: 224 71% 10%; /* Slightly lighter than background */
     --card-foreground: 210 40% 98%;
 
     --popover: 224 71% 4%;
@@ -87,59 +87,52 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-body);
-    font-size: 1rem;
-    line-height: var(--base-line-height);
+    font-size: 1rem; /* 16px */
+    line-height: var(--base-line-height); /* 24px */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-image: linear-gradient(135deg, #eaf6ff, #e0f0ff);
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading tracking-tight;
+    @apply font-heading font-semibold tracking-tight;
     line-height: var(--heading-line-height);
   }
   h1 { @apply text-[length:var(--scale-h1)] font-bold; }
-  h2 { @apply text-[length:var(--scale-h2)] font-semibold; }
+  h2 { @apply text-[length:var(--scale-h2)] font-bold; }
   h3 { @apply text-[length:var(--scale-h3)] font-semibold; }
   h4 { @apply text-[length:var(--scale-h4)] font-semibold; }
 }
 
 @layer components {
-  /* Custom button styles for a more tactile feel */
+  /* Minimalist button with subtle hover effect */
   .btn-primary {
-    @apply bg-primary text-primary-foreground shadow-md transition-all duration-200 ease-in-out;
-    @apply hover:bg-primary-dark hover:-translate-y-0.5;
-    @apply active:bg-primary-dark active:translate-y-0 active:shadow-md;
+    @apply bg-primary text-primary-foreground shadow-sm transition-all duration-150 ease-in-out;
+    @apply hover:bg-primary-dark hover:shadow-lg hover:scale-105;
+    @apply active:scale-100 active:shadow-sm;
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
   }
-  .btn-primary:hover {
-    box-shadow: var(--tw-shadow-large);
-  }
   
-  /* Custom card with layered hover effects */
+  /* Minimalist Card with Border Glow on Hover */
   .tool-card-interactive {
-    @apply bg-card rounded-xl border transition-all duration-300 ease-out;
-    @apply hover:-translate-y-1 hover:border-primary/20;
-  }
-  .tool-card-interactive:hover {
-    box-shadow: var(--tw-shadow-large);
+    @apply bg-card/50 backdrop-blur-sm rounded-2xl border border-border/20 transition-all duration-300 ease-out relative;
   }
 
-  .tool-card-interactive:hover::before {
-    content: '';
-    @apply absolute inset-0 rounded-xl p-px;
-    background: linear-gradient(135deg, hsl(var(--primary)/0.4), hsl(var(--accent)/0.4));
-    -webkit-mask: 
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
+  .tool-card-interactive::after {
+    content: "";
+    @apply absolute -inset-px rounded-2xl z-0 opacity-0 transition-opacity duration-300;
+    background-image: radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.2), transparent 70%);
+    animation: border-glow-pulse 3s infinite ease-in-out;
   }
 
-  /* Custom pulse animation for CTA buttons */
-  .pulse-animation {
-    animation: pulse-subtle 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+  .tool-card-interactive:hover::after {
+    opacity: 1;
   }
 
-  /* Custom underline for nav links */
+  .tool-card-interactive > * {
+    @apply relative z-10; /* Ensure card content is above the glow */
+  }
+
+  /* Slide-in underline for links */
   .underline-slide {
     position: relative;
     text-decoration: none;
@@ -152,10 +145,10 @@
     height: 2px;
     bottom: -4px;
     left: 0;
-    background-color: hsl(var(--primary));
+    background-color: hsl(var(--accent));
     transform: scaleX(0);
     transform-origin: bottom left;
-    transition: transform 250ms ease-in-out;
+    transition: transform 200ms ease-in-out;
   }
 
   .underline-slide:hover::after {
@@ -179,9 +172,16 @@
   }
 }
 
+@keyframes border-glow-pulse {
+  50% {
+    opacity: 0.5;
+    transform: scale(1.05);
+  }
+}
+
 @keyframes float {
   0% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
+  50% { transform: translateY(-15px); }
   100% { transform: translateY(0px); }
 }
 
@@ -193,5 +193,11 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  .tool-card-interactive:hover {
+    transform: none;
+  }
+  .btn-primary:hover {
+    transform: none;
   }
 }
