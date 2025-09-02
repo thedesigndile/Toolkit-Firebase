@@ -8,7 +8,7 @@ import { ParticleBackground } from "./particle-background";
 
 export function HomepageHero() {
   return (
-    <section className="relative py-20 md:py-32 lg:py-40 text-center overflow-hidden bg-background">
+    <section className="relative pt-16 md:pt-24 lg:pt-32 pb-20 md:pb-32 lg:pb-40 text-center overflow-hidden bg-background">
       <ParticleBackground />
       <div className="container relative z-10">
         <motion.div
