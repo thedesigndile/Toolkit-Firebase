@@ -36,6 +36,16 @@
     --ring: 207 82% 51%;
 
     --radius: 0.75rem; /* Larger radius for a softer look */
+
+    /* Typography */
+    --font-body: 'Inter', sans-serif;
+    --font-heading: 'Poppins', sans-serif;
+    --scale-h1: 2.5rem;
+    --scale-h2: 2rem;
+    --scale-h3: 1.5rem;
+    --scale-h4: 1.25rem;
+    --base-line-height: 1.5;
+    --heading-line-height: 1.2;
   }
 
   .dark {
@@ -75,13 +85,20 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: var(--base-line-height);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold tracking-tight;
+    @apply font-heading tracking-tight;
+    line-height: var(--heading-line-height);
   }
+  h1 { @apply text-[length:var(--scale-h1)] font-bold; }
+  h2 { @apply text-[length:var(--scale-h2)] font-semibold; }
+  h3 { @apply text-[length:var(--scale-h3)] font-semibold; }
+  h4 { @apply text-[length:var(--scale-h4)] font-semibold; }
 }
 
 @layer components {

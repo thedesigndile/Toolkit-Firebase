@@ -81,15 +81,17 @@ export default {
             height: '0',
           },
         },
-        pulse: {
-          '0%, 100%': { transform: 'scale(1)' },
-          '50%': { transform: 'scale(1.05)' },
-        }
+        'pulse-subtle': {
+          '50%': {
+            transform: 'scale(1.03)',
+            boxShadow: '0 0 0 8px hsl(var(--primary) / 0.2)',
+          }
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'pulse-subtle': 'pulse-subtle 2s infinite cubic-bezier(0.4, 0, 0.6, 1)',
       },
     },
   },
