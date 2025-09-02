@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { DileToolLogo } from "./icons";
 import { AnimatePresence, motion } from "framer-motion";
@@ -19,10 +19,22 @@ const mainNavLinks = [
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className={cn(
+        "sticky top-0 z-50 w-full transition-all duration-300",
+        isScrolled ? "border-b border-border/40 bg-background/80 backdrop-blur-lg" : "bg-transparent"
+      )}>
         <div className="container flex h-20 items-center justify-between gap-6">
           <Link href="/" aria-label="Go to homepage" className="flex items-center gap-2 group">
             <DileToolLogo />
@@ -31,25 +43,34 @@ export function Header() {
             </span>
           </Link>
           
-          <div className="hidden md:flex flex-1 max-w-md items-center">
-            <Input
-              type="search"
-              placeholder="Search for tools..."
-              className="pr-10"
-            />
-            <Button variant="ghost" size="icon" className="-ml-10 z-10 text-muted-foreground hover:text-primary">
-              <Search className="h-5 w-5" />
-            </Button>
-          </div>
+          <nav className="hidden md:flex items-center justify-center gap-2">
+            {mainNavLinks.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className="relative px-4 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:text-primary group"
+              >
+                {link.name}
+                <motion.span 
+                  layoutId={`underline-${link.name}`} 
+                  className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-full opacity-0 group-hover:opacity-100"
+                />
+              </Link>
+            ))}
+          </nav>
 
           <div className="hidden md:flex items-center gap-4">
-            <Link href="#" className="flex items-center text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-              <LogIn className="h-4 w-4 mr-1.5"/> Login
-            </Link>
-            <Link href="#" className="flex items-center text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-              <UserPlus className="h-4 w-4 mr-1.5"/> Register
-            </Link>
             <ThemeToggle />
+            <Button variant="ghost" asChild>
+              <Link href="#">
+                <LogIn className="h-4 w-4 mr-1.5"/> Login
+              </Link>
+            </Button>
+            <Button asChild className="btn-primary">
+              <Link href="#">
+                <UserPlus className="h-4 w-4 mr-1.5"/> Register
+              </Link>
+            </Button>
           </div>
 
           <div className="md:hidden">
@@ -63,22 +84,8 @@ export function Header() {
             </Button>
           </div>
         </div>
-        <nav className="hidden md:block border-t border-border/40">
-          <div className="container flex items-center justify-center gap-8 py-2">
-            {mainNavLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="relative text-sm font-semibold uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary group underline-slide"
-              >
-                {link.name}
-              </Link>
-            ))}
-          </div>
-        </nav>
       </header>
       
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div

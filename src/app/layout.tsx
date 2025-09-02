@@ -1,6 +1,6 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Open_Sans } from 'next/font/google';
+import { Inter, Poppins } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { Header } from '@/components/header';
@@ -9,14 +9,14 @@ import { cn } from '@/lib/utils';
 import { AccessibilityProvider } from '@/components/accessibility-provider';
 import { PerformanceMonitor } from '@/components/performance-monitor';
 
-const fontBody = Open_Sans({ 
+const fontBody = Inter({ 
   subsets: ['latin'], 
   variable: '--font-body',
-  weight: ['400', '600'],
+  weight: ['400', '500'],
   display: 'swap',
 });
 
-const fontHeading = Open_Sans({
+const fontHeading = Poppins({
   subsets: ['latin'],
   variable: '--font-heading',
   weight: ['600', '700'],
