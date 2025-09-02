@@ -3,27 +3,27 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Twitter, Facebook, Instagram, Linkedin, Mail, Phone, ArrowUp } from "lucide-react";
-import { ModernLogo } from "./icons";
+import { DileToolLogo } from "./icons";
 import { Button } from "./ui/button";
 
 const footerLinks = {
   product: [
     { name: "All Tools", href: "/tools" },
-    { name: "PDF Tools", href: "/tools/pdf" },
-    { name: "Image Tools", href: "/tools/image" },
-    { name: "Converters", href: "/tools/convert" },
+    { name: "Merge PDF", href: "/tools/merge-pdf" },
+    { name: "Compress PDF", href: "/tools/compress-pdf" },
+    { name: "PDF to Word", href: "/tools/pdf-to-word" },
   ],
   company: [
-    { name: "About Us", href: "/about" },
-    { name: "Careers", href: "/careers" },
-    { name: "Blog", href: "/blog" },
-    { name: "Press", href: "/press" },
+    { name: "About Us", href: "#" },
+    { name: "Blog", href: "#" },
+    { name: "Careers", href: "#" },
+    { name: "Press", href: "#" },
   ],
   support: [
-    { name: "Help Center", href: "/help" },
+    { name: "Help Center", href: "#" },
     { name: "Contact", href: "/contact" },
-    { name: "Privacy Policy", href: "/privacy" },
-    { name: "Terms of Service", href: "/terms" },
+    { name: "Privacy Policy", href: "#" },
+    { name: "Terms of Service", href: "#" },
   ],
 };
 
@@ -83,9 +83,9 @@ export function ModernFooter() {
                 whileHover={{ rotate: 360, scale: 1.1 }}
                 transition={{ duration: 0.6 }}
               >
-                <ModernLogo />
+                <DileToolLogo />
               </motion.div>
-              <span className="font-bold text-2xl tracking-wider">TOOLKIT</span>
+              <span className="font-bold text-2xl tracking-wider">Offline Toolkit</span>
             </div>
             <p className="text-white/80 leading-relaxed mb-6 max-w-md">
               Transform your workflow with our comprehensive suite of online tools. 
@@ -223,7 +223,7 @@ export function ModernFooter() {
           className="text-center text-white/60 text-sm"
           variants={itemVariants}
         >
-          <p>© 2025 Toolkit. All rights reserved. Made with ❤️ for productivity.</p>
+          <p>© {new Date().getFullYear()} Offline Toolkit. All rights reserved. Made with ❤️ for productivity.</p>
         </motion.div>
       </motion.div>
 

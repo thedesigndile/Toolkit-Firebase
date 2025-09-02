@@ -4,7 +4,7 @@ import { Inter, Poppins } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { Header } from '@/components/header';
-import { Footer } from '@/components/footer';
+import { ModernFooter } from '@/components/modern-footer';
 import { cn } from '@/lib/utils';
 import { AccessibilityProvider } from '@/components/accessibility-provider';
 import { PerformanceMonitor } from '@/components/performance-monitor';
@@ -45,7 +45,7 @@ export default function RootLayout({
             <main id="main-content" role="main">
               {children}
             </main>
-            <Footer />
+            <ModernFooter />
             <Toaster />
             <PerformanceMonitor />
           </ThemeProvider>
