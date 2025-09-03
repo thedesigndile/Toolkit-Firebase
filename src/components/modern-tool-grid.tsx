@@ -1,25 +1,28 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { tools } from "@/lib/tools";
+import { tools, Tool } from "@/lib/tools";
 import Link from "next/link";
 import { ModernCard, ModernCardContent, ModernCardHeader, ModernCardTitle, ModernCardDescription } from "./modern-card";
 import { ModernButton } from "./modern-button";
 import { ArrowRight } from "lucide-react";
-
-const pdfTools = tools.filter(t => ['Edit PDF', 'Protect & Secure', 'View & Organize', 'Convert PDF'].some(cat => t.category.includes(cat)));
-const imageTools = tools.filter(t => t.category === 'Image Tools');
-const utilityTools = tools.filter(t => ['Utility Tools', 'Converters', 'Archive Tools'].includes(t.category));
-
-const categories = [
-    { name: "PDF Power Tools", tools: pdfTools },
-    { name: "Image Studio", tools: imageTools },
-    { name: "Essential Utilities", tools: utilityTools },
-];
+import { useMemo } from "react";
 
 const getToolUrl = (toolName: string) => `/tools/${toolName.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and')}`;
 
 export function ModernToolGrid() {
+  const categorizedTools = useMemo(() => {
+    const categories: { [key: string]: Tool[] } = {};
+    tools.forEach(tool => {
+      if (!categories[tool.category]) {
+        categories[tool.category] = [];
+      }
+      categories[tool.category].push(tool);
+    });
+    // Sort categories alphabetically
+    return Object.entries(categories).sort((a, b) => a[0].localeCompare(b[0]));
+  }, []);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -47,15 +50,15 @@ export function ModernToolGrid() {
         </motion.div>
 
         <div className="space-y-20">
-          {categories.map((category) => (
+          {categorizedTools.map(([categoryName, toolsInCategory]) => (
             <motion.div 
-                key={category.name}
+                key={categoryName}
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
             >
-              <h3 className="text-3xl font-bold text-center mb-12 text-gradient-animated">{category.name}</h3>
+              <h3 className="text-3xl font-bold text-center mb-12 text-gradient-animated">{categoryName}</h3>
               <motion.div 
                 className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4"
                 variants={containerVariants}
@@ -63,7 +66,7 @@ export function ModernToolGrid() {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
               >
-                {category.tools.map((tool) => (
+                {toolsInCategory.map((tool) => (
                     <ModernCard key={tool.name} glassmorphism hover onClick={() => window.location.href = getToolUrl(tool.name)}>
                         <ModernCardHeader>
                             <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent text-white rounded-xl flex items-center justify-center mb-4 shadow-lg">
