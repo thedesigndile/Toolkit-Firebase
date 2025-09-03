@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { Open_Sans } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
-import { Header } from '@/components/header';
+import { ModernHeader } from '@/components/modern-header';
 import { ModernFooter } from '@/components/modern-footer';
 import { cn } from '@/lib/utils';
 import { AccessibilityProvider } from '@/components/accessibility-provider';
@@ -42,7 +42,7 @@ export default function RootLayout({
       <body className={cn('min-h-screen bg-background font-sans antialiased', fontBody.variable, fontHeading.variable)}>
         <AccessibilityProvider>
           <ThemeProvider>
-            <Header />
+            <ModernHeader />
             <main id="main-content" role="main">
               {children}
             </main>

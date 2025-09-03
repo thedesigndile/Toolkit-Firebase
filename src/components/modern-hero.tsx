@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Button } from "./ui/button";
 import { ArrowRight, Sparkles, Zap, Shield } from "lucide-react";
+import Link from "next/link";
 
 const features = [
   {
@@ -60,18 +61,17 @@ export function ModernHero() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden hero-gradient">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
       {/* Enhanced Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-primary opacity-20 rounded-full blur-3xl float" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-hover opacity-20 rounded-full blur-3xl float" style={{ animationDelay: "2s" }} />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-gradient-primary opacity-10 rounded-full blur-3xl pulse-slow" />
-        <div className="absolute top-10 right-20 w-32 h-32 accent-gradient opacity-30 rounded-full blur-2xl float" style={{ animationDelay: "1s" }} />
-        <div className="absolute bottom-10 left-20 w-48 h-48 bg-gradient-hover opacity-15 rounded-full blur-2xl float" style={{ animationDelay: "3s" }} />
+      <div className="absolute inset-0 z-0">
+        <div className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-br from-primary/5 to-transparent" />
+        <div className="absolute bottom-0 right-0 w-1/2 h-full bg-gradient-to-tl from-accent/5 to-transparent" />
+        <div className="absolute -top-1/4 -right-1/4 w-1/2 h-1/2 bg-primary/10 rounded-full blur-3xl animate-pulse-subtle" />
+        <div className="absolute -bottom-1/4 -left-1/4 w-1/2 h-1/2 bg-accent/10 rounded-full blur-3xl animate-pulse-subtle animation-delay-2000" />
       </div>
 
       <motion.div
-        className="relative max-w-7xl mx-auto px-6 py-20 text-center"
+        className="relative max-w-7xl mx-auto px-6 py-20 text-center z-10"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -89,17 +89,16 @@ export function ModernHero() {
             <span className="relative">
               Digital Life
               <motion.div
-                className="absolute -bottom-2 left-0 right-0 h-1 accent-gradient rounded-full"
+                className="absolute -bottom-2 left-0 right-0 h-1 bg-primary rounded-full"
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
-                transition={{ delay: 1, duration: 0.8 }}
+                transition={{ delay: 1, duration: 0.8, type: "spring" }}
               />
             </span>
           </motion.h1>
           
           <motion.p 
-            className="text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed"
-            style={{ color: 'hsl(var(--muted-foreground))' }}
+            className="text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed text-muted-foreground"
             variants={itemVariants}
           >
             Transform your workflow with our comprehensive suite of online tools. 
@@ -113,15 +112,14 @@ export function ModernHero() {
           variants={itemVariants}
         >
           <motion.div
-            whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(0,0,255,0.3)" }}
+            whileHover={{ scale: 1.05, boxShadow: "0 10px 30px -10px hsl(var(--primary) / 0.5)" }}
             whileTap={{ scale: 0.95 }}
           >
-            <Button 
-              size="lg" 
-              className="btn-ripple bg-gradient-primary hover:bg-gradient-hover text-white px-8 py-4 text-lg font-semibold shadow-gradient hover:shadow-glow energy-pulse"
-            >
-              Get Started Free
-              <ArrowRight className="ml-2 h-5 w-5" />
+            <Button asChild size="lg" className="h-14 px-8 text-lg bg-primary text-primary-foreground shadow-lg hover:bg-primary/90">
+                <Link href="/tools">
+                    Get Started Free
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
             </Button>
           </motion.div>
           
@@ -129,12 +127,10 @@ export function ModernHero() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Button 
-              variant="outline" 
-              size="lg"
-              className="btn-ripple glass-card border-2 border-primary/20 hover:border-primary px-8 py-4 text-lg font-semibold hover-gradient"
-            >
-              Watch Demo
+            <Button asChild variant="outline" size="lg" className="h-14 px-8 text-lg bg-background/50 border-border hover:bg-muted">
+                <Link href="#">
+                    Watch Demo
+                </Link>
             </Button>
           </motion.div>
         </motion.div>
@@ -150,61 +146,27 @@ export function ModernHero() {
               <motion.div
                 key={feature.title}
                 variants={cardVariants}
-                whileHover={{ 
-                  y: -10, 
-                  scale: 1.05
-                }}
-                className="glass-card p-8 rounded-2xl hover-lift group cursor-pointer border-gradient shadow-medium hover:shadow-glow"
+                whileHover={{ y: -10, scale: 1.03 }}
+                className="bg-card/60 backdrop-blur-md p-8 rounded-2xl border border-border/20 shadow-md hover:shadow-xl transition-all duration-300"
               >
                 <motion.div
-                  className="w-16 h-16 mx-auto mb-6 accent-gradient rounded-2xl flex items-center justify-center shadow-medium"
-                  whileHover={{ rotate: 360, scale: 1.1 }}
-                  transition={{ duration: 0.6 }}
+                  className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-primary to-accent text-white rounded-2xl flex items-center justify-center shadow-lg"
+                  whileHover={{ rotate: 15, scale: 1.1 }}
+                  transition={{ type: "spring", stiffness: 300 }}
                 >
-                  <Icon className="h-8 w-8 text-white" />
+                  <Icon className="h-8 w-8" />
                 </motion.div>
                 
-                <h3 className="text-xl font-bold mb-4 transition-all duration-300" style={{ color: 'hsl(var(--foreground))' }}>
+                <h3 className="text-xl font-bold mb-4 text-foreground transition-all duration-300">
                   {feature.title}
                 </h3>
                 
-                <p className="leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>
+                <p className="leading-relaxed text-muted-foreground">
                   {feature.description}
                 </p>
               </motion.div>
             );
           })}
-        </motion.div>
-
-        {/* Stats */}
-        <motion.div 
-          className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
-          variants={containerVariants}
-        >
-          {[
-            { number: "1M+", label: "Files Processed" },
-            { number: "50+", label: "Tools Available" },
-            { number: "99.9%", label: "Uptime" },
-            { number: "24/7", label: "Support" }
-          ].map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              variants={itemVariants}
-              className="text-center"
-            >
-              <motion.div
-                className="text-3xl md:text-4xl font-bold text-gradient-primary mb-2"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 1.5 + index * 0.1, duration: 0.5 }}
-              >
-                {stat.number}
-              </motion.div>
-              <div className="font-medium" style={{ color: 'hsl(var(--muted-foreground))' }}>
-                {stat.label}
-              </div>
-            </motion.div>
-          ))}
         </motion.div>
       </motion.div>
     </section>

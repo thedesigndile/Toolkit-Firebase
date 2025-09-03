@@ -1,30 +1,140 @@
+import { cn } from "@/lib/utils";
+import { Link2 } from "lucide-react";
+import React from "react";
 
-export const DileToolLogo = () => (
-    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-blue to-brand-purple flex items-center justify-center">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
-            <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M14 2V8H20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M12 18V12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M9 15H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-    </div>
+const createIcon = (path: React.ReactNode): React.FC<React.SVGProps<SVGSVGElement>> => {
+  const IconComponent: React.FC<React.SVGProps<SVGSVGElement>> = ({ className, ...props }) => (
+    <svg {...props} width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={cn(className)}>
+      {path}
+    </svg>
+  );
+  IconComponent.displayName = 'ToolIcon';
+  return IconComponent;
+};
+
+
+export const MergePdfIcon = createIcon(
+  <>
+    <path d="M8 12h8m-4 4V8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#blue-purple-gradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </>
 );
 
+export const SplitPdfIcon = createIcon(
+  <>
+    <path d="M12 10v4m0 0l-1.5-1.5m1.5 1.5l1.5-1.5m-1.5 7V6m0 0l-1.5 1.5M12 6l1.5 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#blue-purple-gradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </>
+);
+
+export const CompressPdfIcon = createIcon(
+  <>
+    <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#blue-purple-gradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M8 17.5v-2.5h2.5M16 8.5v2.5h-2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M8 17.5L12 13.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M16 8.5L12 12.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </>
+);
+
+export const PdfToWordIcon = createIcon(
+  <>
+    <path d="M4 8h16M4 16h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#blue-purple-gradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M9 12h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </>
+);
+
+export const WordToPdfIcon = createIcon(
+  <>
+    <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#blue-purple-gradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M9 12v6l2-2 2 2v-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </>
+);
+
+export const PdfToPowerpointIcon = createIcon(
+  <>
+    <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#blue-purple-gradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M9 12h3m3 0h-3m0 0v6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </>
+);
+
+export const PowerpointToPdfIcon = createIcon(
+  <>
+    <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#blue-purple-gradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M9 12h3a2 2 0 1 1 0 4h-3v-4Zm0 0v4m0-4h1.5m1.5 0h-1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </>
+);
+
+export const PdfToExcelIcon = createIcon(
+  <>
+    <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#blue-purple-gradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M15 11l-4 6m0-6l4 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </>
+);
+
+export const ExcelToPdfIcon = createIcon(
+  <>
+    <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#blue-purple-gradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M9 12h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H9v-6Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </>
+);
+
+export const EditPdfIcon = createIcon(
+  <>
+    <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#blue-purple-gradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M13.5 6.5L17 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M11 9l-6 6v3h3l6-6-3-3Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </>
+);
+
+export const PdfToJpgIcon = createIcon(
+  <>
+    <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#blue-purple-gradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M9 18v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M9 14h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </>
+);
+
+export const SignPdfIcon = createIcon(
+  <>
+    <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#blue-purple-gradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M8 12.5h3m2 0h3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M9 16.5c3.582-3 7-3 7-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </>
+);
+
+export const WatermarkIcon = createIcon(
+  <>
+    <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#blue-purple-gradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M12 17.5a4.5 4.5 0 0 0 2.6-8.25L12 5.5 9.4 9.25A4.5 4.5 0 0 0 12 17.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </>
+);
+
+export const RotatePdfIcon = createIcon(
+  <>
+    <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L13.5 2H18Z" stroke="url(#blue-purple-gradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M16 14h-4v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M16 18a4 4 0 0 0-4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </>
+);
+
+
+export const LinkIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({ className, ...props }) => (
+    <div className={cn("relative w-12 h-12 flex items-center justify-center text-muted-foreground", className)}>
+        <Link2 {...props} width="48" height="48" />
+    </div>
+)
 
 export const ModernLogo = () => (
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
             <linearGradient id="modern-logo-gradient" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#F4AAB9"/>
-                <stop offset="0.2" stopColor="#E2A9BE"/>
-                <stop offset="0.4" stopColor="#A8A2D2"/>
-                <stop offset="0.6" stopColor="#739EDC"/>
-                <stop offset="0.8" stopColor="#4AA0D4"/>
-                <stop offset="1" stopColor="#37A4D0"/>
+                <stop stopColor="hsl(var(--primary-light))"/>
+                <stop offset="1" stopColor="hsl(var(--accent))"/>
             </linearGradient>
         </defs>
         <circle cx="16" cy="16" r="16" fill="url(#modern-logo-gradient)"/>
+        <path d="M10 12L16 22L22 12" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M16 2V10" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
 );
-
-    

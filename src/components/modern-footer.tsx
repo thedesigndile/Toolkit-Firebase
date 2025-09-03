@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Twitter, Facebook, Instagram, Linkedin, Mail, Phone, ArrowUp } from "lucide-react";
-import { DileToolLogo } from "./icons";
+import { ModernLogo } from "./icons";
 import { Button } from "./ui/button";
 
 const footerLinks = {
@@ -61,11 +61,8 @@ export function ModernFooter() {
   };
 
   return (
-    <footer className="relative bg-gradient-to-tr from-gray-900 via-gray-800 to-black text-white overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1),transparent_50%)]" />
-      </div>
+    <footer className="relative bg-background border-t border-border/20 text-foreground overflow-hidden">
+      <div className="absolute inset-0 opacity-5 bg-[radial-gradient(circle_at_50%_100%,hsl(var(--primary)),transparent_40%)]" />
 
       <motion.div
         className="relative max-w-7xl mx-auto px-6 py-16"
@@ -74,7 +71,6 @@ export function ModernFooter() {
         whileInView="visible"
         viewport={{ once: true }}
       >
-        {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
           {/* Brand Section */}
           <motion.div className="lg:col-span-2" variants={itemVariants}>
@@ -83,37 +79,37 @@ export function ModernFooter() {
                 whileHover={{ rotate: 360, scale: 1.1 }}
                 transition={{ duration: 0.6 }}
               >
-                <DileToolLogo />
+                <ModernLogo />
               </motion.div>
-              <span className="font-bold text-2xl tracking-wider">Offline Toolkit</span>
+              <span className="font-bold text-2xl tracking-wider">TOOLKIT</span>
             </div>
-            <p className="text-white/80 leading-relaxed mb-6 max-w-md">
+            <p className="text-muted-foreground leading-relaxed mb-6 max-w-md">
               Transform your workflow with our comprehensive suite of online tools. 
               Fast, secure, and reliable solutions for all your digital needs.
             </p>
             <div className="space-y-3">
-              <motion.div 
-                className="flex items-center gap-3 text-white/80"
+              <motion.a href="mailto:hello@toolkit.com"
+                className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
                 whileHover={{ x: 5 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <Mail className="h-5 w-5" />
                 <span>hello@toolkit.com</span>
-              </motion.div>
-              <motion.div 
-                className="flex items-center gap-3 text-white/80"
+              </motion.a>
+              <motion.a href="tel:+15551234567"
+                className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
                 whileHover={{ x: 5 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <Phone className="h-5 w-5" />
                 <span>+1 (555) 123-4567</span>
-              </motion.div>
+              </motion.a>
             </div>
           </motion.div>
 
           {/* Product Links */}
           <motion.div variants={itemVariants}>
-            <h3 className="font-bold text-lg mb-6">Product</h3>
+            <h3 className="font-bold text-lg mb-6 text-foreground">Product</h3>
             <div className="space-y-3">
               {footerLinks.product.map((link) => (
                 <motion.div
@@ -123,7 +119,7 @@ export function ModernFooter() {
                 >
                   <Link
                     href={link.href}
-                    className="block text-white/80 hover:text-white transition-colors duration-300"
+                    className="block text-muted-foreground hover:text-primary transition-colors duration-300"
                   >
                     {link.name}
                   </Link>
@@ -134,7 +130,7 @@ export function ModernFooter() {
 
           {/* Company Links */}
           <motion.div variants={itemVariants}>
-            <h3 className="font-bold text-lg mb-6">Company</h3>
+            <h3 className="font-bold text-lg mb-6 text-foreground">Company</h3>
             <div className="space-y-3">
               {footerLinks.company.map((link) => (
                 <motion.div
@@ -144,7 +140,7 @@ export function ModernFooter() {
                 >
                   <Link
                     href={link.href}
-                    className="block text-white/80 hover:text-white transition-colors duration-300"
+                    className="block text-muted-foreground hover:text-primary transition-colors duration-300"
                   >
                     {link.name}
                   </Link>
@@ -155,7 +151,7 @@ export function ModernFooter() {
 
           {/* Support Links */}
           <motion.div variants={itemVariants}>
-            <h3 className="font-bold text-lg mb-6">Support</h3>
+            <h3 className="font-bold text-lg mb-6 text-foreground">Support</h3>
             <div className="space-y-3">
               {footerLinks.support.map((link) => (
                 <motion.div
@@ -165,7 +161,7 @@ export function ModernFooter() {
                 >
                   <Link
                     href={link.href}
-                    className="block text-white/80 hover:text-white transition-colors duration-300"
+                    className="block text-muted-foreground hover:text-primary transition-colors duration-300"
                   >
                     {link.name}
                   </Link>
@@ -175,61 +171,33 @@ export function ModernFooter() {
           </motion.div>
         </div>
 
-        {/* Social Links & Newsletter */}
+        {/* Bottom Bar */}
         <motion.div 
-          className="border-t border-white/20 pt-8 mb-8"
+          className="border-t border-border/20 pt-8 mt-8"
           variants={itemVariants}
         >
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-6">
-              <span className="text-white/80 font-medium">Follow us:</span>
-              <div className="flex gap-4">
-                {socialLinks.map((social) => {
-                  const Icon = social.icon;
-                  return (
-                    <motion.a
-                      key={social.name}
-                      href={social.href}
-                      className="p-2 rounded-xl bg-white/10 hover:bg-white/20 transition-colors duration-300"
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <Icon className="h-5 w-5" />
-                    </motion.a>
-                  );
-                })}
-              </div>
+            <p className="text-muted-foreground text-sm">© {new Date().getFullYear()} Toolkit. All rights reserved.</p>
+            <div className="flex items-center gap-4">
+              {socialLinks.map((social) => {
+                const Icon = social.icon;
+                return (
+                  <motion.a
+                    key={social.name}
+                    href={social.href}
+                    aria-label={social.name}
+                    className="p-2 rounded-full text-muted-foreground hover:text-primary hover:bg-muted transition-colors duration-300"
+                    whileHover={{ scale: 1.2, y: -2 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <Icon className="h-5 w-5" />
+                  </motion.a>
+                );
+              })}
             </div>
-            
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button
-                onClick={scrollToTop}
-                variant="outline"
-                size="sm"
-                className="bg-white/10 border-white/20 text-white hover:bg-white/20 hover:border-white/40"
-              >
-                <ArrowUp className="h-4 w-4 mr-2" />
-                Back to Top
-              </Button>
-            </motion.div>
           </div>
         </motion.div>
-
-        {/* Copyright */}
-        <motion.div 
-          className="text-center text-white/60 text-sm"
-          variants={itemVariants}
-        >
-          <p>© {new Date().getFullYear()} Offline Toolkit. All rights reserved. Made with ❤️ for productivity.</p>
-        </motion.div>
       </motion.div>
-
-      {/* Floating Elements */}
-      <div className="absolute top-10 right-10 w-20 h-20 bg-white/5 rounded-full blur-xl float" />
-      <div className="absolute bottom-20 left-10 w-32 h-32 bg-white/5 rounded-full blur-2xl float" style={{ animationDelay: "2s" }} />
     </footer>
   );
 }

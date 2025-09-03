@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -12,7 +13,6 @@ import { ThemeToggle } from "./theme-toggle";
 const navItems = [
   { name: "Home", href: "/" },
   { name: "Tools", href: "/tools" },
-  { name: "Features", href: "/features" },
   { name: "Pricing", href: "/pricing" },
   { name: "Contact", href: "/contact" },
 ];
@@ -56,10 +56,10 @@ export function ModernHeader() {
     <>
       <motion.header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           isScrolled 
-            ? "nav-gradient shadow-gradient border-b border-white/10" 
-            : "glass-gradient"
+            ? "bg-background/80 shadow-md border-b border-border/20 backdrop-blur-lg" 
+            : "bg-transparent"
         )}
         variants={headerVariants}
         initial="initial"
@@ -80,8 +80,7 @@ export function ModernHeader() {
                 </motion.div>
                 <motion.span
                   className={cn(
-                    "font-bold text-2xl tracking-wider",
-                    isScrolled ? "text-white" : "text-gradient-animated"
+                    "font-bold text-2xl tracking-wider text-foreground"
                   )}
                   whileHover={{ scale: 1.05 }}
                   transition={{ type: "spring", stiffness: 300 }}
@@ -93,7 +92,7 @@ export function ModernHeader() {
 
             {/* Desktop Navigation */}
             <motion.nav 
-              className="hidden md:flex items-center gap-8"
+              className="hidden md:flex items-center gap-2"
               variants={itemVariants}
             >
               {navItems.map((item) => (
@@ -105,15 +104,10 @@ export function ModernHeader() {
                 >
                   <Link
                     href={item.href}
-                    className={cn(
-                      "relative px-4 py-2 text-sm font-medium transition-all duration-300 group rounded-lg",
-                      isScrolled 
-                        ? "text-white/90 hover:text-white hover:bg-white/10" 
-                        : "text-foreground hover:text-primary hover:bg-gradient-light"
-                    )}
+                    className="relative px-4 py-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-300 group rounded-lg"
                   >
                     {item.name}
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300" />
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
                   </Link>
                 </motion.div>
               ))}
@@ -129,24 +123,15 @@ export function ModernHeader() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "btn-ripple hover-scale",
-                    isScrolled 
-                      ? "border-white/20 text-white hover:bg-white/10 hover:border-white/40" 
-                      : "border-border hover:border-primary hover:bg-gradient-light"
-                  )}
-                >
+                <Button variant="outline" className="border-border hover:border-primary">
                   Sign In
                 </Button>
               </motion.div>
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="energy-pulse"
               >
-                <Button className="btn-ripple bg-gradient-primary hover:bg-gradient-hover text-white shadow-gradient hover:shadow-glow">
+                <Button className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg">
                   Get Started
                 </Button>
               </motion.div>
@@ -160,9 +145,10 @@ export function ModernHeader() {
               <ThemeToggle />
               <motion.button
                 onClick={() => setIsMobileMenuOpen(true)}
-                className="p-2 rounded-xl border border-border hover:border-primary hover:bg-muted transition-all duration-300"
-                whileHover={{ scale: 1.05 }}
+                className="p-2 rounded-lg border border-border hover:border-primary hover:bg-muted transition-all duration-300"
+                whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
+                aria-label="Open menu"
               >
                 <Menu className="h-6 w-6" />
               </motion.button>
@@ -178,23 +164,24 @@ export function ModernHeader() {
             initial={{ opacity: 0, x: "100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="fixed inset-0 z-50 md:hidden"
           >
-            <div className="nav-gradient h-full flex flex-col">
+            <div className="bg-background h-full flex flex-col">
               {/* Mobile Header */}
-              <div className="flex items-center justify-between p-6 border-b border-border">
+              <div className="flex items-center justify-between p-4 border-b border-border">
                 <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
                   <div className="flex items-center gap-3">
                     <ModernLogo />
-                    <span className="font-bold text-xl text-white">TOOLKIT</span>
+                    <span className="font-bold text-xl">TOOLKIT</span>
                   </div>
                 </Link>
                 <motion.button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-2 rounded-xl border border-border hover:border-primary"
+                  className="p-2 rounded-lg"
                   whileHover={{ scale: 1.1, rotate: 90 }}
                   whileTap={{ scale: 0.9 }}
+                  aria-label="Close menu"
                 >
                   <X className="h-6 w-6" />
                 </motion.button>
@@ -203,11 +190,11 @@ export function ModernHeader() {
               {/* Mobile Navigation */}
               <div className="flex-1 p-6">
                 <motion.nav
-                  className="space-y-4"
+                  className="space-y-2"
                   initial="initial"
                   animate="animate"
                   variants={{
-                    animate: { transition: { staggerChildren: 0.1 } }
+                    animate: { transition: { staggerChildren: 0.07 } }
                   }}
                 >
                   {navItems.map((item) => (
@@ -221,7 +208,7 @@ export function ModernHeader() {
                       <Link
                         href={item.href}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="block p-4 rounded-xl text-lg font-medium text-white/90 hover:bg-white/10 hover:text-white transition-all duration-300"
+                        className="block p-4 rounded-lg text-lg font-medium text-foreground hover:bg-muted transition-colors duration-300"
                       >
                         {item.name}
                       </Link>
@@ -233,17 +220,10 @@ export function ModernHeader() {
               {/* Mobile Actions */}
               <div className="p-6 border-t border-border">
                 <div className="space-y-4">
-                  <Button
-                    variant="outline"
-                    className="w-full btn-ripple border-white/20 text-white hover:bg-white/10"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
+                  <Button variant="outline" className="w-full h-12 text-md" onClick={() => setIsMobileMenuOpen(false)}>
                     Sign In
                   </Button>
-                  <Button
-                    className="w-full btn-ripple bg-white/20 hover:bg-white/30 text-white shadow-glow"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
+                  <Button className="w-full h-12 text-md bg-primary text-primary-foreground hover:bg-primary/90" onClick={() => setIsMobileMenuOpen(false)}>
                     Get Started
                   </Button>
                 </div>

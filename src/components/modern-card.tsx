@@ -22,23 +22,22 @@ export function ModernCard({
   onClick 
 }: ModernCardProps) {
   const cardClasses = cn(
-    "rounded-2xl p-6 transition-all duration-300",
+    "rounded-2xl p-6 transition-all duration-300 h-full flex flex-col",
     {
       "glass-card border-gradient": glassmorphism,
-      "bg-card border border-border shadow-medium hover:shadow-large": !glassmorphism && !gradient,
-      "bg-gradient-primary text-white shadow-gradient": gradient,
-      "hover-lift cursor-pointer": hover && onClick,
-      "hover:border-primary hover:shadow-glow": hover && !glassmorphism && !gradient,
+      "bg-card border border-border shadow-md hover:shadow-xl": !glassmorphism && !gradient,
+      "bg-gradient-primary text-white shadow-lg": gradient,
+      "hover:-translate-y-2 cursor-pointer": hover && onClick,
+      "hover:border-primary": hover && !glassmorphism && !gradient,
     },
     className
   );
 
   const cardVariants = {
-    initial: { opacity: 0, y: 20, scale: 0.95 },
+    initial: { opacity: 0, y: 20 },
     animate: { 
       opacity: 1, 
       y: 0, 
-      scale: 1,
       transition: {
         duration: 0.4,
         ease: "easeOut"
@@ -46,7 +45,6 @@ export function ModernCard({
     },
     hover: hover ? {
       y: -8,
-      scale: 1.02,
       transition: {
         duration: 0.3,
         ease: "easeOut"
@@ -58,10 +56,8 @@ export function ModernCard({
     <motion.div
       className={cardClasses}
       variants={cardVariants}
-      initial="initial"
-      animate="animate"
       whileHover="hover"
-      whileTap={onClick ? { scale: 0.98 } : {}}
+      whileTap={onClick ? { scale: 0.97 } : {}}
       onClick={onClick}
     >
       {children}
@@ -89,7 +85,7 @@ interface ModernCardTitleProps {
 
 export function ModernCardTitle({ children, className }: ModernCardTitleProps) {
   return (
-    <h3 className={cn("text-xl font-bold", className)} style={{ color: 'hsl(var(--foreground))' }}>
+    <h3 className={cn("text-xl font-bold text-foreground", className)}>
       {children}
     </h3>
   );
@@ -102,7 +98,7 @@ interface ModernCardDescriptionProps {
 
 export function ModernCardDescription({ children, className }: ModernCardDescriptionProps) {
   return (
-    <p className={cn("leading-relaxed", className)} style={{ color: 'hsl(var(--muted-foreground))' }}>
+    <p className={cn("leading-relaxed text-muted-foreground flex-grow", className)}>
       {children}
     </p>
   );
@@ -128,7 +124,7 @@ interface ModernCardFooterProps {
 
 export function ModernCardFooter({ children, className }: ModernCardFooterProps) {
   return (
-    <div className={cn("mt-6 pt-4 border-t border-border", className)}>
+    <div className={cn("mt-6 pt-4 border-t border-border/10", className)}>
       {children}
     </div>
   );

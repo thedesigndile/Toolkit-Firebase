@@ -3,93 +3,92 @@
 import { motion } from "framer-motion";
 import { tools } from "@/lib/tools";
 import Link from "next/link";
+import { ModernCard, ModernCardContent, ModernCardHeader, ModernCardTitle, ModernCardDescription } from "./modern-card";
+import { ModernButton } from "./modern-button";
+import { ArrowRight } from "lucide-react";
 
-const pdfTools = tools.filter(t => ['Edit PDF', 'Protect & Secure', 'View & Organize'].includes(t.category));
+const pdfTools = tools.filter(t => ['Edit PDF', 'Protect & Secure', 'View & Organize', 'Convert PDF'].some(cat => t.category.includes(cat)));
 const imageTools = tools.filter(t => t.category === 'Image Tools');
-const conversionTools = tools.filter(t => ['Convert PDF', 'Converters', 'Other Tools'].includes(t.category));
-const editingTools = tools.filter(t => t.category === 'Edit PDF');
-const videoTools = tools.filter(t => t.category === 'Video Tools');
-const audioTools = tools.filter(t => t.category === 'Audio Tools');
-const utilityTools = tools.filter(t => t.category === 'Utility Tools');
+const utilityTools = tools.filter(t => ['Utility Tools', 'Converters', 'Archive Tools'].includes(t.category));
 
 const categories = [
-    { name: "PDF Tools", tools: pdfTools },
-    { name: "Image Tools", tools: imageTools },
-    { name: "Conversion Tools", tools: conversionTools },
-    { name: "Editing Tools", tools: editingTools },
-    { name: "Video Tools", tools: videoTools },
-    { name: "Audio Tools", tools: audioTools },
-    { name: "Utility Tools", tools: utilityTools },
+    { name: "PDF Power Tools", tools: pdfTools },
+    { name: "Image Studio", tools: imageTools },
+    { name: "Essential Utilities", tools: utilityTools },
 ];
 
 const getToolUrl = (toolName: string) => `/tools/${toolName.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and')}`;
 
 export function ModernToolGrid() {
-  const cardVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: (i: number) => ({
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
       opacity: 1,
-      y: 0,
       transition: {
-        delay: i * 0.1,
-        duration: 0.5,
-        ease: "easeOut",
+        staggerChildren: 0.1,
       },
-    }),
-  };
-
-  const iconVariants = {
-    rest: { scale: 1, rotate: 0 },
-    hover: { 
-      scale: 1.1, 
-      rotate: 5, 
-      transition: { duration: 0.2 },
-      filter: "drop-shadow(0 0 10px rgba(168, 85, 247, 0.5))"
     },
   };
-
+  
   return (
     <div className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
-          {categories.map((category, i) => (
-            <motion.div
-              key={category.name}
-              className="relative rounded-2xl bg-card p-8 shadow-lg border border-border/20"
-              variants={cardVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              custom={i}
+        <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+        >
+            <h2 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">All-in-One Toolkit</h2>
+            <p className="mt-6 text-lg leading-8 text-muted-foreground">
+                Everything you need to be productive, all in one place.
+            </p>
+        </motion.div>
+
+        <div className="space-y-20">
+          {categories.map((category) => (
+            <motion.div 
+                key={category.name}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
             >
-              <div className="absolute inset-0 rounded-2xl border-2 border-transparent bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-border opacity-0 hover:opacity-100 transition-opacity duration-300 hover:shadow-2xl hover:shadow-purple-500/50"></div>
-              <div className="relative">
-                <h3 className="text-2xl font-bold tracking-tight text-foreground font-heading">{category.name}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  {category.tools.length} tools to help you with your tasks.
-                </p>
-                <div className="mt-6 grid grid-cols-2 gap-4">
-                  {category.tools.slice(0, 4).map((tool) => (
-                    <Link href={getToolUrl(tool.name)} key={tool.name}>
-                      <motion.div
-                        className="flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-muted/50"
-                        variants={iconVariants}
-                        whileHover="hover"
-                        initial="rest"
-                      >
-                        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-lg group-hover:shadow-purple-500/50">
-                          <tool.icon className="h-6 w-6" />
-                        </div>
-                        <div className="flex-1">
-                          <p className="text-sm font-semibold text-foreground">{tool.name}</p>
-                        </div>
-                      </motion.div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
+              <h3 className="text-3xl font-bold text-center mb-12 text-gradient-animated">{category.name}</h3>
+              <motion.div 
+                className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4"
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+              >
+                {category.tools.slice(0, 8).map((tool) => (
+                    <ModernCard key={tool.name} glassmorphism hover onClick={() => window.location.href = getToolUrl(tool.name)}>
+                        <ModernCardHeader>
+                            <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent text-white rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                                <tool.icon className="h-6 w-6" />
+                            </div>
+                            <ModernCardTitle>{tool.name}</ModernCardTitle>
+                        </ModernCardHeader>
+                        <ModernCardContent>
+                            <ModernCardDescription>
+                                {tool.description}
+                            </ModernCardDescription>
+                        </ModernCardContent>
+                    </ModernCard>
+                ))}
+              </motion.div>
             </motion.div>
           ))}
+        </div>
+        
+        <div className="mt-20 text-center">
+            <ModernButton size="lg" variant="gradient" glow>
+                <Link href="/tools" className="flex items-center">
+                    Explore All Tools <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+            </ModernButton>
         </div>
       </div>
     </div>

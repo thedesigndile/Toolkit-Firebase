@@ -1,6 +1,6 @@
 
-import { ToolsSection } from "@/components/tools-section";
-import { Footer } from "@/components/footer";
+import { ModernToolGrid } from "@/components/modern-tool-grid";
+import { ModernSection } from "@/components/modern-section";
 import Link from "next/link";
 import { ChevronRight, Home } from "lucide-react";
 
@@ -19,9 +19,10 @@ export default function ToolsPage() {
                         <span className="text-foreground font-medium">All Tools</span>
                     </nav>
                 </div>
-                <ToolsSection />
+                <ModernSection>
+                    <ModernToolGrid />
+                </ModernSection>
             </main>
-            <Footer />
         </div>
     );
 }

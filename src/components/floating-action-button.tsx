@@ -8,13 +8,16 @@ import { Button } from "./ui/button";
 const actions = [
   { icon: MessageCircle, label: "Chat Support", action: () => console.log("Chat") },
   { icon: HelpCircle, label: "Help Center", action: () => console.log("Help") },
-  { icon: ArrowUp, label: "Scroll to Top", action: () => window.scrollTo({ top: 0, behavior: "smooth" }) },
 ];
 
 export function FloatingActionButton() {
   const [isOpen, setIsOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 300);
@@ -24,7 +27,7 @@ export function FloatingActionButton() {
   }, []);
 
   const containerVariants = {
-    hidden: { opacity: 0, scale: 0 },
+    hidden: { opacity: 0, scale: 0.8 },
     visible: {
       opacity: 1,
       scale: 1,
@@ -32,22 +35,18 @@ export function FloatingActionButton() {
         type: "spring",
         stiffness: 260,
         damping: 20,
-        staggerChildren: 0.1
+        staggerChildren: 0.07,
+        delayChildren: 0.1
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20, scale: 0 },
+    hidden: { opacity: 0, y: 20, scale: 0.5 },
     visible: {
       opacity: 1,
       y: 0,
       scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 260,
-        damping: 20
-      }
     }
   };
 
@@ -56,7 +55,7 @@ export function FloatingActionButton() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="absolute bottom-16 right-0 space-y-3"
+            className="absolute bottom-20 right-0 space-y-3"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -68,22 +67,24 @@ export function FloatingActionButton() {
                 <motion.div
                   key={action.label}
                   variants={itemVariants}
-                  whileHover={{ scale: 1.1, x: -5 }}
-                  whileTap={{ scale: 0.9 }}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center justify-end"
                 >
+                  <div className="bg-background shadow-md text-foreground px-3 py-1 rounded-lg text-sm whitespace-nowrap mr-3">
+                    {action.label}
+                  </div>
                   <Button
+                    size="icon"
                     onClick={() => {
                       action.action();
                       setIsOpen(false);
                     }}
-                    className="glass-card hover-gradient hover:text-white shadow-medium hover:shadow-glow w-12 h-12 rounded-full p-0 group border-gradient"
-                    title={action.label}
+                    className="w-12 h-12 rounded-full bg-secondary text-secondary-foreground shadow-lg"
+                    aria-label={action.label}
                   >
                     <Icon className="h-5 w-5" />
                   </Button>
-                  <div className="absolute right-14 top-1/2 transform -translate-y-1/2 bg-foreground text-background px-2 py-1 rounded text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-                    {action.label}
-                  </div>
                 </motion.div>
               );
             })}
@@ -91,46 +92,46 @@ export function FloatingActionButton() {
         )}
       </AnimatePresence>
 
-      {/* Main FAB */}
-      <motion.div
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        animate={{ rotate: isOpen ? 45 : 0 }}
-        transition={{ type: "spring", stiffness: 260, damping: 20 }}
-      >
-        <Button
-          onClick={() => setIsOpen(!isOpen)}
-          className="btn-ripple bg-gradient-primary hover:bg-gradient-hover text-white shadow-gradient hover:shadow-glow w-14 h-14 rounded-full p-0 float energy-pulse"
-        >
-          <Plus className="h-6 w-6" />
-        </Button>
-      </motion.div>
-
-      {/* Scroll to Top Button (separate from FAB) */}
-      <AnimatePresence>
+      <div className="flex flex-col items-center gap-3">
+        <AnimatePresence>
         {showScrollTop && !isOpen && (
           <motion.div
-            className="absolute bottom-20 right-0"
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0 }}
-            transition={{ type: "spring", stiffness: 260, damping: 20 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
           >
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+            <Button
+              size="icon"
+              variant="outline"
+              onClick={scrollToTop}
+              className="w-12 h-12 rounded-full bg-card/80 backdrop-blur-md shadow-lg"
+              aria-label="Scroll to top"
             >
-              <Button
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="glass-card hover-gradient hover:text-white shadow-medium hover:shadow-glow w-12 h-12 rounded-full p-0 border-gradient"
-                title="Scroll to Top"
-              >
-                <ArrowUp className="h-5 w-5" />
-              </Button>
-            </motion.div>
+              <ArrowUp className="h-5 w-5" />
+            </Button>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Main FAB */}
+      <motion.div
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <Button
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-16 h-16 rounded-full bg-gradient-primary text-white shadow-lg shadow-primary/40"
+          aria-label={isOpen ? "Close actions" : "Open actions"}
+        >
+          <motion.div
+             animate={{ rotate: isOpen ? 45 : 0 }}
+             transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          >
+            <Plus className="h-7 w-7" />
+          </motion.div>
+        </Button>
+      </motion.div>
+      </div>
     </div>
   );
 }
