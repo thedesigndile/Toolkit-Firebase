@@ -1,5 +1,5 @@
 
-import { ModernToolGrid } from "@/components/modern-tool-grid";
+import { AllToolsGrid } from "@/components/all-tools-grid";
 import { ModernSection } from "@/components/modern-section";
 import Link from "next/link";
 import { ChevronRight, Home } from "lucide-react";
@@ -20,7 +20,7 @@ export default function ToolsPage() {
                     </nav>
                 </div>
                 <ModernSection>
-                    <ModernToolGrid />
+                    <AllToolsGrid />
                 </ModernSection>
             </main>
         </div>

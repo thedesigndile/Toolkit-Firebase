@@ -1,5 +1,5 @@
 import { ModernHero } from "@/components/modern-hero";
-import { ModernToolGrid } from "@/components/modern-tool-grid";
+import { FeaturedToolsGrid } from "@/components/featured-tools-grid";
 import { Newsletter } from "@/components/newsletter";
 import { ModernSection } from "@/components/modern-section";
 import { FloatingActionButton } from "@/components/floating-action-button";
@@ -9,7 +9,7 @@ export default function Home() {
     <>
       <ModernHero />
       <ModernSection>
-        <ModernToolGrid />
+        <FeaturedToolsGrid />
       </ModernSection>
       <ModernSection gradient>
         <Newsletter />
