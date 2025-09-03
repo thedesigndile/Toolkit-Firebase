@@ -173,7 +173,7 @@ export function ModernHeader() {
                 <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
                   <div className="flex items-center gap-3">
                     <ModernLogo />
-                    <span className="font-bold text-xl">TOOLKIT</span>
+                    <span className="font-bold text-xl text-foreground">TOOLKIT</span>
                   </div>
                 </Link>
                 <motion.button
