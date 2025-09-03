@@ -63,7 +63,7 @@ export function ModernToolGrid() {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
               >
-                {category.tools.slice(0, 8).map((tool) => (
+                {category.tools.map((tool) => (
                     <ModernCard key={tool.name} glassmorphism hover onClick={() => window.location.href = getToolUrl(tool.name)}>
                         <ModernCardHeader>
                             <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent text-white rounded-xl flex items-center justify-center mb-4 shadow-lg">
