@@ -46,7 +46,6 @@ export function ToolsSection() {
         <div className="space-y-16">
           {categorizedTools.map(([category, toolsInCategory]) => {
             const CategoryIcon = toolsInCategory[0]?.categoryIcon;
-            const categoryDescription = toolsInCategory[0]?.description;
 
             return (
               <motion.section
@@ -66,7 +65,6 @@ export function ToolsSection() {
                     </motion.div>
                   }
                   <h2 className="text-3xl font-bold text-foreground">{category}</h2>
-                  {categoryDescription && <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">{categoryDescription}</p>}
                 </motion.div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                   {toolsInCategory.map((tool, i) => (

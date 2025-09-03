@@ -69,6 +69,9 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
                         <h3 className="text-md font-semibold leading-tight text-foreground group-hover:text-white transition-colors duration-300">
                           {tool.name}
                         </h3>
+                        <p className="text-sm text-muted-foreground mt-2 line-clamp-2 transition-colors duration-300 group-hover:text-white/80">
+                          {tool.description}
+                        </p>
                     </CardContent>
                     
                     {/* Animated Underline */}
@@ -90,7 +93,7 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
                   exit={{ opacity: 0, y: 10 }}
                   transition={{ duration: 0.25, ease: "easeOut" }}
                 >
-                  {tool.description}
+                  {tool.name}
                 </motion.p>
               </TooltipContent>
             )}
