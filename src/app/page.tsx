@@ -1,3 +1,4 @@
+
 import { ModernHero } from "@/components/modern-hero";
 import { Newsletter } from "@/components/newsletter";
 import { ModernSection } from "@/components/modern-section";
@@ -8,9 +9,7 @@ export default function Home() {
   return (
     <>
       <ModernHero />
-      <ModernSection>
-        <ToolsSection />
-      </ModernSection>
+      <ToolsSection />
       <ModernSection gradient>
         <Newsletter />
       </ModernSection>
