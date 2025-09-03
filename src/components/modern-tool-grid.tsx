@@ -13,14 +13,17 @@ const getToolUrl = (toolName: string) => `/tools/${toolName.toLowerCase().replac
 
 export function ModernToolGrid() {
   const categorizedTools = useMemo(() => {
-    const categories: { [key: string]: Tool[] } = {};
-    tools.forEach(tool => {
-      if (!categories[tool.category]) {
-        categories[tool.category] = [];
+    // Correctly group all tools by their category from tools.ts
+    const categories: { [key: string]: Tool[] } = tools.reduce((acc, tool) => {
+      const categoryName = tool.category;
+      if (!acc[categoryName]) {
+        acc[categoryName] = [];
       }
-      categories[tool.category].push(tool);
-    });
-    // Sort categories alphabetically
+      acc[categoryName].push(tool);
+      return acc;
+    }, {} as { [key: string]: Tool[] });
+
+    // Sort categories alphabetically for consistent order
     return Object.entries(categories).sort((a, b) => a[0].localeCompare(b[0]));
   }, []);
 
@@ -29,7 +32,7 @@ export function ModernToolGrid() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.05,
       },
     },
   };
@@ -65,7 +68,7 @@ export function ModernToolGrid() {
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
+                viewport={{ once: true, amount: 0.1 }}
               >
                 {toolsInCategory.map((tool) => (
                     <ModernCard key={tool.name} glassmorphism hover onClick={() => window.location.href = getToolUrl(tool.name)}>
