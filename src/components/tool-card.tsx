@@ -6,12 +6,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { type Tool } from "@/lib/tools";
 import { motion, AnimatePresence } from "framer-motion";
 import { memo, useMemo, useState } from "react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
 
 interface ToolCardProps {
   tool: Tool;
@@ -32,74 +26,49 @@ const MemoizedToolCard = memo(function ToolCard({ tool, index }: ToolCardProps) 
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
-      <TooltipProvider delayDuration={200}>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Link
-              href={`/tools/${slug}`}
-              className="block group relative h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-2xl"
-              aria-label={`Open ${tool.name} tool`}
-            >
-               <motion.div
-                whileHover={{ y: -6 }}
-                transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-               >
-                <Card className="h-full relative overflow-hidden bg-card rounded-2xl border shadow-md hover:shadow-premium-hover transition-shadow duration-300 ease-premium">
-                    {/* Animated Gradient Overlay */}
-                    <AnimatePresence>
-                      {isHovered && (
-                        <motion.div
-                          className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 opacity-0"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.3, ease: "easeOut" }}
-                        />
-                      )}
-                    </AnimatePresence>
+      <Link
+        href={`/tools/${slug}`}
+        className="block group relative h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-2xl"
+        aria-label={`Open ${tool.name} tool`}
+      >
+        <motion.div
+          whileHover={{ y: -6 }}
+          transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+          className="h-full"
+        >
+          <Card className="h-full relative overflow-hidden bg-card rounded-2xl border shadow-md hover:shadow-premium-hover transition-shadow duration-300 ease-premium">
+            <AnimatePresence>
+              {isHovered && (
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 opacity-0"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                />
+              )}
+            </AnimatePresence>
 
-                    <CardContent className="relative flex flex-col h-full p-5 items-center justify-center text-center z-10">
-                        <motion.div 
-                          className="mb-4 p-3 bg-primary/5 rounded-full transition-colors duration-300 group-hover:bg-white/10"
-                          animate={isHovered ? { scale: 1.1, rotate: -5 } : { scale: 1, rotate: 0 }}
-                          transition={{ type: "spring", stiffness: 300, damping: 15, delay: 0.05 }}
-                        >
-                            <Icon className="h-7 w-7 text-primary transition-colors duration-300 group-hover:text-white" />
-                        </motion.div>
-                        <h3 className="text-md font-semibold leading-tight text-foreground group-hover:text-white transition-colors duration-300">
-                          {tool.name}
-                        </h3>
-                        <p className="text-sm text-muted-foreground mt-2 line-clamp-2 transition-colors duration-300 group-hover:text-white/80">
-                          {tool.description}
-                        </p>
-                    </CardContent>
-                    
-                    {/* Animated Underline */}
-                    <div className="premium-tool-card-underline" />
-                </Card>
-               </motion.div>
-            </Link>
-          </TooltipTrigger>
-          <AnimatePresence>
-            {isHovered && (
-              <TooltipContent
-                side="bottom"
-                align="center"
-                className="bg-[hsl(var(--tooltip-bg))] text-[hsl(var(--tooltip-fg))] border-none shadow-xl transition-colors duration-300"
+            <CardContent className="relative flex flex-col h-full p-5 items-center justify-center text-center z-10">
+              <motion.div
+                className="mb-4 p-3 bg-primary/5 rounded-full transition-colors duration-300 group-hover:bg-white/10"
+                animate={isHovered ? { scale: 1.1, rotate: -5 } : { scale: 1, rotate: 0 }}
+                transition={{ type: "spring", stiffness: 300, damping: 15, delay: 0.05 }}
               >
-                <motion.p
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.25, ease: "easeOut" }}
-                >
-                  {tool.name}
-                </motion.p>
-              </TooltipContent>
-            )}
-          </AnimatePresence>
-        </Tooltip>
-      </TooltipProvider>
+                <Icon className="h-7 w-7 text-primary transition-colors duration-300 group-hover:text-white" />
+              </motion.div>
+              <h3 className="text-md font-semibold leading-tight text-foreground group-hover:text-white transition-colors duration-300">
+                {tool.name}
+              </h3>
+              <p className="text-sm text-muted-foreground mt-2 line-clamp-2 transition-colors duration-300 group-hover:text-white/80">
+                {tool.description}
+              </p>
+            </CardContent>
+            
+            <div className="premium-tool-card-underline" />
+          </Card>
+        </motion.div>
+      </Link>
     </motion.div>
   );
 });
