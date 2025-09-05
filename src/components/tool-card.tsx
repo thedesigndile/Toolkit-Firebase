@@ -17,13 +17,13 @@ export function ToolCard({ tool, index }: ToolCardProps) {
   const slug = useMemo(() => tool.name.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and'), [tool.name]);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, delay: index * 0.05 }}
-      className="h-full"
-    >
-      <Link href={`/tools/${slug}`} className="block h-full group focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg">
+    <Link href={`/tools/${slug}`} className="block h-full group focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: index * 0.05 }}
+        className="h-full"
+      >
         <Card className="h-full bg-card hover:bg-muted/50 transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1">
           <CardContent className="flex flex-col items-center justify-center text-center h-full p-6">
             <div className="mb-4 p-3 bg-primary/10 rounded-full text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
@@ -35,7 +35,7 @@ export function ToolCard({ tool, index }: ToolCardProps) {
             </p>
           </CardContent>
         </Card>
-      </Link>
-    </motion.div>
+      </motion.div>
+    </Link>
   );
 }
