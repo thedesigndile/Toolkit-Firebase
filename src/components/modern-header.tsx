@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from 'next/navigation';
 import { ModernLogo } from "./icons";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "./ui/button";
@@ -20,6 +21,8 @@ const navItems = [
 export function ModernHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const [hoveredPath, setHoveredPath] = useState(pathname);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,15 +33,15 @@ export function ModernHeader() {
   }, []);
 
   const headerVariants = {
-    initial: { y: -100, opacity: 0 },
+    initial: { y: -80, opacity: 0 },
     animate: {
       y: 0,
       opacity: 1,
       transition: {
         type: "spring",
-        stiffness: 100,
+        stiffness: 120,
         damping: 20,
-        staggerChildren: 0.1
+        staggerChildren: 0.05
       }
     }
   };
@@ -71,8 +74,8 @@ export function ModernHeader() {
             <motion.div variants={itemVariants}>
               <Link href="/" className="flex items-center gap-3 group">
                 <motion.div
-                  whileHover={{ rotate: 360, scale: 1.1 }}
-                  transition={{ duration: 0.6 }}
+                  whileHover={{ rotate: 10, scale: 1.1 }}
+                  transition={{ type: "spring", stiffness: 300 }}
                   className="relative"
                 >
                   <ModernLogo />
@@ -94,23 +97,33 @@ export function ModernHeader() {
             <motion.nav 
               className="hidden md:flex items-center gap-2"
               variants={itemVariants}
+              onMouseLeave={() => setHoveredPath(pathname)}
             >
-              {navItems.map((item) => (
-                <motion.div
-                  key={item.name}
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
+              {navItems.map((item) => {
+                const isActive = item.href === pathname;
+                return (
                   <Link
+                    key={item.name}
                     href={item.href}
-                    className="relative px-4 py-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-300 group rounded-lg"
+                    className={cn(
+                        "relative px-4 py-2 text-sm font-medium text-muted-foreground transition-colors duration-300 rounded-lg",
+                        isActive ? "text-primary" : "hover:text-primary"
+                    )}
+                    onMouseOver={() => setHoveredPath(item.href)}
                   >
-                    {item.name}
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
+                    <span>{item.name}</span>
+                    {item.href === hoveredPath && (
+                        <motion.div
+                            className="absolute bottom-0 left-0 h-0.5 bg-primary rounded-full"
+                            layoutId="underline"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1}}
+                            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                        />
+                    )}
                   </Link>
-                </motion.div>
-              ))}
+                )
+              })}
             </motion.nav>
 
             {/* Desktop Actions */}
