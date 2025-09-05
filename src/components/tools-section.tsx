@@ -41,6 +41,16 @@ export function ToolsSection() {
     return Object.entries(categories).sort((a, b) => a[0].localeCompare(b[0]));
   }, []);
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05,
+      },
+    },
+  };
+
   if (isLoading) {
     return (
       <div className="container mx-auto px-4 py-16">
@@ -82,11 +92,17 @@ export function ToolsSection() {
                 }
                 <h2 className="text-3xl font-bold text-foreground">{category}</h2>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              <motion.div
+                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
+              >
                 {toolsInCategory.map((tool, i) => (
                   <ToolCard key={tool.name} tool={tool} index={i} />
                 ))}
-              </div>
+              </motion.div>
             </motion.section>
           );
         })}

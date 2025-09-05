@@ -1,9 +1,11 @@
+
 "use client";
 
 import { motion } from "framer-motion";
 import { Button } from "./ui/button";
 import { ArrowRight, Sparkles, Zap, Shield } from "lucide-react";
 import Link from "next/link";
+import { ParticleBackground } from "./particle-background";
 
 const features = [
   {
@@ -29,7 +31,6 @@ export function ModernHero() {
     visible: {
       opacity: 1,
       transition: {
-        duration: 0.6,
         staggerChildren: 0.2
       }
     }
@@ -62,13 +63,7 @@ export function ModernHero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
-      {/* Enhanced Background Elements */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-br from-primary/5 to-transparent" />
-        <div className="absolute bottom-0 right-0 w-1/2 h-full bg-gradient-to-tl from-accent/5 to-transparent" />
-        <div className="absolute -top-1/4 -right-1/4 w-1/2 h-1/2 bg-primary/10 rounded-full blur-3xl animate-pulse-subtle" />
-        <div className="absolute -bottom-1/4 -left-1/4 w-1/2 h-1/2 bg-accent/10 rounded-full blur-3xl animate-pulse-subtle animation-delay-2000" />
-      </div>
+      <ParticleBackground />
 
       <motion.div
         className="relative max-w-7xl mx-auto px-6 py-20 text-center z-10"

@@ -16,26 +16,32 @@ export function ToolCard({ tool, index }: ToolCardProps) {
   const Icon = tool.icon;
   const slug = useMemo(() => tool.name.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and'), [tool.name]);
 
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
-    <Link href={`/tools/${slug}`} className="block h-full group focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: index * 0.05 }}
-        className="h-full"
-      >
+    <motion.div
+      variants={cardVariants}
+      className="h-full"
+    >
+      <Link href={`/tools/${slug}`} className="block h-full group focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg">
         <Card className="h-full bg-card hover:bg-muted/50 transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1">
           <CardContent className="flex flex-col items-center justify-center text-center h-full p-6">
-            <div className="mb-4 p-3 bg-primary/10 rounded-full text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
+            <motion.div 
+              className="mb-4 p-3 bg-primary/10 rounded-full text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground"
+              whileHover={{ scale: 1.1, rotate: 5 }}
+            >
               <Icon className="h-6 w-6" />
-            </div>
+            </motion.div>
             <h3 className="text-md font-semibold text-foreground">{tool.name}</h3>
             <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
               {tool.description}
             </p>
           </CardContent>
         </Card>
-      </motion.div>
-    </Link>
+      </Link>
+    </motion.div>
   );
 }
