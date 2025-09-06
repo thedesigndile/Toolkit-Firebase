@@ -160,57 +160,62 @@
 
 /* Border Animation for Tool Cards */
 .animated-border-card {
-  overflow: hidden; /* Hide the pseudo-elements when not hovered */
+  overflow: hidden;
 }
 
-.animated-border-card::before,
-.animated-border-card::after {
+.animated-border-card .card-border-h,
+.animated-border-card .card-border-v {
   content: '';
   position: absolute;
   background: hsl(var(--primary));
   transition: transform 0.3s ease-in-out;
-  z-index: 1;
 }
 
-.animated-border-card::before {
-  top: 0;
-  left: 0;
+.animated-border-card .card-border-h {
   width: 100%;
   height: 2px;
-  transform: translateX(-100%);
 }
 
-.animated-border-card::after {
+.animated-border-card .card-border-v {
+  width: 2px;
+  height: 100%;
+}
+
+.animated-border-card .top {
+  top: 0;
+  left: 0;
+  transform: translateX(-101%);
+}
+
+.animated-border-card .bottom {
   bottom: 0;
   right: 0;
-  width: 100%;
-  height: 2px;
-  transform: translateX(100%);
+  transform: translateX(101%);
 }
 
-.animated-border-card.group:hover::before,
-.animated-border-card.group:hover::after {
-  transform: translateX(0);
-}
-
-.animated-border-card > .card-border-v {
-  position: absolute;
-  top: 0;
+.animated-border-card .left {
+  bottom: 0;
   left: 0;
-  height: 100%;
-  width: 2px;
-  background: hsl(var(--primary));
-  transform: translateY(100%);
-  transition: transform 0.3s ease-in-out;
+  transform: translateY(101%);
+}
+
+.animated-border-card .right {
+  top: 0;
+  right: 0;
+  transform: translateY(-101%);
+}
+
+.group:hover .animated-border-card .card-border-h,
+.group:hover .animated-border-card .card-border-v {
+  transform: translate(0, 0);
+}
+
+.group:hover .animated-border-card .left {
+  transition-delay: 0.15s;
+}
+.group:hover .animated-border-card .bottom {
   transition-delay: 0.3s;
 }
-
-.animated-border-card > .card-border-v.right {
-  left: auto;
-  right: 0;
-  transform: translateY(-100%);
-}
-
-.animated-border-card.group:hover > .card-border-v {
-  transform: translateY(0);
+.group:hover .animated-border-card .right {
+  transition-delay: 0.45s;
 }
