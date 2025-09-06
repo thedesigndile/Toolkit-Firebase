@@ -23,16 +23,6 @@ export interface Tool {
 }
 
 export const tools: Tool[] = [
-  // Edit PDF
-  { name: 'Merge PDF', description: 'Combine multiple PDF files into one.', icon: Combine, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'merge-pdf' },
-  { name: 'Split PDF', description: 'Extract pages from a PDF file.', icon: Split, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'split-pdf' },
-  { name: 'Compress PDF', description: 'Reduce the file size of your PDF documents.', icon: Minimize, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'compress-pdf' },
-  { name: 'Delete PDF Pages', description: 'Delete one or more pages from your PDF file.', icon: Trash2, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'generic' },
-  { name: 'Rotate PDF', description: 'Rotate one or all pages in your PDF file.', icon: RotateCw, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'generic' },
-  { name: 'Reorder PDF Pages', description: 'Sort pages of your PDF file with drag & drop.', icon: Waypoints, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'generic' },
-  { name: 'Add PDF Pages', description: 'Insert page numbers into your PDF easily.', icon: PlusSquare, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'generic' },
-  { name: 'Extract Text from PDF', description: 'Extract selectable text from scanned PDFs.', icon: ScanText, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'generic' },
-
   // Convert PDF
   { name: 'PDF to Word', description: 'Convert your PDF to an editable Word document.', icon: FileText, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'generic' },
   { name: 'PDF to Excel', description: 'Extract data from PDF tables to an Excel sheet.', icon: FileSpreadsheet, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'generic' },
@@ -44,6 +34,16 @@ export const tools: Tool[] = [
   { name: 'Excel to PDF', description: 'Convert Excel spreadsheets to PDF.', icon: FileSpreadsheet, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'generic' },
   { name: 'PPT to PDF', description: 'Convert PowerPoint presentations to PDF.', icon: Presentation, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'generic' },
   { name: 'PDF to HTML', description: 'Convert PDFs to HTML format.', icon: Code, category: 'Convert PDF', categoryIcon: ArrowRightLeft, processorType: 'generic' },
+
+  // Edit PDF
+  { name: 'Merge PDF', description: 'Combine multiple PDF files into one.', icon: Combine, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'merge-pdf' },
+  { name: 'Split PDF', description: 'Extract pages from a PDF file.', icon: Split, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'split-pdf' },
+  { name: 'Compress PDF', description: 'Reduce the file size of your PDF documents.', icon: Minimize, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'compress-pdf' },
+  { name: 'Delete PDF Pages', description: 'Delete one or more pages from your PDF file.', icon: Trash2, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'generic' },
+  { name: 'Rotate PDF', description: 'Rotate one or all pages in your PDF file.', icon: RotateCw, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'generic' },
+  { name: 'Reorder PDF Pages', description: 'Sort pages of your PDF file with drag & drop.', icon: Waypoints, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'generic' },
+  { name: 'Add PDF Pages', description: 'Insert page numbers into your PDF easily.', icon: PlusSquare, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'generic' },
+  { name: 'Extract Text from PDF', description: 'Extract selectable text from scanned PDFs.', icon: ScanText, category: 'Edit PDF', categoryIcon: Pencil, processorType: 'generic' },
 
   // Protect & Secure
   { name: 'Password Protect PDF', description: 'Add a password and encrypt your PDF file.', icon: ShieldCheck, category: 'Protect & Secure', categoryIcon: Shield, processorType: 'generic' },
@@ -135,4 +135,3 @@ export const tools: Tool[] = [
   { name: 'Create Zip File', description: 'Compress multiple files into a single ZIP archive.', icon: Package, category: 'Archive Tools', categoryIcon: Package, processorType: 'generic' },
   { name: 'PDF/ZIP Split by Size', description: 'Split large archives into smaller chunks.', icon: Split, category: 'Archive Tools', categoryIcon: Package, processorType: 'generic' },
 ];
-
