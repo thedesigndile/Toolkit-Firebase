@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import { ArrowRight, Sparkles, Zap, Shield } from "lucide-react";
 import Link from "next/link";
 import { ParticleBackground } from "./particle-background";
+import { SearchBar } from "./search-bar";
 
 const features = [
   {
@@ -101,9 +102,12 @@ export function ModernHero() {
           </motion.p>
         </motion.div>
 
+        {/* Search Bar */}
+        <SearchBar />
+
         {/* CTA Buttons */}
         <motion.div 
-          className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
+          className="flex flex-col sm:flex-row gap-4 justify-center mt-10 mb-16"
           variants={itemVariants}
         >
           <motion.div
