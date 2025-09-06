@@ -158,3 +158,59 @@
     animation: float 6s ease-in-out infinite;
 }
 
+/* Border Animation for Tool Cards */
+.animated-border-card {
+  overflow: hidden; /* Hide the pseudo-elements when not hovered */
+}
+
+.animated-border-card::before,
+.animated-border-card::after {
+  content: '';
+  position: absolute;
+  background: hsl(var(--primary));
+  transition: transform 0.3s ease-in-out;
+  z-index: 1;
+}
+
+.animated-border-card::before {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  transform: translateX(-100%);
+}
+
+.animated-border-card::after {
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 2px;
+  transform: translateX(100%);
+}
+
+.animated-border-card.group:hover::before,
+.animated-border-card.group:hover::after {
+  transform: translateX(0);
+}
+
+.animated-border-card > .card-border-v {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 2px;
+  background: hsl(var(--primary));
+  transform: translateY(100%);
+  transition: transform 0.3s ease-in-out;
+  transition-delay: 0.3s;
+}
+
+.animated-border-card > .card-border-v.right {
+  left: auto;
+  right: 0;
+  transform: translateY(-100%);
+}
+
+.animated-border-card.group:hover > .card-border-v {
+  transform: translateY(0);
+}

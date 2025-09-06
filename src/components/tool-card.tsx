@@ -27,7 +27,7 @@ export function ToolCard({ tool, index }: ToolCardProps) {
       className="h-full"
     >
       <Link href={`/tools/${slug}`} className="block h-full group focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg">
-        <Card className="h-full bg-card hover:bg-muted/50 transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1">
+        <Card className="h-full bg-card hover:bg-muted/50 transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 relative animated-border-card">
           <CardContent className="flex flex-col items-center justify-center text-center h-full p-6">
             <motion.div 
               className="mb-4 p-3 bg-primary/10 rounded-full text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground"
