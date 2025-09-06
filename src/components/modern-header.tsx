@@ -62,7 +62,7 @@ export function ModernHeader() {
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           isScrolled 
             ? "bg-background/80 shadow-md border-b border-border/20 backdrop-blur-lg" 
-            : "bg-transparent"
+            : "bg-gradient-to-b from-background via-background/80 to-transparent"
         )}
         variants={headerVariants}
         initial="initial"
