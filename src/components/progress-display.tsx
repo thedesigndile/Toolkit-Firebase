@@ -123,9 +123,8 @@ export function ProgressDisplay() {
         fileName={fileInfo?.fileName}
         fileSize={fileInfo?.fileSize}
         error={error || undefined}
-        onRetry={() => resetState()}
-        onReset={() => resetState()}
-        processingSteps={getProcessingSteps()}
+        onRetry={resetState} // Allow user to retry from error state
+        onReset={status === 'complete' ? resetState : undefined} // Allow reset from complete state
       />
     );
   }

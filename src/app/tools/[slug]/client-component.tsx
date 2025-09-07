@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState, useCallback, useMemo, useRef } from 'react';
@@ -509,10 +510,6 @@ Paragraphs: ${stats.paragraphs}`;
     
     const needsFiles = !noFileTools.includes(tool.name);
 
-    if (status === 'uploading') {
-      return <ProgressDisplay />;
-    }
-
     return (
           <Card className="max-w-4xl w-full mx-auto bg-card/80 backdrop-blur-sm border-border/50 tool-card">
             <CardHeader className="text-center tool-card-header px-4 sm:px-6">
@@ -650,7 +647,7 @@ Paragraphs: ${stats.paragraphs}`;
   const renderToolUI = () => {
     if (!tool) return <p>Tool not found.</p>;
 
-    if (status !== 'idle') {
+    if (status !== 'idle' || (status === 'complete' && processedUrl)) {
       return <ProgressDisplay />;
     }
 
