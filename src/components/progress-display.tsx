@@ -208,13 +208,22 @@ export function ProgressDisplay() {
                     </Badge>
                   </div>
                   
-                  <div className="flex justify-center gap-3">
-                    <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground" onClick={handleDownload}>
-                      <Download className="mr-2 h-5 w-5" strokeWidth={1.5} />
+                  <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+                    <Button 
+                      size="lg" 
+                      className="w-full sm:w-auto px-12 py-6 text-xl font-bold bg-primary hover:bg-primary-dark text-primary-foreground shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 ease-in-out" 
+                      onClick={handleDownload}
+                    >
+                      <Download className="mr-3 h-6 w-6" />
                       Download File
                     </Button>
-                    <Button size="lg" variant="outline" onClick={shareFile}>
-                      <Share2 className="mr-2 h-5 w-5" strokeWidth={1.5} />
+                    <Button 
+                      size="lg" 
+                      variant="outline" 
+                      className="w-full sm:w-auto"
+                      onClick={shareFile}
+                    >
+                      <Share2 className="mr-2 h-5 w-5" />
                       Share
                     </Button>
                   </div>

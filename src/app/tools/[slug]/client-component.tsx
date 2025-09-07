@@ -45,9 +45,9 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
     setProgress,
     status, setStatus,
     files, setFiles,
-    setError,
+    error, setError,
     processedUrl, setProcessedUrl,
-    setProcessedFileName,
+    processedFileName, setProcessedFileName,
     setCurrentStep,
     setEstimatedTime,
     setProcessingStartTime,
@@ -59,7 +59,7 @@ export function ToolPageClient({ params }: { params: { slug: string } }): JSX.El
   // Tool-specific options state
   const [splitOptions, setSplitOptions] = useState<SplitOptions>({ mode: 'ranges', ranges: [{ from: 1, to: 1 }], extractMode: 'all', selectedPages: '' });
   const [compressLevel, setCompressLevel] = useState('recommended');
-  const [pdfImageFormat] = useState<ImageFormat>('png');
+  const [pdfImageFormat, setPdfImageFormat] = useState<ImageFormat>('png');
   const [pdfImageQuality, setPdfImageQuality] = useState(90);
   const [convertedImages, setConvertedImages] = useState<Blob[]>([]);
   
@@ -422,7 +422,7 @@ Paragraphs: ${stats.paragraphs}`;
       setProgress(0);
       toast({ variant: "destructive", title: "Processing Failed", description: error.message });
     }
-  },[tool, files, setStatus, setProgress, setError, setProcessedUrl, setProcessedFileName, setCurrentStep, setEstimatedTime, setProcessingStartTime, splitOptions, compressLevel, pdfImageQuality, imageOptions, utilityOptions, textInput, toast]);
+  },[tool, files, setStatus, setProgress, setError, setProcessedUrl, setProcessedFileName, setCurrentStep, setEstimatedTime, setProcessingStartTime, splitOptions, compressLevel, pdfImageQuality, imageOptions, utilityOptions, textInput, toast, setConvertedImages]);
 
   if (!tool) {
     notFound();
@@ -443,7 +443,7 @@ Paragraphs: ${stats.paragraphs}`;
   
     // PDF-specific tools
     if (tool.name === 'Split PDF') {
-      return <SplitPdfOptions options={splitOptions} setOptions={setSplitOptions} totalPages={files[0]?.size ? 100 : 0} />;
+      return <SplitPdfOptions options={splitOptions} setOptions={setSplitOptions} />;
     }
     if (tool.name === 'Compress PDF') {
       return <CompressPdfOptions level={compressLevel} setLevel={setCompressLevel} />;
@@ -509,7 +509,7 @@ Paragraphs: ${stats.paragraphs}`;
     
     const needsFiles = !noFileTools.includes(tool.name);
 
-    if (status === 'uploading' || status === 'processing' || status === 'error' || (status === 'complete' && processedUrl)) {
+    if (status === 'uploading') {
       return <ProgressDisplay />;
     }
 
@@ -649,6 +649,10 @@ Paragraphs: ${stats.paragraphs}`;
 
   const renderToolUI = () => {
     if (!tool) return <p>Tool not found.</p>;
+
+    if (status !== 'idle') {
+      return <ProgressDisplay />;
+    }
 
     if (tool.processorType === 'website-to-pdf') {
       return <WebsiteToPdfForm />;
