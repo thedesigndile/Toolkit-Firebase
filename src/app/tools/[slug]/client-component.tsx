@@ -16,7 +16,7 @@ import {
   urlEncode, urlDecode, enhanceImage
 } from '@/lib/tool-functions';
 import type { SplitOptions } from '@/lib/tool-functions';
-import { Footer } from '@/components/footer';
+import Footer from '@/components/Footer';
 import { useProgress } from '@/components/progress-provider';
 import { ProgressDisplay } from '@/components/progress-display';
 import { TextToSpeechComponent } from '@/components/tools/text-to-speech';
